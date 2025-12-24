@@ -1,2 +1,2 @@
-# Gym-P2---Portal
-Local para jogar o site na web
+# Gym-P2-Portal
+Local para redirecionar o site na web
