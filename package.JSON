@@ -1,0 +1,27 @@
+{
+  "name": "gymp2-sistema-seguro",
+  "version": "2.0.0",
+  "description": "Sistema de login Gymp2 com segurança aprimorada",
+  "main": "server-gymp2.js",
+  "scripts": {
+    "start": "node server-gymp2.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "login",
+    "academia",
+    "gymp2",
+    "segurança",
+    "autenticação"
+  ],
+  "author": "Gymp2 devs",
+  "license": "IFPI",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.2.1",
+    "socket.io": "^4.8.3"
+  }
+}

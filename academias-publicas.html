@@ -1,0 +1,2701 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academias - Gym P2</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000;
+            min-height: 100vh;
+            padding: 0;
+        }
+
+        /* ========== ANIMAÇÕES ========== */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes highlight {
+            0% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7); }
+            50% { box-shadow: 0 0 0 10px rgba(40, 167, 69, 0.3); }
+            100% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0); }
+        }
+
+        /* ========== CONTEÚDO PRINCIPAL ========== */
+        .public-page-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .public-header {
+            background: linear-gradient(135deg, #000 0%, #111 100%);
+            padding: 30px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border-left: 5px solid #00ff88;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        .public-header h1 {
+            color: #00ff88;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .public-header p {
+            color: #99ffcc;
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .academies-count {
+            display: inline-block;
+            background: #00ff88;
+            color: #000;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        /* ========== FILTROS ========== */
+        .content-wrapper {
+            display: flex;
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        @media (max-width: 1024px) {
+            .content-wrapper {
+                flex-direction: column;
+            }
+        }
+
+        .filters {
+            background: #1a1a1a;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 280px;
+            height: fit-content;
+            border: 1px solid #333;
+        }
+
+        @media (max-width: 1024px) {
+            .filters {
+                width: 100%;
+            }
+        }
+
+        .filter-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #00ff88;
+        }
+
+        .filter-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-group h4 {
+            margin-bottom: 0.8rem;
+            color: #00ff88;
+            font-size: 1rem;
+        }
+
+        .filter-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+        }
+
+        .filter-option input[type="radio"],
+        .filter-option input[type="checkbox"] {
+            margin-right: 0.8rem;
+            cursor: pointer;
+            accent-color: #00ff88;
+        }
+
+        .filter-option label {
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        .price-range-container {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .price-input {
+            width: 80px;
+            padding: 0.4rem;
+            border: 2px solid #00ff88;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            background: #111;
+            color: #fff;
+        }
+
+        .price-input:focus {
+            outline: none;
+            border-color: #00ff88;
+        }
+
+        .price-separator {
+            color: #00ff88;
+            font-weight: bold;
+        }
+
+        .clear-filters-btn {
+            background: transparent;
+            color: #00ff88;
+            border: 1px solid #00ff88;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .clear-filters-btn:hover {
+            background: #00ff88;
+            color: #000;
+        }
+
+        /* ========== GRID DE CARDS ========== */
+        .academies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+            flex: 1;
+        }
+
+        @media (max-width: 768px) {
+            .academies-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+
+        /* Card de Academia */
+        .academy-card {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 20px rgba(40, 167, 69, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+      
+
+        /* Estilo específico para artes marciais */
+        .academy-card[data-type="artes-marciais"] {
+            border-color: #dc3545;
+            box-shadow: 0 2px 20px rgba(220, 53, 69, 0.3);
+        }
+
+        .academy-card[data-type="artes-marciais"]:hover {
+            box-shadow: 0 10px 25px rgba(220, 53, 69, 0.3);
+        }
+
+        .academy-card[data-type="artes-marciais"] .academy-type {
+            background: #dc3545;
+        }
+
+        .academy-card[data-type="artes-marciais"] .price-badge {
+            background: #000;
+            color: #dc3545;
+            border: 1px solid #dc3545;
+        }
+
+        .academy-card[data-type="artes-marciais"] .view-details-btn {
+            background: #dc3545;
+        }
+
+        .academy-card[data-type="artes-marciais"] .view-details-btn:hover {
+            background: #a71e2a;
+        }
+
+        /* Imagem do card */
+        .card-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-start;
+            position: relative;
+        }
+
+        @media (max-width: 768px) {
+            .card-image {
+                height: 180px;
+            }
+        }
+
+        .card-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.7) 100%);
+        }
+
+        .card-image-title {
+            position: relative;
+            z-index: 2;
+            padding: 1rem;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            width: 100%;
+        }
+
+        /* Badge de preço */
+        .price-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #000;
+            color: #28a745;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            z-index: 10;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+            border: 1px solid #28a745;
+        }
+
+        /* Conteúdo do card */
+        .card-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media (max-width: 768px) {
+            .card-content {
+                padding: 1.2rem;
+            }
+        }
+
+        .academy-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.8rem;
+            color: #fff;
+        }
+
+        .academy-type {
+            background: #28a745;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-bottom: 0.8rem;
+        }
+
+        .academy-location {
+            color: #ccc;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .academy-location::before {
+            content: '📍';
+        }
+
+        /* Seção de horário */
+        .schedule-section {
+            border-top: 1px solid #333;
+            padding-top: 1rem;
+            margin-top: auto;
+        }
+
+        .schedule {
+            font-size: 0.9rem;
+            color: #ccc;
+            line-height: 1.4;
+        }
+
+        .schedule-line {
+            margin-bottom: 0.3rem;
+        }
+
+        /* Botão de detalhes */
+        .view-details-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 1rem;
+            transition: background 0.3s;
+            font-size: 1rem;
+        }
+
+        .view-details-btn:hover {
+            background: #1a5d1a;
+        }
+
+        /* Status badge */
+        .status-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #28a745;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 10;
+            backdrop-filter: blur(5px);
+            border: 1px solid #28a745;
+        }
+
+        .status-badge.pending {
+            color: #ffa502;
+            border-color: #ffa502;
+        }
+
+        .status-badge.inactive {
+            color: #6c757d;
+            border-color: #6c757d;
+        }
+
+        /* Mensagem quando não há academias */
+        .no-academies {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6b7280;
+            grid-column: 1 / -1;
+        }
+
+        .no-academies i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: #3a3f48;
+        }
+
+        /* Campo de busca */
+        .search-box {
+            width: 100%;
+            padding: 12px;
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #00ff88;
+            box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.2);
+        }
+
+        /* ========== MODAL ========== */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-content {
+            background-color: #1a1a1a;
+            margin: 50px auto;
+            padding: 0;
+            width: 90%;
+            max-width: 700px;
+            border-radius: 8px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+            border: 2px solid #00ff88;
+        }
+
+        .modal-header {
+            padding: 20px;
+            background-color: #111;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            color: #00ff88;
+        }
+
+        .close-btn {
+            color: #fff;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-btn:hover {
+            color: #00ff88;
+        }
+
+        .modal-body {
+            padding: 20px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .modal-footer {
+            padding: 15px 20px;
+            background-color: #111;
+            border-top: 1px solid #333;
+            text-align: right;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .btn-secondary {
+            background-color: #6b7280;
+            color: #fff;
+        }
+
+        .btn-secondary:hover {
+            background-color: #545b67;
+        }
+        /* Footer */
+        .academia-footer {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            margin-top: 60px;
+            color: white;
+        }
+
+        .academia-background svg {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: auto;
+            z-index: 0;
+        }
+
+        .academia-footer-inner {
+            position: relative;
+            z-index: 1;
+            padding: 4rem 2rem 8rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+        }
+
+        .academia-footer-inner .academia-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .academia-footer-inner .academia-top h2 {
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .academia-footer-inner .academia-top h3 {
+            font-size: 1.25rem;
+            font-weight: 400;
+            opacity: 0.8;
+        }
+
+        .academia-footer-inner .academia-bottom {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .academia-logo-content {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .academia-socials {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .academia-socials a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            font-size: 1.25rem;
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .academia-nav {
+            display: flex;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .academia-nav ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .academia-nav h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #ccc;
+        }
+
+        .academia-nav a {
+            font-size: 0.9rem;
+            color: white;
+            opacity: 0.8;
+            text-decoration: none;
+            transition: opacity 0.3s;
+            cursor: pointer;
+        }
+
+    .academia-nav a:hover {
+    opacity: 1;
+    color: #00ff88;
+    transform: translateX(5px);
+}
+/* ========== HEADER PRINCIPAL - MELHORADO ========== */
+.header-container {
+    padding: 1.2rem 2.5rem;
+    position: relative;
+    top: 0;
+    z-index: 2000;
+    backdrop-filter: blur(25px) saturate(180%);
+    width: 100%;
+    margin: 0;
+    background: rgba(0, 0, 0, 0.85);
+    box-shadow: 
+        0 8px 32px rgba(0, 255, 64, 0.15),
+        0 1px 0 rgba(0, 255, 64, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(0, 255, 64, 0.2);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.header-container:hover {
+    box-shadow: 
+        0 12px 48px rgba(0, 255, 64, 0.25),
+        0 2px 0 rgba(0, 255, 64, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.nav-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.brand-container {
+    flex-shrink: 0;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.brand-container:hover {
+    transform: translateY(-2px) scale(1.05);
+}
+
+.logo-img {
+    height: 80px;
+    width: auto;
+    display: block;
+    transition: all 0.3s ease;
+    left: 0;
+    filter: drop-shadow(0 4px 8px rgba(0, 255, 64, 0.3));
+}
+
+.brand-container:hover .logo-img {
+    filter: drop-shadow(0 6px 12px rgba(0, 255, 64, 0.5));
+    transform: rotate(-2deg);
+}
+
+.right-controls {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: nowrap;
+}
+
+/* ========== BARRA DE PESQUISA - MELHORADA ========== */
+.search-widget {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.search-toggle-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00ff40 0%, #00ff88 50%, #00ff40 100%);
+    border: 2px solid rgba(0, 255, 64, 0.3);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    position: relative;
+    z-index: 100;
+    flex-shrink: 0;
+    box-shadow: 
+        0 4px 15px rgba(0, 255, 64, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    animation: pulseGlow 3s infinite alternate;
+}
+
+.search-toggle-btn:hover {
+    transform: scale(1.1) rotate(10deg);
+    background: linear-gradient(135deg, #00ff88 0%, #00ff40 50%, #00ff88 100%);
+    box-shadow: 
+        0 6px 25px rgba(0, 255, 64, 0.5),
+        0 0 30px rgba(0, 255, 64, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.search-toggle-btn:active {
+    transform: scale(0.95) rotate(0deg);
+    transition: transform 0.1s ease;
+}
+
+@keyframes pulseGlow {
+    0% {
+        box-shadow: 
+            0 4px 15px rgba(0, 255, 64, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+    100% {
+        box-shadow: 
+            0 4px 20px rgba(0, 255, 64, 0.4),
+            0 0 15px rgba(0, 255, 64, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+}
+
+.search-icon {
+    width: 22px;
+    height: 22px;
+    fill: #000;
+    transition: all 0.4s ease;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+.search-toggle-btn:hover .search-icon {
+    transform: scale(1.2);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+}
+
+.expandable-search-field {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid transparent;
+    border-radius: 30px;
+    width: 48px;
+    height: 48px;
+    overflow: hidden;
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    backdrop-filter: blur(20px);
+    z-index: 50;
+    box-shadow: 
+        0 4px 20px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.expandable-search-field.expanded {
+    width: 320px;
+    border-color: #00ff40;
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 
+        0 8px 32px rgba(0, 255, 64, 0.25),
+        0 0 0 1px rgba(0, 255, 64, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    animation: searchExpand 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes searchExpand {
+    0% {
+        width: 48px;
+        opacity: 0.8;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        width: 320px;
+    }
+}
+
+.search-input-field {
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 0 60px 0 20px;
+    font-size: 1rem;
+    color: #000;
+    font-family: inherit;
+    opacity: 0;
+    transition: opacity 0.3s ease 0.1s;
+    cursor: text;
+}
+
+.expandable-search-field.expanded .search-input-field {
+    opacity: 1;
+}
+
+.search-input-field::placeholder {
+    color: rgba(0, 0, 0, 0.5);
+    transition: color 0.3s ease;
+}
+
+.search-input-field:focus::placeholder {
+    color: rgba(0, 0, 0, 0.3);
+}
+
+.expandable-search-field * {
+    pointer-events: auto;
+}
+
+/* ========== RESULTADOS DA PESQUISA - MELHORADOS ========== */
+.search-results {
+    position: fixed;
+    top: calc(1.2rem * 2 + 55px + 10px);
+    left: 50%;
+    transform: translateX(-50%) translateY(-10px);
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+    display: none;
+    z-index: 1999;
+    width: calc(100vw - 40px);
+    max-width: 600px;
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(0, 255, 64, 0.2);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.search-results.active {
+    display: block;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    animation: slideDownResults 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes slideDownResults {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+.search-result-item {
+    padding: 18px 24px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.search-result-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 3px;
+    background: linear-gradient(to bottom, #00ff40, #00ff88);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+}
+
+.search-result-item:hover {
+    background: linear-gradient(90deg, rgba(0, 255, 64, 0.05), rgba(0, 255, 136, 0.05));
+    padding-left: 30px;
+}
+
+.search-result-item:hover::before {
+    transform: translateX(0);
+}
+
+.search-result-item:last-child {
+    border-bottom: none;
+}
+
+.result-category {
+    font-size: 0.75rem;
+    color: #00ff40;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+}
+
+.result-title {
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: #111;
+    font-size: 1.05rem;
+}
+
+.result-description {
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.4;
+}
+
+/* ========== BOTÕES - MELHORADOS ========== */
+.gym-access-btn {
+    background: linear-gradient(135deg, #00ff40 0%, #00ff88 100%);
+    color: #000;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 
+        0 4px 15px rgba(0, 255, 64, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    border: 2px solid transparent;
+}
+
+.gym-access-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.7s ease;
+}
+
+.gym-access-btn:hover {
+    transform: translateY(-4px) scale(1.05);
+    background: linear-gradient(135deg, #00ff88 0%, #00ff40 100%);
+    box-shadow: 
+        0 8px 30px rgba(0, 255, 64, 0.5),
+        0 4px 0 rgba(0, 255, 64, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.gym-access-btn:hover::before {
+    left: 100%;
+}
+
+.gym-access-btn:active {
+    transform: translateY(-1px) scale(0.98);
+    transition: transform 0.1s ease;
+    box-shadow: 
+        0 4px 15px rgba(0, 255, 64, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.gym-access-btn a {
+    text-decoration: none;
+    color: #000;
+    font-weight: 700;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* ========== MENU HAMBURGUER - MELHORADO ========== */
+.menu-trigger {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    padding: 12px;
+    background: transparent;
+    border: none;
+    z-index: 2001;
+    position: relative;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+}
+
+.menu-trigger:hover {
+    transform: scale(1.1);
+}
+
+.hamburger-line {
+    width: 28px;
+    height: 4px;
+    background: linear-gradient(45deg, #00ff40, #00ff88);
+    margin: 4px 0;
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 255, 64, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.hamburger-line::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+    transition: left 0.6s ease;
+}
+
+.menu-trigger:hover .hamburger-line::after {
+    left: 100%;
+}
+
+.menu-trigger.active .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+    background: linear-gradient(45deg, #00ff88, #00ff40);
+}
+
+.menu-trigger.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+.menu-trigger.active .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(8px, -8px);
+    background: linear-gradient(45deg, #00ff40, #00ff88);
+}
+
+/* ========== MENU DESLIZANTE - MELHORADO ========== */
+.slide-menu {
+    position: fixed;
+    top: -50px;
+    margin-top: 60px;
+    right: -450px;
+    width: 450px;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.95);
+    transition: right 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: 3000;
+    padding: 2rem 2rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(25px) saturate(180%);
+    border-left: 1px solid rgba(0, 255, 64, 0.2);
+    box-shadow: 
+        -20px 0 60px rgba(0, 0, 0, 0.8),
+        inset 1px 0 0 rgba(255, 255, 255, 0.05);
+}
+
+.slide-menu.open {
+    right: 0;
+    animation: slideInMenu 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@keyframes slideInMenu {
+    0% {
+        right: -450px;
+        opacity: 0.5;
+    }
+    100% {
+        right: 0;
+        opacity: 1;
+    }
+}
+
+.menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(0, 255, 64, 0.2);
+}
+
+.menu-close-btn {
+    background: rgba(0, 255, 64, 0.1);
+    border: 2px solid rgba(0, 255, 64, 0.3);
+    border-radius: 12px;
+    cursor: pointer;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s ease;
+    backdrop-filter: blur(10px);
+}
+
+.menu-close-btn:hover {
+    transform: rotate(90deg) scale(1.1);
+    background: rgba(0, 255, 64, 0.2);
+    border-color: rgba(0, 255, 64, 0.5);
+    box-shadow: 0 4px 15px rgba(0, 255, 64, 0.2);
+}
+
+.menu-close-icon {
+    width: 24px;
+    height: 24px;
+    color: #00ff40;
+    stroke-width: 2.5;
+    transition: transform 0.3s ease;
+}
+
+.menu-search-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #00ff40 0%, #00ff88 100%);
+    color: #000;
+    border: none;
+    padding: 16px 24px;
+    border-radius: 16px;
+    font-size: 1.1rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 
+        0 6px 25px rgba(0, 255, 64, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    border: 2px solid transparent;
+}
+
+.menu-search-btn:hover {
+    transform: translateY(-3px);
+    background: linear-gradient(135deg, #00ff88 0%, #00ff40 100%);
+    box-shadow: 
+        0 10px 35px rgba(0, 255, 64, 0.6),
+        0 5px 0 rgba(0, 255, 64, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.menu-search-btn:active {
+    transform: translateY(-1px);
+    transition: transform 0.1s ease;
+}
+
+.navigation-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.nav-item {
+    margin: 0.5rem 0;
+    width: 100%;
+    opacity: 0;
+    transform: translateX(20px);
+    animation: slideInItem 0.5s ease forwards;
+}
+
+@keyframes slideInItem {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.nav-item:nth-child(1) { animation-delay: 0.1s; }
+.nav-item:nth-child(2) { animation-delay: 0.2s; }
+.nav-item:nth-child(3) { animation-delay: 0.3s; }
+.nav-item:nth-child(4) { animation-delay: 0.4s; }
+.nav-item:nth-child(5) { animation-delay: 0.5s; }
+.nav-item:nth-child(6) { animation-delay: 0.6s; }
+.nav-item:nth-child(7) { animation-delay: 0.7s; }
+
+.nav-link {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1.15rem;
+    font-weight: 500;
+    display: block;
+    padding: 1rem 1.5rem;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background: linear-gradient(to bottom, #00ff40, #00ff88);
+    transform: translateX(-100%);
+    transition: transform 0.4s ease;
+}
+
+.nav-link:hover {
+    color: #00ff40;
+    padding-left: 2rem;
+    background: rgba(0, 255, 64, 0.1);
+    border-color: rgba(0, 255, 64, 0.2);
+    transform: translateX(5px);
+    box-shadow: 
+        0 5px 20px rgba(0, 255, 64, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.nav-link:hover::before {
+    transform: translateX(0);
+}
+
+.nav-link:active {
+    transform: translateX(2px) scale(0.98);
+    transition: transform 0.1s ease;
+}
+
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.9);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s ease;
+    z-index: 2500;
+    backdrop-filter: blur(15px);
+}
+
+.menu-overlay.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ========== HEADER DO USUÁRIO (quando logado) ========== */
+.user-header-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(0, 255, 136, 0.15);
+    border: 2px solid rgba(0, 255, 136, 0.3);
+    border-radius: 30px;
+    padding: 8px 20px 8px 8px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    backdrop-filter: blur(10px);
+    box-shadow: 
+        0 4px 20px rgba(0, 255, 136, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.user-header-container:hover {
+    background: rgba(0, 255, 136, 0.25);
+    border-color: rgba(0, 255, 136, 0.5);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 
+        0 8px 30px rgba(0, 255, 136, 0.3),
+        0 4px 0 rgba(0, 255, 136, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.user-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00ff88 0%, #00ff40 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 18px;
+    color: #000;
+    border: 3px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 
+        0 4px 15px rgba(0, 255, 136, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease;
+}
+
+.user-header-container:hover .user-avatar {
+    transform: rotate(10deg) scale(1.1);
+    box-shadow: 
+        0 6px 20px rgba(0, 255, 136, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.user-name-text {
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.user-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 15px);
+    right: 0;
+    background: rgba(26, 26, 26, 0.98);
+    border: 2px solid rgba(0, 255, 136, 0.3);
+    border-radius: 20px;
+    padding: 16px;
+    min-width: 240px;
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.8),
+        0 0 0 1px rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(25px) saturate(180%);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-20px) scale(0.95);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 3000;
+}
+
+.user-header-container:hover .user-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+/* ========== RESPONSIVIDADE ========== */
+/* (Mantenha toda a responsividade existente, apenas atualizei a navbar) */
+
+/* Para telas menores que 768px */
+@media (max-width: 768px) {
+    .header-container {
+        padding: 0.8rem 1rem;
+        backdrop-filter: blur(20px);
+    }
+    
+    .search-toggle-btn {
+        width: 42px;
+        height: 42px;
+    }
+    
+    .expandable-search-field.expanded {
+        width: 250px;
+        animation: searchExpandMobile 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    
+    @keyframes searchExpandMobile {
+        0% { width: 42px; }
+        100% { width: 250px; }
+    }
+    
+    .gym-access-btn {
+        padding: 10px 16px;
+        font-size: 0.9rem;
+    }
+    
+    .gym-access-btn:hover {
+        transform: translateY(-2px) scale(1.03);
+    }
+    
+    .slide-menu {
+        width: 320px;
+        right: -320px;
+    }
+    
+    .slide-menu.open {
+        animation: slideInMenuMobile 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    
+    @keyframes slideInMenuMobile {
+        0% { right: -320px; }
+        100% { right: 0; }
+    }
+}
+
+/* Para telas menores que 480px */
+@media (max-width: 480px) {
+    .header-container {
+        padding: 0.6rem 0.8rem;
+    }
+    
+    .search-toggle-btn {
+        width: 38px;
+        height: 38px;
+    }
+    
+    .expandable-search-field.expanded {
+        width: 220px;
+    }
+    
+    .gym-access-btn {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+        letter-spacing: 0.5px;
+    }
+    
+    .user-header-container {
+        padding: 6px 14px 6px 6px;
+    }
+    
+    .user-avatar {
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
+    }
+    
+    .user-name-text {
+        font-size: 13px;
+    }
+}
+
+/* ========== HERO SECTION (PERMANECE IGUAL) ========== */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.hero-content {
+    display: grid;
+    justify-content: space-evenly;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    gap: 180px;
+}
+
+.hero-text h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.highlight {
+    color: #00ff40;
+}
+
+.hero-description {
+    font-size: 1.1rem;
+    margin-bottom: 40px;
+    opacity: 0.8;
+    max-width: 500px;
+}
+
+.linha-basica {
+    width: 100%;
+    height: 2px;
+    background-color: #333;
+    margin: 20px 0;
+}
+
+.sentence-1 {
+    opacity: 1;
+}
+
+.sentence-3 {
+    opacity: 0.2;
+}
+
+.workout-card {
+    background: #3c892900;
+    border-radius: 20px;
+    padding: 40px;
+    border: 2px solid #4ecdc500;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.workout-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.workout-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.start-button {
+    padding: 12.5px 30px;
+    border: 0;
+    border-radius: 100px;
+    background-color: #00ff40;
+    color: #000000;
+    font-weight: Bold;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.start-button:hover {
+    background-color: #00ff2f;
+    box-shadow: 0 0 20px #00ff1e;
+    transform: scale(1.1);
+}
+
+.start-button:active {
+    background-color: #00ff40;
+    transition: all 0.25s;
+    -webkit-transition: all 0.25s;
+    box-shadow: none;
+    transform: scale(0.98);
+}
+
+/* Texto Rotativo */
+.rotating-text-container {
+    font-size: 2.5rem;
+    font-weight: bold;
+    line-height: 1.2;
+    margin: 20px 0;
+}
+
+.static-text {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.rotating-text-wrapper {
+    display: inline-block;
+    position: relative;
+    height: 80px;
+    overflow: hidden;
+    vertical-align: top;
+    min-width: 250px;
+}
+
+.rotating-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 1.5rem;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    opacity: 0;
+    transform: translateY(100%);
+    animation: rotateText 12s infinite;
+}
+
+.rotating-text:nth-child(1) { animation-delay: 0s; }
+.rotating-text:nth-child(2) { animation-delay: 3s; }
+.rotating-text:nth-child(3) { animation-delay: 6s; }
+.rotating-text:nth-child(4) { animation-delay: 9s; }
+
+.rotating-text.creative {
+    background: linear-gradient(45deg, #00ff1e, #00d4aa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.rotating-text.innovative {
+    background: linear-gradient(45deg, #00ff1e, #00d4aa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.rotating-text.professional {
+    background: linear-gradient(45deg, #00ff1e, #00d4aa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.rotating-text.dynamic {
+    background: linear-gradient(45deg, #00ff1e, #00ff88);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+@keyframes rotateText {
+    0% {
+        opacity: 0;
+        transform: translateY(100%) rotateX(90deg);
+    }
+    8% {
+        opacity: 1;
+        transform: translateY(0) rotateX(0deg);
+    }
+    25% {
+        opacity: 1;
+        transform: translateY(0) rotateX(0deg);
+    }
+    33% {
+        opacity: 0;
+        transform: translateY(-100%) rotateX(-90deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-100%) rotateX(-90deg);
+    }
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    animation: fadeInUp 1s ease-out 0.5s both;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 0.9;
+        transform: translateY(0);
+    }
+}
+    </style>
+</head>
+<body>
+<header class="header-container" id="menu">
+    <div class="nav-wrapper">
+        <div class="brand-container">
+            <a href="#"><img src="logo.png" alt="Logo" class="logo-img"></a>
+        </div>
+        
+        <div class="right-controls">
+            <div class="search-widget" id="searchWidget">
+                <div class="expandable-search-field" id="searchField">
+                    <input type="text" class="search-input-field" placeholder="Digite sua pesquisa..." id="searchInput">
+                </div>
+                <button class="search-toggle-btn" id="searchToggle" aria-label="Abrir pesquisa">
+                    <svg class="search-icon" viewBox="0 0 24 24">
+                        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                    </svg>
+                </button>
+                <div class="search-results" id="searchResults"></div>
+            </div>
+            
+            <button class="gym-access-btn"><a href="Menu-inicial-sem-logar.html">Home</a></button>
+            <button class="gym-access-btn"><a href="academias-publicas.html">Academias</a></button>
+            <button class="gym-access-btn"><a href="login-gym.html">Login</a></button>
+            
+            <button class="menu-trigger" id="menuTrigger" aria-label="Abrir menu">
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+            </button>
+        </div>
+    </div>
+</header>
+
+<nav class="slide-menu" id="slideMenu">
+    <div class="menu-header">
+        <button class="menu-close-btn" id="menuCloseBtn" aria-label="Fechar menu">
+            <svg class="menu-close-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+    </div>
+    
+    <button class="menu-search-btn" id="menuSearchBtn">Academias</button>
+    
+      <ul class="navigation-list">
+            <li class="nav-item"><a href="Menu-inicial-sem-logar.html" class="nav-link">Home</a></li>
+            <li class="nav-item"><a href="#espaço-cliente" class="nav-link">Login</a></li>
+            <li class="nav-item"><a href="Filtro_personal.html" class="nav-link">Personais</a></li>
+            <li class="nav-item"><a href="#news" class="nav-link">Sorteios</a></li>
+            <li class="nav-item"><a href="config.html" class="nav-link">Configurações</a></li>
+            <li class="nav-item"><a href="#sustentabilidade" class="nav-link">Blogs e dicaas</a></li>
+            <li class="nav-item"><a href="Sobre_nós.html" class="nav-link">Sobre nós</a></li>
+        </ul>
+</nav>
+
+<div class="menu-overlay" id="menuOverlay"></div>
+    <!-- ========== CONTEÚDO PRINCIPAL ========== -->
+    <div class="public-page-container">
+        <!-- Header da página pública -->
+        
+          <span id="academiesCount" class="academies-count"></span>
+            
+        
+        <!-- Campo de busca -->
+        <input type="text" class="search-box" id="searchBox" placeholder="🔍 Pesquisar academias...">
+        
+        <!-- WRAPPER COM FILTROS E CARDS -->
+        <div class="content-wrapper">
+            <!-- ========== FILTROS ========== -->
+            <div class="filters">
+                <div class="filter-title">Filtrar Academias</div>
+                
+                <!-- Filtro por Tipo -->
+                <div class="filter-group">
+                    <h4>Tipo de Academia</h4>
+                    <div class="filter-option">
+                        <input type="radio" id="type-all" name="type" value="all" checked>
+                        <label for="type-all">Todos os tipos</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="radio" id="type-musculacao" name="type" value="musculacao">
+                        <label for="type-musculacao">Musculação</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="radio" id="type-artes-marciais" name="type" value="artes-marciais">
+                        <label for="type-artes-marciais">Artes Marciais</label>
+                    </div>
+                </div>
+                
+                <!-- Filtro por Localização -->
+                <div class="filter-group">
+                    <h4>Localização</h4>
+                    <div class="filter-option">
+                        <input type="checkbox" id="location-centro" value="centro">
+                        <label for="location-centro">Centro</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" id="location-praca-matriz" value="praca-matriz">
+                        <label for="location-praca-matriz">Praça da Matriz</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" id="location-vila-kolping" value="vila-kolping">
+                        <label for="location-vila-kolping">Vila Kolping</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" id="location-chapada-serra" value="chapada-serra">
+                        <label for="location-chapada-serra">Chapada/Serra</label>
+                    </div>
+                </div>
+                
+                <!-- Filtro por Facilidades -->
+                <div class="filter-group">
+                    <h4>Facilidades</h4>
+                    <div class="filter-option">
+                        <input type="checkbox" id="facility-estacionamento" value="estacionamento">
+                        <label for="facility-estacionamento">Estacionamento</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" id="facility-ar-condicionado" value="ar-condicionado">
+                        <label for="facility-ar-condicionado">Ar Condicionado</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" id="facility-vestiario" value="vestiario">
+                        <label for="facility-vestiario">Vestiário</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" id="facility-wifi" value="wifi">
+                        <label for="facility-wifi">Wi-Fi</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" id="facility-personais" value="personais">
+                        <label for="facility-personais">Personais</label>
+                    </div>
+                </div>
+                
+                <!-- Filtro por Preço -->
+                <div class="filter-group">
+                    <h4>Faixa de Preço (R$/mês)</h4>
+                    <div class="price-range-container">
+                        <input type="number" id="minPrice" class="price-input" placeholder="Min" min="0">
+                        <span class="price-separator">-</span>
+                        <input type="number" id="maxPrice" class="price-input" placeholder="Max" min="0">
+                    </div>
+                </div>
+                
+                <button class="clear-filters-btn" id="clearFilters">
+                    <i class="fas fa-times"></i> Limpar Filtros
+                </button>
+            </div>
+            
+            <!-- ========== GRID DE CARDS ========== -->
+            <div class="academies-grid" id="academiesGrid">
+                <!-- Os cards das academias do localStorage serão carregados aqui -->
+            </div>
+        </div>
+        
+        <!-- Mensagem quando não há academias -->
+        <div id="noAcademiesMessage" class="no-academies" style="display: none;">
+            <i class="fas fa-dumbbell"></i>
+            <h3>Nenhuma academia cadastrada</h3>
+            <p>Volte ao painel administrativo para adicionar academias.</p>
+        </div>
+    </div>
+
+    <!-- ========== MODAL PARA DETALHES ========== -->
+    <div id="academyModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Detalhes da Academia</h3>
+                <span class="close-btn">&times;</span>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Conteúdo será preenchido via JavaScript -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary close-modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+ <footer class="academia-footer">
+    <div class="academia-background">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+            width="100%" height="100%" viewBox="0 0 1600 900">
+            <defs>
+                <!-- COR ALTERADA AQUI: #00ff40 com 30% de opacidade (4D em hex) -->
+                <path id="wave" fill="#00ff404D" d="M-363.852,502.589c0,0,236.988-41.997,505.475,0
+                s371.981,38.998,575.971,0s293.985-39.278,505.474,5.859s493.475,48.368,716.963-4.995v560.106H-363.852V502.589z" />
+            </defs>
+            <g>
+                <use xlink:href="#wave" opacity=".4">
+                    <animateTransform attributeName="transform" attributeType="XML" type="translate" dur="8s" calcMode="spline"
+                        values="270 230; -334 180; 270 230" keyTimes="0; .5; 1" keySplines="0.42, 0, 0.58, 1.0;0.42, 0, 0.58, 1.0"
+                        repeatCount="indefinite" />
+                </use>
+                <use xlink:href="#wave" opacity=".6">
+                    <animateTransform attributeName="transform" attributeType="XML" type="translate" dur="6s" calcMode="spline"
+                        values="-270 230;243 220;-270 230" keyTimes="0; .6; 1" keySplines="0.42, 0, 0.58, 1.0;0.42, 0, 0.58, 1.0"
+                        repeatCount="indefinite" />
+                </use>
+                <use xlink:href="#wave" opacty=".9">
+                    <animateTransform attributeName="transform" attributeType="XML" type="translate" dur="4s" calcMode="spline"
+                        values="0 230;-140 200;0 230" keyTimes="0; .4; 1" keySplines="0.42, 0, 0.58, 1.0;0.42, 0, 0.58, 1.0"
+                        repeatCount="indefinite" />
+                </use>
+            </g>
+        </svg>
+    </div>
+    <div class="academia-footer-inner">
+        <div class="academia-top">
+            <div>
+                <h2>VOCÊ ESTÁ PRONTO PARA TRANSFORMAR SEU CORPO E SUA VIDA?</h2>
+                <h3>Encontre as melhores academias, dicas e uma comunidade que te impulsiona!</h3>
+            </div>
+        </div>
+        <div class="academia-bottom">
+            <div class="academia-logo-content">
+                <div class="academia-socials">
+                    <a href="#" class="instagram" title="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+            <nav class="academia-nav">
+                <ul>
+                    <li><h4>SOBRE O GYM P2</h4></li>
+                    <li><a href="#">Quem Somos</a></li>
+                    <li><a href="#">Nossa Missão</a></li>
+                    <li><a href="#">Contatos</a></li>
+                </ul>
+                <ul>
+                    <li><h4>EXPLORE</h4></li>
+                    <li><a href="#">Academias</a></li>
+                    <li><a href="#">Artes Marciais</a></li>
+                    <li><a href="#">Blog e Dicas</a></li>
+                </ul>
+                <ul>
+                    <li><h4>CONECTE-SE</h4></li>
+                    <li><a href="#">Siga-nos nas Redes Sociais</a></li>
+                    <li><a href="#">Política de Privacidade</a></li>
+                    <li><a href="#">Termos de Uso</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</footer>
+
+    <script src="menu.js">
+  </script>
+  <!-- 1. Sistema de Notificações Globais -->
+<script src="global-notifications.js"></script>
+
+<!-- 2. Gerenciador de Usuários -->
+<script src="user-manager.js"></script>
+
+<!-- 3. Header com Informações do Usuário -->
+<script src="user-header.js"></script>
+<!-- Adicione ANTES do script atual -->
+<script>
+// ===========================================
+// GYM DATA MANAGER - Sistema Unificado de Dados
+// ===========================================
+
+const GymDataManager = {
+    // Obter todas as academias (compatível com painel administrativo)
+    getAllAcademies() {
+        // Tenta obter do painel administrativo primeiro
+        let academias = JSON.parse(localStorage.getItem('gymAcademies')) || [];
+        
+        // Se não houver dados do painel, tenta do sistema antigo
+        if (academias.length === 0) {
+            academias = JSON.parse(localStorage.getItem('academies')) || [];
+        }
+        
+        // Converter para formato da página pública
+        return academias.map(academia => this.convertToPublicFormat(academia));
+    },
+    
+    // Obter academia por ID
+    getAcademyById(id) {
+        const academias = this.getAllAcademies();
+        return academias.find(academia => academia.id == id);
+    },
+    
+    // Converter formato do painel administrativo para formato público
+    convertToPublicFormat(academiaAdmin) {
+        // Se já está no formato público, retorna como está
+        if (academiaAdmin.image && academiaAdmin.schedule) {
+            return academiaAdmin;
+        }
+        
+        // Converter do formato do painel administrativo
+        return {
+            id: academiaAdmin.id || Date.now(),
+            name: academiaAdmin.nome || academiaAdmin.name || 'Academia sem nome',
+            displayName: academiaAdmin.nome || academiaAdmin.name || 'Academia sem nome',
+            type: academiaAdmin.tipo || academiaAdmin.type || 'musculacao',
+            price: academiaAdmin.preco || academiaAdmin.price || '60.00',
+            address: academiaAdmin.endereco || academiaAdmin.address || 'Endereço não informado',
+            location: this.extractLocation(academiaAdmin.endereco || ''),
+            image: academiaAdmin.foto || academiaAdmin.image || 'https://via.placeholder.com/320x200/1a1a1a/28a745?text=Academia+Gym+P2',
+            schedule: {
+                weekdays: `${academiaAdmin.abertura || '06:00'} - ${academiaAdmin.fechamento || '22:00'}`,
+                weekend: `${academiaAdmin.abertura || '08:00'} - ${academiaAdmin.fechamento || '17:00'}`
+            },
+            facilities: academiaAdmin.facilidades || academiaAdmin.facilities || [],
+            status: academiaAdmin.status || 'active',
+            adminData: academiaAdmin // Manter dados originais
+        };
+    },
+    
+    // Extrair localização do endereço
+    extractLocation(address) {
+        const addressLower = address.toLowerCase();
+        
+        if (addressLower.includes('praça') || addressLower.includes('matriz')) {
+            return 'praca-matriz';
+        } else if (addressLower.includes('centro')) {
+            return 'centro';
+        } else if (addressLower.includes('vila') || addressLower.includes('kolping')) {
+            return 'vila-kolping';
+        } else if (addressLower.includes('chapada') || addressLower.includes('serra')) {
+            return 'chapada-serra';
+        }
+        
+        return 'centro';
+    },
+    
+    // Sincronizar dados (chamar sempre que houver mudanças no painel)
+    syncData() {
+        // Adiciona um listener para detectar mudanças no localStorage
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'gymAcademies') {
+                console.log('📦 Dados das academias atualizados!');
+                // Dispara evento customizado para recarregar a página
+                window.dispatchEvent(new Event('academiesUpdated'));
+            }
+        });
+    }
+};
+
+// Inicializar sincronização
+GymDataManager.syncData();
+</script>
+ <script>
+    // ===========================================
+    // SISTEMA DE ACADEMIAS (Página Pública)
+    // Usando o Data Manager unificado
+    // ===========================================
+
+    // Função para criar card no estilo especificado
+    function createAcademyCard(academy) {
+        const card = document.createElement('div');
+        card.className = 'academy-card';
+        card.setAttribute('data-type', academy.type || 'musculacao');
+        card.setAttribute('data-location', academy.location || 'centro');
+        card.setAttribute('data-price', academy.price || '60');
+        card.setAttribute('data-facilities', academy.facilities?.join(',') || '');
+        card.setAttribute('data-id', academy.id);
+        
+        // Determinar status (só mostrar se não for ativo)
+        let statusBadge = '';
+        if (academy.status && academy.status !== 'active') {
+            const statusText = academy.status === 'pending' ? 'Pendente' : 'Inativa';
+            const statusClass = academy.status === 'pending' ? 'pending' : 'inactive';
+            statusBadge = `<div class="status-badge ${statusClass}">${statusText}</div>`;
+        }
+        
+        // Formatar horário
+        let scheduleHTML = '';
+        if (academy.schedule) {
+            scheduleHTML = `
+                <div class="schedule-line"><strong>Seg a Sex:</strong> ${academy.schedule.weekdays || '5h - 23h'}</div>
+                <div class="schedule-line"><strong>Sáb/Feriados:</strong> ${academy.schedule.weekend || '8h - 17h'}</div>
+            `;
+        }
+        
+        // URL da imagem (usar placeholder se não houver)
+        const imageUrl = academy.image || 'https://via.placeholder.com/320x200/1a1a1a/28a745?text=Academia+Gym+P2';
+        
+        // Criar HTML do card
+        card.innerHTML = `
+            ${statusBadge}
+            <div class="price-badge">R$ ${academy.price}/mês</div>
+            <div class="card-image" style="background-image: url('${imageUrl}')">
+                <div class="card-image-title">${academy.name || academy.displayName}</div>
+            </div>
+            <div class="card-content">
+                <h3 class="academy-name">${academy.name || academy.displayName}</h3>
+                <span class="academy-type">${academy.type === 'artes-marciais' ? 'Artes Marciais' : 'Musculação'}</span>
+                <div class="academy-location">${academy.address}</div>
+                <div class="schedule-section">
+                    <div class="schedule">${scheduleHTML}</div>
+                </div>
+                <button class="view-details-btn" onclick="showAcademyDetails('${academy.id}')">
+                    Ver Detalhes Completos
+                </button>
+            </div>
+        `;
+        
+        return card;
+    }
+
+// ===========================================
+// FUNÇÃO DE COMPATIBILIDADE (para cards existentes)
+// ===========================================
+
+function setupAcademyRedirect() {
+    // Esta função é compatível com o código existente
+    async function redirectToAcademyPageCompatibility(academyId) {
+        const redirectSystem = new AcademiaRedirect();
+        return redirectSystem.redirectToAcademyPage(academyId);
+    }
+    
+    // Exportar para uso global
+    window.redirectToAcademyPage = redirectToAcademyPageCompatibility;
+}
+
+// ===========================================
+// INICIALIZAÇÃO
+// ===========================================
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Inicializar sistema de redirecionamento
+    new AcademiaRedirect();
+    setupAcademyRedirect();
+    
+    // Também configurar os botões que já existem na página
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.view-details-btn')) {
+            e.preventDefault();
+            const card = e.target.closest('.academy-card');
+            if (card) {
+                const academyId = card.getAttribute('data-id');
+                if (academyId) {
+                    const redirectSystem = new AcademiaRedirect();
+                    redirectSystem.redirectToAcademyPage(academyId);
+                }
+            }
+        }
+    });
+    
+    console.log('🚀 Sistema de redirecionamento pronto!');
+});
+    
+   // ========== CARREGAR ACADEMIAS DO SERVIDOR ==========
+async function loadAcademiesFromServer() {
+    const academiesGrid = document.getElementById('academiesGrid');
+    const noAcademiesMessage = document.getElementById('noAcademiesMessage');
+    const academiesCount = document.getElementById('academiesCount');
+    
+    try {
+        console.log('🔄 Buscando academias do servidor...');
+        
+        // Buscar do servidor
+        const response = await fetch('http://localhost:3000/api/academias');
+        
+        if (!response.ok) {
+            throw new Error('Servidor não respondeu');
+        }
+        
+        const academias = await response.json();
+        console.log('✅ Academias recebidas:', academias);
+        
+        // Filtrar apenas academias ativas
+        const activeAcademias = academias.filter(a => a.status === 'ativo');
+        
+        // Atualizar contador
+        academiesCount.textContent = activeAcademias.length;
+        
+        // Limpar grid
+        academiesGrid.innerHTML = '';
+        
+        if (activeAcademias.length === 0) {
+            academiesGrid.style.display = 'none';
+            noAcademiesMessage.style.display = 'block';
+            return;
+        }
+        
+        academiesGrid.style.display = 'grid';
+        noAcademiesMessage.style.display = 'none';
+        
+        // Criar cards
+        activeAcademias.forEach(academia => {
+            const card = createAcademyCardFromServer(academia);
+            academiesGrid.appendChild(card);
+        });
+        
+        // Aplicar filtros
+        filterAcademies();
+        
+    } catch (error) {
+        console.error('❌ Erro ao carregar academias:', error);
+        
+        // Tentar carregar do localStorage como fallback
+        const localAcademias = JSON.parse(localStorage.getItem('gymAcademies') || '[]');
+        
+        if (localAcademias.length > 0) {
+            console.log('📦 Usando dados do cache local');
+            renderLocalAcademias(localAcademias);
+        } else {
+            academiesGrid.style.display = 'none';
+            noAcademiesMessage.innerHTML = `
+                <i class="fas fa-exclamation-triangle"></i>
+                <h3>Não foi possível carregar as academias</h3>
+                <p>Verifique sua conexão com o servidor.</p>
+            `;
+            noAcademiesMessage.style.display = 'block';
+        }
+    }
+}
+
+// Criar card a partir dos dados do servidor
+function createAcademyCardFromServer(academia) {
+    const card = document.createElement('div');
+    card.className = 'academy-card';
+    card.setAttribute('data-type', academia.tipo || 'musculacao');
+    card.setAttribute('data-location', extractLocation(academia.cidade));
+    card.setAttribute('data-price', academia.preco || '60');
+    card.setAttribute('data-facilities', (academia.facilidades || []).join(','));
+    card.setAttribute('data-id', academia.id);
+    
+    const imageUrl = academia.foto || 'https://via.placeholder.com/320x200/1a1a1a/28a745?text=Academia';
+    
+    card.innerHTML = `
+        <div class="price-badge">R$ ${parseFloat(academia.preco || 0).toFixed(2)}/mês</div>
+        <div class="card-image" style="background-image: url('${imageUrl}')">
+            <div class="card-image-title">${academia.nome}</div>
+        </div>
+        <div class="card-content">
+            <h3 class="academy-name">${academia.nome}</h3>
+            <span class="academy-type">${academia.tipo === 'artes-marciais' ? 'Artes Marciais' : 'Musculação'}</span>
+            <div class="academy-location">${academia.endereco || 'Endereço não informado'}</div>
+            <div class="schedule-section">
+                <div class="schedule">
+                    <div class="schedule-line"><strong>Seg a Sex:</strong> ${academia.abertura || '06:00'} - ${academia.fechamento || '22:00'}</div>
+                </div>
+            </div>
+            <button class="view-details-btn" onclick="showAcademyDetailsFromServer(${academia.id})">
+                Ver Detalhes Completos
+            </button>
+        </div>
+    `;
+    
+    return card;
+}
+
+function extractLocation(cidade) {
+    if (!cidade) return 'centro';
+    const cidadeLower = cidade.toLowerCase();
+    
+    if (cidadeLower.includes('matriz')) return 'praca-matriz';
+    if (cidadeLower.includes('kolping')) return 'vila-kolping';
+    if (cidadeLower.includes('chapada') || cidadeLower.includes('serra')) return 'chapada-serra';
+    
+    return 'centro';
+}
+
+
+// ========== INICIALIZAÇÃO ==========
+document.addEventListener('DOMContentLoaded', function() {
+    // Carregar academias do servidor
+    loadAcademiesFromServer();
+    
+    // Atualizar a cada 30 segundos
+    setInterval(loadAcademiesFromServer, 30000);
+    
+    // Configurar filtros
+    const filterInputs = document.querySelectorAll('input[type="radio"], input[type="checkbox"]');
+    filterInputs.forEach(input => {
+        input.addEventListener('change', filterAcademies);
+    });
+    
+    document.getElementById('minPrice').addEventListener('input', filterAcademies);
+    document.getElementById('maxPrice').addEventListener('input', filterAcademies);
+    document.getElementById('searchBox').addEventListener('input', filterAcademies);
+    
+    document.getElementById('clearFilters').addEventListener('click', function() {
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            if (radio.value === 'all') radio.checked = true;
+        });
+        
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.checked = false;
+        });
+        
+        document.getElementById('minPrice').value = '';
+        document.getElementById('maxPrice').value = '';
+        document.getElementById('searchBox').value = '';
+        
+        filterAcademies();
+    });
+    
+    // Configurar modal
+    const modal = document.getElementById('academyModal');
+    const closeBtn = modal.querySelector('.close-btn');
+    const closeModalBtn = modal.querySelector('.close-modal');
+    
+    closeBtn.addEventListener('click', () => modal.style.display = 'none');
+    closeModalBtn.addEventListener('click', () => modal.style.display = 'none');
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.style.display = 'none';
+    });
+});
+    // ========== SISTEMA DE FILTROS ==========
+    function filterAcademies() {
+        const typeFilter = document.querySelector('input[name="type"]:checked').value;
+        const locationFilters = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
+            .map(input => input.value);
+       
+        const minPrice = parseInt(document.getElementById('minPrice').value) || 0;
+        const maxPrice = parseInt(document.getElementById('maxPrice').value) || Infinity;
+       
+        const cards = document.querySelectorAll('.academy-card');
+        let visibleCount = 0;
+       
+        cards.forEach(card => {
+            const cardType = card.getAttribute('data-type');
+            const cardLocation = card.getAttribute('data-location');
+            const cardPrice = parseInt(card.getAttribute('data-price'));
+            const cardFacilities = card.getAttribute('data-facilities').split(',');
+           
+            let showCard = true;
+           
+            // Filtro por tipo
+            if (typeFilter !== 'all' && cardType !== typeFilter) {
+                showCard = false;
+            }
+           
+            // Filtro por localização
+            const locationChecks = locationFilters.filter(filter =>
+                ['praca-matriz', 'centro', 'vila-kolping', 'chapada-serra'].includes(filter)
+            );
+            if (locationChecks.length > 0 && !locationChecks.includes(cardLocation)) {
+                showCard = false;
+            }
+           
+            // Filtro por preço
+            if (cardPrice < minPrice || cardPrice > maxPrice) {
+                showCard = false;
+            }
+           
+            // Filtro por facilidades
+            const facilityChecks = locationFilters.filter(filter =>
+                ['estacionamento', 'ar-condicionado', 'vestiario', 'wifi', 'personais'].includes(filter)
+            );
+            if (facilityChecks.length > 0) {
+                const hasAllFacilities = facilityChecks.every(facility =>
+                    cardFacilities.includes(facility)
+                );
+                if (!hasAllFacilities) {
+                    showCard = false;
+                }
+            }
+            
+            // Filtro por busca (opcional)
+            const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+            if (searchTerm) {
+                const academyName = card.querySelector('.academy-name').textContent.toLowerCase();
+                const academyAddress = card.querySelector('.academy-location').textContent.toLowerCase();
+                
+                if (!academyName.includes(searchTerm) && !academyAddress.includes(searchTerm)) {
+                    showCard = false;
+                }
+            }
+           
+            card.style.display = showCard ? 'block' : 'none';
+            if (showCard) visibleCount++;
+        });
+        
+        // Atualizar contador
+        document.getElementById('academiesCount').textContent = visibleCount;
+        
+        // Mostrar mensagem se não houver resultados
+        const noAcademiesMessage = document.getElementById('noAcademiesMessage');
+        const academiesGrid = document.getElementById('academiesGrid');
+        
+        if (visibleCount === 0 && cards.length > 0) {
+            noAcademiesMessage.innerHTML = `
+                <i class="fas fa-filter"></i>
+                <h3>Nenhuma academia encontrada</h3>
+                <p>Tente ajustar os filtros ou a busca.</p>
+            `;
+            noAcademiesMessage.style.display = 'block';
+            academiesGrid.style.display = 'none';
+        } else if (visibleCount > 0) {
+            noAcademiesMessage.style.display = 'none';
+            academiesGrid.style.display = 'grid';
+        }
+    }
+
+    // Função para mostrar detalhes da academia
+    function showAcademyDetails(academyId) {
+        const academy = GymDataManager.getAcademyById(academyId);
+        
+        if (!academy) {
+            alert('Academia não encontrada!');
+            return;
+        }
+        
+        const modal = document.getElementById('academyModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalBody = document.getElementById('modalBody');
+        
+        // Preencher modal com informações
+        modalTitle.textContent = academy.name || academy.displayName;
+        
+        // Verificar se tem dados do painel administrativo
+        const adminData = academy.adminData || {};
+        
+        modalBody.innerHTML = `
+            <div style="display: flex; gap: 20px; margin-bottom: 20px;">
+                <img src="${academy.image}" style="width: 150px; height: 150px; border-radius: 8px; object-fit: cover;">
+                <div>
+                    <h4 style="color: #00ff88; margin-bottom: 10px;">Informações Gerais</h4>
+                    <p><strong>Tipo:</strong> ${academy.type === 'artes-marciais' ? 'Artes Marciais' : 'Musculação'}</p>
+                    <p><strong>Preço:</strong> R$ ${academy.price}/mês</p>
+                    <p><strong>Status:</strong> ${academy.status === 'active' ? 'Ativa' : academy.status === 'pending' ? 'Pendente' : 'Inativa'}</p>
+                </div>
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <h4 style="color: #00ff88; margin-bottom: 10px;">Localização</h4>
+                <p>${academy.address}</p>
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <h4 style="color: #00ff88; margin-bottom: 10px;">Horário de Funcionamento</h4>
+                <p><strong>Segunda a Sexta:</strong> ${academy.schedule?.weekdays || '5h - 23h'}</p>
+                <p><strong>Sábado e Feriados:</strong> ${academy.schedule?.weekend || '8h - 17h'}</p>
+            </div>
+            
+            ${adminData.descricao ? `
+            <div style="margin-bottom: 20px;">
+                <h4 style="color: #00ff88; margin-bottom: 10px;">Descrição</h4>
+                <p>${adminData.descricao}</p>
+            </div>
+            ` : ''}
+            
+            <div style="margin-bottom: 20px;">
+                <h4 style="color: #00ff88; margin-bottom: 10px;">Contato</h4>
+                ${adminData.email ? `<p><strong>E-mail:</strong> ${adminData.email}</p>` : ''}
+                ${adminData.telefone ? `<p><strong>Telefone:</strong> ${adminData.telefone}</p>` : ''}
+            </div>
+            
+            ${academy.facilities && academy.facilities.length > 0 ? `
+            <div>
+                <h4 style="color: #00ff88; margin-bottom: 10px;">Facilidades</h4>
+                <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                    ${academy.facilities.map(facility => `
+                        <span style="background: rgba(0, 255, 136, 0.1); color: #00ff88; padding: 5px 10px; border-radius: 15px; font-size: 0.9rem;">
+                            ${facility}
+                        </span>
+                    `).join('')}
+                </div>
+            </div>
+            ` : ''}
+        `;
+        
+        // Mostrar modal
+        modal.style.display = 'block';
+        
+        // Configurar botões para fechar
+        const closeBtn = modal.querySelector('.close-btn');
+        const closeModalBtn = modal.querySelector('.close-modal');
+        
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+        
+        closeModalBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+        
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    }
+    
+    // ========== INICIALIZAÇÃO DA PÁGINA ==========
+    document.addEventListener('DOMContentLoaded', function() {
+        // 1. Carregar academias
+        loadAcademies();
+        
+        // 2. Adicionar eventos aos filtros
+        const filterInputs = document.querySelectorAll('input[type="radio"], input[type="checkbox"]');
+        filterInputs.forEach(input => {
+            input.addEventListener('change', filterAcademies);
+        });
+        
+        // 3. Adicionar eventos aos inputs de preço
+        document.getElementById('minPrice').addEventListener('input', filterAcademies);
+        document.getElementById('maxPrice').addEventListener('input', filterAcademies);
+        
+        // 4. Busca em tempo real
+        document.getElementById('searchBox').addEventListener('input', filterAcademies);
+        
+        // 5. Botão para limpar filtros
+        document.getElementById('clearFilters').addEventListener('click', function() {
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                if (radio.value === 'all') radio.checked = true;
+            });
+            
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            
+            document.getElementById('minPrice').value = '';
+            document.getElementById('maxPrice').value = '';
+            document.getElementById('searchBox').value = '';
+            
+            filterAcademies();
+        });
+        // 8. Adicionar listener para atualizações do painel administrativo
+window.addEventListener('academiesUpdated', loadAcademies);
+
+// 9. Verificar por atualizações a cada 5 segundos
+setInterval(() => {
+    const currentCount = GymDataManager.getAllAcademies().length;
+    if (currentCount !== parseInt(document.getElementById('academiesCount').textContent)) {
+        loadAcademies();
+    }
+}, 5000);
+
+// 10. Verificar dados imediatamente ao carregar
+console.log('Verificando dados do localStorage...');
+const storedAcademies = JSON.parse(localStorage.getItem('gymAcademies'));
+if (storedAcademies) {
+    console.log('Dados do painel encontrados:', storedAcademies.length, 'academias');
+} else {
+    console.log('⚠️ Nenhum dado do painel encontrado no localStorage');
+}
+        // 6. Configurar atualização automática
+        window.addEventListener('focus', loadAcademies);
+        
+        // 7. Atualizar contador inicial
+        filterAcademies();
+        
+        console.log('✅ Sistema de academias carregado!');
+    });
+    // Sincronizar com dados do servidor
+async function loadPublicAcademias() {
+    try {
+        const response = await fetch('http://seu-dominio.com/api.php/academias');
+        const academias = await response.json();
+        
+        // Filtrar apenas academias ativas
+        const activeAcademias = academias.filter(a => a.status === 'ativo');
+        
+        // Renderizar na página pública
+        renderPublicAcademias(activeAcademias);
+        
+        // Salvar localmente para modo offline
+        localStorage.setItem('public_academias', JSON.stringify(activeAcademias));
+    } catch (error) {
+        console.warn('Usando dados locais para página pública:', error);
+        const localData = localStorage.getItem('public_academias');
+        if (localData) {
+            renderPublicAcademias(JSON.parse(localData));
+        }
+    }
+}
+
+// Verificar atualizações periodicamente
+setInterval(loadPublicAcademias, 60000); // A cada 1 minuto
+
+// Carregar inicialmente
+loadPublicAcademias();
+</script>
+<script>    // ===========================================
+// SISTEMA DE REDIRECIONAMENTO PARA PÁGINAS ESPECÍFICAS
+// ===========================================
+
+class AcademiaRedirect {
+    constructor() {
+        this.paginasMap = {
+            // Mapeamento de nomes/ids para páginas
+            'Olympic-Fit': 'Olympic-fit.html',
+            'olympicfit': 'olympic-sem-logar.html',
+            'olympic fit': 'olympic-sem-logar.html',
+            'olympic-fit': 'olympic-sem-logar.html',
+            'redefit': 'Redefit-sem-logar.html',
+            'rede-fit': 'Redefit-sem-logar.html',
+            'red fit': 'Redefit-sem-logar.html',
+            'smartstrong': 'smart-strong-sem-logar.html',
+            'smart strong': 'smart-strong-sem-logar.html',
+            'martial': 'artes-marciais-sem-logar.html',
+            'mma': 'artes-marciais-sem-logar.html',
+            'artes marciais': 'artes-marciais-sem-logar.html',
+            'crossfit': 'crossfit-sem-logar.html',
+            'yoga': 'yoga-sem-logar.html',
+            'pilates': 'pilates-sem-logar.html',
+            'fit dance': 'fitdance-sem-logar.html',
+            'fitdance': 'fitdance-sem-logar.html',
+            'power': 'power-academy-sem-logar.html',
+            'power academy': 'power-academy-sem-logar.html'
+        };
+
+        this.init();
+    }
+
+    init() {
+        console.log('🔗 Sistema de redirecionamento inicializado');
+        
+        // Substituir a função showAcademyDetails
+        this.overrideShowDetails();
+        
+        // Substituir a função do botão nos cards
+        this.setupCardButtons();
+    }
+
+    overrideShowDetails() {
+        // Sobrescrever a função global showAcademyDetails
+        window.showAcademyDetails = (academyId) => {
+            this.redirectToAcademyPage(academyId);
+        };
+        
+        // Sobrescrever também a função específica do servidor
+        window.showAcademyDetailsFromServer = (academyId) => {
+            this.redirectToAcademyPage(academyId);
+        };
+    }
+
+    setupCardButtons() {
+        // Aguardar cards serem carregados
+        setTimeout(() => {
+            document.querySelectorAll('.view-details-btn').forEach(btn => {
+                // Remover event listeners antigos
+                const newBtn = btn.cloneNode(true);
+                btn.parentNode.replaceChild(newBtn, btn);
+                
+                // Adicionar novo listener
+                newBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const card = newBtn.closest('.academy-card');
+                    if (card) {
+                        const academyId = card.getAttribute('data-id');
+                        if (academyId) {
+                            this.redirectToAcademyPage(academyId);
+                        }
+                    }
+                });
+            });
+            
+            console.log('✅ Botões de detalhes configurados');
+        }, 1000);
+    }
+
+    async redirectToAcademyPage(academyId) {
+        console.log(`🔗 Redirecionando para academia ID: ${academyId}`);
+        
+        try {
+            // Tentar buscar do servidor
+            const response = await fetch(`http://localhost:3000/api/academias/${academyId}`);
+            
+            if (response.ok) {
+                const academia = await response.json();
+                console.log('✅ Dados da academia:', academia);
+                
+                // Determinar a página baseada no nome/ID
+                const pagina = this.determinarPagina(academia);
+                
+                console.log(`📄 Redirecionando para: ${pagina}?id=${academyId}`);
+                window.location.href = `${pagina}?id=${academyId}`;
+                
+            } else {
+                // Fallback para dados locais
+                this.redirectWithLocalData(academyId);
+            }
+            
+        } catch (error) {
+            console.warn('⚠️ Servidor indisponível, usando dados locais:', error);
+            this.redirectWithLocalData(academyId);
+        }
+    }
+
+    determinarPagina(academia) {
+        const nomeLower = academia.nome.toLowerCase();
+        
+        // Verificar mapeamento direto
+        for (const [keyword, pagina] of Object.entries(this.paginasMap)) {
+            if (nomeLower.includes(keyword.toLowerCase())) {
+                return pagina;
+            }
+        }
+        
+        // Verificar por tipo
+        if (academia.tipo === 'artes-marciais') {
+            return 'artes-marciais-sem-logar.html';
+        }
+        
+        // Fallback para página padrão
+        return 'olympic-sem-logar.html';
+    }
+
+    redirectWithLocalData(academyId) {
+        // Tentar dados do localStorage
+        const academiasLocais = JSON.parse(localStorage.getItem('gymAcademies')) || 
+                               JSON.parse(localStorage.getItem('academies')) || [];
+        
+        const academiaLocal = academiasLocais.find(academia => academia.id == academyId);
+        
+        if (academiaLocal) {
+            const pagina = this.determinarPagina(academiaLocal);
+            console.log(`📄 Redirecionando (local): ${pagina}?id=${academyId}`);
+            window.location.href = `${pagina}?id=${academyId}`;
+        } else {
+            // Página padrão
+            console.log(`📄 Redirecionando (padrão): olympic-sem-logar.html?id=${academyId}`);
+            window.location.href = `olympic-sem-logar.html?id=${academyId}`;
+        }
+    }
+}
+</script>
+</body>
+</html>

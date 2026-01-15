@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filtro de Personais</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="personais.css">
+</head>
+<body>
+
+<header class="header-container" id="menu">
+    <div class="nav-wrapper">
+        <div class="brand-container">
+            <a href="#"><img src="logo.png" alt="Logo" class="logo-img"></a>
+        </div>
+        
+        <div class="right-controls">
+            <div class="search-widget" id="searchWidget">
+                <div class="expandable-search-field" id="searchField">
+                    <input type="text" class="search-input-field" placeholder="Digite sua pesquisa..." id="searchInput">
+                </div>
+                <button class="search-toggle-btn" id="searchToggle" aria-label="Abrir pesquisa">
+                    <svg class="search-icon" viewBox="0 0 24 24">
+                        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                    </svg>
+                </button>
+                <div class="search-results" id="searchResults"></div>
+            </div>
+            
+            <button class="gym-access-btn"><a href="Menu-inicial-sem-logar.html">Home</a></button>
+            <button class="gym-access-btn"><a href="academias-publicas.html">Academias</a></button>
+            <button class="gym-access-btn"><a href="login-gym.html">Login</a></button>
+            
+            <button class="menu-trigger" id="menuTrigger" aria-label="Abrir menu">
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+            </button>
+        </div>
+    </div>
+</header>
+
+<nav class="slide-menu" id="slideMenu">
+    <div class="menu-header">
+        <button class="menu-close-btn" id="menuCloseBtn" aria-label="Fechar menu">
+            <svg class="menu-close-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+    </div>
+    
+    <button class="menu-search-btn" id="menuSearchBtn">Academias</button>
+    
+    <ul class="navigation-list">
+        <li class="nav-item"><a href="#home" class="nav-link">Home</a></li>
+        <li class="nav-item"><a href="#espaço-cliente" class="nav-link">Login</a></li>
+        <li class="nav-item"><a href="#franqueado" class="nav-link">Personais</a></li>
+        <li class="nav-item"><a href="#news" class="nav-link">Sorteios</a></li>
+        <li class="nav-item"><a href="config.html" class="nav-link">Configurações</a></li>
+        <li class="nav-item"><a href="#sustentabilidade" class="nav-link">Blogs e dicas</a></li>
+        <li class="nav-item"><a href="#historia" class="nav-link">Sobre nós</a></li>
+    </ul>
+</nav>
+
+<!-- Filtros Sidebar -->
+<aside class="filters-sidebar" id="filtersSidebar">
+    <div class="filters-header">
+        <h3 class="filters-title">
+            <i class="fas fa-filter"></i> Filtros Avançados
+        </h3>
+        <button class="close-filters-btn" id="closeFiltersBtn" aria-label="Fechar filtros">
+            <svg class="close-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+    </div>
+    
+    <div class="filters-content">
+        <!-- Filtro por Gênero -->
+        <div class="filter-section">
+            <h4 class="filter-section-title">
+                <i class="fas fa-venus-mars"></i> Gênero
+            </h4>
+            <div class="filter-options">
+                <label class="filter-checkbox">
+                    <input type="checkbox" class="filter-option" name="genero" value="Masculino">
+                    <span class="checkbox-custom"></span>
+                    <span class="filter-label">Masculino</span>
+                </label>
+                <label class="filter-checkbox">
+                    <input type="checkbox" class="filter-option" name="genero" value="Feminino">
+                    <span class="checkbox-custom"></span>
+                    <span class="filter-label">Feminino</span>
+                </label>
+            </div>
+        </div>
+        
+        <!-- Filtro por Especialidade -->
+        <div class="filter-section">
+            <h4 class="filter-section-title">
+                <i class="fas fa-dumbbell"></i> Especialidade
+            </h4>
+            <div class="filter-options">
+                <label class="filter-checkbox">
+                    <input type="checkbox" class="filter-option" name="especialidade" value="Musculação">
+                    <span class="checkbox-custom"></span>
+                    <span class="filter-label">Musculação</span>
+                </label>
+                <label class="filter-checkbox">
+                    <input type="checkbox" class="filter-option" name="especialidade" value="Emagrecimento">
+                    <span class="checkbox-custom"></span>
+                    <span class="filter-label">Emagrecimento</span>
+                </label>
+                <label class="filter-checkbox">
+                    <input type="checkbox" class="filter-option" name="especialidade" value="Terceira Idade">
+                    <span class="checkbox-custom"></span>
+                    <span class="filter-label">Terceira Idade</span>
+                </label>
+                <label class="filter-checkbox">
+                    <input type="checkbox" class="filter-option" name="especialidade" value="Yoga">
+                    <span class="checkbox-custom"></span>
+                    <span class="filter-label">Yoga</span>
+                </label>
+                <label class="filter-checkbox">
+                    <input type="checkbox" class="filter-option" name="especialidade" value="Condicionamento Físico">
+                    <span class="checkbox-custom"></span>
+                    <span class="filter-label">Condicionamento</span>
+                </label>
+            </div>
+        </div>
+        
+        <!-- Filtro por Experiência -->
+        <div class="filter-section">
+            <h4 class="filter-section-title">
+                <i class="fas fa-chart-line"></i> Experiência (anos)
+            </h4>
+            <div class="filter-options">
+                <label class="filter-checkbox">
+                    <input type="checkbox" class="filter-option" name="experiencia" value="1-3">
+                    <span class="checkbox-custom"></span>
+                    <span class="filter-label">1-3 anos</span>
+                </label>
+                <label class="filter-checkbox">
+                    <input type="checkbox" class="filter-option" name="experiencia" value="4-7">
+                    <span class="checkbox-custom"></span>
+                    <span class="filter-label">4-7 anos</span>
+                </label>
+                <label class="filter-checkbox">
+                    <input type="checkbox" class="filter-option" name="experiencia" value="8+">
+                    <span class="checkbox-custom"></span>
+                    <span class="filter-label">8+ anos</span>
+                </label>
+            </div>
+        </div>
+        
+        <!-- Filtro por Localização -->
+        <div class="filter-section">
+            <h4 class="filter-section-title">
+                <i class="fas fa-map-marker-alt"></i> Localização
+            </h4>
+            <div class="filter-options">
+                <label class="filter-checkbox">
+                    <input type="checkbox" class="filter-option" name="localizacao" value="Zona Sul">
+                    <span class="checkbox-custom"></span>
+                    <span class="filter-label">Zona Sul</span>
+                </label>
+                <label class="filter-checkbox">
+                    <input type="checkbox" class="filter-option" name="localizacao" value="Centro">
+                    <span class="checkbox-custom"></span>
+                    <span class="filter-label">Centro</span>
+                </label>
+                <label class="filter-checkbox">
+                    <input type="checkbox" class="filter-option" name="localizacao" value="Zona Leste">
+                    <span class="checkbox-custom"></span>
+                    <span class="filter-label">Zona Leste</span>
+                </label>
+                <label class="filter-checkbox">
+                    <input type="checkbox" class="filter-option" name="localizacao" value="Zona Oeste">
+                    <span class="checkbox-custom"></span>
+                    <span class="filter-label">Zona Oeste</span>
+                </label>
+                <label class="filter-checkbox">
+                    <input type="checkbox" class="filter-option" name="localizacao" value="Zona Norte">
+                    <span class="checkbox-custom"></span>
+                    <span class="filter-label">Zona Norte</span>
+                </label>
+            </div>
+        </div>
+        
+        <!-- Filtro por Modalidade -->
+        <div class="filter-section">
+            <h4 class="filter-section-title">
+                <i class="fas fa-laptop-house"></i> Modalidade
+            </h4>
+            <div class="filter-options">
+                <label class="filter-checkbox">
+                    <input type="checkbox" class="filter-option" name="modalidade" value="Presencial">
+                    <span class="checkbox-custom"></span>
+                    <span class="filter-label">Presencial</span>
+                </label>
+                <label class="filter-checkbox">
+                    <input type="checkbox" class="filter-option" name="modalidade" value="Online">
+                    <span class="checkbox-custom"></span>
+                    <span class="filter-label">Online</span>
+                </label>
+                <label class="filter-checkbox">
+                    <input type="checkbox" class="filter-option" name="modalidade" value="Grupos">
+                    <span class="checkbox-custom"></span>
+                    <span class="filter-label">Grupos</span>
+                </label>
+            </div>
+        </div>
+        
+        <!-- Botões de ação -->
+        <div class="filter-actions">
+            <button class="filter-btn filter-btn-primary" id="applyFiltersBtn">
+                <i class="fas fa-check"></i> Aplicar Filtros
+            </button>
+            <button class="filter-btn filter-btn-secondary" id="clearFiltersBtn">
+                <i class="fas fa-eraser"></i> Limpar Filtros
+            </button>
+        </div>
+    </div>
+</aside>
+
+<!-- Overlay para fechar filtros -->
+<div class="filters-overlay" id="filtersOverlay"></div>
+
+<!-- Botão para abrir filtros -->
+<div class="filters-toggle-container">
+    <button class="filters-toggle-btn" id="filtersToggleBtn">
+        <i class="fas fa-sliders-h"></i>
+        <span class="filters-toggle-text">Filtros</span>
+        <span class="filter-badge" id="filterBadge">0</span>
+    </button>
+</div>
+
+<div class="menu-overlay" id="menuOverlay"></div>
+
+<!-- Conteúdo Principal -->
+<main class="main-content">
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <h1 class="hero-title">Encontre Seu <span>Personal Ideal</span></h1>
+        <p class="hero-subtitle">Alcance seus objetivos com os melhores profissionais. Treino personalizado, motivação e resultados.</p>
+    </section>
+
+    <!-- Resultados -->
+    <div class="results-header">
+        <h2 class="results-title">
+            <i class="fas fa-dumbbell"></i> Personais Disponíveis
+        </h2>
+        <div class="results-info">
+            <span id="results-count" class="results-count">5 profissionais</span>
+            <span id="activeFiltersCount" class="active-filters-count" style="display: none;"></span>
+        </div>
+    </div>
+
+    <!-- Grid de Cards -->
+    <div id="cards-container" class="cards-grid">
+        <!-- Cards serão inseridos aqui dinamicamente -->
+    </div>
+
+    <!-- Mensagem de nenhum resultado -->
+    <div id="no-results" class="no-results">
+        <div class="no-results-icon">
+            <i class="fas fa-search"></i>
+        </div>
+        <h3>Nenhum personal encontrado</h3>
+        <p>Tente ajustar os filtros para encontrar o profissional que você procura.</p>
+        <button id="clear-all-filters-btn" class="filter-btn filter-btn-secondary" style="margin-top: 1rem;">
+            <i class="fas fa-eraser"></i> Limpar todos os filtros
+        </button>
+    </div>
+</main>
+
+<!-- Template do Card -->
+<template id="personal-card-template">
+    <div class="personal-card">
+        <!-- Topo com avatar -->
+        <div style="height: 90px; background: #252525; position: relative; padding-top: 15px;">
+            <div class="avatar-container">
+                <img src="" alt="" class="avatar-img" data-field="foto" onerror="this.style.display='none'; this.parentElement.querySelector('.avatar-placeholder').style.display='flex';">
+                <div class="avatar-placeholder" style="display: none;" data-field="avatar-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conteúdo do Card -->
+        <div style="padding: 1.2rem; text-align: center;">
+            <!-- Informações principais -->
+            <h3 style="font-size: 1.1rem; font-weight: bold; color: white; margin-bottom: 0.4rem; margin-top: 0.8rem;" data-field="nome"></h3>
+            <p style="color: #ccc; font-size: 0.85rem; margin-bottom: 0.8rem;">
+                <i class="fas fa-users" style="color: var(--brand-color); margin-right: 0.4rem;"></i>
+                <span data-field="clientes"></span> clientes ativos
+            </p>
+
+            <!-- Botão WhatsApp -->
+            <a href="#" target="_blank" class="whatsapp-btn" style="margin-bottom: 1rem;" data-field="whatsapp">
+                <i class="fab fa-whatsapp"></i> Contato
+            </a>
+
+            <!-- Estatísticas -->
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid #404040; border-bottom: 1px solid #404040; padding: 0.8rem 0; margin-bottom: 0.8rem;">
+                <div style="text-align: center;">
+                    <div style="font-size: 0.65rem; color: var(--brand-color); font-weight: bold; text-transform: uppercase;">Exp.</div>
+                    <div style="font-size: 0.95rem; font-weight: bold; color: white;" data-field="experiencia"></div>
+                </div>
+                <div style="text-align: center; border-left: 1px solid #404040; border-right: 1px solid #404040;">
+                    <div style="font-size: 0.65rem; color: var(--brand-color); font-weight: bold; text-transform: uppercase;">Nota</div>
+                    <div style="font-size: 0.95rem; font-weight: bold; color: white;">
+                        <span data-field="avaliacao"></span> <i class="fas fa-star" style="color: gold; font-size: 0.7rem;"></i>
+                    </div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 0.65rem; color: var(--brand-color); font-weight: bold; text-transform: uppercase;">Modos</div>
+                    <div style="font-size: 0.95rem; font-weight: bold; color: white;" data-field="modalidades-count"></div>
+                </div>
+            </div>
+
+            <!-- Detalhes -->
+            <div style="text-align: left; margin-bottom: 0.8rem;">
+                <div style="display: flex; align-items: center; margin-bottom: 0.4rem; color: #ccc; font-size: 0.85rem;">
+                    <i class="fas fa-map-marker-alt" style="color: var(--brand-color); width: 16px; text-align: center; margin-right: 0.5rem;"></i>
+                    <span data-field="localizacao"></span>
+                </div>
+                <div style="display: flex; align-items: center; margin-bottom: 0.4rem; color: #ccc; font-size: 0.85rem;">
+                    <i class="fas fa-graduation-cap" style="color: var(--brand-color); width: 16px; text-align: center; margin-right: 0.5rem;"></i>
+                    <span data-field="formacao"></span>
+                </div>
+                <div style="display: flex; align-items: center; color: #ccc; font-size: 0.85rem;">
+                    <i class="fas fa-clock" style="color: var(--brand-color); width: 16px; text-align: center; margin-right: 0.5rem;"></i>
+                    <span data-field="horarios"></span>
+                </div>
+            </div>
+
+            <!-- Bio -->
+            <p class="line-clamp-2" style="color: #999; font-size: 0.8rem; margin-bottom: 0.8rem; min-height: 2.2em;" data-field="bio"></p>
+
+            <!-- Especialidades -->
+            <div>
+                <div style="font-size: 0.65rem; color: var(--brand-color); font-weight: bold; text-transform: uppercase; margin-bottom: 0.4rem;">Especialidades</div>
+                <div data-field="especializacoes" style="display: flex; flex-wrap: wrap; gap: 0.4rem; justify-content: center;">
+                    <!-- Tags serão inseridas aqui -->
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<footer class="academia-footer">
+    <div class="academia-background">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+            width="100%" height="100%" viewBox="0 0 1600 900">
+            <defs>
+                <path id="wave" fill="#00ff404D" d="M-363.852,502.589c0,0,236.988-41.997,505.475,0
+                s371.981,38.998,575.971,0s293.985-39.278,505.474,5.859s493.475,48.368,716.963-4.995v560.106H-363.852V502.589z" />
+            </defs>
+            <g>
+                <use xlink:href="#wave" opacity=".4">
+                    <animateTransform attributeName="transform" attributeType="XML" type="translate" dur="8s" calcMode="spline"
+                        values="270 230; -334 180; 270 230" keyTimes="0; .5; 1" keySplines="0.42, 0, 0.58, 1.0;0.42, 0, 0.58, 1.0"
+                        repeatCount="indefinite" />
+                </use>
+                <use xlink:href="#wave" opacity=".6">
+                    <animateTransform attributeName="transform" attributeType="XML" type="translate" dur="6s" calcMode="spline"
+                        values="-270 230;243 220;-270 230" keyTimes="0; .6; 1" keySplines="0.42, 0, 0.58, 1.0;0.42, 0, 0.58, 1.0"
+                        repeatCount="indefinite" />
+                </use>
+                <use xlink:href="#wave" opacty=".9">
+                    <animateTransform attributeName="transform" attributeType="XML" type="translate" dur="4s" calcMode="spline"
+                        values="0 230;-140 200;0 230" keyTimes="0; .4; 1" keySplines="0.42, 0, 0.58, 1.0;0.42, 0, 0.58, 1.0"
+                        repeatCount="indefinite" />
+                </use>
+            </g>
+        </svg>
+    </div>
+    <div class="academia-footer-inner">
+        <div class="academia-top">
+            <div>
+                <h2>VOCÊ ESTÁ PRONTO PARA TRANSFORMAR SEU CORPO E SUA VIDA?</h2>
+                <h3>Encontre as melhores academias, dicas e uma comunidade que te impulsiona!</h3>
+            </div>
+        </div>
+        <div class="academia-bottom">
+            <div class="academia-logo-content">
+                <div class="academia-socials">
+                    <a href="#" class="instagram" title="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+            <nav class="academia-nav">
+                <ul>
+                    <li><h4>SOBRE O GYM P2</h4></li>
+                    <li><a href="#">Quem Somos</a></li>
+                    <li><a href="#">Nossa Missão</a></li>
+                    <li><a href="#">Contatos</a></li>
+                </ul>
+                <ul>
+                    <li><h4>EXPLORE</h4></li>
+                    <li><a href="#">Academias</a></li>
+                    <li><a href="#">Artes Marciais</a></li>
+                    <li><a href="#">Blog e Dicas</a></li>
+                </ul>
+                <ul>
+                    <li><h4>CONECTE-SE</h4></li>
+                    <li><a href="#">Siga-nos nas Redes Sociais</a></li>
+                    <li><a href="#">Política de Privacidade</a></li>
+                    <li><a href="#">Termos de Uso</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // CONFIGURAÇÃO DA API
+const API_BASE_URL = 'http://localhost:3000';
+let allPersonais = []; // Array para armazenar os personais reais
+
+// FUNÇÃO PARA CARREGAR PERSONAIS REAIS DO SERVIDOR
+async function carregarPersonaisReais() {
+    try {
+        // Mostrar loading
+        document.getElementById('cards-container').innerHTML = `
+            <div class="loading-container" style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--brand-color); margin-bottom: 20px;"></i>
+                <p>Carregando personais...</p>
+            </div>
+        `;
+
+        console.log('🔄 Buscando personais da API...');
+        
+        const response = await fetch(`${API_BASE_URL}/api/personais/ativos`);
+        
+        if (!response.ok) {
+            throw new Error(`Erro HTTP: ${response.status}`);
+        }
+        
+        allPersonais = await response.json();
+        
+        console.log(`✅ ${allPersonais.length} personais carregados da API`);
+        
+        // Atualizar filtros dinamicamente
+        atualizarFiltrosDinamicos();
+        
+        // Renderizar todos os personais inicialmente
+        renderCardsReais(allPersonais);
+        
+        // Atualizar contador
+        document.getElementById('results-count').textContent = 
+            `${allPersonais.length} ${allPersonais.length === 1 ? 'profissional' : 'profissionais'}`;
+            
+    } catch (error) {
+        console.error('❌ Erro ao carregar personais:', error);
+        
+        // Mostrar mensagem de erro
+        document.getElementById('cards-container').innerHTML = `
+            <div class="api-error" style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #ff4444;">
+                <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 20px;"></i>
+                <h3>Erro ao carregar personais</h3>
+                <p>Verifique se o servidor está rodando (localhost:3000)</p>
+                <button onclick="carregarPersonaisReais()" class="retry-btn" style="background: var(--brand-color); color: #000; border: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 20px;">
+                    <i class="fas fa-redo"></i> Tentar novamente
+                </button>
+            </div>
+        `;
+    }
+}
+
+// FUNÇÃO PARA ATUALIZAR FILTROS DINAMICAMENTE
+function atualizarFiltrosDinamicos() {
+    if (allPersonais.length === 0) return;
+    
+    // 1. Coletar dados únicos para cada filtro
+    const generos = [...new Set(allPersonais.map(p => p.genero).filter(Boolean))];
+    const especialidades = [...new Set(allPersonais.map(p => p.especialidade).filter(Boolean))];
+    const cidades = [...new Set(allPersonais.map(p => p.cidade).filter(Boolean))];
+    
+    // 2. Atualizar filtro de gênero
+    const genderFilters = document.getElementById('genderFilters');
+    if (genderFilters) {
+        genderFilters.innerHTML = generos.map(genero => `
+            <label class="filter-checkbox">
+                <input type="checkbox" class="filter-option" name="genero" value="${genero}">
+                <span class="checkbox-custom"></span>
+                <span class="filter-label">${genero}</span>
+            </label>
+        `).join('');
+    }
+    
+    // 3. Atualizar filtro de especialidade
+    const specialtyFilters = document.getElementById('specialtyFilters');
+    if (specialtyFilters) {
+        specialtyFilters.innerHTML = especialidades.map(esp => `
+            <label class="filter-checkbox">
+                <input type="checkbox" class="filter-option" name="especialidade" value="${esp}">
+                <span class="checkbox-custom"></span>
+                <span class="filter-label">${esp}</span>
+            </label>
+        `).join('');
+    }
+    
+    // 4. Atualizar filtro de cidade
+    const cityFilters = document.getElementById('cityFilters');
+    if (cityFilters) {
+        cityFilters.innerHTML = cidades.map(cidade => `
+            <label class="filter-checkbox">
+                <input type="checkbox" class="filter-option" name="localizacao" value="${cidade}">
+                <span class="checkbox-custom"></span>
+                <span class="filter-label">${cidade}</span>
+            </label>
+        `).join('');
+    }
+    
+    // 5. Adicionar eventos aos novos checkboxes
+    document.querySelectorAll('.filter-option').forEach(checkbox => {
+        checkbox.addEventListener('change', aplicarFiltrosReais);
+    });
+}
+
+// FUNÇÃO PARA RENDERIZAR CARDS REAIS
+function renderCardsReais(personais) {
+    const container = document.getElementById('cards-container');
+    const template = document.getElementById('personal-card-template');
+    const noResults = document.getElementById('no-results');
+    
+    container.innerHTML = '';
+    
+    if (personais.length === 0) {
+        noResults.style.display = 'block';
+        return;
+    }
+    
+    noResults.style.display = 'none';
+    
+    personais.forEach(personal => {
+        const card = template.content.cloneNode(true);
+        
+        // Preencher dados básicos
+        card.querySelector('[data-field="nome"]').textContent = personal.nome || 'Personal Trainer';
+        card.querySelector('[data-field="clientes"]').textContent = personal.numero_clientes || '0';
+        card.querySelector('[data-field="experiencia"]').textContent = personal.anos_experiencia || '0';
+        card.querySelector('[data-field="avaliacao"]').textContent = personal.avaliacoes || '5.0';
+        card.querySelector('[data-field="modalidades-count"]').textContent = (personal.modalidades?.length || 1);
+        card.querySelector('[data-field="localizacao"]').textContent = personal.cidade || 'Não informada';
+        card.querySelector('[data-field="formacao"]').textContent = personal.formacao || 'Educação Física';
+        card.querySelector('[data-field="horarios"]').textContent = personal.horarios || 'Seg-Sex: 6h-22h';
+        card.querySelector('[data-field="bio"]').textContent = personal.descricao || 'Personal trainer profissional';
+        
+        // CONFIGURAR FOTO - PARTE MAIS IMPORTANTE!
+        const avatarImg = card.querySelector('[data-field="foto"]');
+        const avatarPlaceholder = card.querySelector('[data-field="avatar-icon"]');
+        
+        if (personal.foto) {
+            // Se tem foto no banco de dados, usa ela
+            avatarImg.src = personal.foto;
+            avatarImg.style.display = 'block';
+            avatarPlaceholder.style.display = 'none';
+        } else {
+            // Se não tem foto, mostra placeholder com ícone baseado no gênero
+            avatarImg.style.display = 'none';
+            avatarPlaceholder.style.display = 'flex';
+            if (personal.genero === 'Feminino') {
+                avatarPlaceholder.innerHTML = '<i class="fas fa-female"></i>';
+            } else {
+                avatarPlaceholder.innerHTML = '<i class="fas fa-male"></i>';
+            }
+        }
+        
+        // Configurar WhatsApp
+        if (personal.telefone) {
+            const whatsappBtn = card.querySelector('[data-field="whatsapp"]');
+            const cleanPhone = personal.telefone.replace(/\D/g, '');
+            whatsappBtn.href = `https://wa.me/55${cleanPhone}`;
+        } else {
+            card.querySelector('[data-field="whatsapp"]').style.display = 'none';
+        }
+        
+        // Adicionar especializações
+        const especializacoesContainer = card.querySelector('[data-field="especializacoes"]');
+        const especializacoes = personal.especializacoes || [personal.especialidade || 'Personal Trainer'];
+        
+        especializacoes.forEach(esp => {
+            const tag = document.createElement('span');
+            tag.className = 'specialty-tag';
+            tag.textContent = esp;
+            especializacoesContainer.appendChild(tag);
+        });
+        
+        // Configurar ícone do avatar baseado no gênero
+        const avatarIcon = card.querySelector('[data-field="avatar-icon"]');
+        if (personal.genero === 'Feminino') {
+            avatarIcon.innerHTML = '<i class="fas fa-female"></i>';
+        } else {
+            avatarIcon.innerHTML = '<i class="fas fa-male"></i>';
+        }
+        
+        container.appendChild(card);
+    });
+}
+
+// FUNÇÃO PARA APLICAR FILTROS AOS DADOS REAIS
+function aplicarFiltrosReais() {
+    // Coletar filtros ativos
+    const filtros = {
+        genero: getCheckedValues('genero'),
+        especialidade: getCheckedValues('especialidade'),
+        experiencia: getCheckedValues('experiencia'),
+        localizacao: getCheckedValues('localizacao'),
+        modalidade: getCheckedValues('modalidade')
+    };
+    
+    // Aplicar filtros
+    const filtrados = allPersonais.filter(personal => {
+        // Filtro por gênero
+        if (filtros.genero.length > 0 && !filtros.genero.includes(personal.genero)) {
+            return false;
+        }
+        
+        // Filtro por especialidade
+        if (filtros.especialidade.length > 0 && !filtros.especialidade.includes(personal.especialidade)) {
+            return false;
+        }
+        
+        // Filtro por cidade
+        if (filtros.localizacao.length > 0 && !filtros.localizacao.includes(personal.cidade)) {
+            return false;
+        }
+        
+        // Filtro por experiência
+        if (filtros.experiencia.length > 0) {
+            const expNum = personal.anos_experiencia || 0;
+            const temExperiencia = filtros.experiencia.some(range => {
+                if (range === "1-3") return expNum >= 1 && expNum <= 3;
+                if (range === "4-7") return expNum >= 4 && expNum <= 7;
+                if (range === "8+") return expNum >= 8;
+                return false;
+            });
+            if (!temExperiencia) return false;
+        }
+        
+        // Filtro por modalidade
+        if (filtros.modalidade.length > 0) {
+            const modalidades = personal.modalidades || ['Presencial'];
+            const temModalidade = filtros.modalidade.some(mod => 
+                modalidades.includes(mod)
+            );
+            if (!temModalidade) return false;
+        }
+        
+        return true;
+    });
+    
+    // Atualizar contador de filtros
+    let totalFiltros = 0;
+    Object.values(filtros).forEach(cat => totalFiltros += cat.length);
+    
+    const filterBadge = document.getElementById('filterBadge');
+    const activeFiltersCount = document.getElementById('activeFiltersCount');
+    
+    if (totalFiltros > 0) {
+        filterBadge.textContent = totalFiltros;
+        filterBadge.style.display = 'flex';
+        activeFiltersCount.textContent = `${totalFiltros} filtro${totalFiltros > 1 ? 's' : ''} ativo${totalFiltros > 1 ? 's' : ''}`;
+        activeFiltersCount.style.display = 'inline-block';
+    } else {
+        filterBadge.style.display = 'none';
+        activeFiltersCount.style.display = 'none';
+    }
+    
+    // Renderizar resultados
+    renderCardsReais(filtrados);
+    
+    // Atualizar contador de resultados
+    document.getElementById('results-count').textContent = 
+        `${filtrados.length} ${filtrados.length === 1 ? 'profissional' : 'profissionais'}`;
+}
+
+// FUNÇÃO AUXILIAR PARA PEGAR VALORES SELECIONADOS
+function getCheckedValues(filterName) {
+    return Array.from(document.querySelectorAll(`input[name="${filterName}"]:checked`))
+        .map(checkbox => checkbox.value);
+}
+
+// FUNÇÃO PARA LIMPAR TODOS OS FILTROS
+function limparTodosFiltros() {
+    document.querySelectorAll('.filter-option:checked').forEach(checkbox => {
+        checkbox.checked = false;
+    });
+    
+    // Re-renderizar todos os personais
+    renderCardsReais(allPersonais);
+    
+    // Resetar contadores
+    document.getElementById('filterBadge').style.display = 'none';
+    document.getElementById('activeFiltersCount').style.display = 'none';
+    document.getElementById('results-count').textContent = 
+        `${allPersonais.length} ${allPersonais.length === 1 ? 'profissional' : 'profissionais'}`;
+}
+
+// FUNÇÃO DE BUSCA POR NOME
+function buscarPorNome() {
+    const searchInput = document.getElementById('searchInput');
+    const termo = searchInput.value.toLowerCase().trim();
+    
+    if (!termo) {
+        aplicarFiltrosReais(); // Volta aos filtros atuais
+        return;
+    }
+    
+    const resultados = allPersonais.filter(personal => 
+        personal.nome.toLowerCase().includes(termo) ||
+        (personal.especialidade && personal.especialidade.toLowerCase().includes(termo)) ||
+        (personal.descricao && personal.descricao.toLowerCase().includes(termo))
+    );
+    
+    renderCardsReais(resultados);
+    document.getElementById('results-count').textContent = 
+        `${resultados.length} ${resultados.length === 1 ? 'profissional' : 'profissionais'}`;
+}
+
+    // Sistema de filtros
+    const filtersToggleBtn = document.getElementById('filtersToggleBtn');
+    const filtersSidebar = document.getElementById('filtersSidebar');
+    const filtersOverlay = document.getElementById('filtersOverlay');
+    const closeFiltersBtn = document.getElementById('closeFiltersBtn');
+    const filterBadge = document.getElementById('filterBadge');
+    const activeFiltersCount = document.getElementById('activeFiltersCount');
+    const applyFiltersBtn = document.getElementById('applyFiltersBtn');
+    const clearFiltersBtn = document.getElementById('clearFiltersBtn');
+    const clearAllFiltersBtn = document.getElementById('clear-all-filters-btn');
+
+    // Filtros ativos
+    let activeFilters = {
+        genero: [],
+        especialidade: [],
+        experiencia: [],
+        localizacao: [],
+        modalidade: []
+    };
+
+    // Função para abrir/fechar filtros
+    function toggleFilters() {
+        const isOpen = filtersSidebar.classList.contains('show');
+        
+        if (!isOpen) {
+            filtersSidebar.classList.add('show');
+            filtersOverlay.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        } else {
+            filtersSidebar.classList.remove('show');
+            filtersOverlay.classList.remove('show');
+            document.body.style.overflow = '';
+        }
+    }
+
+    // Função para atualizar contador de filtros
+    function updateFilterCount() {
+        let totalFilters = 0;
+        Object.values(activeFilters).forEach(category => {
+            totalFilters += category.length;
+        });
+        
+        if (totalFilters > 0) {
+            filterBadge.textContent = totalFilters;
+            filterBadge.style.display = 'flex';
+            activeFiltersCount.textContent = `${totalFilters} filtro${totalFilters > 1 ? 's' : ''} ativo${totalFilters > 1 ? 's' : ''}`;
+            activeFiltersCount.style.display = 'inline-block';
+        } else {
+            filterBadge.style.display = 'none';
+            activeFiltersCount.style.display = 'none';
+        }
+    }
+
+    // Função para coletar filtros selecionados
+    function getSelectedFilters() {
+        const selectedGenero = Array.from(document.querySelectorAll('input[name="genero"]:checked'))
+            .map(checkbox => checkbox.value);
+        
+        const selectedEspecialidade = Array.from(document.querySelectorAll('input[name="especialidade"]:checked'))
+            .map(checkbox => checkbox.value);
+        
+        const selectedExperiencia = Array.from(document.querySelectorAll('input[name="experiencia"]:checked'))
+            .map(checkbox => checkbox.value);
+        
+        const selectedLocalizacao = Array.from(document.querySelectorAll('input[name="localizacao"]:checked'))
+            .map(checkbox => checkbox.value);
+        
+        const selectedModalidade = Array.from(document.querySelectorAll('input[name="modalidade"]:checked'))
+            .map(checkbox => checkbox.value);
+        
+        activeFilters = {
+            genero: selectedGenero,
+            especialidade: selectedEspecialidade,
+            experiencia: selectedExperiencia,
+            localizacao: selectedLocalizacao,
+            modalidade: selectedModalidade
+        };
+        
+        updateFilterCount();
+        return activeFilters;
+    }
+
+    // Função para verificar experiência
+    function checkExperiencia(expNum, selectedExperiencia) {
+        if (selectedExperiencia.length === 0) return true;
+        
+        return selectedExperiencia.some(range => {
+            if (range === "1-3") return expNum >= 1 && expNum <= 3;
+            if (range === "4-7") return expNum >= 4 && expNum <= 7;
+            if (range === "8+") return expNum >= 8;
+            return false;
+        });
+    }
+
+    // Função para aplicar filtros
+    function applyFilters() {
+        const filters = getSelectedFilters();
+        
+        const filtered = personaisData.filter(personal => {
+            // Verificar filtros de gênero
+            if (filters.genero.length > 0 && !filters.genero.includes(personal.genero)) {
+                return false;
+            }
+            
+            // Verificar filtros de especialidade
+            if (filters.especialidade.length > 0 && !filters.especialidade.includes(personal.especialidade)) {
+                return false;
+            }
+            
+            // Verificar filtros de experiência
+            if (filters.experiencia.length > 0 && !checkExperiencia(personal.experienciaNum, filters.experiencia)) {
+                return false;
+            }
+            
+            // Verificar filtros de localização
+            if (filters.localizacao.length > 0 && !filters.localizacao.includes(personal.localizacao)) {
+                return false;
+            }
+            
+            // Verificar filtros de modalidade
+            if (filters.modalidade.length > 0) {
+                const hasModalidade = filters.modalidade.some(modal => 
+                    personal.modalidades.includes(modal)
+                );
+                if (!hasModalidade) return false;
+            }
+            
+            return true;
+        });
+        
+        renderCards(filtered);
+        
+        // Fechar filtros no mobile após aplicar
+        if (window.innerWidth <= 768) {
+            setTimeout(() => toggleFilters(), 300);
+        }
+    }
+
+    // Função para limpar todos os filtros
+    function clearAllFilters() {
+        document.querySelectorAll('.filter-option').forEach(checkbox => {
+            checkbox.checked = false;
+        });
+        
+        activeFilters = {
+            genero: [],
+            especialidade: [],
+            experiencia: [],
+            localizacao: [],
+            modalidade: []
+        };
+        
+        updateFilterCount();
+        renderCards(personaisData);
+    }
+
+    // Função para renderizar cards
+    function renderCards(personais) {
+        const container = document.getElementById('cards-container');
+        const template = document.getElementById('personal-card-template');
+        const noResults = document.getElementById('no-results');
+        const resultsCount = document.getElementById('results-count');
+        
+        container.innerHTML = '';
+        
+        if (personais.length === 0) {
+            noResults.style.display = 'block';
+            resultsCount.textContent = '0 profissionais';
+            return;
+        }
+        
+        noResults.style.display = 'none';
+        resultsCount.textContent = `${personais.length} ${personais.length === 1 ? 'profissional' : 'profissionais'}`;
+        
+        personais.forEach(personal => {
+            const card = template.content.cloneNode(true);
+            
+            // Preencher dados básicos
+            card.querySelector('[data-field="nome"]').textContent = personal.nome;
+            card.querySelector('[data-field="clientes"]').textContent = personal.clientes;
+            card.querySelector('[data-field="experiencia"]').textContent = personal.experiencia;
+            card.querySelector('[data-field="avaliacao"]').textContent = personal.avaliacao;
+            card.querySelector('[data-field="modalidades-count"]').textContent = personal.modalidades.length;
+            card.querySelector('[data-field="localizacao"]').textContent = personal.localizacao;
+            card.querySelector('[data-field="formacao"]').textContent = personal.formacao;
+            card.querySelector('[data-field="horarios"]').textContent = personal.horarios;
+            card.querySelector('[data-field="bio"]').textContent = personal.bio;
+            card.querySelector('[data-field="whatsapp"]').href = personal.whatsapp;
+            
+            // Configurar avatar
+            const avatarIcon = card.querySelector('[data-field="avatar-icon"]');
+            if (personal.genero === 'Masculino') {
+                avatarIcon.innerHTML = '<i class="fas fa-male"></i>';
+            } else {
+                avatarIcon.innerHTML = '<i class="fas fa-female"></i>';
+            }
+            
+            // Adicionar especializações
+            const especializacoesContainer = card.querySelector('[data-field="especializacoes"]');
+            personal.especializacoes.forEach(esp => {
+                const tag = document.createElement('span');
+                tag.className = 'specialty-tag';
+                tag.textContent = esp;
+                especializacoesContainer.appendChild(tag);
+            });
+            
+            container.appendChild(card);
+        });
+    }
+
+    // INICIALIZAÇÃO
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Carregar personais reais do servidor
+    carregarPersonaisReais();
+    
+    // 2. Configurar eventos dos botões de filtro (mantenha seu código existente)
+    const filtersToggleBtn = document.getElementById('filtersToggleBtn');
+    const filtersSidebar = document.getElementById('filtersSidebar');
+    const filtersOverlay = document.getElementById('filtersOverlay');
+    const closeFiltersBtn = document.getElementById('closeFiltersBtn');
+    const applyFiltersBtn = document.getElementById('applyFiltersBtn');
+    const clearFiltersBtn = document.getElementById('clearFiltersBtn');
+    const clearAllFiltersBtn = document.getElementById('clear-all-filters-btn');
+    const searchInput = document.getElementById('searchInput');
+    
+    // Função para abrir/fechar filtros (mantenha sua função existente)
+    function toggleFilters() {
+        const isOpen = filtersSidebar.classList.contains('show');
+        
+        if (!isOpen) {
+            filtersSidebar.classList.add('show');
+            filtersOverlay.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        } else {
+            filtersSidebar.classList.remove('show');
+            filtersOverlay.classList.remove('show');
+            document.body.style.overflow = '';
+        }
+    }
+    
+    filtersToggleBtn.addEventListener('click', toggleFilters);
+    closeFiltersBtn.addEventListener('click', toggleFilters);
+    filtersOverlay.addEventListener('click', toggleFilters);
+    
+    // 3. Configurar eventos (use as novas funções)
+    applyFiltersBtn.addEventListener('click', aplicarFiltrosReais);
+    clearFiltersBtn.addEventListener('click', limparTodosFiltros);
+    clearAllFiltersBtn.addEventListener('click', limparTodosFiltros);
+    
+    // 4. Busca por nome
+    searchInput.addEventListener('input', buscarPorNome);
+    
+    // 5. Fechar filtros com ESC
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && filtersSidebar.classList.contains('show')) {
+            toggleFilters();
+        }
+    });
+    
+    // 6. Auto-aplicar filtros no desktop (opcional)
+    if (window.innerWidth > 768) {
+        setTimeout(() => {
+            document.querySelectorAll('.filter-option').forEach(checkbox => {
+                checkbox.addEventListener('change', aplicarFiltrosReais);
+            });
+        }, 1000);
+    }
+});
+</script>
+
+<script src="menu.js"></script>
+<script src="global-notifications.js"></script>
+<script src="user-manager.js"></script>
+<script src="user-header.js"></script>
+
+</body>
+</html>

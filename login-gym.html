@@ -1,0 +1,1119 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Login Gym P2 | Fitness e Bem-Estar</title>
+  <style>
+   * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+:root {
+  --bg: #0b0f0c;
+  --card: #0f1a12;
+  --accent: #00ff40;
+  --accent-dark: #00cc33;
+  --muted: #8fa596;
+  --glass: rgba(255, 255, 255, 0.04);
+}
+
+body {
+  background-color: black;
+  min-height: 100vh;
+  color: #e6f5eb;
+  position: relative;
+  overflow-x: hidden;
+}
+
+#bgCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 24px;
+  position: relative;
+  z-index: 2;
+}
+
+.container {
+  width: 100%;
+  max-width: 1100px;
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 32px;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.slider-area {
+  height: 560px;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 255, 64, 0.1);
+}
+
+.slider {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transform: translateX(100%);
+  transition: transform 0.8s cubic-bezier(.2, .8, .2, 1), opacity 0.6s;
+  opacity: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: 32px;
+}
+
+.slide.active {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.slide.prev {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+/* TEXTO SOBRE AS IMAGENS - ESTILO ATUALIZADO */
+.slide-text {
+  position: absolute;
+  bottom: 50px;
+  left: 50px;
+  color: white;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease;
+  max-width: 600px;
+  z-index: 10;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.7));
+  padding: 24px;
+  border-radius: 8px;
+}
+
+.slide.active .slide-text {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.slide.prev .slide-text {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.slide-text h2 {
+  font-size: 32px;
+  margin-bottom: 12px;
+  font-weight: bold;
+  color: #00ff40;
+}
+
+.slide-text p {
+  font-size: 18px;
+  margin-bottom: 0;
+  color: #baffd6;
+  line-height: 1.4;
+}
+
+.slider-controls {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  z-index: 20;
+}
+
+.slider-controls button {
+  background: rgba(0, 255, 64, 0.08);
+  border: 1px solid rgba(0, 255, 64, 0.2);
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  color: #00ff40;
+  font-weight: 700;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: 0.2s;
+}
+
+.slider-controls button:hover {
+  background: rgba(0, 255, 64, 0.15);
+}
+
+.dots {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.dots button {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 0;
+  background: rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+}
+
+.dots button.active {
+  background: var(--accent);
+  transform: scale(1.15);
+}
+
+.form-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-box {
+  width: 100%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 255, 64, 0.02));
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0, 255, 64, 0.15);
+  border: 1px solid rgba(0, 255, 64, 0.1);
+  backdrop-filter: blur(10px);
+  position: relative;
+  z-index: 2;
+}
+
+.toggle-btns {
+  position: relative;
+  display: flex;
+  background: rgba(0, 255, 64, 0.05);
+  border-radius: 10px;
+  padding: 6px;
+  gap: 6px;
+  width: 100%;
+  box-shadow: inset 0 1px rgba(0, 255, 64, 0.05);
+}
+
+.toggle-btns button {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 10px 14px;
+  color: var(--muted);
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+  font-size: 12px;
+}
+
+.toggle-btns button.active {
+  color: #00ff40;
+  text-shadow: 0 0 6px #00ff40;
+}
+
+.indicator {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  width: calc(50% - 8px);
+  left: 6px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, rgba(0, 255, 64, 0.25), rgba(0, 255, 64, 0.1));
+  transition: left 0.35s cubic-bezier(.2, .8, .2, 1);
+  z-index: 1;
+}
+
+.forms {
+  margin-top: 18px;
+}
+
+.form {
+  display: none;
+  gap: 12px;
+}
+
+.form.active {
+  display: block;
+}
+
+label {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 255, 64, 0.15);
+  background: rgba(0, 255, 64, 0.03);
+  color: #e6f5eb;
+  outline: none;
+  font-size: 14px;
+  transition: border 0.2s;
+}
+
+input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 6px rgba(0, 255, 64, 0.2);
+}
+
+.password-field {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.show-pass {
+  border: none;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  background: rgba(0, 255, 64, 0.05);
+  color: var(--muted);
+  transition: 0.2s;
+  flex-shrink: 0;
+}
+
+.show-pass:hover {
+  color: #00ff40;
+}
+
+.form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+  gap: 12px;
+}
+
+.remember {
+  font-size: 13px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.submit {
+  background: linear-gradient(90deg, var(--accent-dark), var(--accent));
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 0 10px rgba(0, 255, 64, 0.25);
+  transition: 0.2s;
+}
+
+.submit:hover:not(:disabled) {
+  background: linear-gradient(90deg, var(--accent), #66ff80);
+  box-shadow: 0 0 15px rgba(0, 255, 64, 0.4);
+}
+
+.submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.small {
+  margin-top: 14px;
+  color: var(--muted);
+  text-align: center;
+  font-size: 13px;
+}
+
+.message {
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.message.success {
+  background: rgba(0, 255, 64, 0.1);
+  color: #00ff40;
+  border: 1px solid rgba(0, 255, 64, 0.2);
+}
+
+.message.error {
+  background: rgba(255, 0, 0, 0.1);
+  color: #ff6b6b;
+  border: 1px solid rgba(255, 0, 0, 0.2);
+}
+
+.loading {
+  display: none;
+  text-align: center;
+  color: var(--accent);
+  margin: 10px 0;
+}
+
+.loading.active {
+  display: block;
+}
+
+/* Para responsividade */
+@media (max-width: 960px) {
+  .container {
+    grid-template-columns: 1fr;
+    max-width: 760px;
+    gap: 18px;
+  }
+
+  .slider-area {
+    order: 2;
+    height: 420px;
+  }
+
+  .form-area {
+    order: 1;
+  }
+
+  .slide-text {
+    left: 20px;
+    bottom: 20px;
+    padding: 16px;
+  }
+  
+  .slide-text h2 {
+    font-size: 24px;
+  }
+  
+  .slide-text p {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    gap: 16px;
+  }
+
+  .slider-area {
+    height: 320px;
+  }
+
+  .slide-text {
+    left: 15px;
+    bottom: 15px;
+    padding: 12px;
+    max-width: 90%;
+  }
+  
+  .slide-text h2 {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+  
+  .slide-text p {
+    font-size: 14px;
+  }
+
+  .form-box {
+    padding: 16px;
+  }
+
+  .toggle-btns button {
+    padding: 8px 10px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .slider-area {
+    height: 280px;
+  }
+  
+  .slide-text h2 {
+    font-size: 18px;
+  }
+  
+  .slide-text p {
+    font-size: 13px;
+  }
+  
+  .slide {
+    padding: 15px;
+  }
+}
+  </style>
+</head>
+<body>
+  <canvas id="bgCanvas"></canvas>
+
+  <div class="login-container">
+    <div class="container">
+      <section class="slider-area">
+        <div class="slider">
+          <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1558611848-73f7eb4001a1?auto=format&fit=crop&w=1200&q=80')">
+            <div class="slide-text">
+              <h2>Bem-vindo ao GymP2</h2>
+              <p>Sistema completo de gestão para academias</p>
+            </div>
+          </div>
+          <div class="slide" style="background-image: url('https://www.pontotel.com.br/local/wp-content/uploads/2021/12/auxilio-academia.webp')">
+            <div class="slide-text">
+              <h2>Controle Total</h2>
+              <p>Gerencie alunos, financeiro e treinos em uma plataforma</p>
+            </div>
+          </div>
+          <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1605296867304-46d5465a13f1?auto=format&fit=crop&w=1200&q=80')">
+            <div class="slide-text">
+              <h2>Relatórios Detalhados</h2>
+              <p>Análises completas para tomada de decisão inteligente</p>
+            </div>
+          </div>
+        </div>
+        <div class="slider-controls">
+          <button id="prev">&lt;</button>
+          <div class="dots"></div>
+          <button id="next">&gt;</button>
+        </div>
+      </section>
+
+      <section class="form-area">
+        <div class="form-box">
+          <div class="form-header">
+            <div class="toggle-btns">
+              <button id="btn-login" class="active">Login</button>
+              <button id="btn-signup">Sign up</button>
+              <div id="slider-indicator" class="indicator"></div>
+            </div>
+          </div>
+
+          <div class="forms">
+            <form id="login-form" class="form active">
+              <div id="login-message"></div>
+              <div id="login-loading" class="loading">⏳ Autenticando...</div>
+              <label>
+                <span>Email</span>
+                <input type="email" placeholder="seu@exemplo.com" required id="login-email" autocomplete="email" />
+              </label>
+              <label>
+                <span>Senha</span>
+                <div class="password-field">
+                  <input type="password" placeholder="••••••••" required id="login-password" autocomplete="current-password" />
+                  <button type="button" class="show-pass" data-target="login-password">👁</button>
+                </div>
+              </label>
+              <div class="form-actions">
+                <label class="remember">
+                  <input type="checkbox" id="remember-me" /> Lembrar-me
+                </label>
+                <button type="submit" class="submit" id="btn-submit-login">Entrar</button>
+              </div>
+            </form>
+
+            <form id="signup-form" class="form">
+              <div id="signup-message"></div>
+              <div id="signup-loading" class="loading">⏳ Criando conta...</div>
+              <label>
+                <span>Nome</span>
+                <input type="text" placeholder="Seu nome completo" required id="signup-name" autocomplete="name" />
+              </label>
+              <label>
+                <span>Email</span>
+                <input type="email" placeholder="seu@exemplo.com" required id="signup-email" autocomplete="email" />
+              </label>
+              <label>
+                <span>Senha (mínimo 6 caracteres)</span>
+                <div class="password-field">
+                  <input type="password" placeholder="••••••••" required id="signup-password" minlength="6" autocomplete="new-password" />
+                  <button type="button" class="show-pass" data-target="signup-password">👁</button>
+                </div>
+              </label>
+              <div class="form-actions">
+                <button type="submit" class="submit" id="btn-submit-signup">Criar conta</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    // ============= CONFIGURAÇÃO =============
+    const API_URL = 'http://localhost:3000';
+
+    // ============= ANIMAÇÃO DE FUNDO =============
+    const canvas = document.getElementById('bgCanvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Particle {
+      constructor() {
+        this.reset();
+      }
+
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.z = Math.random() * 2 + 0.5;
+        this.size = this.z * 2;
+        this.alpha = Math.random() * 0.7 + 0.3;
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.fillStyle = `rgba(0, 255, 100, ${this.alpha})`;
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function initParticles() {
+      particles = [];
+      for (let i = 0; i < 100; i++) {
+        particles.push(new Particle());
+      }
+    }
+
+    function animate() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => p.draw());
+      requestAnimationFrame(animate);
+    }
+
+    initParticles();
+    animate();
+
+    // ============= API HANDLER =============
+    class SecureAPI {
+      constructor(baseURL) {
+        this.baseURL = baseURL;
+      }
+
+      async request(endpoint, data = null, method = 'POST') {
+        try {
+          const options = {
+            method,
+            headers: { 'Content-Type': 'application/json' }
+          };
+
+          if (data) {
+            options.body = JSON.stringify(data);
+          }
+
+          const response = await fetch(`${this.baseURL}${endpoint}`, options);
+          const result = await response.json();
+
+          return result;
+        } catch (error) {
+          console.error('Erro na requisição:', error);
+          return { 
+            success: false, 
+            message: 'Erro ao conectar com o servidor. Verifique se está rodando.' 
+          };
+        }
+      }
+
+      async cadastro(name, email, password) {
+        return await this.request('/cadastro', { name, email, password });
+      }
+
+      async login(email, password) {
+        return await this.request('/login', { email, password });
+      }
+
+      async verificarSessao(token) {
+        return await this.request('/verificar-sessao', { token });
+      }
+
+      async logout(token) {
+        return await this.request('/logout', { token });
+      }
+    }
+
+    const api = new SecureAPI(API_URL);
+
+    // ============= GERENCIAMENTO DE SESSÃO =============
+    class SessionManager {
+      constructor() {
+        this.tokenKey = 'gymp2_token';
+        this.userKey = 'gymp2_user';
+      }
+
+      saveSession(token, user) {
+        sessionStorage.setItem(this.tokenKey, token);
+        sessionStorage.setItem(this.userKey, JSON.stringify(user));
+      }
+
+      getToken() {
+        return sessionStorage.getItem(this.tokenKey);
+      }
+
+      getUser() {
+        const userData = sessionStorage.getItem(this.userKey);
+        return userData ? JSON.parse(userData) : null;
+      }
+
+      clearSession() {
+        sessionStorage.removeItem(this.tokenKey);
+        sessionStorage.removeItem(this.userKey);
+      }
+
+      async checkSession() {
+        const token = this.getToken();
+        if (!token) return null;
+
+        const result = await api.verificarSessao(token);
+        if (result.success) {
+          return result.user;
+        } else {
+          this.clearSession();
+          return null;
+        }
+      }
+    }
+
+    const session = new SessionManager();
+
+    // ============= UTILITÁRIOS =============
+    function showMessage(elementId, message, type = 'success') {
+      const element = document.getElementById(elementId);
+      element.innerHTML = `<div class="message ${type}">${message}</div>`;
+      setTimeout(() => {
+        element.innerHTML = '';
+      }, 5000);
+    }
+
+    function showLoading(elementId, show = true) {
+      const element = document.getElementById(elementId);
+      if (show) {
+        element.classList.add('active');
+      } else {
+        element.classList.remove('active');
+      }
+    }
+
+    function disableButton(buttonId, disabled = true) {
+      const button = document.getElementById(buttonId);
+      button.disabled = disabled;
+    }
+
+ // MODIFIQUE A FUNÇÃO redirectToMainPage():
+function redirectToMainPage(user) {
+    console.log('🚀 SALVANDO USUÁRIO ANTES DE REDIRECIONAR:', user);
+    
+    // SALVAR EM TRÊS LUGARES PARA GARANTIR
+    localStorage.setItem('currentUser', JSON.stringify(user));
+    localStorage.setItem('gymp2_current_user', JSON.stringify(user));
+    
+    // Limpar qualquer verificação pendente
+    localStorage.removeItem('redirecting');
+    
+    // Adicionar flag para evitar loops
+    sessionStorage.setItem('justLoggedIn', 'true');
+    
+    // Disparar evento global
+    window.dispatchEvent(new CustomEvent('userLoginSuccess', {
+        detail: { user: user }
+    }));
+    
+    console.log('🔗 Redirecionando para página principal...');
+    
+    // REDIRECIONAR IMEDIATAMENTE - SEM DELAY
+    window.location.href = 'Menu-inicial-sem-logar.html';
+}
+    // ============= EVENTOS DE LOGIN =============
+document.getElementById('login-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById('login-email').value.trim();
+    const password = document.getElementById('login-password').value;
+
+    disableButton('btn-submit-login', true);
+    showLoading('login-loading', true);
+
+    try {
+        const result = await api.login(email, password);
+
+        showLoading('login-loading', false);
+        disableButton('btn-submit-login', false);
+
+        if (result.success) {
+            // Salvar na sessão
+            session.saveSession(result.token, result.user);
+            
+            // Mostrar mensagem
+            showMessage('login-message', result.message, 'success');
+            
+            console.log('✅ Login bem-sucedido, redirecionando...');
+            
+            // Redirecionar IMEDIATAMENTE
+            redirectToMainPage(result.user);
+            
+        } else {
+            showMessage('login-message', result.message, 'error');
+        }
+    } catch (error) {
+        showLoading('login-loading', false);
+        disableButton('btn-submit-login', false);
+        showMessage('login-message', 'Erro no servidor. Tente novamente.', 'error');
+        console.error('❌ Erro no login:', error);
+    }
+});
+    // ============= EVENTOS DE CADASTRO =============
+    document.getElementById('signup-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('signup-name').value.trim();
+      const email = document.getElementById('signup-email').value.trim();
+      const password = document.getElementById('signup-password').value;
+
+      if (password.length < 6) {
+        showMessage('signup-message', 'Senha deve ter no mínimo 6 caracteres', 'error');
+        return;
+      }
+
+      disableButton('btn-submit-signup', true);
+      showLoading('signup-loading', true);
+
+      const result = await api.cadastro(name, email, password);
+
+      showLoading('signup-loading', false);
+      disableButton('btn-submit-signup', false);
+
+      if (result.success) {
+        showMessage('signup-message', result.message, 'success');
+        
+        // Faz login automático após cadastro
+        setTimeout(async () => {
+          const loginResult = await api.login(email, password);
+          if (loginResult.success) {
+            session.saveSession(loginResult.token, loginResult.user);
+            redirectToMainPage(loginResult.user);
+          }
+        }, 2000);
+      } else {
+        showMessage('signup-message', result.message, 'error');
+      }
+    });
+   // ============= SLIDER DE IMAGENS =============
+    (function() {
+        const slides = Array.from(document.querySelectorAll('.slide'));
+        const dotsContainer = document.querySelector('.dots');
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+        let current = 0;
+        let interval = null;
+
+        // Criar dots
+        slides.forEach((_, i) => {
+            const b = document.createElement('button');
+            if (i === 0) b.classList.add('active');
+            b.addEventListener('click', () => goTo(i));
+            dotsContainer.appendChild(b);
+        });
+
+        const dots = Array.from(dotsContainer.children);
+
+        function updateSlides() {
+            slides.forEach((s, i) => {
+                s.classList.remove('active', 'prev');
+                if (i === current) s.classList.add('active');
+                else if (i === (current - 1 + slides.length) % slides.length) s.classList.add('prev');
+            });
+            dots.forEach((d, i) => d.classList.toggle('active', i === current));
+        }
+
+        function goTo(index) {
+            current = (index + slides.length) % slides.length;
+            updateSlides();
+            restart();
+        }
+
+        function next() {
+            goTo(current + 1);
+        }
+
+        function prev() {
+            goTo(current - 1);
+        }
+
+        nextBtn.addEventListener('click', next);
+        prevBtn.addEventListener('click', prev);
+
+        function start() {
+            if (interval) clearInterval(interval);
+            interval = setInterval(next, 5000);
+        }
+
+        function stop() {
+            if (interval) clearInterval(interval);
+        }
+
+        function restart() {
+            stop();
+            start();
+        }
+
+        const sliderArea = document.querySelector('.slider-area');
+        if (sliderArea) {
+            sliderArea.addEventListener('mouseenter', stop);
+            sliderArea.addEventListener('mouseleave', start);
+        }
+
+        updateSlides();
+        start();
+
+
+    // ============= FORMULÁRIOS =============
+    const btnLogin = document.getElementById('btn-login');
+    const btnSignup = document.getElementById('btn-signup');
+    const indicator = document.getElementById('slider-indicator');
+    const loginForm = document.getElementById('login-form');
+    const signupForm = document.getElementById('signup-form');
+    const showPassBtns = document.querySelectorAll('.show-pass');
+
+    btnLogin.addEventListener('click', () => {
+      btnLogin.classList.add('active');
+      btnSignup.classList.remove('active');
+      indicator.style.left = '6px';
+      loginForm.classList.add('active');
+      signupForm.classList.remove('active');
+    });
+
+    btnSignup.addEventListener('click', () => {
+      btnSignup.classList.add('active');
+      btnLogin.classList.remove('active');
+      indicator.style.left = 'calc(50% + 2px)';
+      signupForm.classList.add('active');
+      loginForm.classList.remove('active');
+    });
+
+    showPassBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.getAttribute('data-target');
+        const input = document.getElementById(targetId);
+        if (input.type === 'password') {
+          input.type = 'text';
+          btn.textContent = '🙈';
+        } else {
+          input.type = 'password';
+          btn.textContent = '👁';
+        }
+      });
+    });
+  // ============= BACKGROUND ANIMADO =============
+        const canvas = document.getElementById('bgCanvas');
+        if (canvas) {
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let animationId = null;
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 2 + 0.5;
+                    this.speedX = Math.random() * 0.5 - 0.25;
+                    this.speedY = Math.random() * 0.5 - 0.25;
+                   this.color = `rgba(0, 255, 64, ${Math.random() * 0.3 + 0.1})`;
+
+                }
+
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+
+                    if (this.x > canvas.width) this.x = 0;
+                    else if (this.x < 0) this.x = canvas.width;
+                    if (this.y > canvas.height) this.y = 0;
+                    else if (this.y < 0) this.y = canvas.height;
+                }
+
+                draw() {
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            function initParticles() {
+                particles = [];
+                const particleCount = Math.floor((canvas.width * canvas.height) / 15000);
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push(new Particle());
+                }
+            }
+
+            function connectParticles() {
+                const maxDistance = 100;
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+
+                        if (distance < maxDistance) {
+                           ctx.strokeStyle = `rgba(0, 255, 64, ${0.1 * (1 - distance / maxDistance)})`;
+                            ctx.lineWidth = 0.5;
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(particle => {
+                    particle.update();
+                    particle.draw();
+                });
+                connectParticles();
+                animationId = requestAnimationFrame(animate);
+            }
+
+            function initBackground() {
+                resizeCanvas();
+                initParticles();
+                if (animationId) cancelAnimationFrame(animationId);
+                animate();
+            }
+
+            window.addEventListener('resize', () => {
+                resizeCanvas();
+                initParticles();
+            });
+
+            // Iniciar animação do background
+            initBackground();
+        }
+    })();
+    // ============= TOGGLE LOGIN/SIGNUP =============
+    (function () {
+      const btnLogin = document.getElementById('btn-login');
+      const btnSignup = document.getElementById('btn-signup');
+      const indicator = document.getElementById('slider-indicator');
+      const loginForm = document.getElementById('login-form');
+      const signupForm = document.getElementById('signup-form');
+
+      function showLogin() {
+        btnLogin.classList.add('active');
+        btnSignup.classList.remove('active');
+        indicator.style.left = '6px';
+        loginForm.classList.add('active');
+        signupForm.classList.remove('active');
+      }
+
+      function showSignup() {
+        btnSignup.classList.add('active');
+        btnLogin.classList.remove('active');
+        indicator.style.left = 'calc(50% + 6px)';
+        signupForm.classList.add('active');
+        loginForm.classList.remove('active');
+      }
+
+      btnLogin.addEventListener('click', showLogin);
+      btnSignup.addEventListener('click', showSignup);
+
+      if (location.hash === '#signup') showSignup();
+    })();
+
+    // ============= MOSTRAR/OCULTAR SENHA =============
+    document.querySelectorAll('.show-pass').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-target');
+        const input = document.getElementById(id);
+        if (!input) return;
+        
+        if (input.type === 'password') {
+          input.type = 'text';
+          btn.textContent = '🙈';
+        } else {
+          input.type = 'password';
+          btn.textContent = '👁';
+        }
+      });
+    });
+
+// ============= VERIFICAÇÃO DE SESSÃO =============
+window.addEventListener('DOMContentLoaded', async () => {
+    // Evitar verificação se já está logado via localStorage
+    const hasLocalUser = localStorage.getItem('currentUser') || localStorage.getItem('gymp2_current_user');
+    
+    if (hasLocalUser) {
+        console.log('✅ Usuário já logado via localStorage, ignorando session...');
+        return;
+    }
+    
+    // Apenas verificar sessionStorage se não houver localStorage
+    const user = await session.checkSession();
+    if (user) {
+        console.log('✅ Sessão ativa encontrada:', user.name);
+        
+        // Adicionar flag para evitar loops
+        sessionStorage.setItem('justLoggedIn', 'true');
+        
+        redirectToMainPage(user);
+    }
+});
+
+    // ============= FUNÇÃO DE LOGOUT (PARA OUTRAS PÁGINAS) =============
+    window.logout = async function() {
+      if (confirm('Deseja realmente sair?')) {
+        const token = session.getToken();
+        if (token) {
+          await api.logout(token);
+        }
+        session.clearSession();
+        window.location.href = 'login-gym.html';
+      }
+    };
+
+    console.log('🔒 Sistema de autenticação seguro carregado!');
+  </script>
+</body>
+</html>
