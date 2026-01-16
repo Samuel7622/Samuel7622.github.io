@@ -1,16 +1,16 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Login Gym P2 | Fitness e Bem-Estar</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
    * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 :root {
@@ -18,16 +18,29 @@
   --card: #0f1a12;
   --accent: #00ff40;
   --accent-dark: #00cc33;
+  --accent-glow: rgba(0, 255, 64, 0.4);
   --muted: #8fa596;
   --glass: rgba(255, 255, 255, 0.04);
+  --gradient-start: #00ff40;
+  --gradient-end: #00cc33;
+  --text-light: #e6f5eb;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.3);
+  --transition-fast: 0.2s ease;
+  --transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body {
-  background-color: black;
+  background-color: #000;
   min-height: 100vh;
-  color: #e6f5eb;
+  color: var(--text-light);
   position: relative;
   overflow-x: hidden;
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(0, 255, 64, 0.03) 0%, transparent 20%),
+    radial-gradient(circle at 90% 80%, rgba(0, 255, 64, 0.02) 0%, transparent 20%);
 }
 
 #bgCanvas {
@@ -37,6 +50,7 @@ body {
   width: 100%;
   height: 100%;
   z-index: 0;
+  opacity: 0.7;
 }
 
 .login-container {
@@ -49,29 +63,79 @@ body {
   z-index: 2;
 }
 
+/* Efeito de brilho dinâmico */
+.glow-effect {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: radial-gradient(circle at 50% 50%, var(--accent-glow) 0%, transparent 50%);
+  opacity: 0.1;
+  z-index: 1;
+  animation: pulseGlow 8s ease-in-out infinite alternate;
+}
+
+@keyframes pulseGlow {
+  0% {
+    opacity: 0.05;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0.15;
+    transform: scale(1.1);
+  }
+}
+
 .container {
   width: 100%;
-  max-width: 1100px;
+  max-width: 1200px;
   display: grid;
-  grid-template-columns: 1fr 420px;
-  gap: 32px;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 48px;
   align-items: center;
   position: relative;
   z-index: 2;
+  animation: fadeInUp 1s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .slider-area {
-  height: 560px;
-  border-radius: 16px;
+  height: 640px;
+  border-radius: 24px;
   overflow: hidden;
   position: relative;
-  box-shadow: 0 10px 30px rgba(0, 255, 64, 0.1);
+  box-shadow: 
+    0 20px 60px rgba(0, 255, 64, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(0, 255, 64, 0.1);
+  transform: translateZ(0);
+  transition: var(--transition-base);
+}
+
+.slider-area:hover {
+  transform: translateY(-5px);
+  box-shadow: 
+    0 25px 80px rgba(0, 255, 64, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .slider {
   position: relative;
   width: 100%;
   height: 100%;
+  border-radius: inherit;
+  overflow: hidden;
 }
 
 .slide {
@@ -80,11 +144,19 @@ body {
   background-size: cover;
   background-position: center;
   transform: translateX(100%);
-  transition: transform 0.8s cubic-bezier(.2, .8, .2, 1), opacity 0.6s;
+  transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.6s ease;
   opacity: 0;
   display: flex;
   align-items: flex-end;
-  padding: 32px;
+  padding: 40px;
+}
+
+.slide::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 50%);
+  z-index: 1;
 }
 
 .slide.active {
@@ -99,302 +171,554 @@ body {
 
 /* TEXTO SOBRE AS IMAGENS - ESTILO ATUALIZADO */
 .slide-text {
-  position: absolute;
-  bottom: 50px;
-  left: 50px;
-  color: white;
-  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.8s ease;
-  max-width: 600px;
+  position: relative;
   z-index: 10;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.7));
-  padding: 24px;
-  border-radius: 8px;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+  max-width: 600px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.8));
+  padding: 32px;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .slide.active .slide-text {
   opacity: 1;
   transform: translateY(0);
+  transition-delay: 0.3s;
 }
 
 .slide.prev .slide-text {
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(40px);
 }
 
 .slide-text h2 {
-  font-size: 32px;
-  margin-bottom: 12px;
-  font-weight: bold;
-  color: #00ff40;
+  font-size: 42px;
+  margin-bottom: 16px;
+  font-weight: 800;
+  background: linear-gradient(90deg, var(--accent), #66ff80);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 30px rgba(0, 255, 64, 0.3);
+  letter-spacing: -0.5px;
 }
 
 .slide-text p {
   font-size: 18px;
   margin-bottom: 0;
-  color: #baffd6;
-  line-height: 1.4;
+  color: #c6ffd6;
+  line-height: 1.6;
+  font-weight: 400;
 }
 
 .slider-controls {
   position: absolute;
-  left: 16px;
-  right: 16px;
-  bottom: 16px;
+  left: 24px;
+  right: 24px;
+  bottom: 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 16px;
   z-index: 20;
 }
 
 .slider-controls button {
-  background: rgba(0, 255, 64, 0.08);
+  background: rgba(0, 255, 64, 0.1);
   border: 1px solid rgba(0, 255, 64, 0.2);
-  width: 44px;
-  height: 44px;
-  border-radius: 8px;
-  color: #00ff40;
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  color: var(--accent);
   font-weight: 700;
   cursor: pointer;
-  backdrop-filter: blur(6px);
-  transition: 0.2s;
+  backdrop-filter: blur(10px);
+  transition: all var(--transition-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
 }
 
 .slider-controls button:hover {
-  background: rgba(0, 255, 64, 0.15);
+  background: rgba(0, 255, 64, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 255, 64, 0.2);
 }
 
 .dots {
   display: flex;
-  gap: 8px;
+  gap: 12px;
   align-items: center;
   justify-content: center;
   flex: 1;
 }
 
 .dots button {
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   border: 0;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.2);
   cursor: pointer;
+  transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
+}
+
+.dots button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--accent);
+  border-radius: inherit;
+  transform: scale(0);
+  transition: transform var(--transition-base);
 }
 
 .dots button.active {
-  background: var(--accent);
-  transform: scale(1.15);
+  background: transparent;
+}
+
+.dots button.active::before {
+  transform: scale(1);
+}
+
+.dots button:hover {
+  transform: scale(1.2);
 }
 
 .form-area {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+}
+
+/* Efeito de brilho atrás do formulário */
+.form-area::before {
+  content: '';
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+  filter: blur(60px);
+  opacity: 0.1;
+  z-index: -1;
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(180deg);
+  }
 }
 
 .form-box {
   width: 100%;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 255, 64, 0.02));
-  border-radius: 14px;
-  padding: 20px;
-  box-shadow: 0 10px 30px rgba(0, 255, 64, 0.15);
-  border: 1px solid rgba(0, 255, 64, 0.1);
-  backdrop-filter: blur(10px);
+  max-width: 480px;
+  background: linear-gradient(145deg, rgba(15, 26, 18, 0.9), rgba(11, 15, 12, 0.95));
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(0, 255, 64, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(0, 255, 64, 0.15);
+  backdrop-filter: blur(20px);
   position: relative;
   z-index: 2;
+  transform: translateZ(0);
+  transition: all var(--transition-base);
+}
+
+.form-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 
+    0 30px 80px rgba(0, 255, 64, 0.25),
+    0 0 0 1px rgba(0, 255, 64, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.form-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+  border-radius: 24px 24px 0 0;
+  opacity: 0.8;
 }
 
 .toggle-btns {
   position: relative;
   display: flex;
-  background: rgba(0, 255, 64, 0.05);
-  border-radius: 10px;
-  padding: 6px;
-  gap: 6px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 14px;
+  padding: 8px;
+  gap: 8px;
   width: 100%;
-  box-shadow: inset 0 1px rgba(0, 255, 64, 0.05);
+  margin-bottom: 10px;
+  box-shadow: 
+    inset 0 2px 4px rgba(0, 0, 0, 0.3),
+    0 1px 0 rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(0, 255, 64, 0.1);
 }
 
 .toggle-btns button {
   flex: 1;
   border: none;
   background: transparent;
-  padding: 10px 14px;
+  padding: 16px 24px;
   color: var(--muted);
   font-weight: 600;
   cursor: pointer;
   position: relative;
   z-index: 2;
-  font-size: 12px;
+  font-size: 15px;
+  letter-spacing: 0.3px;
+  transition: all var(--transition-base);
+  border-radius: 10px;
+}
+
+.toggle-btns button:hover {
+  color: #b8ffcc;
 }
 
 .toggle-btns button.active {
-  color: #00ff40;
-  text-shadow: 0 0 6px #00ff40;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(0, 255, 64, 0.5);
 }
 
 .indicator {
   position: absolute;
-  top: 6px;
-  bottom: 6px;
-  width: calc(50% - 8px);
-  left: 6px;
-  border-radius: 8px;
-  background: linear-gradient(90deg, rgba(0, 255, 64, 0.25), rgba(0, 255, 64, 0.1));
-  transition: left 0.35s cubic-bezier(.2, .8, .2, 1);
+  top: 8px;
+  bottom: 8px;
+  width: calc(50% - 12px);
+  left: 8px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, rgba(0, 255, 64, 0.3), rgba(0, 255, 64, 0.15));
+  transition: left 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   z-index: 1;
+  box-shadow: 
+    0 2px 8px rgba(0, 255, 64, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .forms {
-  margin-top: 18px;
+  margin-top: 24px;
 }
 
 .form {
   display: none;
-  gap: 12px;
+  opacity: 0;
+  transform: translateX(20px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 .form.active {
   display: block;
+  opacity: 1;
+  transform: translateX(0);
+  animation: formSlideIn 0.5s ease-out;
+}
+
+@keyframes formSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 label {
   display: block;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
   color: var(--muted);
   font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+
+label span {
+  display: block;
+  margin-bottom: 8px;
+  color: #b8ffcc;
+}
+
+.input-container {
+  position: relative;
 }
 
 input[type="text"],
 input[type="email"],
 input[type="password"] {
   width: 100%;
-  padding: 12px 12px;
-  border-radius: 8px;
-  border: 1px solid rgba(0, 255, 64, 0.15);
-  background: rgba(0, 255, 64, 0.03);
-  color: #e6f5eb;
+  padding: 16px 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 255, 64, 0.2);
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--text-light);
   outline: none;
-  font-size: 14px;
-  transition: border 0.2s;
+  font-size: 15px;
+  transition: all var(--transition-base);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 input:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 6px rgba(0, 255, 64, 0.2);
+  box-shadow: 
+    0 0 0 3px rgba(0, 255, 64, 0.2),
+    inset 0 2px 4px rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.input-icon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  font-size: 18px;
 }
 
 .password-field {
   display: flex;
-  gap: 8px;
+  gap: 12px;
   align-items: center;
 }
 
 .show-pass {
   border: none;
-  padding: 8px 10px;
-  border-radius: 8px;
+  padding: 12px 16px;
+  border-radius: 12px;
   cursor: pointer;
-  background: rgba(0, 255, 64, 0.05);
+  background: rgba(0, 255, 64, 0.08);
   color: var(--muted);
-  transition: 0.2s;
+  transition: all var(--transition-base);
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  min-height: 48px;
 }
 
 .show-pass:hover {
-  color: #00ff40;
+  background: rgba(0, 255, 64, 0.15);
+  color: var(--accent);
+  transform: scale(1.05);
 }
 
 .form-actions {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 8px;
-  gap: 12px;
+  margin-top: 20px;
+  gap: 16px;
 }
 
 .remember {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--muted);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.remember input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 255, 64, 0.3);
+  background: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  position: relative;
+  transition: all var(--transition-base);
+}
+
+.remember input[type="checkbox"]:checked {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.remember input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  color: #000;
+  font-weight: bold;
+  font-size: 12px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .submit {
   background: linear-gradient(90deg, var(--accent-dark), var(--accent));
   border: none;
-  padding: 10px 16px;
-  border-radius: 10px;
+  padding: 16px 32px;
+  border-radius: 14px;
   color: white;
   cursor: pointer;
   font-weight: 600;
-  box-shadow: 0 0 10px rgba(0, 255, 64, 0.25);
-  transition: 0.2s;
+  letter-spacing: 0.5px;
+  box-shadow: 
+    0 6px 20px rgba(0, 255, 64, 0.3),
+    0 0 0 1px rgba(0, 255, 64, 0.2);
+  transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: 140px;
+}
+
+.submit::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.7s ease;
 }
 
 .submit:hover:not(:disabled) {
   background: linear-gradient(90deg, var(--accent), #66ff80);
-  box-shadow: 0 0 15px rgba(0, 255, 64, 0.4);
+  box-shadow: 
+    0 10px 30px rgba(0, 255, 64, 0.5),
+    0 0 0 1px rgba(0, 255, 64, 0.3);
+  transform: translateY(-2px);
+}
+
+.submit:hover:not(:disabled)::before {
+  left: 100%;
 }
 
 .submit:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  transform: none;
+}
+
+.submit i {
+  font-size: 18px;
 }
 
 .small {
-  margin-top: 14px;
+  margin-top: 24px;
   color: var(--muted);
   text-align: center;
-  font-size: 13px;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 .message {
-  padding: 10px;
-  border-radius: 8px;
-  margin-bottom: 15px;
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 20px;
   text-align: center;
   font-weight: 500;
+  animation: messageSlideIn 0.5s ease-out;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid;
+}
+
+@keyframes messageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .message.success {
   background: rgba(0, 255, 64, 0.1);
-  color: #00ff40;
-  border: 1px solid rgba(0, 255, 64, 0.2);
+  color: #66ff80;
+  border-color: rgba(0, 255, 64, 0.2);
 }
 
 .message.error {
-  background: rgba(255, 0, 0, 0.1);
+  background: rgba(255, 50, 50, 0.1);
   color: #ff6b6b;
-  border: 1px solid rgba(255, 0, 0, 0.2);
+  border-color: rgba(255, 50, 50, 0.2);
 }
 
 .loading {
   display: none;
   text-align: center;
   color: var(--accent);
-  margin: 10px 0;
+  margin: 16px 0;
+  font-size: 16px;
 }
 
 .loading.active {
   display: block;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Elementos decorativos */
+.decorative-dots {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.decorative-dot {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  opacity: 0.3;
 }
 
 /* Para responsividade */
-@media (max-width: 960px) {
+@media (max-width: 1100px) {
   .container {
     grid-template-columns: 1fr;
-    max-width: 760px;
-    gap: 18px;
+    max-width: 800px;
+    gap: 32px;
   }
 
   .slider-area {
     order: 2;
-    height: 420px;
+    height: 480px;
   }
 
   .form-area {
@@ -402,13 +726,13 @@ input:focus {
   }
 
   .slide-text {
-    left: 20px;
-    bottom: 20px;
-    padding: 16px;
+    left: 24px;
+    bottom: 24px;
+    padding: 24px;
   }
   
   .slide-text h2 {
-    font-size: 24px;
+    font-size: 32px;
   }
   
   .slide-text p {
@@ -418,59 +742,101 @@ input:focus {
 
 @media (max-width: 768px) {
   .container {
-    gap: 16px;
+    gap: 24px;
   }
 
   .slider-area {
-    height: 320px;
+    height: 380px;
+    border-radius: 20px;
   }
 
   .slide-text {
-    left: 15px;
-    bottom: 15px;
-    padding: 12px;
+    left: 20px;
+    bottom: 20px;
+    padding: 20px;
     max-width: 90%;
   }
   
   .slide-text h2 {
-    font-size: 20px;
-    margin-bottom: 8px;
+    font-size: 26px;
+    margin-bottom: 12px;
+  }
+  
+  .slide-text p {
+    font-size: 15px;
+  }
+
+  .form-box {
+    padding: 24px;
+    border-radius: 20px;
+  }
+
+  .toggle-btns button {
+    padding: 14px 20px;
+    font-size: 14px;
+  }
+
+  .slider-controls button {
+    width: 46px;
+    height: 46px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-container {
+    padding: 16px;
+  }
+  
+  .slider-area {
+    height: 300px;
+    border-radius: 16px;
+  }
+  
+  .slide-text h2 {
+    font-size: 22px;
   }
   
   .slide-text p {
     font-size: 14px;
   }
-
-  .form-box {
-    padding: 16px;
-  }
-
-  .toggle-btns button {
-    padding: 8px 10px;
-    font-size: 11px;
-  }
-}
-
-@media (max-width: 480px) {
-  .slider-area {
-    height: 280px;
-  }
-  
-  .slide-text h2 {
-    font-size: 18px;
-  }
-  
-  .slide-text p {
-    font-size: 13px;
-  }
   
   .slide {
-    padding: 15px;
+    padding: 20px;
+  }
+
+  .form-box {
+    padding: 20px;
+  }
+  
+  .submit {
+    padding: 14px 24px;
+    min-width: 120px;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  
+  .remember {
+    justify-content: center;
   }
 }
   </style>
 </head>
 <body>
+  <!-- Efeito de brilho dinâmico -->
+  <div class="glow-effect"></div>
+  
+  <!-- Elementos decorativos -->
+  <div class="decorative-dots">
+    <div class="decorative-dot" style="top: 10%; left: 5%;"></div>
+    <div class="decorative-dot" style="top: 20%; right: 10%;"></div>
+    <div class="decorative-dot" style="bottom: 30%; left: 15%;"></div>
+    <div class="decorative-dot" style="bottom: 10%; right: 20%;"></div>
+  </div>
+  
   <canvas id="bgCanvas"></canvas>
 
   <div class="login-container">
@@ -480,26 +846,26 @@ input:focus {
           <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1558611848-73f7eb4001a1?auto=format&fit=crop&w=1200&q=80')">
             <div class="slide-text">
               <h2>Bem-vindo ao GymP2</h2>
-              <p>Sistema completo de gestão para academias</p>
+              <p>Sistema completo de gestão para academias. Transforme seu negócio fitness com ferramentas poderosas e intuitivas.</p>
             </div>
           </div>
-          <div class="slide" style="background-image: url('https://www.pontotel.com.br/local/wp-content/uploads/2021/12/auxilio-academia.webp')">
+          <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1200&q=80')">
             <div class="slide-text">
               <h2>Controle Total</h2>
-              <p>Gerencie alunos, financeiro e treinos em uma plataforma</p>
+              <p>Gerencie alunos, financeiro e treinos em uma plataforma integrada. Tudo que você precisa em um só lugar.</p>
             </div>
           </div>
           <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1605296867304-46d5465a13f1?auto=format&fit=crop&w=1200&q=80')">
             <div class="slide-text">
               <h2>Relatórios Detalhados</h2>
-              <p>Análises completas para tomada de decisão inteligente</p>
+              <p>Análises completas para tomada de decisão inteligente. Monitore o crescimento do seu negócio em tempo real.</p>
             </div>
           </div>
         </div>
         <div class="slider-controls">
-          <button id="prev">&lt;</button>
+          <button id="prev"><i class="fas fa-chevron-left"></i></button>
           <div class="dots"></div>
-          <button id="next">&gt;</button>
+          <button id="next"><i class="fas fa-chevron-right"></i></button>
         </div>
       </section>
 
@@ -507,8 +873,12 @@ input:focus {
         <div class="form-box">
           <div class="form-header">
             <div class="toggle-btns">
-              <button id="btn-login" class="active">Login</button>
-              <button id="btn-signup">Sign up</button>
+              <button id="btn-login" class="active">
+                <i class="fas fa-sign-in-alt"></i> Login
+              </button>
+              <button id="btn-signup">
+                <i class="fas fa-user-plus"></i> Sign up
+              </button>
               <div id="slider-indicator" class="indicator"></div>
             </div>
           </div>
@@ -516,47 +886,76 @@ input:focus {
           <div class="forms">
             <form id="login-form" class="form active">
               <div id="login-message"></div>
-              <div id="login-loading" class="loading">⏳ Autenticando...</div>
+              <div id="login-loading" class="loading">
+                <i class="fas fa-spinner fa-spin"></i> Autenticando...
+              </div>
               <label>
                 <span>Email</span>
-                <input type="email" placeholder="seu@exemplo.com" required id="login-email" autocomplete="email" />
+                <div class="input-container">
+                  <input type="email" placeholder="seu@exemplo.com" required id="login-email" autocomplete="email" />
+                  <div class="input-icon"><i class="fas fa-envelope"></i></div>
+                </div>
               </label>
               <label>
                 <span>Senha</span>
                 <div class="password-field">
-                  <input type="password" placeholder="••••••••" required id="login-password" autocomplete="current-password" />
-                  <button type="button" class="show-pass" data-target="login-password">👁</button>
+                  <div class="input-container" style="flex: 1;">
+                    <input type="password" placeholder="••••••••" required id="login-password" autocomplete="current-password" />
+                    <div class="input-icon"><i class="fas fa-lock"></i></div>
+                  </div>
+                  <button type="button" class="show-pass" data-target="login-password">
+                    <i class="fas fa-eye"></i>
+                  </button>
                 </div>
               </label>
               <div class="form-actions">
                 <label class="remember">
                   <input type="checkbox" id="remember-me" /> Lembrar-me
                 </label>
-                <button type="submit" class="submit" id="btn-submit-login">Entrar</button>
+                <button type="submit" class="submit" id="btn-submit-login">
+                  <i class="fas fa-sign-in-alt"></i> Entrar
+                </button>
               </div>
+              <p class="small">Esqueceu sua senha? <a href="#" style="color: var(--accent); text-decoration: none;">Clique aqui</a></p>
             </form>
 
             <form id="signup-form" class="form">
               <div id="signup-message"></div>
-              <div id="signup-loading" class="loading">⏳ Criando conta...</div>
+              <div id="signup-loading" class="loading">
+                <i class="fas fa-spinner fa-spin"></i> Criando conta...
+              </div>
               <label>
-                <span>Nome</span>
-                <input type="text" placeholder="Seu nome completo" required id="signup-name" autocomplete="name" />
+                <span>Nome completo</span>
+                <div class="input-container">
+                  <input type="text" placeholder="Seu nome completo" required id="signup-name" autocomplete="name" />
+                  <div class="input-icon"><i class="fas fa-user"></i></div>
+                </div>
               </label>
               <label>
                 <span>Email</span>
-                <input type="email" placeholder="seu@exemplo.com" required id="signup-email" autocomplete="email" />
+                <div class="input-container">
+                  <input type="email" placeholder="seu@exemplo.com" required id="signup-email" autocomplete="email" />
+                  <div class="input-icon"><i class="fas fa-envelope"></i></div>
+                </div>
               </label>
               <label>
                 <span>Senha (mínimo 6 caracteres)</span>
                 <div class="password-field">
-                  <input type="password" placeholder="••••••••" required id="signup-password" minlength="6" autocomplete="new-password" />
-                  <button type="button" class="show-pass" data-target="signup-password">👁</button>
+                  <div class="input-container" style="flex: 1;">
+                    <input type="password" placeholder="••••••••" required id="signup-password" minlength="6" autocomplete="new-password" />
+                    <div class="input-icon"><i class="fas fa-lock"></i></div>
+                  </div>
+                  <button type="button" class="show-pass" data-target="signup-password">
+                    <i class="fas fa-eye"></i>
+                  </button>
                 </div>
               </label>
               <div class="form-actions">
-                <button type="submit" class="submit" id="btn-submit-signup">Criar conta</button>
+                <button type="submit" class="submit" id="btn-submit-signup">
+                  <i class="fas fa-user-plus"></i> Criar conta
+                </button>
               </div>
+              <p class="small">Ao criar uma conta, você concorda com nossos <a href="#" style="color: var(--accent); text-decoration: none;">Termos de Serviço</a></p>
             </form>
           </div>
         </div>
@@ -568,10 +967,13 @@ input:focus {
     // ============= CONFIGURAÇÃO =============
     const API_URL = 'http://localhost:3000';
 
-    // ============= ANIMAÇÃO DE FUNDO =============
+    // ============= ANIMAÇÃO DE FUNDO MELHORADA =============
     const canvas = document.getElementById('bgCanvas');
     const ctx = canvas.getContext('2d');
     let particles = [];
+    let animationId = null;
+    let mouseX = 0;
+    let mouseY = 0;
 
     function resizeCanvas() {
       canvas.width = window.innerWidth;
@@ -581,39 +983,104 @@ input:focus {
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
+    // Rastrear posição do mouse
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
     class Particle {
       constructor() {
         this.reset();
+        this.originalX = this.x;
+        this.originalY = this.y;
       }
 
       reset() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.z = Math.random() * 2 + 0.5;
-        this.size = this.z * 2;
-        this.alpha = Math.random() * 0.7 + 0.3;
+        this.size = Math.random() * 3 + 1;
+        this.speedX = (Math.random() - 0.5) * 0.5;
+        this.speedY = (Math.random() - 0.5) * 0.5;
+        this.color = `rgba(0, 255, 100, ${Math.random() * 0.3 + 0.1})`;
+        this.oscillation = Math.random() * Math.PI * 2;
+      }
+
+      update() {
+        // Oscilação suave
+        this.oscillation += 0.01;
+        
+        // Movimento base
+        this.x += this.speedX + Math.sin(this.oscillation) * 0.1;
+        this.y += this.speedY + Math.cos(this.oscillation) * 0.1;
+
+        // Interação com o mouse
+        const dx = mouseX - this.x;
+        const dy = mouseY - this.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        const maxDistance = 150;
+
+        if (distance < maxDistance) {
+          const force = (maxDistance - distance) / maxDistance;
+          const angle = Math.atan2(dy, dx);
+          this.x -= Math.cos(angle) * force * 2;
+          this.y -= Math.sin(angle) * force * 2;
+        }
+
+        // Manter partículas na tela
+        if (this.x > canvas.width) this.x = 0;
+        else if (this.x < 0) this.x = canvas.width;
+        if (this.y > canvas.height) this.y = 0;
+        else if (this.y < 0) this.y = canvas.height;
       }
 
       draw() {
         ctx.beginPath();
-        ctx.fillStyle = `rgba(0, 255, 100, ${this.alpha})`;
+        ctx.fillStyle = this.color;
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
       }
     }
 
+    function connectParticles() {
+      const maxDistance = 120;
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < maxDistance) {
+            ctx.strokeStyle = `rgba(0, 255, 64, ${0.15 * (1 - distance / maxDistance)})`;
+            ctx.lineWidth = 0.5;
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
     function initParticles() {
       particles = [];
-      for (let i = 0; i < 100; i++) {
+      const particleCount = Math.floor((canvas.width * canvas.height) / 8000);
+      for (let i = 0; i < particleCount; i++) {
         particles.push(new Particle());
       }
     }
 
     function animate() {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => p.draw());
-      requestAnimationFrame(animate);
+      
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      
+      connectParticles();
+      animationId = requestAnimationFrame(animate);
     }
 
     initParticles();
@@ -733,68 +1200,81 @@ input:focus {
       button.disabled = disabled;
     }
 
- // MODIFIQUE A FUNÇÃO redirectToMainPage():
-function redirectToMainPage(user) {
-    console.log('🚀 SALVANDO USUÁRIO ANTES DE REDIRECIONAR:', user);
-    
-    // SALVAR EM TRÊS LUGARES PARA GARANTIR
-    localStorage.setItem('currentUser', JSON.stringify(user));
-    localStorage.setItem('gymp2_current_user', JSON.stringify(user));
-    
-    // Limpar qualquer verificação pendente
-    localStorage.removeItem('redirecting');
-    
-    // Adicionar flag para evitar loops
-    sessionStorage.setItem('justLoggedIn', 'true');
-    
-    // Disparar evento global
-    window.dispatchEvent(new CustomEvent('userLoginSuccess', {
+    // MODIFIQUE A FUNÇÃO redirectToMainPage():
+    function redirectToMainPage(user) {
+      console.log('🚀 SALVANDO USUÁRIO ANTES DE REDIRECIONAR:', user);
+      
+      // SALVAR EM TRÊS LUGARES PARA GARANTIR
+      localStorage.setItem('currentUser', JSON.stringify(user));
+      localStorage.setItem('gymp2_current_user', JSON.stringify(user));
+      
+      // Limpar qualquer verificação pendente
+      localStorage.removeItem('redirecting');
+      
+      // Adicionar flag para evitar loops
+      sessionStorage.setItem('justLoggedIn', 'true');
+      
+      // Disparar evento global
+      window.dispatchEvent(new CustomEvent('userLoginSuccess', {
         detail: { user: user }
-    }));
-    
-    console.log('🔗 Redirecionando para página principal...');
-    
-    // REDIRECIONAR IMEDIATAMENTE - SEM DELAY
-    window.location.href = 'Menu-inicial-sem-logar.html';
-}
+      }));
+      
+      console.log('🔗 Redirecionando para página principal...');
+      
+      // Adicionar efeito de transição antes do redirecionamento
+      document.querySelector('.login-container').style.opacity = '0';
+      document.querySelector('.login-container').style.transform = 'translateY(20px)';
+      document.querySelector('.login-container').style.transition = 'all 0.5s ease';
+      
+      setTimeout(() => {
+        window.location.href = 'Menu-inicial-sem-logar.html';
+      }, 500);
+    }
+
     // ============= EVENTOS DE LOGIN =============
-document.getElementById('login-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
 
-    const email = document.getElementById('login-email').value.trim();
-    const password = document.getElementById('login-password').value;
+      const email = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-password').value;
 
-    disableButton('btn-submit-login', true);
-    showLoading('login-loading', true);
+      disableButton('btn-submit-login', true);
+      showLoading('login-loading', true);
 
-    try {
+      try {
         const result = await api.login(email, password);
 
         showLoading('login-loading', false);
         disableButton('btn-submit-login', false);
 
         if (result.success) {
-            // Salvar na sessão
-            session.saveSession(result.token, result.user);
-            
-            // Mostrar mensagem
-            showMessage('login-message', result.message, 'success');
-            
-            console.log('✅ Login bem-sucedido, redirecionando...');
-            
-            // Redirecionar IMEDIATAMENTE
-            redirectToMainPage(result.user);
-            
+          // Salvar na sessão
+          session.saveSession(result.token, result.user);
+          
+          // Mostrar mensagem
+          showMessage('login-message', result.message, 'success');
+          
+          console.log('✅ Login bem-sucedido, redirecionando...');
+          
+          // Redirecionar IMEDIATAMENTE
+          redirectToMainPage(result.user);
+          
         } else {
-            showMessage('login-message', result.message, 'error');
+          showMessage('login-message', result.message, 'error');
+          // Efeito de shake no formulário
+          document.getElementById('login-form').classList.add('shake');
+          setTimeout(() => {
+            document.getElementById('login-form').classList.remove('shake');
+          }, 500);
         }
-    } catch (error) {
+      } catch (error) {
         showLoading('login-loading', false);
         disableButton('btn-submit-login', false);
         showMessage('login-message', 'Erro no servidor. Tente novamente.', 'error');
         console.error('❌ Erro no login:', error);
-    }
-});
+      }
+    });
+
     // ============= EVENTOS DE CADASTRO =============
     document.getElementById('signup-form').addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -819,6 +1299,13 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
       if (result.success) {
         showMessage('signup-message', result.message, 'success');
         
+        // Efeito de confete visual
+        const formBox = document.querySelector('.form-box');
+        formBox.style.boxShadow = '0 0 40px rgba(0, 255, 64, 0.5)';
+        setTimeout(() => {
+          formBox.style.boxShadow = '';
+        }, 1000);
+        
         // Faz login automático após cadastro
         setTimeout(async () => {
           const loginResult = await api.login(email, password);
@@ -831,275 +1318,181 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
         showMessage('signup-message', result.message, 'error');
       }
     });
-   // ============= SLIDER DE IMAGENS =============
+
+    // ============= SLIDER DE IMAGENS =============
     (function() {
-        const slides = Array.from(document.querySelectorAll('.slide'));
-        const dotsContainer = document.querySelector('.dots');
-        const prevBtn = document.getElementById('prev');
-        const nextBtn = document.getElementById('next');
-        let current = 0;
-        let interval = null;
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const dotsContainer = document.querySelector('.dots');
+      const prevBtn = document.getElementById('prev');
+      const nextBtn = document.getElementById('next');
+      let current = 0;
+      let interval = null;
 
-        // Criar dots
-        slides.forEach((_, i) => {
-            const b = document.createElement('button');
-            if (i === 0) b.classList.add('active');
-            b.addEventListener('click', () => goTo(i));
-            dotsContainer.appendChild(b);
+      // Criar dots
+      slides.forEach((_, i) => {
+        const b = document.createElement('button');
+        if (i === 0) b.classList.add('active');
+        b.addEventListener('click', () => goTo(i));
+        dotsContainer.appendChild(b);
+      });
+
+      const dots = Array.from(dotsContainer.children);
+
+      function updateSlides() {
+        slides.forEach((s, i) => {
+          s.classList.remove('active', 'prev');
+          if (i === current) s.classList.add('active');
+          else if (i === (current - 1 + slides.length) % slides.length) s.classList.add('prev');
         });
+        dots.forEach((d, i) => d.classList.toggle('active', i === current));
+      }
 
-        const dots = Array.from(dotsContainer.children);
-
-        function updateSlides() {
-            slides.forEach((s, i) => {
-                s.classList.remove('active', 'prev');
-                if (i === current) s.classList.add('active');
-                else if (i === (current - 1 + slides.length) % slides.length) s.classList.add('prev');
-            });
-            dots.forEach((d, i) => d.classList.toggle('active', i === current));
-        }
-
-        function goTo(index) {
-            current = (index + slides.length) % slides.length;
-            updateSlides();
-            restart();
-        }
-
-        function next() {
-            goTo(current + 1);
-        }
-
-        function prev() {
-            goTo(current - 1);
-        }
-
-        nextBtn.addEventListener('click', next);
-        prevBtn.addEventListener('click', prev);
-
-        function start() {
-            if (interval) clearInterval(interval);
-            interval = setInterval(next, 5000);
-        }
-
-        function stop() {
-            if (interval) clearInterval(interval);
-        }
-
-        function restart() {
-            stop();
-            start();
-        }
-
-        const sliderArea = document.querySelector('.slider-area');
-        if (sliderArea) {
-            sliderArea.addEventListener('mouseenter', stop);
-            sliderArea.addEventListener('mouseleave', start);
-        }
-
+      function goTo(index) {
+        current = (index + slides.length) % slides.length;
         updateSlides();
-        start();
+        restart();
+      }
 
+      function next() {
+        goTo(current + 1);
+      }
+
+      function prev() {
+        goTo(current - 1);
+      }
+
+      nextBtn.addEventListener('click', next);
+      prevBtn.addEventListener('click', prev);
+
+      function start() {
+        if (interval) clearInterval(interval);
+        interval = setInterval(next, 6000);
+      }
+
+      function stop() {
+        if (interval) clearInterval(interval);
+      }
+
+      function restart() {
+        stop();
+        start();
+      }
+
+      const sliderArea = document.querySelector('.slider-area');
+      if (sliderArea) {
+        sliderArea.addEventListener('mouseenter', stop);
+        sliderArea.addEventListener('mouseleave', start);
+      }
+
+      // Navegação por teclado
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') prev();
+        if (e.key === 'ArrowRight') next();
+      });
+
+      updateSlides();
+      start();
+    })();
 
     // ============= FORMULÁRIOS =============
-    const btnLogin = document.getElementById('btn-login');
-    const btnSignup = document.getElementById('btn-signup');
-    const indicator = document.getElementById('slider-indicator');
-    const loginForm = document.getElementById('login-form');
-    const signupForm = document.getElementById('signup-form');
-    const showPassBtns = document.querySelectorAll('.show-pass');
-
-    btnLogin.addEventListener('click', () => {
-      btnLogin.classList.add('active');
-      btnSignup.classList.remove('active');
-      indicator.style.left = '6px';
-      loginForm.classList.add('active');
-      signupForm.classList.remove('active');
-    });
-
-    btnSignup.addEventListener('click', () => {
-      btnSignup.classList.add('active');
-      btnLogin.classList.remove('active');
-      indicator.style.left = 'calc(50% + 2px)';
-      signupForm.classList.add('active');
-      loginForm.classList.remove('active');
-    });
-
-    showPassBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const targetId = btn.getAttribute('data-target');
-        const input = document.getElementById(targetId);
-        if (input.type === 'password') {
-          input.type = 'text';
-          btn.textContent = '🙈';
-        } else {
-          input.type = 'password';
-          btn.textContent = '👁';
-        }
-      });
-    });
-  // ============= BACKGROUND ANIMADO =============
-        const canvas = document.getElementById('bgCanvas');
-        if (canvas) {
-            const ctx = canvas.getContext('2d');
-            let particles = [];
-            let animationId = null;
-
-            function resizeCanvas() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            }
-
-            class Particle {
-                constructor() {
-                    this.x = Math.random() * canvas.width;
-                    this.y = Math.random() * canvas.height;
-                    this.size = Math.random() * 2 + 0.5;
-                    this.speedX = Math.random() * 0.5 - 0.25;
-                    this.speedY = Math.random() * 0.5 - 0.25;
-                   this.color = `rgba(0, 255, 64, ${Math.random() * 0.3 + 0.1})`;
-
-                }
-
-                update() {
-                    this.x += this.speedX;
-                    this.y += this.speedY;
-
-                    if (this.x > canvas.width) this.x = 0;
-                    else if (this.x < 0) this.x = canvas.width;
-                    if (this.y > canvas.height) this.y = 0;
-                    else if (this.y < 0) this.y = canvas.height;
-                }
-
-                draw() {
-                    ctx.fillStyle = this.color;
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-            }
-
-            function initParticles() {
-                particles = [];
-                const particleCount = Math.floor((canvas.width * canvas.height) / 15000);
-                for (let i = 0; i < particleCount; i++) {
-                    particles.push(new Particle());
-                }
-            }
-
-            function connectParticles() {
-                const maxDistance = 100;
-                for (let i = 0; i < particles.length; i++) {
-                    for (let j = i + 1; j < particles.length; j++) {
-                        const dx = particles[i].x - particles[j].x;
-                        const dy = particles[i].y - particles[j].y;
-                        const distance = Math.sqrt(dx * dx + dy * dy);
-
-                        if (distance < maxDistance) {
-                           ctx.strokeStyle = `rgba(0, 255, 64, ${0.1 * (1 - distance / maxDistance)})`;
-                            ctx.lineWidth = 0.5;
-                            ctx.beginPath();
-                            ctx.moveTo(particles[i].x, particles[i].y);
-                            ctx.lineTo(particles[j].x, particles[j].y);
-                            ctx.stroke();
-                        }
-                    }
-                }
-            }
-
-            function animate() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                particles.forEach(particle => {
-                    particle.update();
-                    particle.draw();
-                });
-                connectParticles();
-                animationId = requestAnimationFrame(animate);
-            }
-
-            function initBackground() {
-                resizeCanvas();
-                initParticles();
-                if (animationId) cancelAnimationFrame(animationId);
-                animate();
-            }
-
-            window.addEventListener('resize', () => {
-                resizeCanvas();
-                initParticles();
-            });
-
-            // Iniciar animação do background
-            initBackground();
-        }
-    })();
-    // ============= TOGGLE LOGIN/SIGNUP =============
     (function () {
       const btnLogin = document.getElementById('btn-login');
       const btnSignup = document.getElementById('btn-signup');
       const indicator = document.getElementById('slider-indicator');
       const loginForm = document.getElementById('login-form');
       const signupForm = document.getElementById('signup-form');
+      const showPassBtns = document.querySelectorAll('.show-pass');
 
       function showLogin() {
         btnLogin.classList.add('active');
         btnSignup.classList.remove('active');
-        indicator.style.left = '6px';
+        indicator.style.left = '8px';
         loginForm.classList.add('active');
         signupForm.classList.remove('active');
+        
+        // Efeito de foco no primeiro campo
+        setTimeout(() => {
+          document.getElementById('login-email').focus();
+        }, 300);
       }
 
       function showSignup() {
         btnSignup.classList.add('active');
         btnLogin.classList.remove('active');
-        indicator.style.left = 'calc(50% + 6px)';
+        indicator.style.left = 'calc(50% + 8px)';
         signupForm.classList.add('active');
         loginForm.classList.remove('active');
+        
+        // Efeito de foco no primeiro campo
+        setTimeout(() => {
+          document.getElementById('signup-name').focus();
+        }, 300);
       }
 
       btnLogin.addEventListener('click', showLogin);
       btnSignup.addEventListener('click', showSignup);
 
-      if (location.hash === '#signup') showSignup();
+      // Verificar hash na URL
+      if (location.hash === '#signup') {
+        setTimeout(showSignup, 300);
+      }
+
+      // Mostrar/ocultar senha
+      showPassBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-target');
+          const input = document.getElementById(id);
+          if (!input) return;
+          
+          const icon = btn.querySelector('i');
+          if (input.type === 'password') {
+            input.type = 'text';
+            icon.className = 'fas fa-eye-slash';
+            btn.style.color = 'var(--accent)';
+          } else {
+            input.type = 'password';
+            icon.className = 'fas fa-eye';
+            btn.style.color = '';
+          }
+        });
+      });
+
+      // Efeito de foco nos inputs
+      document.querySelectorAll('input').forEach(input => {
+        input.addEventListener('focus', function() {
+          this.parentElement.parentElement.classList.add('focused');
+        });
+        
+        input.addEventListener('blur', function() {
+          this.parentElement.parentElement.classList.remove('focused');
+        });
+      });
     })();
 
-    // ============= MOSTRAR/OCULTAR SENHA =============
-    document.querySelectorAll('.show-pass').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const id = btn.getAttribute('data-target');
-        const input = document.getElementById(id);
-        if (!input) return;
-        
-        if (input.type === 'password') {
-          input.type = 'text';
-          btn.textContent = '🙈';
-        } else {
-          input.type = 'password';
-          btn.textContent = '👁';
-        }
-      });
-    });
-
-// ============= VERIFICAÇÃO DE SESSÃO =============
-window.addEventListener('DOMContentLoaded', async () => {
-    // Evitar verificação se já está logado via localStorage
-    const hasLocalUser = localStorage.getItem('currentUser') || localStorage.getItem('gymp2_current_user');
-    
-    if (hasLocalUser) {
+    // ============= VERIFICAÇÃO DE SESSÃO =============
+    window.addEventListener('DOMContentLoaded', async () => {
+      // Efeito de entrada
+      document.querySelector('.container').style.opacity = '1';
+      
+      // Evitar verificação se já está logado via localStorage
+      const hasLocalUser = localStorage.getItem('currentUser') || localStorage.getItem('gymp2_current_user');
+      
+      if (hasLocalUser) {
         console.log('✅ Usuário já logado via localStorage, ignorando session...');
         return;
-    }
-    
-    // Apenas verificar sessionStorage se não houver localStorage
-    const user = await session.checkSession();
-    if (user) {
+      }
+      
+      // Apenas verificar sessionStorage se não houver localStorage
+      const user = await session.checkSession();
+      if (user) {
         console.log('✅ Sessão ativa encontrada:', user.name);
         
         // Adicionar flag para evitar loops
         sessionStorage.setItem('justLoggedIn', 'true');
         
         redirectToMainPage(user);
-    }
-});
+      }
+    });
 
     // ============= FUNÇÃO DE LOGOUT (PARA OUTRAS PÁGINAS) =============
     window.logout = async function() {
