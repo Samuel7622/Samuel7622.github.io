@@ -285,7 +285,7 @@ class UserManager {
     }
 
     // Verificar se já está logado (redirecionar se sim)
-    checkAlreadyLoggedIn(redirectUrl = 'Menu-inicial-logado.html') {
+    checkAlreadyLoggedIn(redirectUrl = 'index.html') {
         if (this.isLoggedIn()) {
             console.log('ℹ️ Usuário já está logado, redirecionando...');
             window.location.href = redirectUrl;
@@ -331,5 +331,6 @@ function redirectIfLoggedIn() {
 // Tornar funções globais para compatibilidade
 window.protectPage = protectPage;
 window.redirectIfLoggedIn = redirectIfLoggedIn;
+
 
 console.log('🔐 Sistema de autenticação UNIFICADO carregado!');
