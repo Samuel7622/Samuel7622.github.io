@@ -1,4 +1,4 @@
-// serve-unificado.js - Servidor completo GYM P2
+// serve-supabase.js - Servidor GYM P2 EXCLUSIVO PARA SUPABASE
 const express = require("express");
 const cors = require("cors");
 const http = require("http");
@@ -6,18 +6,20 @@ const socketIo = require("socket.io");
 const fs = require("fs").promises;
 const path = require("path");
 const crypto = require("crypto");
+const { createClient } = require('@supabase/supabase-js');
+require('dotenv').config();
 
+// ========== CONFIGURAÇÃO ==========
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
     cors: { origin: "*", methods: ["GET", "POST", "PUT", "DELETE"] }
 });
 
-// ========== CONFIGURAÇÕES ==========
-
+const PORT = 3000;
 const DATA_DIR = path.join(__dirname, 'data');
 
-// Arquivos de dados
+// Arquivos de backup
 const FILES = {
     academias: path.join(DATA_DIR, 'academias.json'),
     proprietarios: path.join(DATA_DIR, 'proprietarios.json'),
@@ -27,44 +29,133 @@ const FILES = {
     sessoes: path.join(DATA_DIR, 'sessoes.json')
 };
 
+// ========== CONEXÃO SUPABASE ==========
+let supabase = null;
+let supabaseEnabled = false;
+
+async function initSupabase() {
+    try {
+        console.log('🔌 Conectando ao Supabase...');
+        
+        const supabaseUrl = process.env.SUPABASE_URL;
+        const supabaseKey = process.env.SUPABASE_SERVICE_KEY;
+        
+        if (!supabaseUrl || !supabaseKey) {
+            throw new Error('SUPABASE_URL ou SUPABASE_SERVICE_KEY não configurados no .env');
+        }
+        
+        supabase = createClient(supabaseUrl, supabaseKey, {
+            auth: {
+                autoRefreshToken: true,
+                persistSession: false
+            }
+        });
+        
+        // Testar conexão
+        const { error } = await supabase
+            .from('usuarios')
+            .select('*')
+            .limit(1);
+        
+        if (error && error.code !== 'PGRST116') {
+            throw error;
+        }
+        
+        console.log('✅ Supabase conectado com sucesso!');
+        supabaseEnabled = true;
+        
+        // Criar usuário admin padrão se não existir
+        await criarUsuarioAdmin();
+        
+        return true;
+    } catch (error) {
+        console.error('❌ Erro ao conectar Supabase:', error.message);
+        return false;
+    }
+}
+
+// ========== FUNÇÃO PARA CRIAR USUÁRIO ADMIN PADRÃO ==========
+async function criarUsuarioAdmin() {
+    if (!supabaseEnabled) {
+        console.log('⚠️  Supabase não disponível, não criando admin');
+        return;
+    }
+    
+    try {
+        // Verificar se já existe usuário admin
+        const { data: existingAdmin, error: fetchError } = await supabase
+            .from('usuarios')
+            .select('*')
+            .eq('email', 'admin@ifpi.edu.br')
+            .maybeSingle();
+        
+        if (fetchError && fetchError.code !== 'PGRST116') {
+            console.error('❌ Erro ao verificar admin existente:', fetchError.message);
+            return;
+        }
+        
+        if (existingAdmin) {
+            console.log('✅ Usuário admin já existe');
+            return;
+        }
+        
+        // Gerar hash para senha "123456"
+        const { hash, salt } = hashPassword('123456');
+        
+        console.log('👤 Criando usuário admin...');
+        
+        // Criar usuário admin
+        const usuarioData = {
+            name: 'Administrador',
+            email: 'admin@ifpi.edu.br',
+            passwordhash: hash,
+            passwordsalt: salt,
+            role: 'admin',
+            status: 'ativo',
+            criado_em: new Date().toISOString()
+        };
+        
+        const { error: insertError, data: result } = await supabase
+            .from('usuarios')
+            .insert([usuarioData])
+            .select();
+        
+        if (insertError) {
+            console.error('❌ Erro ao criar admin:', insertError.message);
+        } else {
+            console.log('✅ Usuário admin criado com sucesso!');
+            console.log('📧 Email: admin@ifpi.edu.br');
+            console.log('🔑 Senha: 123456');
+            console.log('🆔 ID:', result[0]?.id);
+        }
+        
+        // Salvar no arquivo JSON também
+        await saveToFile('usuarios', {
+            name: 'Administrador',
+            email: 'admin@ifpi.edu.br',
+            passwordHash: hash,
+            passwordSalt: salt,
+            role: 'admin',
+            status: 'ativo',
+            criado_em: new Date().toISOString()
+        }, 'admin@ifpi.edu.br');
+        
+    } catch (error) {
+        console.error('❌ Erro na criação do admin:', error.message);
+    }
+}
+
 // ========== MIDDLEWARE ==========
 app.use(cors({ origin: '*', credentials: false }));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.static('public'));
 
-// Middleware de logging
 app.use((req, res, next) => {
-    console.log(`📥 ${req.method} ${req.url} - IP: ${req.ip || req.connection.remoteAddress}`);
+    console.log(`📥 ${req.method} ${req.url}`);
     next();
 });
 
-// Middleware de autenticação (opcional para rotas protegidas)
-const authMiddleware = async (req, res, next) => {
-    const token = req.headers.authorization?.replace('Bearer ', '');
-    
-    if (!token && req.path.startsWith('/api/protegido')) {
-        return res.status(401).json({ error: 'Token não fornecido' });
-    }
-    
-    if (token) {
-        try {
-            const usuario = await verificarSessao(token);
-            if (usuario) {
-                req.user = usuario;
-            }
-        } catch (error) {
-            console.log('Token inválido:', error.message);
-        }
-    }
-    
-    next();
-};
-
-app.use(authMiddleware);
-
 // ========== FUNÇÕES UTILITÁRIAS ==========
-
-// Hash de senhas
 function hashPassword(password, salt = null) {
     if (!salt) {
         salt = crypto.randomBytes(16).toString('hex');
@@ -78,71 +169,53 @@ function verifyPassword(password, hash, salt) {
     return hash === verifyHash;
 }
 
-// Gera token de sessão
 function gerarToken() {
     return crypto.randomBytes(32).toString('hex');
 }
 
-// Inicialização dos arquivos de dados
+// ========== INICIALIZAÇÃO ==========
 async function initDataDir() {
     try {
         await fs.mkdir(DATA_DIR, { recursive: true });
-        console.log('✅ Diretório de dados verificado');
+        console.log('✅ Diretório de dados criado');
         
-        // Inicializar cada arquivo
+        // Conectar ao Supabase
+        await initSupabase();
+        
+        // Criar arquivos JSON de backup
         for (const [key, filepath] of Object.entries(FILES)) {
             try {
                 await fs.access(filepath);
-                console.log(`📄 ${key}.json já existe`);
             } catch {
                 let initialData;
-                
-                switch(key) {
-                    case 'admins':
-                        initialData = [{
-                            id: 1,
-                            nome: "Admin Master",
-                            email: "admin@gym.com",
-                            nivel: "super_admin",
-                            status: "ativo"
-                        }];
-                        break;
-                        
-                    case 'usuarios':
-                        initialData = {
-                            sistema: "Gymp2 - Sistema Seguro",
-                            versao: "2.0",
-                            criado_em: new Date().toISOString(),
-                            total_usuarios: 0,
-                            usuarios: {},
-                            logs: []
-                        };
-                        break;
-                        
-                    case 'sessoes':
-                        initialData = { sessoes: {} };
-                        break;
-                        
-                    default:
-                        initialData = [];
+                if (key === 'usuarios') {
+                    initialData = {
+                        sistema: "Gymp2 - Supabase",
+                        versao: "3.0",
+                        total_usuarios: 0,
+                        usuarios: {},
+                        logs: []
+                    };
+                } else if (key === 'sessoes') {
+                    initialData = { sessoes: {} };
+                } else {
+                    initialData = [];
                 }
-                
                 await fs.writeFile(filepath, JSON.stringify(initialData, null, 2));
-                console.log(`📄 ${key}.json criado`);
+                console.log(`📄 Backup ${key}.json criado`);
             }
         }
     } catch (error) {
-        console.error('❌ Erro ao inicializar dados:', error);
+        console.error('❌ Erro ao inicializar:', error);
     }
 }
 
-// Funções de leitura/escrita
+// ========== FUNÇÕES DE ARQUIVO (BACKUP) ==========
 async function readData(type) {
     try {
         const data = await fs.readFile(FILES[type], 'utf8');
         return JSON.parse(data);
     } catch (error) {
-        console.error(`Erro ao ler ${type}:`, error.message);
         return type === 'usuarios' || type === 'sessoes' ? {} : [];
     }
 }
@@ -150,138 +223,410 @@ async function readData(type) {
 async function writeData(type, data) {
     try {
         await fs.writeFile(FILES[type], JSON.stringify(data, null, 2));
-        console.log(`💾 ${type} salvo com sucesso!`);
         return true;
     } catch (error) {
-        console.error(`❌ Erro ao salvar ${type}:`, error);
+        console.error(`❌ Erro ao salvar backup ${type}:`, error);
         return false;
     }
 }
 
-// Gerenciamento de sessões
-async function limparSessoesExpiradas() {
-    const sessoes = await readData('sessoes');
-    const agora = Date.now();
-    const EXPIRACAO = 24 * 60 * 60 * 1000; // 24 horas
-
-    Object.keys(sessoes.sessoes).forEach(token => {
-        const sessao = sessoes.sessoes[token];
-        if (agora - sessao.criado_em > EXPIRACAO) {
-            delete sessoes.sessoes[token];
+async function saveToFile(type, data, specificId) {
+    try {
+        const fileData = await readData(type);
+        
+        if (Array.isArray(fileData)) {
+            let newId = specificId || Date.now();
+            const index = fileData.findIndex(item => item.id == newId);
+            
+            if (index !== -1) {
+                fileData[index] = { ...fileData[index], ...data, id: newId };
+            } else {
+                fileData.push({ id: newId, ...data });
+            }
+            
+            await writeData(type, fileData);
+            return newId;
+            
+        } else if (type === 'usuarios') {
+            if (!fileData.usuarios) fileData.usuarios = {};
+            const email = specificId || data.email;
+            
+            fileData.usuarios[email] = { 
+                ...fileData.usuarios[email], 
+                ...data,
+                email: email
+            };
+            
+            fileData.total_usuarios = Object.keys(fileData.usuarios).length;
+            await writeData(type, fileData);
+            return email;
+            
+        } else if (type === 'sessoes') {
+            if (!fileData.sessoes) fileData.sessoes = {};
+            const token = data.token || specificId;
+            fileData.sessoes[token] = data;
+            await writeData(type, fileData);
+            return token;
         }
-    });
-
-    await writeData('sessoes', sessoes);
-}
-
-async function verificarSessao(token) {
-    await limparSessoesExpiradas();
-    
-    const sessoes = await readData('sessoes');
-    const sessao = sessoes.sessoes[token];
-
-    if (!sessao) {
+        
+        return specificId;
+    } catch (error) {
+        console.error(`❌ Erro saveToFile ${type}:`, error);
         return null;
     }
-
-    const db = await readData('usuarios');
-    const usuario = db.usuarios[sessao.email];
-
-    if (!usuario) {
-        return null;
-    }
-
-    return {
-        name: usuario.name,
-        email: usuario.email,
-        role: usuario.role
-    };
 }
 
-// Logs de atividade
-async function registrarLog(tipo, dados) {
-    const db = await readData('usuarios');
-    
-    const log = {
-        id: Date.now(),
-        timestamp: new Date().toISOString(),
-        tipo: tipo,
-        dados: dados,
-        ip: dados.ip || 'localhost'
-    };
-
-    db.logs.push(log);
-    
-    // Mantém apenas os últimos 1000 logs
-    if (db.logs.length > 1000) {
-        db.logs = db.logs.slice(-1000);
+// ========== SALVAR NO SUPABASE ==========
+async function saveToSupabase(type, data, specificId) {
+    if (!supabaseEnabled || !supabase) {
+        console.log('⚠️  Supabase não disponível');
+        return null;
     }
+    
+    try {
+        console.log(`☁️ Tentando salvar ${type} no Supabase...`);
+        
+        switch(type) {
+            case 'usuarios':
+                // CORREÇÃO: Primeiro verificar se usuário existe
+                let usuarioExistente = null;
+                const emailParaBuscar = specificId || data.email;
+                
+                if (emailParaBuscar) {
+                    const { data: existingUser } = await supabase
+                        .from('usuarios')
+                        .select('*')
+                        .eq('email', emailParaBuscar)
+                        .maybeSingle();
+                    
+                    usuarioExistente = existingUser;
+                }
+                
+                const usuarioData = {
+                    name: data.name,
+                    email: data.email,
+                    passwordhash: data.passwordHash || data.password_hash || data.passwordhash,
+                    passwordsalt: data.passwordSalt || data.password_salt || data.passwordsalt,
+                    role: data.role || 'user',
+                    criado_em: new Date().toISOString(),
+                    ultimo_login: data.ultimo_login || null,
+                    status: data.status || 'ativo'
+                };
+                
+                if (usuarioExistente) {
+                    console.log(`🔄 Usuário ${emailParaBuscar} já existe, atualizando...`);
+                    const { error } = await supabase
+                        .from('usuarios')
+                        .update(usuarioData)
+                        .eq('email', emailParaBuscar);
+                    
+                    if (error) throw error;
+                    console.log(`✅ Usuário ${emailParaBuscar} atualizado no Supabase`);
+                    return emailParaBuscar;
+                } else {
+                    console.log(`🆕 Usuário ${data.email} não existe, criando novo...`);
+                    const { data: result, error } = await supabase
+                        .from('usuarios')
+                        .insert([usuarioData])
+                        .select();
+                    
+                    if (error) throw error;
+                    console.log(`✅ Usuário ${data.email} criado no Supabase`);
+                    return result[0].id;
+                }
 
-    await writeData('usuarios', db);
+            case 'academias':
+                const academiaData = {
+                    nome: data.nome,
+                    cnpj: data.cnpj || null,
+                    tipo: data.tipo,
+                    preco: data.preco,
+                    endereco: data.endereco,
+                    cidade: data.cidade,
+                    estado: data.estado,
+                    telefone: data.telefone,
+                    email: data.email,
+                    descricao: data.descricao || null,
+                    facilidades: data.facilidades || [],
+                    abertura: data.abertura,
+                    fechamento: data.fechamento,
+                    status: data.status || 'ativo',
+                    proprietario_id: data.proprietario_id || null,
+                    criado_em: new Date().toISOString()
+                };
+                
+                if (specificId) {
+                    const { error } = await supabase
+                        .from('academias')
+                        .update(academiaData)
+                        .eq('id', specificId);
+                    if (error) throw error;
+                    console.log(`✅ Academia ${specificId} atualizada no Supabase`);
+                    return specificId;
+                } else {
+                    const { data: result, error } = await supabase
+                        .from('academias')
+                        .insert([academiaData])
+                        .select();
+                    if (error) throw error;
+                    console.log(`✅ Academia ${result[0].id} criada no Supabase`);
+                    return result[0].id;
+                }
+
+            case 'proprietarios':
+                const proprietarioData = {
+                    nome: data.nome,
+                    email: data.email,
+                    telefone: data.telefone,
+                    cpf: data.cpf,
+                    endereco: data.endereco,
+                    cidade: data.cidade || null,
+                    estado: data.estado || null,
+                    descricao: data.descricao || null,
+                    status: data.status || 'ativo',
+                    criado_em: new Date().toISOString()
+                };
+                
+                if (specificId) {
+                    const { error } = await supabase
+                        .from('proprietarios')
+                        .update(proprietarioData)
+                        .eq('id', specificId);
+                    if (error) throw error;
+                    return specificId;
+                } else {
+                    const { data: result, error } = await supabase
+                        .from('proprietarios')
+                        .insert([proprietarioData])
+                        .select();
+                    if (error) throw error;
+                    return result[0].id;
+                }
+
+            case 'personais':
+                const personalData = {
+                    nome: data.nome,
+                    telefone: data.telefone,
+                    email: data.email,
+                    cidade: data.cidade || null,
+                    bairros: data.bairros || [],
+                    especialidade: data.especialidade,
+                    anos_experiencia: data.anos_experiencia || 0,
+                    cref: data.cref || null,
+                    sobre: data.sobre || null,
+                    descricao: data.descricao || null,
+                    expectativas: data.expectativas || null,
+                    academia_id: data.academia_id || null,
+                    status: data.status || 'pendente',
+                    tipo: data.tipo || 'independente',
+                    avaliacao: data.avaliacao || 0,
+                    experiencia: data.experiencia || `${data.anos_experiencia || 0} ano(s)`,
+                    criado_em: new Date().toISOString()
+                };
+                
+                if (specificId) {
+                    const { error } = await supabase
+                        .from('personais')
+                        .update(personalData)
+                        .eq('id', specificId);
+                    if (error) throw error;
+                    return specificId;
+                } else {
+                    const { data: result, error } = await supabase
+                        .from('personais')
+                        .insert([personalData])
+                        .select();
+                    if (error) throw error;
+                    return result[0].id;
+                }
+
+            case 'admins':
+                const adminData = {
+                    nome: data.nome,
+                    email: data.email,
+                    senha: data.senha,
+                    salt: data.salt,
+                    nivel: data.nivel || 'admin',
+                    status: data.status || 'ativo',
+                    telefone: data.telefone || null,
+                    observacoes: data.observacoes || null,
+                    criado_em: new Date().toISOString()
+                };
+                
+                if (specificId) {
+                    const { error } = await supabase
+                        .from('administradores')
+                        .update(adminData)
+                        .eq('id', specificId);
+                    if (error) throw error;
+                    return specificId;
+                } else {
+                    const { data: result, error } = await supabase
+                        .from('administradores')
+                        .insert([adminData])
+                        .select();
+                    if (error) throw error;
+                    return result[0].id;
+                }
+
+            case 'sessoes':
+                const sessaoData = {
+                    token: data.token || specificId,
+                    email: data.email,
+                    criado_em: new Date().toISOString(),
+                    ip: data.ip || null
+                };
+                
+                const { error } = await supabase
+                    .from('sessoes')
+                    .upsert([sessaoData]);
+                
+                if (error) throw error;
+                return data.token;
+
+            default:
+                console.log(`⚠️ Tipo ${type} não suportado para Supabase`);
+                return null;
+        }
+    } catch (error) {
+        console.error(`❌ Erro Supabase ${type}:`, error.message);
+        return null;
+    }
+}
+
+// ========== LER DO SUPABASE ==========
+async function readFromSupabase(type, specificId = null) {
+    if (!supabaseEnabled || !supabase) {
+        console.log(`📁 Supabase não disponível, lendo ${type} do arquivo`);
+        return null;
+    }
+    
+    try {
+        console.log(`🔍 Lendo ${type} do Supabase...`);
+        
+        let query = supabase.from(type).select('*');
+        
+        if (specificId) {
+            if (type === 'usuarios') {
+                query = query.eq('email', specificId);
+            } else if (type === 'sessoes') {
+                query = query.eq('token', specificId);
+            } else {
+                query = query.eq('id', specificId);
+            }
+        }
+        
+        const { data, error } = await query;
+        if (error) {
+            console.error(`❌ Erro ao buscar ${type}:`, error.message);
+            return null;
+        }
+        
+        console.log(`✅ ${type} lido do Supabase: ${data ? (Array.isArray(data) ? data.length : 1) : 0} registros`);
+        return specificId ? (data[0] || null) : (data || []);
+    } catch (error) {
+        console.error(`❌ Erro ao ler ${type} do Supabase:`, error.message);
+        return null;
+    }
+}
+
+// ========== FUNÇÕES UNIFICADAS ==========
+async function readDataUnified(type, specificId = null) {
+    // Tenta Supabase primeiro
+    if (supabaseEnabled) {
+        const supabaseData = await readFromSupabase(type, specificId);
+        if (supabaseData !== null) {
+            console.log(`☁️ Dados de ${type} lidos do Supabase`);
+            return supabaseData;
+        }
+    }
+    
+    // Fallback para arquivo
+    console.log(`📁 Dados de ${type} lidos do arquivo (backup)`);
+    return await readData(type);
+}
+
+async function saveDataUnified(type, data, specificId = null) {
+    console.log(`🔄 Salvando ${type}...`);
+    
+    let savedId = specificId;
+    
+    // 1. Salvar no Supabase
+    if (supabaseEnabled) {
+        const supabaseId = await saveToSupabase(type, data, specificId);
+        if (supabaseId) {
+            savedId = supabaseId;
+            console.log(`✅ ${type} salvo no Supabase com ID: ${supabaseId}`);
+        } else {
+            console.log(`⚠️ ${type} não salvo no Supabase, usando arquivo apenas`);
+        }
+    } else {
+        console.log(`⚠️ Supabase não disponível, salvando apenas no arquivo`);
+    }
+    
+    // 2. Salvar no arquivo (backup)
+    console.log(`📁 Salvando ${type} no arquivo JSON...`);
+    await saveToFile(type, data, savedId);
+    console.log(`✅ ${type} salvo no arquivo com ID: ${savedId}`);
+    
+    return savedId;
 }
 
 // ========== ROTAS DE AUTENTICAÇÃO ==========
-
-// Cadastro de usuário
 app.post("/cadastro", async (req, res) => {
     try {
         const { name, email, password } = req.body;
+        console.log(`📝 Tentando cadastrar: ${name} <${email}>`);
 
-        // Validações
         if (!name || !email || !password) {
-            return res.status(400).json({ 
-                success: false, 
-                message: 'Todos os campos são obrigatórios' 
-            });
+            return res.status(400).json({ success: false, message: 'Todos os campos são obrigatórios' });
         }
 
         if (password.length < 6) {
-            return res.status(400).json({ 
-                success: false, 
-                message: 'Senha deve ter no mínimo 6 caracteres' 
-            });
+            return res.status(400).json({ success: false, message: 'Senha deve ter no mínimo 6 caracteres' });
         }
 
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            return res.status(400).json({ 
-                success: false, 
-                message: 'Email inválido' 
-            });
+        // Verificar se existe
+        let usuarioExistente = null;
+        
+        if (supabaseEnabled) {
+            const { data } = await supabase
+                .from('usuarios')
+                .select('*')
+                .eq('email', email)
+                .maybeSingle();
+            usuarioExistente = data;
+            console.log(`🔍 Verificação pré-cadastro no Supabase:`, usuarioExistente ? 'EXISTE' : 'NÃO EXISTE');
+        }
+        
+        if (!usuarioExistente) {
+            const db = await readData('usuarios');
+            usuarioExistente = db.usuarios ? db.usuarios[email] : null;
+            console.log(`🔍 Verificação no arquivo JSON:`, usuarioExistente ? 'EXISTE' : 'NÃO EXISTE');
         }
 
-        const db = await readData('usuarios');
-
-        // Verifica se email já existe
-        if (db.usuarios[email]) {
-            await registrarLog('cadastro_falha', { 
-                email, 
-                motivo: 'email_existente' 
-            });
-            return res.status(400).json({ 
-                success: false, 
-                message: 'Email já cadastrado' 
-            });
+        if (usuarioExistente) {
+            return res.status(400).json({ success: false, message: 'Email já cadastrado' });
         }
 
-        // Cria hash da senha
         const { hash, salt } = hashPassword(password);
 
-        // Salva usuário
-        db.usuarios[email] = {
+        const usuario = {
             name,
             email,
             passwordHash: hash,
             passwordSalt: salt,
+            passwordhash: hash,
+            passwordsalt: salt,
             role: 'user',
             criado_em: new Date().toISOString(),
-            ultimo_login: null
+            ultimo_login: null,
+            status: 'ativo'
         };
 
-        db.total_usuarios = Object.keys(db.usuarios).length;
-        await writeData('usuarios', db);
-
-        await registrarLog('cadastro_sucesso', { email, name });
+        console.log(`💾 Salvando usuário ${email}...`);
+        const savedId = await saveDataUnified('usuarios', usuario, email);
+        console.log(`✅ Usuário ${email} salvo com ID: ${savedId}`);
 
         res.json({ 
             success: true, 
@@ -289,1185 +634,228 @@ app.post("/cadastro", async (req, res) => {
             user: { name, email, role: 'user' }
         });
     } catch (error) {
-        console.error('Erro no cadastro:', error);
-        res.status(500).json({ 
-            success: false, 
-            message: 'Erro interno no servidor' 
-        });
+        console.error('❌ Erro no cadastro:', error);
+        res.status(500).json({ success: false, message: 'Erro interno no servidor' });
     }
 });
 
-// Login
 app.post("/login", async (req, res) => {
     try {
         const { email, password } = req.body;
+        console.log(`🔐 Tentando login: ${email}`);
 
         if (!email || !password) {
-            return res.status(400).json({ 
-                success: false, 
-                message: 'Email e senha são obrigatórios' 
-            });
+            return res.status(400).json({ success: false, message: 'Email e senha são obrigatórios' });
         }
 
-        const db = await readData('usuarios');
-        const usuario = db.usuarios[email];
+        // Buscar usuário - PRIMEIRO no Supabase
+        let usuario = null;
+        
+        if (supabaseEnabled) {
+            const { data } = await supabase
+                .from('usuarios')
+                .select('*')
+                .eq('email', email)
+                .maybeSingle();
+            usuario = data;
+            console.log(`🔍 Buscando ${email} no Supabase:`, usuario ? `Encontrado (ID: ${usuario.id})` : 'Não encontrado');
+            
+            // Debug: Mostrar todos os campos
+            if (usuario) {
+                console.log('📋 Campos do usuário:', Object.keys(usuario));
+                console.log('🔐 Campos de senha:', {
+                    passwordhash: usuario.passwordhash ? 'EXISTE' : 'NÃO',
+                    passwordsalt: usuario.passwordsalt ? 'EXISTE' : 'NÃO',
+                    password_hash: usuario.password_hash ? 'EXISTE' : 'NÃO',
+                    password_salt: usuario.password_salt ? 'EXISTE' : 'NÃO',
+                    passwordHash: usuario.passwordHash ? 'EXISTE' : 'NÃO',
+                    passwordSalt: usuario.passwordSalt ? 'EXISTE' : 'NÃO'
+                });
+            }
+        }
+        
+        // Se não encontrou no Supabase, buscar no arquivo JSON
+        if (!usuario) {
+            console.log(`🔍 Buscando ${email} no arquivo JSON...`);
+            const db = await readData('usuarios');
+            usuario = db.usuarios ? db.usuarios[email] : null;
+            console.log(`📁 Arquivo JSON:`, usuario ? 'Encontrado' : 'Não encontrado');
+        }
 
         if (!usuario) {
-            await registrarLog('login_falha', { 
-                email, 
-                motivo: 'email_nao_encontrado' 
-            });
-            return res.status(401).json({ 
-                success: false, 
-                message: 'Email não encontrado' 
-            });
+            console.log(`❌ Usuário ${email} não encontrado em nenhum lugar`);
+            return res.status(401).json({ success: false, message: 'Email não encontrado' });
         }
 
-        // Verifica senha
-        const senhaCorreta = verifyPassword(password, usuario.passwordHash, usuario.passwordSalt);
-
-        if (!senhaCorreta) {
-            await registrarLog('login_falha', { 
-                email, 
-                motivo: 'senha_incorreta' 
-            });
-            return res.status(401).json({ 
-                success: false, 
-                message: 'Senha incorreta' 
-            });
-        }
-
-        // Atualiza último login
-        usuario.ultimo_login = new Date().toISOString();
-        await writeData('usuarios', db);
-
-        // Cria sessão
-        const token = gerarToken();
-        const sessoes = await readData('sessoes');
+        console.log(`✅ Usuário ${email} encontrado, verificando senha...`);
         
-        sessoes.sessoes[token] = {
+        // Verificar senha - compatível com todos os formatos
+        let senhaCorreta = false;
+        let formatoUsado = '';
+        
+        // 1. Tentar formato Supabase (sem underline)
+        if (usuario.passwordhash && usuario.passwordsalt) {
+            senhaCorreta = verifyPassword(password, usuario.passwordhash, usuario.passwordsalt);
+            formatoUsado = 'passwordhash/passwordsalt (sem underline)';
+        }
+        // 2. Tentar formato com underline
+        else if (usuario.password_hash && usuario.password_salt) {
+            senhaCorreta = verifyPassword(password, usuario.password_hash, usuario.password_salt);
+            formatoUsado = 'password_hash/password_salt (com underline)';
+        }
+        // 3. Tentar formato JSON (camelCase)
+        else if (usuario.passwordHash && usuario.passwordSalt) {
+            senhaCorreta = verifyPassword(password, usuario.passwordHash, usuario.passwordSalt);
+            formatoUsado = 'passwordHash/passwordSalt (camelCase)';
+        }
+        else {
+            console.log('❌ Formato de senha não reconhecido. Campos disponíveis:', Object.keys(usuario));
+            return res.status(401).json({ success: false, message: 'Credenciais inválidas' });
+        }
+
+        console.log(`🔐 Verificação de senha usando formato: ${formatoUsado}`);
+        
+        if (!senhaCorreta) {
+            console.log(`❌ Senha incorreta para ${email}`);
+            return res.status(401).json({ success: false, message: 'Senha incorreta' });
+        }
+
+        console.log(`✅ Login bem-sucedido para ${email}`);
+
+        // Atualizar último login
+        const updateData = {
+            ultimo_login: new Date().toISOString()
+        };
+        
+        // Atualizar no Supabase
+        if (supabaseEnabled && usuario.id) {
+            await supabase
+                .from('usuarios')
+                .update(updateData)
+                .eq('id', usuario.id);
+        }
+        
+        // Atualizar no arquivo JSON também
+        await saveToFile('usuarios', updateData, email);
+
+        // Criar sessão
+        const token = gerarToken();
+        const sessaoData = {
+            token,
             email,
             criado_em: Date.now(),
-            ip: req.ip || req.connection.remoteAddress
+            ip: req.ip || 'localhost'
         };
 
-        await writeData('sessoes', sessoes);
-        await registrarLog('login_sucesso', { 
-            email, 
-            name: usuario.name 
-        });
+        await saveDataUnified('sessoes', sessaoData, token);
 
         res.json({
             success: true,
             message: 'Login realizado com sucesso!',
             token,
-            user: {
-                name: usuario.name,
-                email: usuario.email,
-                role: usuario.role
+            user: { 
+                name: usuario.name, 
+                email: usuario.email, 
+                role: usuario.role || 'user' 
             }
         });
     } catch (error) {
-        console.error('Erro no login:', error);
-        res.status(500).json({ 
-            success: false, 
-            message: 'Erro interno no servidor' 
-        });
+        console.error('❌ Erro no login:', error);
+        res.status(500).json({ success: false, message: 'Erro interno no servidor' });
     }
 });
 
-// Verificar sessão
-app.post("/verificar-sessao", async (req, res) => {
-    try {
-        const { token } = req.body;
-        
-        if (!token) {
-            return res.status(400).json({ 
-                success: false, 
-                message: 'Token não fornecido' 
-            });
-        }
-
-        const usuario = await verificarSessao(token);
-
-        if (!usuario) {
-            return res.status(401).json({ 
-                success: false, 
-                message: 'Sessão inválida ou expirada' 
-            });
-        }
-
-        res.json({
-            success: true,
-            user: usuario
-        });
-    } catch (error) {
-        console.error('Erro ao verificar sessão:', error);
-        res.status(500).json({ 
-            success: false, 
-            message: 'Erro interno no servidor' 
-        });
-    }
-});
-
-// Logout
-app.post("/logout", async (req, res) => {
-    try {
-        const { token } = req.body;
-        
-        if (!token) {
-            return res.status(400).json({ 
-                success: false, 
-                message: 'Token não fornecido' 
-            });
-        }
-
-        const sessoes = await readData('sessoes');
-        
-        if (sessoes.sessoes[token]) {
-            const email = sessoes.sessoes[token].email;
-            delete sessoes.sessoes[token];
-            await writeData('sessoes', sessoes);
-            await registrarLog('logout', { email });
-            
-            res.json({ 
-                success: true, 
-                message: 'Logout realizado com sucesso' 
-            });
-        } else {
-            res.status(404).json({ 
-                success: false, 
-                message: 'Sessão não encontrada' 
-            });
-        }
-    } catch (error) {
-        console.error('Erro no logout:', error);
-        res.status(500).json({ 
-            success: false, 
-            message: 'Erro interno no servidor' 
-        });
-    }
-});
-
-// ========== ROTAS DO PAINEL ADMIN ==========
-
-// Health Check
-app.get("/health", async (req, res) => {
-    const academias = await readData('academias');
-    const proprietarios = await readData('proprietarios');
-    const personais = await readData('personais');
-    const dbUsuarios = await readData('usuarios');
-    
-    const personaisAtivos = personais.filter(p => p.status === 'ativo').length;
-    const personaisPendentes = personais.filter(p => p.status === 'pendente').length;
-    
-    res.json({ 
-        status: "online",
-        message: "Servidor GYM P2 UNIFICADO funcionando perfeitamente!",
-        timestamp: new Date().toISOString(),
-        stats: {
-            academias: academias.length,
-            proprietarios: proprietarios.length,
-            personais: personais.length,
-            personais_ativos: personaisAtivos,
-            personais_pendentes: personaisPendentes,
-            usuarios: dbUsuarios.total_usuarios || 0
-        }
-    });
-});
-
-app.get("/api/health", async (req, res) => {
-    const academias = await readData('academias');
-    const proprietarios = await readData('proprietarios');
-    const personais = await readData('personais');
-    const dbUsuarios = await readData('usuarios');
-    
-    res.json({ 
-        status: "online",
-        message: "API GYM P2 Unificada Online!",
-        academias: academias.length,
-        proprietarios: proprietarios.length,
-        personais: personais.length,
-        usuarios: dbUsuarios.total_usuarios || 0
-    });
-});
-
-// Status do sistema
-app.get("/stats", async (req, res) => {
+// ========== ROTAS DE DEBUG ==========
+app.get("/debug/usuarios", async (req, res) => {
     try {
         const db = await readData('usuarios');
-        const sessoes = await readData('sessoes');
-        const academias = await readData('academias');
-        const proprietarios = await readData('proprietarios');
-        const personais = await readData('personais');
-
-        const loginsHoje = db.logs ? db.logs.filter(log => {
-            const hoje = new Date().toDateString();
-            const logDate = new Date(log.timestamp).toDateString();
-            return log.tipo === 'login_sucesso' && logDate === hoje;
-        }).length : 0;
-
-        const personaisAtivos = personais.filter(p => p.status === 'ativo').length;
-        const personaisPendentes = personais.filter(p => p.status === 'pendente').length;
-
+        let supabaseUsers = { data: [] };
+        
+        if (supabaseEnabled) {
+            const { data, error } = await supabase.from('usuarios').select('*');
+            if (!error) supabaseUsers = { data };
+        }
+        
         res.json({
-            sistema: "GYM P2 - Sistema Unificado",
-            total_usuarios: db.total_usuarios || 0,
-            sessoes_ativas: Object.keys(sessoes.sessoes || {}).length,
-            logins_hoje: loginsHoje,
-            total_logs: db.logs ? db.logs.length : 0,
-            academias: academias.length,
-            proprietarios: proprietarios.length,
-            personais: personais.length,
-            personais_ativos: personaisAtivos,
-            personais_pendentes: personaisPendentes
+            arquivo_json: db,
+            supabase: supabaseUsers.data,
+            total_arquivo: db.usuarios ? Object.keys(db.usuarios).length : 0,
+            total_supabase: supabaseUsers.data ? supabaseUsers.data.length : 0
         });
     } catch (error) {
-        console.error('Erro ao obter stats:', error);
-        res.status(500).json({ error: 'Erro interno' });
+        res.status(500).json({ error: error.message });
     }
 });
 
-// ========== ACADEMIAS ==========
-app.get("/api/academias", async (req, res) => {
-    const academias = await readData('academias');
-    const proprietarios = await readData('proprietarios');
-    
-    const result = academias.map(a => ({
-        ...a,
-        proprietario_nome: proprietarios.find(p => p.id === a.proprietario_id)?.nome || "Não informado"
-    }));
-    
-    res.json(result);
-});
-
-app.get("/api/academias/stats", async (req, res) => {
-    const academias = await readData('academias');
-    res.json({
-        ativas: academias.filter(a => a.status === 'ativo').length,
-        inativas: academias.filter(a => a.status === 'inativo').length,
-        total: academias.length
-    });
-});
-
-app.get("/api/academias/:id", async (req, res) => {
-    const academias = await readData('academias');
-    const proprietarios = await readData('proprietarios');
-    const academia = academias.find(a => a.id == req.params.id);
-    
-    if (academia) {
-        const proprietario = proprietarios.find(p => p.id === academia.proprietario_id);
-        res.json({ ...academia, proprietario_nome: proprietario?.nome || "Não informado" });
-    } else {
-        res.status(404).json({ error: 'Academia não encontrada' });
-    }
-});
-
-app.post('/api/academias', async (req, res) => {
-    const academias = await readData('academias');
-    const nova = { 
-        id: Date.now(), 
-        ...req.body, 
-        data_cadastro: new Date().toISOString() 
-    };
-    academias.push(nova);
-    await writeData('academias', academias);
-    io.emit('academia-criada', nova);
-    res.status(201).json(nova);
-});
-
-app.put('/api/academias/:id', async (req, res) => {
-    const academias = await readData('academias');
-    const index = academias.findIndex(a => a.id == req.params.id);
-    
-    if (index !== -1) {
-        academias[index] = { 
-            ...academias[index], 
-            ...req.body, 
-            data_atualizacao: new Date().toISOString() 
-        };
-        await writeData('academias', academias);
-        io.emit('academia-atualizada', academias[index]);
-        res.json(academias[index]);
-    } else {
-        res.status(404).json({ error: 'Academia não encontrada' });
-    }
-});
-
-app.delete('/api/academias/:id', async (req, res) => {
-    let academias = await readData('academias');
-    const index = academias.findIndex(a => a.id == req.params.id);
-    
-    if (index !== -1) {
-        const academiaExcluida = academias[index];
-        academias.splice(index, 1);
-        await writeData('academias', academias);
-        io.emit('academia-excluida', req.params.id);
-        res.json({ 
-            success: true, 
-            message: 'Academia excluída com sucesso',
-            academia: academiaExcluida
-        });
-    } else {
-        res.status(404).json({ error: 'Academia não encontrada' });
-    }
-});
-
-// ========== PROPRIETÁRIOS ==========
-app.get("/api/proprietarios", async (req, res) => {
-    const proprietarios = await readData('proprietarios');
-    res.json(proprietarios);
-});
-
-app.get("/api/proprietarios/:id", async (req, res) => {
-    const proprietarios = await readData('proprietarios');
-    const p = proprietarios.find(x => x.id == req.params.id);
-    p ? res.json(p) : res.status(404).json({ error: 'Proprietário não encontrado' });
-});
-
-app.post('/api/proprietarios', async (req, res) => {
-    const proprietarios = await readData('proprietarios');
-    const novo = { 
-        id: Date.now(), 
-        ...req.body, 
-        data_cadastro: new Date().toISOString() 
-    };
-    proprietarios.push(novo);
-    await writeData('proprietarios', proprietarios);
-    io.emit('proprietario-criado', novo);
-    res.status(201).json(novo);
-});
-
-app.put('/api/proprietarios/:id', async (req, res) => {
-    const proprietarios = await readData('proprietarios');
-    const index = proprietarios.findIndex(p => p.id == req.params.id);
-    
-    if (index !== -1) {
-        proprietarios[index] = { 
-            ...proprietarios[index], 
-            ...req.body, 
-            data_atualizacao: new Date().toISOString() 
-        };
-        await writeData('proprietarios', proprietarios);
-        io.emit('proprietario-atualizado', proprietarios[index]);
-        res.json(proprietarios[index]);
-    } else {
-        res.status(404).json({ error: 'Proprietário não encontrado' });
-    }
-});
-
-app.delete('/api/proprietarios/:id', async (req, res) => {
-    let proprietarios = await readData('proprietarios');
-    const index = proprietarios.findIndex(p => p.id == req.params.id);
-    
-    if (index !== -1) {
-        const proprietarioExcluido = proprietarios[index];
-        proprietarios.splice(index, 1);
-        await writeData('proprietarios', proprietarios);
-        io.emit('proprietario-excluido', req.params.id);
-        res.json({ 
-            success: true, 
-            message: 'Proprietário excluído com sucesso',
-            proprietario: proprietarioExcluido
-        });
-    } else {
-        res.status(404).json({ error: 'Proprietário não encontrado' });
-    }
-});
-
-// ========== PERSONAIS ==========
-app.get("/api/personais", async (req, res) => {
-    const personais = await readData('personais');
-    const academias = await readData('academias');
-    
-    const result = personais.map(p => ({
-        ...p,
-        academia: academias.find(a => a.id === p.academia_id)?.nome || "Independente"
-    }));
-    
-    res.json(result);
-});
-
-app.get("/api/personais/ativos", async (req, res) => {
+app.get("/debug/verificar-usuario/:email", async (req, res) => {
     try {
-        const personais = await readData('personais');
-        const academias = await readData('academias');
+        const { email } = req.params;
         
-        console.log(`📊 Total de personais no banco: ${personais.length}`);
+        let supabaseUser = null;
+        let fileUser = null;
         
-        // Filtrar apenas personais com status "ativo"
-        const personaisAtivos = personais.filter(p => p.status === 'ativo');
-        
-        console.log(`✅ Personais ativos: ${personaisAtivos.length}`);
-        
-        // Enriquecer dados dos personais
-        const result = personaisAtivos.map(p => {
-            const academiaInfo = p.academia_id ? 
-                academias.find(a => a.id == p.academia_id) : null;
+        if (supabaseEnabled) {
+            const { data, error } = await supabase
+                .from('usuarios')
+                .select('*')
+                .eq('email', email)
+                .maybeSingle();
             
-            return {
-                id: p.id,
-                nome: p.nome,
-                email: p.email,
-                telefone: p.telefone,
-                foto: p.foto || '',
-                especialidade: p.especialidade,
-                anos_experiencia: p.anos_experiencia || 3,
-                status: p.status,
-                descricao: p.descricao || p.sobre || '',
-                
-                // Campos extras para o filtro
-                genero: p.genero || 'Masculino',
-                formacao: p.formacao || 'Educação Física',
-                horarios: p.horarios || 'Seg-Sex: 6h-22h',
-                cidade: p.cidade || 'São Paulo',
-                bairros: p.bairros || [],
-                
-                // Academia
-                academia_id: p.academia_id || null,
-                academia: academiaInfo?.nome || 'Independente',
-                academia_cidade: academiaInfo?.cidade || null,
-                
-                // Modalidades (presencial/online)
-                modalidades: p.modalidades ? 
-                    (typeof p.modalidades === 'string' ? 
-                        JSON.parse(p.modalidades) : p.modalidades) 
-                    : ['Presencial'],
-                
-                // Especializações
-                especializacoes: p.especializacoes ? 
-                    (typeof p.especializacoes === 'string' ? 
-                        JSON.parse(p.especializacoes) : p.especializacoes)
-                    : [p.especialidade],
-                
-                // Avaliações
-                avaliacoes: p.avaliacoes || 5.0,
-                numero_avaliacoes: p.numero_avaliacoes || 0,
-                numero_clientes: p.numero_clientes || 0,
-                
-                // Datas
-                data_cadastro: p.data_cadastro,
-                data_atualizacao: p.data_atualizacao || p.data_cadastro
-            };
-        });
+            if (!error) supabaseUser = data;
+        }
         
-        console.log(`📤 Enviando ${result.length} personais ativos para o filtro`);
+        const db = await readData('usuarios');
+        fileUser = db.usuarios ? db.usuarios[email] : null;
+        
+        res.json({
+            email,
+            supabase: supabaseUser,
+            arquivo: fileUser,
+            existe_supabase: !!supabaseUser,
+            existe_arquivo: !!fileUser,
+            campos_supabase: supabaseUser ? Object.keys(supabaseUser) : [],
+            campos_arquivo: fileUser ? Object.keys(fileUser) : []
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// ========== CRUD ACADEMIAS ==========
+app.get("/api/academias", async (req, res) => {
+    try {
+        const academias = await readDataUnified('academias');
+        const proprietarios = await readDataUnified('proprietarios');
+        
+        const academiasArray = Array.isArray(academias) ? academias : [];
+        const proprietariosArray = Array.isArray(proprietarios) ? proprietarios : [];
+        
+        const result = academiasArray.map(a => ({
+            ...a,
+            proprietario_nome: proprietariosArray.find(p => p.id == a.proprietario_id)?.nome || "Não informado"
+        }));
         
         res.json(result);
-        
     } catch (error) {
-        console.error('❌ Erro ao buscar personais ativos:', error);
-        res.status(500).json({ 
-            success: false, 
-            error: 'Erro ao carregar personais',
-            details: error.message 
-        });
-    }
-});
-
-app.post('/api/personais', async (req, res) => {
-    try {
-        const personais = await readData('personais');
-        
-        const novo = { 
-            id: Date.now(), 
-            ...req.body, 
-            data_cadastro: new Date().toISOString(),
-            status: req.body.status || 'pendente' // Default: pendente
-        };
-        
-        personais.push(novo);
-        await writeData('personais', personais);
-        
-        // ✅ ADICIONAR: Notificar via WebSocket
-        io.emit('personal-criado', novo);
-        
-        // Se já for criado como ativo, notificar filtro público
-        if (novo.status === 'ativo') {
-            io.to('public-updates').emit('personal-aprovado', novo);
-        }
-        
-        console.log(`✅ Personal criado: ${novo.nome} (Status: ${novo.status})`);
-        
-        res.status(201).json(novo);
-    } catch (error) {
-        console.error('❌ Erro ao criar personal:', error);
-        res.status(500).json({ error: error.message });
-    }
-});
-
-app.put('/api/personais/:id', async (req, res) => {
-    try {
-        const personais = await readData('personais');
-        const index = personais.findIndex(p => p.id == req.params.id);
-        
-        if (index === -1) {
-            return res.status(404).json({ error: 'Personal não encontrado' });
-        }
-        
-        const statusAnterior = personais[index].status;
-        
-        personais[index] = { 
-            ...personais[index], 
-            ...req.body, 
-            data_atualizacao: new Date().toISOString() 
-        };
-        
-        await writeData('personais', personais);
-        
-        const personalAtualizado = personais[index];
-        
-        // ✅ ADICIONAR: Notificar via WebSocket
-        io.emit('personal-atualizado', personalAtualizado);
-        
-        // Se mudou de pendente para ativo, notificar filtro público
-        if (statusAnterior !== 'ativo' && personalAtualizado.status === 'ativo') {
-            console.log(`🎉 Personal APROVADO: ${personalAtualizado.nome}`);
-            io.to('public-updates').emit('personal-aprovado', personalAtualizado);
-            io.emit('personal-aprovado', personalAtualizado); // Para painel admin também
-        }
-        
-        // Se mudou para ativo, notificar filtro público
-        if (personalAtualizado.status === 'ativo') {
-            io.to('public-updates').emit('personal-atualizado', personalAtualizado);
-        }
-        
-        console.log(`✅ Personal atualizado: ${personalAtualizado.nome}`);
-        
-        res.json(personalAtualizado);
-    } catch (error) {
-        console.error('❌ Erro ao atualizar personal:', error);
-        res.status(500).json({ error: error.message });
-    }
-});
-
-app.delete('/api/personais/:id', async (req, res) => {
-    try {
-        let personais = await readData('personais');
-        const index = personais.findIndex(p => p.id == req.params.id);
-        
-        if (index === -1) {
-            return res.status(404).json({ error: 'Personal não encontrado' });
-        }
-        
-        const personalExcluido = personais[index];
-        personais.splice(index, 1);
-        await writeData('personais', personais);
-        
-        // ✅ ADICIONAR: Notificar via WebSocket
-        io.emit('personal-excluido', req.params.id);
-        io.to('public-updates').emit('personal-excluido', req.params.id);
-        
-        console.log(`🗑️ Personal excluído: ${personalExcluido.nome}`);
-        
-        res.json({ 
-            success: true, 
-            message: 'Personal excluído com sucesso',
-            personal: personalExcluido
-        });
-    } catch (error) {
-        console.error('❌ Erro ao excluir personal:', error);
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// ========== APROVAR MÚLTIPLOS PERSONAIS ==========
-app.post('/api/personais/aprovar-pendentes', async (req, res) => {
-    try {
-        const personais = await readData('personais');
-        
-        // Filtrar personais pendentes
-        const pendentes = personais.filter(p => p.status === 'pendente');
-        
-        if (pendentes.length === 0) {
-            return res.json({
-                success: true,
-                message: 'Não há personais pendentes',
-                aprovados: 0
-            });
-        }
-        
-        // Aprovar todos
-        let aprovados = 0;
-        pendentes.forEach(p => {
-            const index = personais.findIndex(personal => personal.id === p.id);
-            if (index !== -1) {
-                personais[index].status = 'ativo';
-                personais[index].data_aprovacao = new Date().toISOString();
-                aprovados++;
-                
-                // Notificar cada aprovação
-                io.emit('personal-aprovado', personais[index]);
-                io.to('public-updates').emit('personal-aprovado', personais[index]);
-            }
-        });
-        
-        await writeData('personais', personais);
-        
-        console.log(`✅ ${aprovados} personais aprovados em massa`);
-        
-        res.json({
-            success: true,
-            message: `${aprovados} personais aprovados com sucesso`,
-            aprovados: aprovados
-        });
-        
-    } catch (error) {
-        console.error('❌ Erro ao aprovar personais em massa:', error);
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// ========== ESTATÍSTICAS DE PERSONAIS ==========
-app.get("/api/personais/stats", async (req, res) => {
-    try {
-        const personais = await readData('personais');
-        
-        const stats = {
-            total: personais.length,
-            ativos: personais.filter(p => p.status === 'ativo').length,
-            pendentes: personais.filter(p => p.status === 'pendente').length,
-            inativos: personais.filter(p => p.status === 'inativo').length,
-            
-            // Por especialidade
-            especialidades: {},
-            
-            // Por cidade
-            cidades: {},
-            
-            // Média de experiência
-            media_experiencia: 0
-        };
-        
-        // Contar por especialidade
-        personais.forEach(p => {
-            if (p.especialidade) {
-                stats.especialidades[p.especialidade] = 
-                    (stats.especialidades[p.especialidade] || 0) + 1;
-            }
-            
-            if (p.cidade) {
-                stats.cidades[p.cidade] = 
-                    (stats.cidades[p.cidade] || 0) + 1;
-            }
-        });
-        
-        // Calcular média de experiência
-        const totalExperiencia = personais.reduce((sum, p) => 
-            sum + (p.anos_experiencia || 0), 0);
-        stats.media_experiencia = personais.length > 0 ? 
-            (totalExperiencia / personais.length).toFixed(1) : 0;
-        
-        res.json(stats);
-        
-    } catch (error) {
-        console.error('❌ Erro ao calcular estatísticas:', error);
-        res.status(500).json({ error: error.message });
-    }
-});
-
-app.get("/api/personais/:id", async (req, res) => {
-    try {
-        const personais = await readData('personais');
-        const academias = await readData('academias');
-        
-        const personal = personais.find(p => p.id == req.params.id);
-        
-        if (personal) {
-            const academiaInfo = personal.academia_id ? 
-                academias.find(a => a.id == personal.academia_id) : null;
-            
-            const response = {
-                ...personal,
-                academia: academiaInfo?.nome || "Independente",
-                academia_info: academiaInfo || null
-            };
-            
-            console.log(`✅ Personal encontrado: ${personal.nome} (ID: ${personal.id})`);
-            res.json(response);
-        } else {
-            res.status(404).json({ 
-                error: 'Personal não encontrado'
-            });
-        }
-    } catch (error) {
-        console.error('❌ Erro ao buscar personal:', error);
-        res.status(500).json({ 
-            error: 'Erro interno ao buscar personal',
-            details: error.message 
-        });
-    }
-});
-
-// ========== ADMINISTRADORES - CRUD COMPLETO ==========
-app.get("/api/administradores", async (req, res) => {
-    try {
-        const admins = await readData('admins');
-        res.json(admins);
-    } catch (error) {
-        console.error('Erro ao buscar administradores:', error);
+        console.error('Erro ao buscar academias:', error);
         res.status(500).json({ error: 'Erro interno' });
     }
 });
 
-app.get("/api/administradores/:id", async (req, res) => {
-    try {
-        const admins = await readData('admins');
-        const admin = admins.find(a => a.id == req.params.id);
-        
-        if (admin) {
-            // Não retornar senha
-            const { senha, ...adminSemSenha } = admin;
-            res.json(adminSemSenha);
-        } else {
-            res.status(404).json({ error: 'Administrador não encontrado' });
-        }
-    } catch (error) {
-        console.error('Erro ao buscar administrador:', error);
-        res.status(500).json({ error: 'Erro interno' });
-    }
+// ========== HEALTH CHECK ==========
+app.get("/health", async (req, res) => {
+    res.json({ 
+        status: "online",
+        database: supabaseEnabled ? "Supabase conectado ✅" : "Apenas arquivos JSON 📁",
+        timestamp: new Date().toISOString(),
+        version: "1.0.0"
+    });
 });
-
-app.post('/api/administradores', async (req, res) => {
-    try {
-        const { nome, email, senha, nivel, status, telefone, observacoes } = req.body;
-
-        // Validações
-        if (!nome || !email || !senha || !nivel) {
-            return res.status(400).json({ 
-                error: 'Nome, email, senha e nível são obrigatórios' 
-            });
-        }
-
-        if (senha.length < 6) {
-            return res.status(400).json({ 
-                error: 'Senha deve ter no mínimo 6 caracteres' 
-            });
-        }
-
-        const admins = await readData('admins');
-
-        // Verificar se email já existe
-        const emailExistente = admins.find(a => a.email === email);
-        if (emailExistente) {
-            return res.status(400).json({ 
-                error: 'Este e-mail já está cadastrado' 
-            });
-        }
-
-        // Gerar hash da senha
-        const { hash, salt } = hashPassword(senha);
-
-        const novoAdmin = {
-            id: Date.now(),
-            nome,
-            email,
-            senha: hash,
-            salt: salt,
-            nivel: nivel,
-            status: status || 'ativo',
-            telefone: telefone || '',
-            observacoes: observacoes || '',
-            data_cadastro: new Date().toISOString(),
-            ultimo_acesso: null,
-            criado_por: req.user?.email || 'sistema'
-        };
-
-        admins.push(novoAdmin);
-        await writeData('admins', admins);
-
-        // Notificar via WebSocket
-        io.emit('admin-criado', { id: novoAdmin.id, nome: novoAdmin.nome, email: novoAdmin.email });
-
-        // Registrar log
-        await registrarLog('admin_criado', {
-            admin_email: email,
-            criado_por: req.user?.email || 'sistema',
-            nivel: nivel
-        });
-
-        // Não retornar senha na resposta
-        const { senha: _, salt: __, ...adminResponse } = novoAdmin;
-        
-        res.status(201).json(adminResponse);
-    } catch (error) {
-        console.error('Erro ao criar administrador:', error);
-        res.status(500).json({ error: 'Erro interno no servidor' });
-    }
-});
-
-app.put('/api/administradores/:id', async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { nome, email, senha, nivel, status, telefone, observacoes } = req.body;
-
-        const admins = await readData('admins');
-        const adminIndex = admins.findIndex(a => a.id == id);
-
-        if (adminIndex === -1) {
-            return res.status(404).json({ error: 'Administrador não encontrado' });
-        }
-
-        // Não permitir alterar super admin se não for super admin
-        if (admins[adminIndex].nivel === 'super_admin' && req.user?.role !== 'super_admin') {
-            return res.status(403).json({ 
-                error: 'Apenas super administradores podem modificar outros super admins' 
-            });
-        }
-
-        // Verificar se email já está em uso por outro admin
-        if (email && email !== admins[adminIndex].email) {
-            const emailExistente = admins.find(a => a.email === email && a.id != id);
-            if (emailExistente) {
-                return res.status(400).json({ 
-                    error: 'Este e-mail já está em uso por outro administrador' 
-                });
-            }
-        }
-
-        // Atualizar dados
-        admins[adminIndex].nome = nome || admins[adminIndex].nome;
-        admins[adminIndex].email = email || admins[adminIndex].email;
-        admins[adminIndex].nivel = nivel || admins[adminIndex].nivel;
-        admins[adminIndex].status = status || admins[adminIndex].status;
-        admins[adminIndex].telefone = telefone;
-        admins[adminIndex].observacoes = observacoes;
-        admins[adminIndex].data_atualizacao = new Date().toISOString();
-
-        // Atualizar senha se fornecida
-        if (senha) {
-            if (senha.length < 6) {
-                return res.status(400).json({ 
-                    error: 'Senha deve ter no mínimo 6 caracteres' 
-                });
-            }
-            const { hash, salt } = hashPassword(senha);
-            admins[adminIndex].senha = hash;
-            admins[adminIndex].salt = salt;
-        }
-
-        await writeData('admins', admins);
-
-        // Notificar via WebSocket
-        io.emit('admin-atualizado', { id, nome: admins[adminIndex].nome });
-
-        // Registrar log
-        await registrarLog('admin_atualizado', {
-            admin_id: id,
-            atualizado_por: req.user?.email || 'sistema'
-        });
-
-        // Não retornar senha na resposta
-        const { senha: _, salt: __, ...adminResponse } = admins[adminIndex];
-        
-        res.json(adminResponse);
-    } catch (error) {
-        console.error('Erro ao atualizar administrador:', error);
-        res.status(500).json({ error: 'Erro interno no servidor' });
-    }
-});
-
-app.delete('/api/administradores/:id', async (req, res) => {
-    try {
-        const { id } = req.params;
-        const admins = await readData('admins');
-        const adminIndex = admins.findIndex(a => a.id == id);
-
-        if (adminIndex === -1) {
-            return res.status(404).json({ error: 'Administrador não encontrado' });
-        }
-
-        const admin = admins[adminIndex];
-
-        // Não permitir excluir super admins
-        if (admin.nivel === 'super_admin') {
-            return res.status(403).json({ 
-                error: 'Não é possível excluir um Super Administrador' 
-            });
-        }
-
-        // Não permitir excluir a si mesmo
-        if (req.user?.email === admin.email) {
-            return res.status(403).json({ 
-                error: 'Você não pode excluir sua própria conta' 
-            });
-        }
-
-        // Verificar se é o último admin ativo
-        const adminsAtivos = admins.filter(a => a.status === 'ativo' && a.id != id);
-        if (adminsAtivos.length === 0) {
-            return res.status(403).json({ 
-                error: 'Não é possível excluir o último administrador ativo' 
-            });
-        }
-
-        // Remover admin
-        const adminExcluido = admins.splice(adminIndex, 1)[0];
-        await writeData('admins', admins);
-
-        // Notificar via WebSocket
-        io.emit('admin-excluido', id);
-
-        // Registrar log
-        await registrarLog('admin_excluido', {
-            admin_email: adminExcluido.email,
-            excluido_por: req.user?.email || 'sistema'
-        });
-
-        res.json({ 
-            success: true, 
-            message: 'Administrador excluído com sucesso',
-            admin: { id: adminExcluido.id, nome: adminExcluido.nome, email: adminExcluido.email }
-        });
-    } catch (error) {
-        console.error('Erro ao excluir administrador:', error);
-        res.status(500).json({ error: 'Erro interno no servidor' });
-    }
-});
-
-async function getDashboardStats() {
-    const academias = await readData('academias');
-    const proprietarios = await readData('proprietarios');
-    const personais = await readData('personais');
-    const dbUsuarios = await readData('usuarios');
-    const sessoes = await readData('sessoes');
-    
-    const personaisAtivos = personais.filter(p => p.status === 'ativo').length;
-    const personaisPendentes = personais.filter(p => p.status === 'pendente').length;
-    
-    return {
-        total_academias: academias.length,
-        academias_ativas: academias.filter(a => a.status === 'ativo').length,
-        total_proprietarios: proprietarios.length,
-        total_personais: personais.length,
-        personais_ativos: personaisAtivos,
-        personais_pendentes: personaisPendentes,
-        total_usuarios: dbUsuarios.total_usuarios || 0,
-        sessoes_ativas: Object.keys(sessoes.sessoes || {}).length
-    };
-}
 
 // ========== WEBSOCKET ==========
 io.on('connection', (socket) => {
-    console.log('✅ Cliente WebSocket conectado:', socket.id);
-    
-    socket.on('join-room', (room) => {
-        socket.join(room);
-        console.log(`📍 Cliente ${socket.id} entrou na sala: ${room}`);
-    });
-    
-    // Sala para atualizações públicas
-    socket.on('subscribe-public', () => {
-        socket.join('public-updates');
-        console.log(`🌐 Cliente ${socket.id} inscrito em atualizações públicas`);
-    });
-    
-    socket.on('disconnect', () => {
-        console.log('❌ Cliente desconectado:', socket.id);
-    });
-    
-    // Eventos personalizados
-    socket.on('atualizar-dashboard', async () => {
-        const stats = await getDashboardStats();
-        io.emit('dashboard-atualizado', stats);
-    });
-});
-
-// ========== ROTA PARA SERVER STATUS ==========
-app.get("/status", (req, res) => {
-    res.json({ 
-        status: 'online',
-        timestamp: new Date().toISOString(),
-        sistema: 'GYM P2 - Servidor Unificado',
-        versao: '1.0.0'
-    });
-});
-
-app.use(cors({
-    origin: '*',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type']
-}));
-
-// ========== ROTAS DE SINCRONIZAÇÃO ==========
-
-// Rota específica para página pública buscar academias
-app.get("/api/public/academias", async (req, res) => {
-    try {
-        const academias = await readData('academias');
-        const proprietarios = await readData('proprietarios');
-        
-        // Filtrar apenas academias ativas para o público
-        const academiasAtivas = academias.filter(a => a.status === 'ativo');
-        
-        const result = academiasAtivas.map(a => ({
-            id: a.id,
-            nome: a.nome,
-            displayName: a.nome,
-            tipo: a.tipo || 'musculacao',
-            preco: a.preco || 60,
-            endereco: a.endereco || '',
-            cidade: a.cidade || '',
-            estado: a.estado || '',
-            telefone: a.telefone || '',
-            email: a.email || '',
-            foto: a.foto || 'https://via.placeholder.com/320x200/1a1a1a/28a745?text=Academia+Gym+P2',
-            facilidades: a.facilidades || [],
-            horario: {
-                abertura: a.abertura || '06:00',
-                fechamento: a.fechamento || '22:00'
-            },
-            schedule: {
-                weekdays: `${a.abertura || '06:00'} - ${a.fechamento || '22:00'}`,
-                weekend: '08:00 - 17:00'
-            },
-            status: a.status || 'ativo',
-            data_atualizacao: a.data_atualizacao || a.data_cadastro,
-            // Dados extras para a página pública
-            location: a.localizacao || 'centro',
-            address: a.endereco || '',
-            description: a.descricao || '',
-            adminData: {
-                descricao: a.descricao,
-                email: a.email,
-                telefone: a.telefone,
-                cnpj: a.cnpj
-            }
-        }));
-        
-        res.json({
-            success: true,
-            data: result,
-            total: result.length,
-            timestamp: new Date().toISOString()
-        });
-    } catch (error) {
-        console.error('Erro ao buscar academias públicas:', error);
-        res.status(500).json({ 
-            success: false, 
-            error: 'Erro ao carregar academias' 
-        });
-    }
-});
-
-// Rota específica para cadastro de personais (para formulário público)
-app.post('/api/personais/cadastro', async (req, res) => {
-    try {
-        const {
-            nome, telefone, email, cidade, bairros,
-            especialidade, anos_experiencia, cref,
-            sobre, expectativas
-        } = req.body;
-
-        // Validações básicas
-        if (!nome || !telefone || !email || !cidade || !bairros || !especialidade || !anos_experiencia) {
-            return res.status(400).json({ 
-                success: false, 
-                error: 'Campos obrigatórios faltando' 
-            });
-        }
-
-        // Ler personais existentes
-        const personais = await readData('personais');
-        
-        // Criar novo personal
-        const novoPersonal = {
-            id: Date.now(),
-            nome,
-            telefone,
-            email,
-            cidade,
-            bairros: bairros.split(',').map(b => b.trim()),
-            especialidade,
-            anos_experiencia: parseInt(anos_experiencia),
-            cref: cref || '',
-            sobre,
-            expectativas,
-            data_cadastro: new Date().toISOString(),
-            status: 'pendente',
-            tipo: 'independente',
-            avaliacao: 0,
-            experiencia: `${anos_experiencia} ano(s)`
-        };
-
-        // Adicionar ao array
-        personais.push(novoPersonal);
-        
-        // Salvar no arquivo
-        await writeData('personais', personais);
-
-        // Registrar log
-        await registrarLog('personal_cadastrado', {
-            id: novoPersonal.id,
-            nome: novoPersonal.nome,
-            email: novoPersonal.email,
-            cidade: novoPersonal.cidade
-        });
-
-        // Notificar via WebSocket
-        io.emit('personal-cadastrado', novoPersonal);
-
-        res.status(201).json({
-            success: true,
-            message: 'Cadastro realizado com sucesso! Aguarde aprovação.',
-            data: novoPersonal
-        });
-
-    } catch (error) {
-        console.error('Erro no cadastro de personal:', error);
-        res.status(500).json({ 
-            success: false, 
-            error: 'Erro interno no servidor' 
-        });
-    }
-});
-
-// ========== TESTE DE INTEGRAÇÃO ==========
-app.get('/api/test/personais-filtro', async (req, res) => {
-    try {
-        const personais = await readData('personais');
-        
-        console.log('\n🧪 TESTE DE INTEGRAÇÃO PERSONAIS → FILTRO');
-        console.log('═══════════════════════════════════════════');
-        console.log(`Total de personais: ${personais.length}`);
-        
-        const ativos = personais.filter(p => p.status === 'ativo');
-        console.log(`Personais ativos: ${ativos.length}`);
-        
-        const pendentes = personais.filter(p => p.status === 'pendente');
-        console.log(`Personais pendentes: ${pendentes.length}`);
-        
-        console.log('\n📋 Dados que serão enviados para o filtro:');
-        ativos.forEach((p, i) => {
-            console.log(`\n${i + 1}. ${p.nome}`);
-            console.log(`   - ID: ${p.id}`);
-            console.log(`   - Status: ${p.status}`);
-            console.log(`   - Especialidade: ${p.especialidade}`);
-            console.log(`   - Experiência: ${p.anos_experiencia} anos`);
-            console.log(`   - Foto: ${p.foto ? '✅ Tem' : '❌ Não tem'}`);
-            console.log(`   - Cidade: ${p.cidade || 'Não informado'}`);
-        });
-        
-        console.log('═══════════════════════════════════════════\n');
-        
-        res.json({
-            success: true,
-            total: personais.length,
-            ativos: ativos.length,
-            pendentes: pendentes.length,
-            dados_ativos: ativos.map(p => ({
-                id: p.id,
-                nome: p.nome,
-                status: p.status,
-                especialidade: p.especialidade,
-                tem_foto: !!p.foto
-            }))
-        });
-        
-    } catch (error) {
-        console.error('❌ Erro no teste:', error);
-        res.status(500).json({ error: error.message });
-    }
+    console.log('✅ Cliente conectado:', socket.id);
+    socket.on('disconnect', () => console.log('❌ Cliente desconectado:', socket.id));
 });
 
 // ========== INICIAR SERVIDOR ==========
@@ -1477,54 +865,21 @@ async function startServer() {
     server.listen(PORT, '0.0.0.0', () => {
         console.log(`
 ╔══════════════════════════════════════════════════════════════╗
-║     🏋️  GYM P2 SERVER UNIFICADO ONLINE 🚀                 ║
+║          🏋️  GYM P2 SERVER - SUPABASE 🚀                    ║
 ╠══════════════════════════════════════════════════════════════╣
 ║  🌐 URL: http://localhost:${PORT}                            ║
-║  🔐 Sistema: Autenticação + Painel Admin                    ║
-║  📊 Dashboard: /api/protegido/dashboard (protegido)         ║
-║  📄 Painel: /painel-administrativo.html                     ║
-║  🔍 Health: /health                                         ║
-║  📈 Stats: /stats                                           ║
-║  💾 Persistência: ✅ ATIVADA                                ║
-║  🔒 Segurança: PBKDF2 + SHA512 + Tokens JWT-like           ║
-║  📁 Dados salvos em: ./data/                                ║
+║  ☁️  Banco: ${supabaseEnabled ? 'Supabase ✅'.padEnd(44) : 'Arquivos JSON 📁'.padEnd(44)} ║
+║  💾 Backup: Arquivos JSON (./data/)                         ║
+║  🔐 Sistema: Autenticação + CRUD completo                   ║
 ╚══════════════════════════════════════════════════════════════╝
         `);
         
-        console.log('\n✅ Rotas disponíveis:');
-        console.log('   POST /cadastro');
-        console.log('   POST /login');
-        console.log('   POST /verificar-sessao');
-        console.log('   POST /logout');
-        console.log('   GET  /health');
-        console.log('   GET  /stats');
-        console.log('   GET  /status');
-        console.log('   GET  /api/academias');
-        console.log('   GET  /api/proprietarios');
-        console.log('   GET  /api/personais');
-        console.log('   GET  /api/personais/ativos ⭐ NOVO');
-        console.log('   GET  /api/personais/stats ⭐ NOVO');
-        console.log('   POST /api/personais/aprovar-pendentes ⭐ NOVO');
-        console.log('   GET  /api/test/personais-filtro ⭐ NOVO');
-        console.log('   GET  /api/public/academias');
-        console.log('   GET  /api/administradores');
-        console.log('\n💡 Pressione Ctrl+C para parar\n');
+        console.log('✅ Sistema pronto para uso!\n');
+        console.log('👤 Admin padrão: admin@ifpi.edu.br / 123456');
+        console.log('🔍 Rotas de debug:');
+        console.log('   /debug/usuarios - Ver todos os usuários');
+        console.log('   /debug/verificar-usuario/:email - Ver usuário específico');
     });
 }
 
 startServer();
-
-// Tratamento de erros não capturados
-process.on('uncaughtException', (error) => {
-    console.error('❌ Erro não capturado:', error);
-});
-
-process.on('unhandledRejection', (reason, promise) => {
-    console.error('❌ Promise rejeitada não tratada:', reason);
-});
-
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-  console.log("🚀 Servidor GYM P2 rodando na porta", PORT);
-});
