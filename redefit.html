@@ -1,0 +1,2562 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+    <title>Academia Card</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --active-color: #00ff88;
+            --bg-color: #e1e3e5;
+            --icon-default: hsl(0, 0%, 0%);
+            --icon-accent: hsl(203 15 98);
+            --navigation-color: hsl(203 5 25 / 0.3);
+        }
+
+        body {
+            background-color: black;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* ========== HEADER ========== */
+        .header-container {
+            background: linear-gradient(135deg, #000 0%, #111 50%, #0a0a0a 100%);
+            padding: 1.2rem 2.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            position: sticky;
+            top: 0;
+            z-index: 2000;
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+            width: 100%;
+        }
+
+        .nav-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .brand-container {
+            flex-shrink: 0;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .logo-img {
+            height: 55px;
+            width: auto;
+        }
+
+        .right-controls {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        /* BARRA DE PESQUISA */
+        .search-widget {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-toggle-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            z-index: 100;
+            flex-shrink: 0;
+        }
+
+        .search-icon {
+            width: 22px;
+            height: 22px;
+            fill: #000;
+            transition: all 0.3s ease;
+        }
+
+        .expandable-search-field {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid transparent;
+            border-radius: 30px;
+            width: 48px;
+            height: 48px;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            backdrop-filter: blur(15px);
+            z-index: 50;
+        }
+
+        .expandable-search-field.expanded {
+            width: 320px;
+            border-color: #00ff88;
+            box-shadow: 0 5px 25px rgba(0, 255, 136, 0.3);
+        }
+
+        .search-input-field {
+            width: 100%;
+            height: 100%;
+            border: none;
+            outline: none;
+            background: transparent;
+            padding: 0 60px 0 20px;
+            font-size: 1rem;
+            color: #333;
+            font-family: inherit;
+            opacity: 0;
+            transition: opacity 0.3s ease 0.2s;
+            cursor: text;
+        }
+
+        .expandable-search-field.expanded .search-input-field {
+            opacity: 1;
+        }
+
+        .search-results {
+            position: fixed;
+            top: calc(1.2rem * 2 + 55px + 10px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border-radius: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+            z-index: 1999;
+            width: calc(100vw - 40px);
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .search-results.active {
+            display: block;
+        }
+
+        .search-result-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-result-item:hover {
+            background: #f0f0f0;
+        }
+
+        .result-category {
+            font-size: 0.8rem;
+            color: #00ff40;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .result-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .result-description {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* COMPONENTE DO USUÁRIO LOGADO */
+        .user-header-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 255, 136, 0.15);
+            border: 2px solid rgba(0, 255, 136, 0.4);
+            border-radius: 25px;
+            padding: 6px 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            height: 48px;
+        }
+
+        .user-header-container:hover {
+            background: rgba(0, 255, 136, 0.25);
+            border-color: rgba(0, 255, 136, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            color: #000;
+            border: 2px solid #fff;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #00ff88;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .user-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: #1a1a1a;
+            border: 2px solid rgba(0, 255, 136, 0.3);
+            border-radius: 12px;
+            padding: 10px;
+            min-width: 200px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 3000;
+        }
+
+        .user-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .user-dropdown-header {
+            padding: 10px;
+            border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+            margin-bottom: 8px;
+        }
+
+        .user-dropdown-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .user-dropdown-email {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .user-dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #fff;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .user-dropdown-item:hover {
+            background: rgba(0, 255, 136, 0.1);
+        }
+
+        .user-dropdown-item.logout {
+            color: #ff4444;
+            border-top: 1px solid rgba(255, 68, 68, 0.2);
+            margin-top: 6px;
+        }
+
+        .user-dropdown-item.logout:hover {
+            background: rgba(255, 68, 68, 0.1);
+        }
+
+        /* BOTÕES */
+        .gym-access-btn {
+            background: linear-gradient(135deg, #00ff88 0%, #26a69a 50%, #00cc6a 100%);
+            color: #000;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .gym-access-btn a {
+            text-decoration: none;
+            color: rgb(0, 0, 0);
+        }
+
+        .gym-access-btn:hover {
+            background: linear-gradient(135deg, #25d985 0%, #70ff02 50%, #067d43 100%);
+        }
+
+        /* MENU HAMBURGUER */
+        .menu-trigger {
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 8px;
+            background: transparent;
+            border: none;
+            z-index: 2001;
+            position: relative;
+        }
+
+        .hamburger-line {
+            width: 28px;
+            height: 3px;
+            background: linear-gradient(45deg, #00ff88, #00ff88);
+            margin: 3px 0;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border-radius: 3px;
+        }
+
+        .menu-trigger.active .hamburger-line:nth-child(1) {
+            transform: rotate(45deg) translate(9px, 9px);
+        }
+
+        .menu-trigger.active .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-trigger.active .hamburger-line:nth-child(3) {
+            transform: rotate(-45deg) translate(9px, -9px);
+        }
+
+        /* MENU LATERAL */
+        .slide-menu {
+            position: fixed;
+            top: 0;
+            right: -450px;
+            width: 450px;
+            height: 100vh;
+            background: linear-gradient(160deg, #000 0%, #0f0f0f 20%, #1a1a1a 40%, #0d2818 65%, #004d25 85%, #00331a 100%);
+            transition: right 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 1999;
+            padding: 100px 2.5rem 2rem;
+            box-shadow: -20px 0 60px rgba(0, 0, 0, 0.8);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slide-menu.open {
+            right: 0;
+        }
+
+        .menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #222;
+        }
+
+        .menu-close-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-close-btn:hover {
+            transform: rotate(90deg);
+        }
+
+        .menu-close-icon {
+            width: 24px;
+            height: 24px;
+            color: #fff;
+        }
+
+        .menu-search-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #00ff40 0%, #00cc3a 100%);
+            color: #000;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: none;
+            letter-spacing: 0.3px;
+            margin-bottom: 1.5rem;
+        }
+
+        .menu-search-btn:hover {
+            background: linear-gradient(135deg, #00ff40 0%, #00ff40 100%);
+        }
+
+        .navigation-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+        }
+
+        .nav-item {
+            margin: 1.5rem 0;
+            width: 100%;
+        }
+
+        .nav-link {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: block;
+            padding: 1.2rem 2rem;
+            border-radius: 15px;
+            transition: all 0.4s ease;
+            width: 100%;
+            box-sizing: border-box;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .nav-link:hover {
+            background: linear-gradient(135deg, #00ff88, #26a69a);
+            color: #000;
+            transform: translateX(15px);
+        }
+
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.8);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            z-index: 1998;
+            backdrop-filter: blur(8px);
+        }
+
+        .menu-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* ========== RESPONSIVIDADE DO HEADER ========== */
+        @media (max-width: 1024px) {
+            .header-container {
+                padding: 1rem 1.5rem;
+            }
+            .logo-img {
+                height: 45px;
+            }
+            .right-controls {
+                gap: 1rem;
+            }
+            .gym-access-btn {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+            .search-toggle-btn {
+                width: 44px;
+                height: 44px;
+            }
+            .search-icon {
+                width: 20px;
+                height: 20px;
+            }
+            .expandable-search-field {
+                width: 44px;
+                height: 44px;
+            }
+            .expandable-search-field.expanded {
+                width: 280px;
+            }
+            .search-input-field {
+                padding: 0 50px 0 18px;
+                font-size: 0.95rem;
+            }
+            .slide-menu {
+                width: 350px;
+                right: -350px;
+                padding: 2rem 1.5rem;
+            }
+            .user-header-container {
+                height: 44px;
+                padding: 5px 12px;
+            }
+            .user-avatar {
+                width: 32px;
+                height: 32px;
+                font-size: 13px;
+            }
+            .user-name {
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 0.8rem 1rem;
+            }
+            .nav-wrapper {
+                flex-wrap: nowrap;
+                gap: 10px;
+            }
+            .logo-img {
+                height: 35px;
+            }
+            .right-controls {
+                gap: 0.5rem;
+                flex-shrink: 0;
+            }
+            .search-toggle-btn {
+                width: 42px;
+                height: 42px;
+            }
+            .search-icon {
+                width: 18px;
+                height: 18px;
+            }
+            .expandable-search-field {
+                width: 42px;
+                height: 42px;
+            }
+            .expandable-search-field.expanded {
+                width: 250px;
+                z-index: 2002;
+            }
+            .search-input-field {
+                padding: 0 45px 0 16px;
+                font-size: 0.9rem;
+            }
+            .gym-access-btn {
+                padding: 8px 12px;
+                font-size: 0.8rem;
+            }
+            .slide-menu {
+                width: 300px;
+                right: -300px;
+                padding: 80px 1.5rem 2rem;
+            }
+            .nav-link {
+                font-size: 1.1rem;
+                padding: 1rem 1.5rem;
+                white-space: normal;
+                line-height: 1.4;
+            }
+            .user-header-container {
+                height: 42px;
+                padding: 4px 10px;
+            }
+            .user-avatar {
+                width: 30px;
+                height: 30px;
+                font-size: 12px;
+            }
+            .user-name {
+                font-size: 12px;
+                display: none;
+            }
+            .user-dropdown {
+                min-width: 180px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .header-container {
+                padding: 0.7rem 0.8rem;
+            }
+            .nav-wrapper {
+                gap: 8px;
+            }
+            .right-controls {
+                gap: 0.4rem;
+            }
+            .logo-img {
+                height: 32px;
+            }
+            .search-toggle-btn {
+                width: 38px;
+                height: 38px;
+            }
+            .search-icon {
+                width: 17px;
+                height: 17px;
+            }
+            .expandable-search-field {
+                width: 38px;
+                height: 38px;
+            }
+            .expandable-search-field.expanded {
+                width: 220px;
+                position: fixed;
+                right: 15px;
+                top: 70px;
+                transform: none;
+                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+                animation: slideDown 0.3s ease-out;
+            }
+            @keyframes slideDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-10px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            .search-input-field {
+                padding: 0 40px 0 15px;
+                font-size: 0.85rem;
+            }
+            .gym-access-btn {
+                padding: 6px 8px;
+                font-size: 0.7rem;
+            }
+            .slide-menu {
+                width: 280px;
+                right: -280px;
+                padding: 70px 1.2rem 2rem;
+            }
+            .nav-link {
+                font-size: 1rem;
+                padding: 0.9rem 1.2rem;
+            }
+            .user-header-container {
+                height: 38px;
+                padding: 4px 8px;
+            }
+            .user-avatar {
+                width: 28px;
+                height: 28px;
+                font-size: 11px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-container {
+                padding: 0.6rem 0.6rem;
+            }
+            .nav-wrapper {
+                gap: 6px;
+            }
+            .logo-img {
+                height: 30px;
+            }
+            .right-controls {
+                gap: 0.3rem;
+            }
+            .search-toggle-btn {
+                width: 36px;
+                height: 36px;
+            }
+            .search-icon {
+                width: 16px;
+                height: 16px;
+            }
+            .expandable-search-field {
+                width: 36px;
+                height: 36px;
+            }
+            .expandable-search-field.expanded {
+                width: 200px;
+                right: 10px;
+                top: 65px;
+            }
+            .search-input-field {
+                padding: 0 38px 0 12px;
+                font-size: 0.8rem;
+            }
+            .gym-access-btn {
+                padding: 5px 6px;
+                font-size: 0.65rem;
+            }
+            .slide-menu {
+                width: 260px;
+                right: -260px;
+                padding: 65px 1rem 1.5rem;
+            }
+            .nav-link {
+                font-size: 0.95rem;
+                padding: 0.8rem 1rem;
+            }
+            .user-header-container {
+                height: 36px;
+                padding: 3px 6px;
+            }
+            .user-avatar {
+                width: 26px;
+                height: 26px;
+                font-size: 10px;
+            }
+        }
+
+        /* ========== CONTEÚDO PRINCIPAL ========== */
+        .page-title {
+            color: #00ff88;
+            text-align: center;
+            font-size: 2.5rem;
+            margin: 40px 20px;
+            font-weight: 600;
+            width: 100%;
+        }
+
+        .main-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        /* SLIDER DE IMAGENS */
+        .image-slider {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 12px;
+            padding: 20px;
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .slider__content {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .image-display {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: all 0.3s ease;
+        }
+
+        .slider-control--button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 255, 136, 0.8);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .prev-button {
+            left: 15px;
+        }
+
+        .next-button {
+            right: 15px;
+        }
+
+        .slider-control--button:hover {
+            background: rgba(0, 255, 136, 1);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .arrow {
+            width: 15px;
+            height: 15px;
+            border-top: 3px solid #000;
+            border-right: 3px solid #000;
+        }
+
+        .prev-button .arrow {
+            transform: rotate(-135deg);
+            margin-left: 5px;
+        }
+
+        .next-button .arrow {
+            transform: rotate(45deg);
+            margin-right: 5px;
+        }
+
+        .slider-navigation {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-button {
+            width: 80px;
+            height: 60px;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: none;
+            padding: 0;
+            flex-shrink: 0;
+        }
+
+        .nav-button[aria-selected="true"] {
+            border-color: #00ff88;
+            transform: scale(1.1);
+        }
+
+        .thumbnail {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* CARDS DE INFORMAÇÃO */
+        .info-cards-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+            width: 100%;
+            max-width: 400px;
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .card {
+            background: rgb(255, 255, 255);
+            border: 2px solid #00ff88;
+            border-radius: 12px;
+            padding: 24px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 100%;
+        }
+
+        .title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 14px;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .info-label {
+            color: #000000;
+            font-weight: 500;
+        }
+
+        .info-value {
+            color: #1a1a1a;
+            font-weight: 500;
+        }
+
+        .address {
+            font-size: 500;
+            color: #000000;
+            line-height: 1.5;
+        }
+
+        .contato {
+            min-height: 80px;
+            width: 100%;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            border-radius: 12px;
+            border: #00ff88 2px solid;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .contato:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 255, 136, 0.3);
+        }
+
+        .contato-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+        }
+
+        .whatsapp-icon {
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
+        }
+
+        .contato p {
+            color: #555;
+            font-weight: 600;
+            margin: 0;
+            text-align: left;
+        }
+
+        .contato-link {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+            width: 100%;
+        }
+
+        /* ========== SEÇÃO DO MAPA ========== */
+        .map-section {
+            padding: 40px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .map-title {
+            color: #00ff88;
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 500px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 2px solid #00ff88;
+            position: relative;
+        }
+
+        .map-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        .map-controls {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .map-btn {
+            background: rgba(0, 255, 136, 0.9);
+            border: none;
+            border-radius: 8px;
+            padding: 10px 15px;
+            color: #000;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            font-size: 14px;
+        }
+
+        .map-btn:hover {
+            background: rgba(0, 255, 136, 1);
+            transform: translateY(-2px);
+        }
+
+        .map-info {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            max-width: 300px;
+            z-index: 1000;
+            border-left: 4px solid #00ff88;
+        }
+
+        .map-info h3 {
+            margin-bottom: 8px;
+            color: #00ff88;
+        }
+
+        .map-info p {
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        /* SEÇÃO DE HORÁRIOS */
+        .titulo {
+            color: #00ff88;
+            text-align: center;
+            font-size: 2rem;
+            margin: 40px 20px 20px;
+            font-weight: 600;
+            width: 100%;
+        }
+
+        .separar {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .peak-hours-container {
+            width: 100%;
+            max-width: 900px;
+            padding: 0 20px;
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .peak-hours-card {
+            background: #2d2d2d;
+            border-radius: 12px;
+            padding: 32px;
+            border: 2px solid #00ff88;
+            width: 100%;
+        }
+
+        .peak-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .peak-header h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #fff;
+            margin: 0;
+        }
+
+        .info-icon {
+            width: 20px;
+            height: 20px;
+            background: #555;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #aaa;
+            cursor: help;
+        }
+
+        .days {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid #444;
+            flex-wrap: wrap;
+        }
+
+        .day {
+            padding: 12px 16px;
+            cursor: pointer;
+            color: #888;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+            border-bottom: 2px solid transparent;
+            flex-shrink: 0;
+        }
+
+        .day.active {
+            color: #00ff88;
+            border-bottom-color: #00ff88;
+        }
+
+        .peak-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: #ccc;
+            flex-wrap: wrap;
+        }
+
+        .peak-info svg {
+            width: 20px;
+            height: 20px;
+            fill: #00ff88;
+        }
+
+        .chart {
+            position: relative;
+            height: 200px;
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            padding: 0 4px;
+            overflow-x: auto;
+            width: 100%;
+        }
+
+        .bar-container {
+            flex: 1;
+            min-width: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .bar {
+            width: 100%;
+            background: #555;
+            border-radius: 4px 4px 0 0;
+            transition: all 0.3s;
+            min-height: 8px;
+        }
+
+        .bar.peak {
+            background: #00ff88;
+        }
+
+        .bar-container:hover .bar {
+            opacity: 0.8;
+        }
+
+        .hour-label {
+            font-size: 11px;
+            color: #888;
+            margin-top: 8px;
+        }
+
+        .tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #000;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            margin-bottom: 8px;
+        }
+
+        .bar-container:hover .tooltip {
+            opacity: 1;
+        }
+
+        /* CONTADOR */
+        .container2 {
+            width: 100%;
+            max-width: 280px;
+            background-color: rgba(50, 50, 50, 0.8);
+            border-radius: 12px;
+            padding: 20px;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            border: 2px solid #00ff88;
+            flex-shrink: 0;
+        }
+
+        .container2 h1 {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+        }
+
+        .counter-display {
+            background: linear-gradient(135deg, #2c3e50, #4a6491);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .counter-value {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .counter-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .info-panel {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .info-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 10px;
+            flex: 1;
+            min-width: 80px;
+        }
+
+        .info-card h3 {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            color: #fdbb2d;
+        }
+
+        .info-card p {
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .last-update {
+            font-size: 0.75rem;
+            opacity: 0.8;
+            margin-top: 10px;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            margin-top: 8px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #4CAF50;
+            margin-right: 5px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        /* CSS do Footer */
+        .academia-footer {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            margin-top: 60px;
+        }
+
+        .academia-background svg {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: auto;
+            z-index: 0;
+        }
+
+        .academia-footer-inner {
+            position: relative;
+            z-index: 1;
+            padding: 4rem 2rem 8rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+        }
+
+        .academia-footer-inner .academia-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .academia-footer-inner .academia-top h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: white;
+            line-height: 1.3;
+        }
+
+        .academia-footer-inner .academia-top h3 {
+            font-size: 1.25rem;
+            font-weight: 400;
+            opacity: 0.8;
+            color: white;
+            margin-top: 0.5rem;
+        }
+
+        .academia-footer-inner .academia-bottom {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .academia-logo-content {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .academia-socials {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .academia-socials a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            font-size: 1.25rem;
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .academia-nav {
+            display: flex;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .academia-nav ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .academia-nav h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #ccc;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .academia-nav a {
+            font-size: 0.9rem;
+            color: white;
+            opacity: 0.8;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            padding-left: 0;
+        }
+
+        .academia-nav a:hover {
+            opacity: 1;
+            color: #00ff88;
+            transform: translateX(5px);
+        }
+
+        /* ========== RESPONSIVIDADE DO CONTEÚDO ========== */
+        @media (max-width: 1024px) {
+            .page-title {
+                font-size: 2.2rem;
+            }
+            .slider__content {
+                height: 350px;
+            }
+            .peak-hours-card {
+                padding: 25px;
+            }
+            .map-container {
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2rem;
+                margin: 25px 15px;
+            }
+            .main-wrapper {
+                padding: 15px;
+                gap: 20px;
+            }
+            .slider__content {
+                height: 300px;
+            }
+            .slider-control--button {
+                width: 45px;
+                height: 45px;
+            }
+            .nav-button {
+                width: 70px;
+                height: 50px;
+            }
+            .titulo {
+                font-size: 1.8rem;
+                margin: 30px 15px 15px;
+            }
+            .separar {
+                gap: 20px;
+                padding: 15px;
+            }
+            .peak-hours-card {
+                padding: 20px;
+            }
+            .days {
+                gap: 12px;
+            }
+            .day {
+                padding: 10px 14px;
+                font-size: 13px;
+            }
+            .chart {
+                height: 180px;
+            }
+            .bar-container {
+                min-width: 25px;
+            }
+            .map-section {
+                padding: 30px 15px;
+            }
+            .map-title {
+                font-size: 1.8rem;
+                margin-bottom: 20px;
+            }
+            .map-container {
+                height: 350px;
+            }
+            .map-controls {
+                top: 10px;
+                right: 10px;
+            }
+            .map-btn {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+            .map-info {
+                max-width: 250px;
+                padding: 12px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .page-title {
+                font-size: 1.8rem;
+                margin: 20px 10px;
+            }
+            .main-wrapper {
+                flex-direction: column;
+                align-items: center;
+                padding: 10px;
+                gap: 15px;
+            }
+            .image-slider {
+                max-width: 100%;
+            }
+            .slider__content {
+                height: 250px;
+            }
+            .slider-control--button {
+                width: 40px;
+                height: 40px;
+            }
+            .nav-button {
+                width: 60px;
+                height: 45px;
+            }
+            .info-cards-container {
+                max-width: 100%;
+            }
+            .titulo {
+                font-size: 1.6rem;
+                margin: 25px 10px 10px;
+            }
+            .separar {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+                padding: 10px;
+            }
+            .peak-hours-container {
+                padding: 0 10px;
+                max-width: 100%;
+            }
+            .peak-hours-card {
+                padding: 15px;
+            }
+            .days {
+                gap: 8px;
+                justify-content: center;
+            }
+            .day {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+            .peak-info {
+                font-size: 13px;
+                justify-content: center;
+                text-align: center;
+            }
+            .chart {
+                height: 150px;
+                gap: 6px;
+            }
+            .bar-container {
+                min-width: 20px;
+            }
+            .hour-label {
+                font-size: 9px;
+            }
+            .container2 {
+                max-width: 100%;
+            }
+            .counter-value {
+                font-size: 3rem;
+            }
+            .map-section {
+                padding: 20px 10px;
+            }
+            .map-title {
+                font-size: 1.6rem;
+            }
+            .map-container {
+                height: 300px;
+            }
+            .map-info {
+                max-width: 200px;
+                padding: 10px;
+            }
+            .map-info h3 {
+                font-size: 14px;
+            }
+            .map-info p {
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 1.5rem;
+                margin: 15px 8px;
+            }
+            .slider__content {
+                height: 200px;
+            }
+            .slider-control--button {
+                width: 35px;
+                height: 35px;
+            }
+            .nav-button {
+                width: 50px;
+                height: 40px;
+            }
+            .card {
+                padding: 16px;
+            }
+            .title {
+                font-size: 16px;
+            }
+            .info-row {
+                font-size: 13px;
+            }
+            .contato-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            .titulo {
+                font-size: 1.4rem;
+                margin: 20px 8px 8px;
+            }
+            .peak-hours-card {
+                padding: 12px;
+            }
+            .peak-header h2 {
+                font-size: 20px;
+            }
+            .days {
+                gap: 4px;
+            }
+            .day {
+                padding: 6px 10px;
+                font-size: 11px;
+            }
+            .peak-info {
+                font-size: 12px;
+            }
+            .chart {
+                height: 120px;
+            }
+            .bar-container {
+                min-width: 18px;
+            }
+            .hour-label {
+                font-size: 8px;
+            }
+            .counter-value {
+                font-size: 2.5rem;
+            }
+            .info-panel {
+                flex-direction: column;
+                gap: 8px;
+            }
+            .map-section {
+                padding: 15px 8px;
+            }
+            .map-title {
+                font-size: 1.4rem;
+            }
+            .map-container {
+                height: 250px;
+            }
+            .map-controls {
+                top: 8px;
+                right: 8px;
+            }
+            .map-btn {
+                padding: 6px 10px;
+                font-size: 11px;
+            }
+            .map-info {
+                max-width: 180px;
+                padding: 8px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .page-title {
+                font-size: 1.3rem;
+            }
+            .slider__content {
+                height: 180px;
+            }
+            .slider-control--button {
+                width: 30px;
+                height: 30px;
+            }
+            .nav-button {
+                width: 45px;
+                height: 35px;
+            }
+            .titulo {
+                font-size: 1.2rem;
+            }
+            .days {
+                gap: 2px;
+            }
+            .day {
+                padding: 5px 8px;
+                font-size: 10px;
+            }
+            .chart {
+                height: 100px;
+            }
+            .bar-container {
+                min-width: 16px;
+            }
+            .counter-value {
+                font-size: 2rem;
+            }
+            .map-container {
+                height: 200px;
+            }
+            .map-btn {
+                padding: 5px 8px;
+                font-size: 10px;
+            }
+        }
+
+        /* Ajustes específicos para o conteúdo */
+        @media (max-width: 640px) {
+            .contato p {
+                font-size: 14px;
+                text-align: center;
+            }
+            .contato-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            .info-row {
+                flex-direction: column;
+                gap: 5px;
+            }
+            .info-label, .info-value {
+                text-align: center;
+            }
+        }
+
+        /* Garante que o input seja clicável */
+        .search-input-field {
+            cursor: text;
+        }
+
+        /* Remove qualquer sobreposição que impeça o clique */
+        .expandable-search-field * {
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header-container" id="menu">
+        <div class="nav-wrapper">
+            <div class="brand-container">
+                <a href="#"><img src="logo.png" alt="Logo Gym P2" class="logo-img"></a>
+            </div>
+            
+            <div class="right-controls">
+                <!-- Barra de Pesquisa -->
+                <div class="search-widget" id="searchWidget">
+                    <div class="expandable-search-field" id="searchField">
+                        <input type="text" class="search-input-field" placeholder="Digite sua pesquisa..." id="searchInput">
+                    </div>
+                    <button class="search-toggle-btn" id="searchToggle">
+                        <svg class="search-icon" viewBox="0 0 24 24">
+                            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                        </svg>
+                    </button>
+                    <div class="search-results" id="searchResults"></div>
+                </div>
+                
+                <!-- Botões - Serão substituídos pelo componente do usuário se logado -->
+                <button class="gym-access-btn" id="homeBtn"><a href="Menu-inicial-sem-logar.html">Home</a></button>
+                <button class="gym-access-btn" id="academiasBtn"><a href="academias-filtro-sem-logar.html">Academias</a></button>
+                <button class="gym-access-btn" id="loginBtn"><a href="login-gym.html">Login</a></button>
+                
+                <!-- Menu Hambúrguer -->
+                <button class="menu-trigger" id="menuTrigger">
+                    <div class="hamburger-line"></div>
+                    <div class="hamburger-line"></div>
+                    <div class="hamburger-line"></div>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MENU LATERAL -->
+    <nav class="slide-menu" id="slideMenu">
+        <div class="menu-header">
+            <button class="menu-close-btn" id="menuCloseBtn" aria-label="Fechar menu">
+                <svg class="menu-close-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        
+        <button class="menu-search-btn" id="menuSearchBtn">Academias</button>
+        
+        <ul class="navigation-list" id="navigationList">
+            <!-- Itens do menu serão carregados dinamicamente -->
+        </ul>
+    </nav>
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <!-- Conteúdo Principal -->
+    <h1 class="page-title">Rede Fit</h1>
+
+    <div class="main-wrapper">
+        <div class="image-slider">
+            <section class="slider__content">
+                <button type="button" class="slider-control--button prev-button">
+                    <span class="arrow-wrapper">
+                        <span class="arrow"></span>
+                    </span>
+                </button>
+                
+                <main class="image-display"></main>
+                
+                <button type="button" class="slider-control--button next-button">
+                    <span class="arrow-wrapper">
+                        <span class="arrow"></span>
+                    </span>
+                </button>
+            </section>
+            
+            <nav class="slider-navigation">
+                <button class="nav-button" aria-selected="true">
+                    <img class="thumbnail" src="RedeFit.png" alt="Academia 1" />
+                </button>
+                <button class="nav-button" aria-selected="false">
+                    <img class="thumbnail" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop" alt="Academia 2" />
+                </button>
+                <button class="nav-button" aria-selected="false">
+                    <img class="thumbnail" src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&h=300&fit=crop" alt="Academia 3" />
+                </button>
+                <button class="nav-button" aria-selected="false">
+                    <img class="thumbnail" src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&h=300&fit=crop" alt="Academia 4" />
+                </button>
+                <button class="nav-button" aria-selected="false">
+                    <img class="thumbnail" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop" alt="Academia 5" />
+                </button>
+                <button class="nav-button" aria-selected="false">
+                    <img class="thumbnail" src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&h=300&fit=crop" alt="Academia 6" />
+                </button>
+            </nav>
+        </div>
+
+        <div class="info-cards-container">
+            <div class="card">
+                <div class="content">
+                    <div class="title">Horário de funcionamento</div>
+                    <div class="info-row">
+                        <span class="info-label">Seg a Sex</span>
+                        <span class="info-value">5h - 23h</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Sáb/Feriados</span>
+                        <span class="info-value">8h - 17h</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Dom</span>
+                        <span class="info-value">8h - 14h</span>
+                    </div>
+                    <span class="info-value"><a href="#peak">Ver quantas pessoas tem no momento</a></span>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="content">
+                    <div class="title">Endereço</div>
+                    <div class="address">
+                       R. Cel. Cordeiro, 739, Pedro II - PI, 64255-000
+                    </div>
+                </div>
+            </div>
+
+            <div class="contato">
+                <div class="contato-content">
+                    <a href="https://wa.me/5511999999999" class="contato-link" target="_blank">
+                        <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 16C2.814 9.813 3.11 5.134 5.94 3.012l.627-.467a1.483 1.483 0 0 1 2.1.353l1.579 2.272a1.5 1.5 0 0 1-.25 1.99L8.476 8.474c-.38.329-.566.828-.395 1.301.316.88 1.083 2.433 2.897 4.246 1.814 1.814 3.366 2.581 4.246 2.898.474.17.973-.015 1.302-.396l1.314-1.518a1.5 1.5 0 0 1 1.99-.25l2.276 1.58a1.48 1.48 0 0 1 .354 2.096l-.47.633C19.869 21.892 15.188 22.187 9 16z" fill="#25D366"></path>
+                        </svg>
+                        <p id="peak">Para mais informações, acesse o WhatsApp</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- SEÇÃO DO MAPA -->
+    <section class="map-section">
+        <h2 class="map-title">Localização da Academia</h2>
+        <div class="map-container">
+            <!-- IFRAME DO GOOGLE MAPS (SEM API KEY) -->
+            <iframe 
+                class="map-iframe"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3977.912920814302!2d-41.46374732502241!3d-4.427321995546892!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7939bec9da3673d%3A0x351e177acac908d!2sRedefit!5e0!3m2!1spt-BR!2sbr!4v1764851802370!5m2!1spt-BR!2sbr" 
+                width="100%" 
+                height="100%" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade"
+                title="Mapa da Academia Rede Fit">
+            </iframe>
+            
+            <div class="map-controls">
+                <button class="map-btn" onclick="abrirMapaCompleto()">🗺️ Abrir Mapa</button>
+                <button class="map-btn" onclick="abrirRota()">📍 Traçar Rota</button>
+                <button class="map-btn" onclick="obterMinhaLocalizacao()">👤 Minha Localização</button>
+            </div>
+            
+            <div class="map-info">
+                <h3>Rede Fit</h3>
+                <p>R. Cel. Cordeiro, 739</p>
+                <p>Pedro II - PI, 64255-000</p>
+                <p>Horário: Seg-Sex 5h-23h</p>
+            </div>
+        </div>
+    </section>
+    
+    <div class="titulo"><h2>Horários por ocupação</h2></div>
+
+    <div class="separar">
+        <div class="peak-hours-container">
+            <div class="peak-hours-card">
+                <div class="peak-header">
+                    <h2>Horários de pico</h2>
+                    <div class="info-icon">?</div>
+                </div>
+
+                <div class="days">
+                    <div class="day active">SEG.</div>
+                    <div class="day">TER.</div>
+                    <div class="day">QUA.</div>
+                    <div class="day">QUI.</div>
+                    <div class="day">SEX.</div>
+                    <div class="day">SÁB.</div>
+                    <div class="day">DOM.</div>
+                </div>
+
+                <div class="peak-info">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                    <span><strong>17:00:</strong> Geralmente é o horário mais movimentado</span>
+                </div>
+
+                <div class="chart" id="chart"></div>
+            </div>
+        </div>
+        
+        <div class="container2">
+            <header>
+                <h1>Academia Fitness</h1>
+                <p class="counter-label">Pessoas na academia</p>
+            </header>
+            
+            <div class="counter-display">
+                <div class="counter-value" id="peopleCount">42</div>
+            </div>
+            
+            <div class="info-panel">
+                <div class="info-card">
+                    <h3>Capacidade</h3>
+                    <p>80</p>
+                </div>
+                <div class="info-card">
+                    <h3>Ocupação</h3>
+                    <p id="occupancyRate">52.5%</p>
+                </div>
+            </div>
+            
+            <div class="status">
+                <div class="status-dot"></div>
+                <span>Sistema ativo</span>
+            </div>
+            
+            <div class="last-update">
+                <p>Atualiza a cada 15 min</p>
+                <p>Última: <span id="lastUpdate">15:30</span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="academia-footer">
+        <div class="academia-background">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                width="100%" height="100%" viewBox="0 0 1600 900">
+                <defs>
+                    <path id="wave" fill="rgba(0, 200, 100, 0.5)" d="M-363.852,502.589c0,0,236.988-41.997,505.475,0
+                    s371.981,38.998,575.971,0s293.985-39.278,505.474,5.859s493.475,48.368,716.963-4.995v560.106H-363.852V502.589z" />
+                </defs>
+                <g>
+                    <use xlink:href="#wave" opacity=".4">
+                        <animateTransform attributeName="transform" attributeType="XML" type="translate" dur="8s" calcMode="spline"
+                            values="270 230; -334 180; 270 230" keyTimes="0; .5; 1" keySplines="0.42, 0, 0.58, 1.0;0.42, 0, 0.58, 1.0"
+                            repeatCount="indefinite" />
+                    </use>
+                    <use xlink:href="#wave" opacity=".6">
+                        <animateTransform attributeName="transform" attributeType="XML" type="translate" dur="6s" calcMode="spline"
+                            values="-270 230;243 220;-270 230" keyTimes="0; .6; 1" keySplines="0.42, 0, 0.58, 1.0;0.42, 0, 0.58, 1.0"
+                            repeatCount="indefinite" />
+                    </use>
+                    <use xlink:href="#wave" opacty=".9">
+                        <animateTransform attributeName="transform" attributeType="XML" type="translate" dur="4s" calcMode="spline"
+                            values="0 230;-140 200;0 230" keyTimes="0; .4; 1" keySplines="0.42, 0, 0.58, 1.0;0.42, 0, 0.58, 1.0"
+                            repeatCount="indefinite" />
+                    </use>
+                </g>
+            </svg>
+        </div>
+        <div class="academia-footer-inner">
+            <div class="academia-top">
+                <div>
+                    <h2>VOCÊ ESTÁ PRONTO PARA TRANSFORMAR SEU CORPO E SUA VIDA?</h2>
+                    <h3>Encontre as melhores academias, dicas e uma comunidade que te impulsiona!</h3>
+                </div>
+            </div>
+            <div class="academia-bottom">
+                <div class="academia-logo-content">
+                    <div class="academia-socials">
+                        <a href="#" class="instagram" title="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+                <nav class="academia-nav">
+                    <ul>
+                        <li><h4>SOBRE O GYM P2</h4></li>
+                        <li><a href="#">Quem Somos</a></li>
+                        <li><a href="#">Nossa Missão</a></li>
+                        <li><a href="#">Contatos</a></li>
+                    </ul>
+                    <ul>
+                        <li><h4>EXPLORE</h4></li>
+                        <li><a href="#">Academias</a></li>
+                        <li><a href="#">Artes Marciais</a></li>
+                        <li><a href="#">Blog e Dicas</a></li>
+                    </ul>
+                    <ul>
+                        <li><h4>CONECTE-SE</h4></li>
+                        <li><a href="#">Siga-nos nas Redes Sociais</a></li>
+                        <li><a href="#">Política de Privacidade</a></li>
+                        <li><a href="#">Termos de Uso</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ============================================
+        // SISTEMA DE LOGIN
+        // ============================================
+        
+        // Dados de exemplo para usuário (normalmente viriam do localStorage)
+        function getCurrentUser() {
+            const userData = localStorage.getItem('gymp2_current_user');
+            if (userData) {
+                try {
+                    return JSON.parse(userData);
+                } catch (e) {
+                    return null;
+                }
+            }
+            return null;
+        }
+
+        function updateUserInterface() {
+            const user = getCurrentUser();
+            const rightControls = document.querySelector('.right-controls');
+            const loginBtn = document.getElementById('loginBtn');
+            const navigationList = document.getElementById('navigationList');
+            
+            if (user) {
+                // Usuário está logado
+                const initials = user.name
+                    .split(' ')
+                    .map(n => n[0])
+                    .slice(0, 2)
+                    .join('')
+                    .toUpperCase();
+                
+                const firstName = user.name.split(' ')[0];
+                
+                // Substituir botão Login por componente do usuário
+                loginBtn.outerHTML = `
+                    <div class="user-header-container" id="userHeader">
+                        <div class="user-avatar">${initials}</div>
+                        <span class="user-name">${firstName}</span>
+                        <div class="user-dropdown" id="userDropdown">
+                            <div class="user-dropdown-header">
+                                <div class="user-dropdown-name">${user.name}</div>
+                                <div class="user-dropdown-email">${user.email || 'usuario@gymp2.com'}</div>
+                            </div>
+                            <a href="#perfil" class="user-dropdown-item">👤 Meu Perfil</a>
+                            <div class="user-dropdown-item logout" id="logoutBtn">🚪 Sair</div>
+                        </div>
+                    </div>
+                `;
+                
+                // Atualizar menu lateral para usuário logado
+                navigationList.innerHTML = `
+                    <li class="nav-item"><a href="#home" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="#perfil" class="nav-link" style="color: #00ff88; background: rgba(0, 255, 136, 0.1);">👤 Meu Perfil (${firstName})</a></li>
+                    <li class="nav-item"><a href="#franqueado" class="nav-link">Personais</a></li>
+                    <li class="nav-item"><a href="#news" class="nav-link">Sorteios</a></li>
+                    <li class="nav-item"><a href="#planos" class="nav-link">Configurações</a></li>
+                    <li class="nav-item"><a href="#sustentabilidade" class="nav-link">Blogs e dicas</a></li>
+                    <li class="nav-item"><a href="#historia" class="nav-link">Sobre nós</a></li>
+                    <li class="nav-item"><a href="#logout" class="nav-link" style="color: #ff4444; background: rgba(255, 68, 68, 0.1);" id="menuLogoutBtn">🚪 Sair</a></li>
+                `;
+                
+                // Configurar eventos do dropdown do usuário
+                setTimeout(() => {
+                    const userHeader = document.getElementById('userHeader');
+                    const userDropdown = document.getElementById('userDropdown');
+                    const logoutBtn = document.getElementById('logoutBtn');
+                    const menuLogoutBtn = document.getElementById('menuLogoutBtn');
+                    
+                    if (userHeader && userDropdown) {
+                        userHeader.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            userDropdown.classList.toggle('show');
+                        });
+                        
+                        // Fechar dropdown ao clicar fora
+                        document.addEventListener('click', function() {
+                            userDropdown.classList.remove('show');
+                        });
+                        
+                        // Prevenir fechamento ao clicar no dropdown
+                        userDropdown.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                        });
+                        
+                        // Logout
+                        if (logoutBtn) {
+                            logoutBtn.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                if (confirm('Deseja realmente sair da sua conta?')) {
+                                    localStorage.removeItem('gymp2_current_user');
+                                    window.location.reload();
+                                }
+                            });
+                        }
+                        
+                        // Logout do menu
+                        if (menuLogoutBtn) {
+                            menuLogoutBtn.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                if (confirm('Deseja realmente sair da sua conta?')) {
+                                    localStorage.removeItem('gymp2_current_user');
+                                    window.location.reload();
+                                }
+                            });
+                        }
+                    }
+                }, 100);
+                
+                // Atualizar links dos botões para versão logada
+                const homeBtn = document.getElementById('homeBtn');
+                const academiasBtn = document.getElementById('academiasBtn');
+                
+                if (homeBtn) {
+                    homeBtn.innerHTML = '<a href="Menu-inicial-logado.html">Home</a>';
+                }
+                
+                if (academiasBtn) {
+                    academiasBtn.innerHTML = '<a href="academias-filtro.html">Academias</a>';
+                }
+            } else {
+                // Usuário não está logado
+                navigationList.innerHTML = `
+                    <li class="nav-item"><a href="#home" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="#espaço-cliente" class="nav-link">Login</a></li>
+                    <li class="nav-item"><a href="#franqueado" class="nav-link">Personais</a></li>
+                    <li class="nav-item"><a href="#news" class="nav-link">Sorteios</a></li>
+                    <li class="nav-item"><a href="#planos" class="nav-link">Configurações</a></li>
+                    <li class="nav-item"><a href="#sustentabilidade" class="nav-link">Blogs e dicas</a></li>
+                    <li class="nav-item"><a href="#historia" class="nav-link">Sobre nós</a></li>
+                `;
+            }
+        }
+
+        // ============================================
+        // FUNÇÕES PARA O MAPA
+        // ============================================
+
+        function abrirMapaCompleto() {
+            window.open('https://www.google.com/maps/place/Redefit/@-4.427322,-41.463747,16z', '_blank');
+        }
+
+        function abrirRota() {
+            const endereco = encodeURIComponent("R. Cel. Cordeiro, 739, Pedro II - PI");
+            window.open(`https://www.google.com/maps/dir/?api=1&destination=${endereco}`, '_blank');
+        }
+
+        function obterMinhaLocalizacao() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const userLat = position.coords.latitude;
+                        const userLng = position.coords.longitude;
+                        window.open(`https://www.google.com/maps/dir/?api=1&origin=${userLat},${userLng}&destination=-4.4259,-41.4592`, '_blank');
+                    },
+                    function(error) {
+                        alert("Não foi possível obter sua localização.");
+                    }
+                );
+            } else {
+                alert("Seu navegador não suporta geolocalização.");
+            }
+        }
+
+        // ============================================
+        // JAVASCRIPT ORIGINAL
+        // ============================================
+
+        // Pesquisa
+        const searchToggle = document.getElementById('searchToggle');
+        const searchField = document.getElementById('searchField');
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+
+        // Dados de exemplo para a pesquisa
+        const searchData = [
+            {
+                category: 'Academia',
+                title: 'Smart Strong',
+                description: 'Academia de musculação no centro',
+                link: 'smart-strong-sem-logar.html'
+            },
+            {
+                category: 'Academia',
+                title: 'Rede-Fit P2',
+                description: 'Musculação e fitness',
+                link: 'Redefit-sem-logar.html'
+            },
+            {
+                category: 'Academia',
+                title: 'Olympic Fit',
+                description: 'Treinos de alto desempenho',
+                link: 'olympic-sem-logar.html'
+            },
+            {
+                category: 'Página',
+                title: 'Blog & Dicas',
+                description: 'Artigos sobre saúde e fitness',
+                link: 'Blogs e dicas-sem-logar.html'
+            },
+            {
+                category: 'Página',
+                title: 'Cadastro de Academias',
+                description: 'Divulgue sua academia',
+                link: 'cadastro_academias-sem-logar.html'
+            },
+            {
+                category: 'Página',
+                title: 'Personal Trainer',
+                description: 'Cadastro de personal trainers',
+                link: 'cadastro_personal-sem-logar.html'
+            }
+        ];
+
+        searchToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            searchField.classList.toggle('expanded');
+            if (searchField.classList.contains('expanded')) {
+                setTimeout(() => searchInput.focus(), 300);
+            } else {
+                searchInput.value = '';
+                searchResults.classList.remove('active');
+            }
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!searchField.contains(e.target) && !searchToggle.contains(e.target)) {
+                searchField.classList.remove('expanded');
+                searchInput.value = '';
+                searchResults.classList.remove('active');
+            }
+        });
+
+        searchInput.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase().trim();
+            
+            if (searchTerm.length === 0) {
+                searchResults.classList.remove('active');
+                searchResults.innerHTML = '';
+                return;
+            }
+            
+            const filteredResults = searchData.filter(item => 
+                item.title.toLowerCase().includes(searchTerm) || 
+                item.description.toLowerCase().includes(searchTerm) ||
+                item.category.toLowerCase().includes(searchTerm)
+            );
+            
+            if (filteredResults.length > 0) {
+                searchResults.innerHTML = filteredResults.map(item => `
+                    <div class="search-result-item" onclick="window.location.href='${item.link}'">
+                        <div class="result-category">${item.category}</div>
+                        <div class="result-title">${item.title}</div>
+                        <div class="result-description">${item.description}</div>
+                    </div>
+                `).join('');
+                searchResults.classList.add('active');
+            } else {
+                searchResults.innerHTML = `
+                    <div class="search-result-item">
+                        <div class="result-title">Nenhum resultado encontrado</div>
+                        <div class="result-description">Tente outra palavra-chave</div>
+                    </div>
+                `;
+                searchResults.classList.add('active');
+            }
+        });
+
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+            }
+        });
+
+        // Menu
+        const menuTrigger = document.getElementById('menuTrigger');
+        const slideMenu = document.getElementById('slideMenu');
+        const menuOverlay = document.getElementById('menuOverlay');
+        const menuCloseBtn = document.getElementById('menuCloseBtn');
+        const menuSearchBtn = document.getElementById('menuSearchBtn');
+
+        menuTrigger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            menuTrigger.classList.toggle('active');
+            slideMenu.classList.toggle('open');
+            menuOverlay.classList.toggle('visible');
+        });
+
+        menuCloseBtn.addEventListener('click', function() {
+            menuTrigger.classList.remove('active');
+            slideMenu.classList.remove('open');
+            menuOverlay.classList.remove('visible');
+        });
+
+        menuOverlay.addEventListener('click', function() {
+            menuTrigger.classList.remove('active');
+            slideMenu.classList.remove('open');
+            menuOverlay.classList.remove('visible');
+        });
+
+        menuSearchBtn.addEventListener('click', function() {
+            menuTrigger.classList.remove('active');
+            slideMenu.classList.remove('open');
+            menuOverlay.classList.remove('visible');
+            searchField.classList.add('expanded');
+            setTimeout(() => searchInput.focus(), 300);
+        });
+
+        // Slider
+        const imageDisplay = document.querySelector('.image-display');
+        const navButtons = document.querySelectorAll('.nav-button');
+        const prevButton = document.querySelector('.prev-button');
+        const nextButton = document.querySelector('.next-button');
+
+        let currentIndex = 0;
+        const images = [];
+
+        navButtons.forEach(button => {
+            const img = button.querySelector('.thumbnail');
+            if (img && img.src) {
+                images.push(img.src);
+            }
+        });
+
+        if (imageDisplay && images.length > 0) {
+            imageDisplay.style.backgroundImage = `url(${images[currentIndex]})`;
+        }
+
+        function updateSlider(index) {
+            if (index >= 0 && index < images.length) {
+                currentIndex = index;
+                imageDisplay.style.backgroundImage = `url(${images[currentIndex]})`;
+                
+                navButtons.forEach((button, i) => {
+                    button.setAttribute('aria-selected', i === currentIndex ? 'true' : 'false');
+                });
+            }
+        }
+
+        navButtons.forEach((button, index) => {
+            button.addEventListener('click', () => updateSlider(index));
+        });
+
+        prevButton.addEventListener('click', () => {
+            const newIndex = currentIndex > 0 ? currentIndex - 1 : images.length - 1;
+            updateSlider(newIndex);
+        });
+
+        nextButton.addEventListener('click', () => {
+            const newIndex = currentIndex < images.length - 1 ? currentIndex + 1 : 0;
+            updateSlider(newIndex);
+        });
+
+        // Horários de pico
+        const hours = [
+            { time: '06', value: 15 },
+            { time: '07', value: 20 },
+            { time: '08', value: 25 },
+            { time: '09', value: 30 },
+            { time: '10', value: 40 },
+            { time: '11', value: 45 },
+            { time: '12', value: 55 },
+            { time: '13', value: 60 },
+            { time: '14', value: 70 },
+            { time: '15', value: 80 },
+            { time: '16', value: 90 },
+            { time: '17', value: 100 },
+            { time: '18', value: 85 },
+            { time: '19', value: 75 },
+            { time: '20', value: 65 },
+            { time: '21', value: 50 }
+        ];
+
+        const chart = document.getElementById('chart');
+        const maxValue = Math.max(...hours.map(h => h.value));
+        const peakHour = hours.reduce((max, h) => h.value > max.value ? h : max, hours[0]);
+
+        hours.forEach(hour => {
+            const container = document.createElement('div');
+            container.className = 'bar-container';
+
+            const bar = document.createElement('div');
+            bar.className = 'bar';
+            if (hour.time === peakHour.time) {
+                bar.classList.add('peak');
+            }
+            
+            const height = (hour.value / maxValue) * 140;
+            bar.style.height = height + 'px';
+
+            const tooltip = document.createElement('div');
+            tooltip.className = 'tooltip';
+            tooltip.textContent = `${hour.time}:00 - ${hour.value}% ocupação`;
+
+            const label = document.createElement('div');
+            label.className = 'hour-label';
+            label.textContent = hour.time;
+
+            container.appendChild(tooltip);
+            container.appendChild(bar);
+            container.appendChild(label);
+            chart.appendChild(container);
+        });
+
+        // Dias da semana
+        const days = document.querySelectorAll('.day');
+        days.forEach(day => {
+            day.addEventListener('click', function() {
+                days.forEach(d => d.classList.remove('active'));
+                this.classList.add('active');
+                
+                const bars = document.querySelectorAll('.bar');
+                bars.forEach((bar, i) => {
+                    bar.style.animation = 'none';
+                    setTimeout(() => {
+                        const randomVariation = 0.8 + Math.random() * 0.4;
+                        const newHeight = (hours[i].value / maxValue) * 140 * randomVariation;
+                        bar.style.height = newHeight + 'px';
+                    }, i * 30);
+                });
+            });
+        });
+
+        // Contador de pessoas
+        const peopleCountElement = document.getElementById('peopleCount');
+        const occupancyRateElement = document.getElementById('occupancyRate');
+        const lastUpdateElement = document.getElementById('lastUpdate');
+        
+        let peopleCount = 42;
+        const maxCapacity = 80;
+        
+        function updateDisplay() {
+            peopleCountElement.textContent = peopleCount;
+            
+            const occupancyRate = (peopleCount / maxCapacity * 100).toFixed(1);
+            occupancyRateElement.textContent = `${occupancyRate}%`;
+            
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+            lastUpdateElement.textContent = timeString;
+        }
+        
+        function simulateVariation() {
+            const variation = Math.floor(Math.random() * 11) - 5;
+            const newCount = peopleCount + variation;
+            
+            if (newCount >= 0 && newCount <= maxCapacity) {
+                peopleCount = newCount;
+            } else if (newCount < 0) {
+                peopleCount = 0;
+            } else {
+                peopleCount = maxCapacity;
+            }
+            
+            updateDisplay();
+        }
+        
+        // ============================================
+        // INICIALIZAÇÃO
+        // ============================================
+        
+        // Atualizar interface baseada no login
+        updateUserInterface();
+        
+        // Atualizar contador
+        updateDisplay();
+        setInterval(simulateVariation, 900000);
+        
+        // Verificar mudanças no localStorage (login/logout em outra aba)
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'gymp2_current_user') {
+                setTimeout(() => {
+                    window.location.reload();
+                }, 500);
+            }
+        });
+
+        console.log('✅ Sistema carregado com sucesso!');
+    </script>
+</body>
+</html>
