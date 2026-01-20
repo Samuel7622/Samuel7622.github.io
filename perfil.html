@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil - Gym P2</title>
+    <link rel="stylesheet" href="perfil.css">
+</head>
+<body>
+    
+  <header class="header-container" id="menu">
+        <div class="nav-wrapper">   
+            <div class="brand-container">
+                <a href="#"><img src="logo.png" alt="Logo" class="logo-img"></a>
+            </div>
+            <div class="right-controls">
+                     <div class="search-widget" id="searchWidget">
+                         <div class="expandable-search-field" id="searchField">
+                             <input type="text" class="search-input-field" placeholder="Digite sua pesquisa..." id="searchInput">
+                         </div>
+                         <button class="search-toggle-btn" id="searchToggle" aria-label="Abrir pesquisa">
+                             <svg class="search-icon" viewBox="0 0 24 24">
+                                 <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                             </svg>
+                         </button>
+                    <div class="search-results" id="searchResults"></div>
+                </div>  
+           <button class="gym-access-btn"><a href="index.html">Home</a></button>
+           <button class="gym-access-btn"><a href="academias-publicas.html">Academias</a></button>
+           <button class="gym-access-btn"><a href="login-gym.html">Login</a></button>
+           <button class="menu-trigger" id="menuTrigger" aria-label="Abrir menu">
+                    <div class="hamburger-line"></div>
+                    <div class="hamburger-line"></div>
+                    <div class="hamburger-line"></div>
+                </button>
+            </div>
+        </div>
+    </header>
+    <!-- NO TOPO DO perfil.html, DEPOIS DO HEADER -->
+<div id="deletionWarningBanner" style="display: none; margin: 10px 20px;">
+    <div style="background: linear-gradient(90deg, #ff9500, #ff5e00); 
+                color: white; padding: 12px 20px; border-radius: 8px; 
+                text-align: center; position: relative;">
+        <strong>⚠️ CONTA AGENDADA PARA EXCLUSÃO</strong>
+        <p style="margin: 5px 0; font-size: 14px;">
+            Sua conta será excluída em <span id="profileDaysRemaining">X</span> dias.
+            <a href="config.html" style="color: #00ff40; text-decoration: underline; margin-left: 10px;">
+                Clique aqui para cancelar
+            </a>
+        </p>
+        <button onclick="closeWarningBanner()" 
+                style="position: absolute; right: 10px; top: 10px; 
+                       background: rgba(255,255,255,0.2); border: none; 
+                       color: white; border-radius: 50%; width: 24px; height: 24px; 
+                       cursor: pointer; font-size: 16px;">×</button>
+    </div>
+</div>
+
+<script>
+// Adicionar este script no perfil.html
+document.addEventListener('DOMContentLoaded', async function() {
+    console.log('📋 Página do perfil carregada');
+    await checkAccountDeletionStatus();
+});
+
+async function checkAccountDeletionStatus() {
+    try {
+        console.log('🔍 Verificando status de exclusão da conta...');
+        
+        // Verificar primeiro no localStorage (sistema simulado)
+        const savedStatus = localStorage.getItem('gymp2_deletion_status');
+        
+        if (savedStatus) {
+            console.log('📁 Status encontrado no localStorage');
+            const statusData = JSON.parse(savedStatus);
+            
+            if (statusData.hasPendingDeletion && statusData.deletionRecord) {
+                const banner = document.getElementById('deletionWarningBanner');
+                const daysSpan = document.getElementById('profileDaysRemaining');
+                
+                if (banner && daysSpan) {
+                    const daysRemaining = statusData.deletionRecord.daysRemaining || 0;
+                    daysSpan.textContent = daysRemaining;
+                    banner.style.display = 'block';
+                    
+                    console.log(`⚠️ Exclusão pendente: ${daysRemaining} dias restantes`);
+                    
+                    // Se restarem menos de 5 dias, alerta mais visível
+                    if (daysRemaining <= 5) {
+                        banner.querySelector('div').style.background = 'linear-gradient(90deg, #ff3b30, #ff1a00)';
+                    }
+                    
+                    return;
+                }
+            }
+        }
+        
+        // Se chegou aqui, não há exclusão pendente ou não encontrou os elementos
+        console.log('✅ Nenhuma exclusão pendente encontrada');
+        
+        // CASO QUEIRA USAR API REAL (descomente e ajuste):
+        /*
+        const token = localStorage.getItem('gymp2_token') || 
+                     sessionStorage.getItem('gymp2_token');
+        
+        if (!token) {
+            console.log('❌ Token não encontrado');
+            return;
+        }
+        
+        const response = await fetch('http://localhost:3000/api/account/deletion-status', {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            
+            if (data.hasPendingDeletion) {
+                const banner = document.getElementById('deletionWarningBanner');
+                const daysSpan = document.getElementById('profileDaysRemaining');
+                
+                if (banner && daysSpan) {
+                    daysSpan.textContent = data.deletionRecord.daysRemaining;
+                    banner.style.display = 'block';
+                    
+                    // Salvar no localStorage para cache
+                    localStorage.setItem('gymp2_deletion_status', JSON.stringify(data));
+                }
+            }
+        }
+        */
+        
+    } catch (error) {
+        console.error('❌ Erro ao verificar status:', error);
+        // Não mostrar erro ao usuário, apenas no console
+    }
+}
+
+function closeWarningBanner() {
+    const banner = document.getElementById('deletionWarningBanner');
+    if (banner) {
+        banner.style.display = 'none';
+        console.log('🔒 Banner fechado pelo usuário');
+        
+        // Salvar preferência do usuário (não mostrar novamente nesta sessão)
+        sessionStorage.setItem('hideDeletionBanner', 'true');
+    }
+}
+
+// Verificar se usuário já fechou o banner nesta sessão
+if (sessionStorage.getItem('hideDeletionBanner') === 'true') {
+    const banner = document.getElementById('deletionWarningBanner');
+    if (banner) banner.style.display = 'none';
+}
+
+// Atualizar banner quando houver mudanças no localStorage (de outras páginas)
+window.addEventListener('storage', function(event) {
+    if (event.key === 'gymp2_deletion_status') {
+        console.log('🔄 Status atualizado, verificando novamente...');
+        checkAccountDeletionStatus();
+    }
+});
+
+// Também ouvir eventos personalizados (se usar entre páginas)
+window.addEventListener('accountStatusChanged', function() {
+    console.log('🔄 Evento de mudança recebido, verificando status...');
+    checkAccountDeletionStatus();
+});
+</script>
+    <nav class="slide-menu" id="slideMenu">
+        <div class="menu-header">
+            <button class="menu-close-btn" id="menuCloseBtn" aria-label="Fechar menu">
+                <svg class="menu-close-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        <button class="menu-search-btn" id="menuSearchBtn">Academias</button>
+          <ul class="navigation-list">
+            <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+            <li class="nav-item"><a href="#espaço-cliente" class="nav-link">Login</a></li>
+            <li class="nav-item"><a href="Filtro_personal.html" class="nav-link">Personais</a></li>
+            <li class="nav-item"><a href="#news" class="nav-link">Sorteios</a></li>
+            <li class="nav-item"><a href="config.html" class="nav-link">Configurações</a></li>
+       
+            <li class="nav-item"><a href="Sobre_nós.html" class="nav-link">Sobre nós</a></li>
+        </ul>
+    </nav>
+    
+    <div class="menu-overlay" id="menuOverlay"></div>
+<div class="container">
+    <div class="profile-section">
+        <div class="profile-header">
+            <div class="profile-photo">
+                <!-- Removida a imagem e o ícone, agora só mostra as iniciais -->
+                <div class="profile-initials" id="profileInitials"></div>
+            </div>
+
+            <div class="profile-info">
+                <h2 id="userName">Carregando...</h2>
+                <p><i class="fas fa-envelope"></i> <span id="userEmail">carregando@email.com</span></p>
+                <p><i class="fas fa-calendar"></i> Membro desde: <span id="memberSince">Janeiro 2024</span></p>
+                <div class="profile-bio">
+                    <p id="userBio">Carregando descrição...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Estatísticas (mantidas, mas simplificadas) -->
+        <h3 class="section-title">Minhas Estatísticas</h3>
+        <div class="stats-row">
+            <div class="stat-box">
+                <h3 id="statTitle1">Academias Favoritadas</h3>
+                <p id="totalFavorites">0</p>
+            </div>
+            <div class="stat-box">
+                <h3 id="statTitle2">Comentários Feitos</h3>
+                <p id="totalComments">0</p>
+            </div>
+            <div class="stat-box">
+                <h3 id="statTitle3">Avaliação Média Dada</h3>
+                <p id="averageRating">0.0</p>
+            </div>
+        </div>
+
+        <!-- Academias Favoritadas (removido conteúdo específico) -->
+        <h3 class="section-title" id="favoritesTitle"><i class="fas fa-heart"></i> Academias Favoritadas</h3>
+        <div class="empty-state coming-soon-section">
+            <i class="fas fa-tools"></i>
+            <h3>Em Breve</h3>
+            <p>Estamos preparando uma experiência incrível para você!</p>
+            <p class="coming-soon-note">Sua lista de academias favoritas estará disponível em breve.</p>
+        </div>
+
+        <!-- Comentários Feitos (removido conteúdo específico) -->
+        <h3 class="section-title" id="commentsTitle"><i class="fas fa-comments"></i> Meus Comentários</h3>
+        <div class="empty-state coming-soon-section">
+            <i class="fas fa-tools"></i>
+            <h3>Em Breve</h3>
+            <p>Estamos desenvolvendo esta funcionalidade!</p>
+            <p class="coming-soon-note">Seus comentários e avaliações estarão disponíveis em breve.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="academia-footer">
+    <div class="academia-background">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+            width="100%" height="100%" viewBox="0 0 1600 900">
+            <defs>
+                <path id="wave" fill="rgba(0, 200, 100, 0.5)" d="M-363.852,502.589c0,0,236.988-41.997,505.475,0
+                s371.981,38.998,575.971,0s293.985-39.278,505.474,5.859s493.475,48.368,716.963-4.995v560.106H-363.852V502.589z" />
+            </defs>
+            <g>
+                <use xlink:href="#wave" opacity=".4">
+                    <animateTransform attributeName="transform" attributeType="XML" type="translate" dur="8s" calcMode="spline"
+                        values="270 230; -334 180; 270 230" keyTimes="0; .5; 1" keySplines="0.42, 0, 0.58, 1.0;0.42, 0, 0.58, 1.0"
+                        repeatCount="indefinite" />
+                </use>
+                <use xlink:href="#wave" opacity=".6">
+                    <animateTransform attributeName="transform" attributeType="XML" type="translate" dur="6s" calcMode="spline"
+                        values="-270 230;243 220;-270 230" keyTimes="0; .6; 1" keySplines="0.42, 0, 0.58, 1.0;0.42, 0, 0.58, 1.0"
+                        repeatCount="indefinite" />
+                </use>
+                <use xlink:href="#wave" opacity=".9">
+                    <animateTransform attributeName="transform" attributeType="XML" type="translate" dur="4s" calcMode="spline"
+                        values="0 230;-140 200;0 230" keyTimes="0; .4; 1" keySplines="0.42, 0, 0.58, 1.0;0.42, 0, 0.58, 1.0"
+                        repeatCount="indefinite" />
+                </use>
+            </g>
+        </svg>
+    </div>
+    <div class="academia-footer-inner">
+        <div class="academia-top">
+            <div>
+                <h2>VOCÊ ESTÁ PRONTO PARA TRANSFORMAR SEU CORPO E SUA VIDA?</h2>
+                <h3>Encontre as melhores academias, dicas e uma comunidade que te impulsiona!</h3>
+            </div>
+        </div>
+        <div class="academia-bottom">
+            <div class="academia-logo-content">
+                <div class="academia-socials">
+                    <a href="https://www.instagram.com/gymp2_portal/" class="instagram" title="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+            <nav class="academia-nav">
+                <ul>
+                    <li><h4>SOBRE O GYM P2</h4></li>
+                    <li><a href="#">Quem Somos</a></li>
+                    <li><a href="#">Nossa Missão</a></li>
+                    <li><a href="#">Contatos</a></li>
+                </ul>
+                <ul>
+                    <li><h4>EXPLORE</h4></li>
+                    <li><a href="#">Academias</a></li>
+                    <li><a href="#">Artes Marciais</a></li>
+                    <li><a href="#">Blog e Dicas</a></li>
+                </ul>
+                <ul>
+                    <li><h4>CONECTE-SE</h4></li>
+                    <li><a href="#">Siga-nos nas Redes Sociais</a></li>
+                    <li><a href="#">Política de Privacidade</a></li>
+                    <li><a href="#">Termos de Uso</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</footer>
+  <script src="menu.js"></script>
+  <!-- 1. Sistema de Notificações Globais -->
+<script src="global-notifications.js"></script>
+<!-- 2. Gerenciador de Usuários -->
+<script src="user-manager.js"></script>
+<!-- 3. Header com Informações do Usuário -->
+<script src="user-header.js"></script>
+<script>
+    // ========== SISTEMA DO HEADER ==========
+    
+    // Verificar se usuário está logado
+    function checkUserLogin() {
+        const user = getCurrentUser();
+        const userHeaderContainer = document.getElementById('userHeaderContainer');
+        const loginButton = document.getElementById('loginButton');
+        
+        if (user) {
+            // Usuário está logado - mostrar botão do usuário
+            if (userHeaderContainer) userHeaderContainer.style.display = 'flex';
+            if (loginButton) loginButton.style.display = 'none';
+            
+            // Atualizar nome e avatar no header
+            updateHeaderUserInfo(user);
+        } else {
+            // Usuário não está logado - mostrar botão de login
+            if (userHeaderContainer) userHeaderContainer.style.display = 'none';
+            if (loginButton) loginButton.style.display = 'block';
+        }
+    }
+    
+    // Atualizar informações do usuário no header
+    function updateHeaderUserInfo(user) {
+        // Nome no botão do header
+        const userNameHeader = document.getElementById('userNameHeader');
+        const dropdownUserName = document.getElementById('dropdownUserName');
+        const dropdownUserEmail = document.getElementById('dropdownUserEmail');
+        const userAvatar = document.getElementById('userAvatar');
+        
+        if (userNameHeader) userNameHeader.textContent = user.name || 'Usuário';
+        if (dropdownUserName) dropdownUserName.textContent = user.name || 'Usuário';
+        if (dropdownUserEmail) dropdownUserEmail.textContent = user.email || 'email@exemplo.com';
+        
+        // Atualizar avatar com iniciais
+        if (userAvatar && user.name) {
+            const initials = getInitials(user.name);
+            userAvatar.textContent = initials;
+        }
+    }
+    
+    // Função para obter iniciais do nome
+    function getInitials(name) {
+        if (!name) return 'U';
+        return name
+            .split(' ')
+            .map(n => n[0])
+            .slice(0, 2)
+            .join('')
+            .toUpperCase();
+    }
+    
+    // Sistema de dropdown do usuário
+    document.addEventListener('DOMContentLoaded', function() {
+        const userHeaderContainer = document.getElementById('userHeaderContainer');
+        const userDropdown = document.getElementById('userDropdown');
+        
+        if (userHeaderContainer && userDropdown) {
+            userHeaderContainer.addEventListener('click', function() {
+                userDropdown.style.opacity = userDropdown.style.opacity === '1' ? '0' : '1';
+                userDropdown.style.visibility = userDropdown.style.visibility === 'visible' ? 'hidden' : 'visible';
+                userDropdown.style.transform = userDropdown.style.transform === 'translateY(0px)' ? 'translateY(-10px)' : 'translateY(0px)';
+            });
+            
+            // Fechar dropdown ao clicar fora
+            document.addEventListener('click', function(event) {
+                if (!userHeaderContainer.contains(event.target)) {
+                    userDropdown.style.opacity = '0';
+                    userDropdown.style.visibility = 'hidden';
+                    userDropdown.style.transform = 'translateY(-10px)';
+                }
+            });
+        }
+    });
+    
+    // Função de logout
+    function logout() {
+        if (confirm('Tem certeza que deseja sair da sua conta?')) {
+            // Limpar dados do usuário
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('gymp2_current_user');
+            sessionStorage.removeItem('gymp2_user');
+            
+            // Redirecionar para página inicial
+            window.location.href = 'index.html';
+        }
+    }
+
+    // ========== FUNÇÕES DO HEADER (PESQUISA E MENU) ==========
+    
+    // Sistema de pesquisa
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchToggle = document.getElementById('searchToggle');
+        const searchField = document.getElementById('searchField');
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+        
+        if (searchToggle && searchField && searchInput) {
+            searchToggle.addEventListener('click', function() {
+                searchField.classList.toggle('expanded');
+                if (searchField.classList.contains('expanded')) {
+                    searchInput.focus();
+                } else {
+                    searchInput.value = '';
+                    searchResults.classList.remove('active');
+                }
+            });
+            
+            searchInput.addEventListener('input', function() {
+                if (this.value.trim() !== '') {
+                    searchResults.classList.add('active');
+                    // Simular resultados
+                    searchResults.innerHTML = `
+                        <div class="search-result-item">
+                            <div class="result-category">ACADEMIA</div>
+                            <div class="result-title">Smart Strong</div>
+                            <div class="result-description">Academia de musculação e crossfit</div>
+                        </div>
+                        <div class="search-result-item">
+                            <div class="result-category">ACADEMIA</div>
+                            <div class="result-title">Rede-Fit P2</div>
+                            <div class="result-description">Rede de academias fitness</div>
+                        </div>
+                        <div class="search-result-item">
+                            <div class="result-category">ACADEMIA</div>
+                            <div class="result-title">Olympic Fit</div>
+                            <div class="result-description">Academia de alta performance</div>
+                        </div>
+                    `;
+                } else {
+                    searchResults.classList.remove('active');
+                }
+            });
+            
+            // Fechar pesquisa ao clicar fora
+            document.addEventListener('click', function(event) {
+                if (!searchField.contains(event.target) && !searchToggle.contains(event.target)) {
+                    searchField.classList.remove('expanded');
+                    searchResults.classList.remove('active');
+                }
+            });
+        }
+      
+        // Sistema do menu mobile
+        const menuTrigger = document.getElementById('menuTrigger');
+        const slideMenu = document.getElementById('slideMenu');
+        const menuCloseBtn = document.getElementById('menuCloseBtn');
+        const menuOverlay = document.getElementById('menuOverlay');
+        
+        if (menuTrigger && slideMenu && menuCloseBtn && menuOverlay) {
+            menuTrigger.addEventListener('click', function() {
+                slideMenu.classList.add('open');
+                menuOverlay.classList.add('visible');
+                menuTrigger.classList.add('active');
+            });
+            
+            menuCloseBtn.addEventListener('click', function() {
+                slideMenu.classList.remove('open');
+                menuOverlay.classList.remove('visible');
+                menuTrigger.classList.remove('active');
+            });
+            
+            menuOverlay.addEventListener('click', function() {
+                slideMenu.classList.remove('open');
+                menuOverlay.classList.remove('visible');
+                menuTrigger.classList.remove('active');
+            });
+        }
+    });
+
+    // ========== SISTEMA DE PERFIL ==========
+    
+    function getCurrentUser() {
+        try {
+            // Tentar múltiplas fontes de dados
+            const sources = [
+                localStorage.getItem('currentUser'),
+                localStorage.getItem('gymp2_current_user'),
+                sessionStorage.getItem('gymp2_user'),
+                localStorage.getItem('login_data')
+            ];
+
+            for (const source of sources) {
+                if (source) {
+                    const user = JSON.parse(source);
+                    if (user && (user.name || user.nome || user.email || user.usuario)) {
+                        console.log('✅ Usuário encontrado:', user.name || user.nome);
+                        return {
+                            name: user.name || user.nome || 'Usuário',
+                            email: user.email || user.usuario || 'email@exemplo.com',
+                            bio: user.bio || '',
+                            photo: user.photo || '',
+                            created_at: user.criado_em || user.created_at || user.createdAt || new Date().toISOString(),
+                            last_login: user.ultimo_login || user.last_login || user.lastLogin || new Date().toISOString(),
+                            role: user.role || 'user'
+                        };
+                    }
+                }
+            }
+        } catch (error) {
+            console.error('❌ Erro ao processar dados do usuário:', error);
+        }
+        
+        return null;
+    }
+
+    function formatShortDate(dateString) {
+        try {
+            if (!dateString) return 'N/A';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('pt-BR');
+        } catch (e) {
+            return 'N/A';
+        }
+    }
+
+    function showNotification(message, type) {
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: ${type === 'success' ? '#00ff40' : '#ff4444'};
+            color: #000;
+            border-radius: 12px;
+            font-weight: 700;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 10000;
+            animation: slideIn 0.3s ease;
+        `;
+        
+        notification.textContent = message;
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.style.animation = 'slideOut 0.3s ease';
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
+        
+        // Adicionar animações CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    // ========== FUNÇÕES ESPECÍFICAS DO PERFIL ==========
+
+    // Função para mostrar iniciais na foto de perfil
+    
+    function loadProfileInitials() {
+        const user = getCurrentUser();
+        const initialsContainer = document.getElementById('profileInitials');
+        
+        if (user && user.name && initialsContainer) {
+            const initials = getInitials(user.name);
+            initialsContainer.textContent = initials;
+            initialsContainer.style.cssText = `
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 48px;
+                font-weight: 700;
+                color: #00ff40;
+                background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+                border-radius: 50%;
+            `;
+            
+            // Estilo para modo claro
+            if (document.body.classList.contains('light-mode')) {
+                initialsContainer.style.color = '#00a82d';
+                initialsContainer.style.background = 'linear-gradient(135deg, #f8f8f8 0%, #e0e0e0 100%)';
+            }
+        } else {
+            // Fallback se não encontrar usuário
+            if (initialsContainer) {
+                initialsContainer.textContent = 'U';
+                initialsContainer.style.cssText = `
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 48px;
+                    font-weight: 700;
+                    color: #00ff40;
+                    background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+                    border-radius: 50%;
+                `;
+            }
+        }
+    }
+
+    // Função para carregar dados do usuário
+    function loadUserData() {
+        const user = getCurrentUser();
+        
+        if (!user) {
+            alert('Você precisa fazer login para acessar esta página!');
+            setTimeout(() => {
+                window.location.href = 'login-gym.html';
+            }, 1000);
+            return;
+        }
+
+        // Preencher dados do usuário
+        document.getElementById('userName').textContent = user.name;
+        document.getElementById('userEmail').textContent = user.email;
+        
+        // Formatar data de criação
+        const memberSince = formatShortDate(user.created_at);
+        document.getElementById('memberSince').textContent = memberSince;
+        
+        // Carregar bio se existir
+        if (user.bio) {
+            document.getElementById('userBio').textContent = user.bio;
+        }
+        
+        // Carregar iniciais na foto de perfil
+        loadProfileInitials();
+    }
+
+    // Aplicar tema salvo
+    function applyTheme() {
+        const savedTheme = localStorage.getItem('gymp2_theme');
+        if (savedTheme === 'light') {
+            document.body.classList.add('light-mode');
+        }
+    }
+
+    // Inicializar quando a página carregar
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log('📄 Página de perfil carregada');
+        applyTheme();
+        checkUserLogin(); // Verificar login para mostrar botão correto
+        loadUserData();
+        
+        // Reaplicar estilos das iniciais quando o tema mudar
+        // (caso o usuário mude o tema dinamicamente)
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.attributeName === 'class') {
+                    loadProfileInitials();
+                }
+            });
+        });
+        
+        observer.observe(document.body, { attributes: true });
+    });
+
+
+
+
+    // ============================================
+// FUNÇÕES DE TAMANHO DA FONTE (COPIAR ESTA PARTE)
+// ============================================
+
+// Função para carregar preferências salvas
+function loadSavedFontPreferences() {
+    const savedFontSize = localStorage.getItem('gym-fontSize') || 'medium';
+    applyFontSize(savedFontSize);
+}
+
+// Função para mudar tamanho da fonte
+function changeFontSize(size) {
+    console.log('✅ Mudando fonte para:', size);
+    localStorage.setItem('gym-fontSize', size);
+    applyFontSize(size);
+}
+
+// Função para aplicar o tamanho da fonte
+function applyFontSize(size) {
+    const sizes = {
+        'small': { 
+            h1: '36px', 
+            h2: '24px', 
+            h3: '18px',
+            normal: '14px',
+            small: '12px',
+            large: '16px'
+        },
+        'medium': { 
+            h1: '42px',
+            h2: '28px',
+            h3: '22px',
+            normal: '16px',
+            small: '14px',
+            large: '18px'
+        },
+        'large': { 
+            h1: '52px',
+            h2: '34px',
+            h3: '26px',
+            normal: '18px',
+            small: '16px',
+            large: '20px'
+        }
+    };
+
+    const currentSizes = sizes[size];
+    
+    // Aplicar a todos os elementos
+    document.querySelectorAll('h1').forEach(el => el.style.fontSize = currentSizes.h1);
+    document.querySelectorAll('h2').forEach(el => el.style.fontSize = currentSizes.h2);
+    document.querySelectorAll('h3').forEach(el => el.style.fontSize = currentSizes.h3);
+    document.querySelectorAll('p, span, div, li').forEach(el => {
+        // Aplicar apenas se não for um elemento com tamanho específico
+        if (!el.classList.contains('fixed-size') && 
+            !el.classList.contains('size-option') &&
+            !el.classList.contains('btn-secondary') &&
+            !el.classList.contains('btn-danger')) {
+            el.style.fontSize = currentSizes.normal;
+        }
+    });
+    document.querySelectorAll('small, .btn-secondary, .btn-danger, .btn-warning').forEach(el => 
+        el.style.fontSize = currentSizes.small);
+    document.querySelectorAll('.large-text, .modal-title').forEach(el => 
+        el.style.fontSize = currentSizes.large);
+    
+    // Aplicar ao body também para herança
+    document.body.style.fontSize = currentSizes.normal;
+}
+
+// Aplicar configuração quando a página carregar
+document.addEventListener('DOMContentLoaded', function() {
+    loadSavedFontPreferences();
+});
+            
+</script>
+
+</body>
+</html>
