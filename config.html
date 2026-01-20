@@ -1,0 +1,1576 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuração do Gym-p2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            margin-bottom: 50px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .btn-back {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #fff;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .btn-back:hover {
+            background: rgba(0, 255, 64, 0.2);
+            border-color: #00ff40;
+            color: #00ff40;
+        }
+
+        .header-content {
+            flex: 1;
+        }
+
+        .header h1 {
+            font-size: 42px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00ff40 0%, #00cc6f 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            color: #888;
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        .settings-section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            margin-bottom: 24px;
+        }
+
+        .setting-item {
+            padding: 20px 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .setting-label {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .setting-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .setting-description {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .toggle-switch {
+            width: 48px;
+            height: 28px;
+            background-color: #333;
+            border-radius: 14px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .toggle-switch.active {
+            background-color: #00ff40;
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background-color: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-switch.active::after {
+            left: 22px;
+        }
+
+        .theme-preview {
+            display: flex;
+            gap: 12px;
+        }
+
+        .theme-option {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .theme-option.dark {
+            background: #1a1a1a;
+            border: 2px solid #333;
+        }
+
+        .theme-option.active {
+            border-color: #00ff40;
+            box-shadow: 0 0 8px rgba(0, 255, 64, 0.4);
+        }
+
+        .font-size-preview {
+            display: flex;
+            gap: 8px;
+        }
+
+        .size-option {
+            padding: 6px 12px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .size-option.active {
+            background: #00ff40;
+            color: #000;
+            border-color: #00ff40;
+            box-shadow: 0 0 8px rgba(0, 255, 64, 0.4);
+        }
+
+        .btn-secondary {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #fff;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-danger {
+            padding: 8px 16px;
+            background: rgba(255, 59, 48, 0.1);
+            border: 1px solid rgba(255, 59, 48, 0.3);
+            border-radius: 8px;
+            color: #ff3b30;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .btn-danger:hover {
+            background: rgba(255, 59, 48, 0.2);
+            border-color: #ff3b30;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal.show {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #1a1a1a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 32px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #ffffff;
+        }
+
+        .modal-description {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .btn-cancel {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #fff;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .btn-cancel:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-confirm {
+            padding: 10px 20px;
+            background: #00ff40;
+            border: none;
+            border-radius: 8px;
+            color: #000;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .btn-confirm:hover {
+            background: #00ff40;
+            box-shadow: 0 0 12px rgba(0, 255, 136, 0.3);
+        }
+
+        .btn-confirm.danger {
+            background: #ff3b30;
+            color: #fff;
+        }
+
+        .btn-confirm.danger:hover {
+            background: #ff2415;
+            box-shadow: 0 0 12px rgba(255, 59, 48, 0.3);
+        }
+
+        /* ============================================ */
+        /* ESTILOS PARA O SISTEMA DE EXCLUSÃO */
+        /* ============================================ */
+        .deletion-status-item {
+            background: linear-gradient(135deg, rgba(255, 149, 0, 0.08), rgba(255, 149, 0, 0.03));
+            border: 1px solid rgba(255, 149, 0, 0.2);
+            border-radius: 12px;
+            margin: 10px;
+            animation: pulseWarning 2s infinite;
+            display: none;
+        }
+
+        @keyframes pulseWarning {
+            0%, 100% { border-color: rgba(255, 149, 0, 0.2); }
+            50% { border-color: rgba(255, 149, 0, 0.4); }
+        }
+
+        .deletion-countdown {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(255, 59, 48, 0.1);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+
+        .deletion-countdown span {
+            font-weight: bold;
+            color: #ff3b30;
+        }
+
+        .btn-warning {
+            padding: 8px 16px;
+            background: rgba(255, 149, 0, 0.1);
+            border: 1px solid rgba(255, 149, 0, 0.3);
+            border-radius: 8px;
+            color: #ff9500;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .btn-warning:hover {
+            background: rgba(255, 149, 0, 0.2);
+            border-color: #ff9500;
+        }
+
+        /* ============================================ */
+        /* ESTILOS PARA ÍCONES */
+        /* ============================================ */
+        .privacy-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 255, 64, 0.1);
+            border-radius: 10px;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .setting-item-with-icon {
+            padding: 20px 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .setting-item-with-icon:last-child {
+            border-bottom: none;
+        }
+
+        .setting-content {
+            flex: 1;
+        }
+
+        .security-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(0, 255, 64, 0.1);
+            color: #00ff40;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        
+        /* ============================================ */
+        /* NOVOS ESTILOS PARA USUÁRIO NÃO LOGADO */
+        /* ============================================ */
+        .login-required-section {
+            display: none;
+            background: rgba(0, 255, 64, 0.05);
+            border: 1px solid rgba(0, 255, 64, 0.2);
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 24px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .login-required-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            color: #00ff40;
+        }
+
+        .login-required-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .login-required-description {
+            font-size: 16px;
+            color: #888;
+            margin-bottom: 30px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.5;
+        }
+
+        .btn-login-large {
+            padding: 16px 40px;
+            background: linear-gradient(135deg, #00ff40 0%, #00cc6f 100%);
+            border: none;
+            border-radius: 12px;
+            color: #000;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .btn-login-large:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 255, 64, 0.3);
+        }
+
+        .btn-login-large i {
+            font-size: 20px;
+        }
+
+        .settings-content {
+            display: block;
+        }
+
+        .settings-content.hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="btn-back" onclick="goBack()" title="Voltar para página anterior">
+                ← 
+            </button>
+            <div class="header-content">
+                <h1>⚙️ Configurações</h1>
+                <p id="settingsSubtitle">Personalize sua experiência no Gym-p2</p>
+            </div>
+        </div>
+
+        <!-- SEÇÃO PARA USUÁRIO NÃO LOGADO -->
+        <div class="login-required-section" id="loginRequiredSection">
+            <div class="login-required-icon">🔐</div>
+            <div class="login-required-title">Faça login para acessar as configurações</div>
+            <div class="login-required-description">
+                Para personalizar sua experiência, salvar suas preferências e gerenciar sua conta, 
+                é necessário fazer login na sua conta Gym-p2.
+            </div>
+            <a href="login-gym.html" class="btn-login-large">
+                <span></span> Fazer Login
+            </a>
+            <div style="margin-top: 30px; color: #666; font-size: 14px;">
+                Não tem uma conta? <a href="login-gym.html" style="color: #00ff40; text-decoration: none;">Criar conta</a>
+            </div>
+        </div>
+
+        <!-- CONTEÚDO DAS CONFIGURAÇÕES (APENAS PARA USUÁRIOS LOGADOS) -->
+        <div class="settings-content" id="settingsContent">
+            <!-- Configurações de Privacidade Simplificada -->
+            <div class="settings-section">
+                <div class="setting-item-with-icon" onclick="openPrivacyModal()">
+                    <div class="privacy-icon">
+                        🔒
+                    </div>
+                    <div class="setting-content">
+                        <div class="setting-title">
+                            Privacidade e Segurança
+                            <span class="security-badge">SEGURO</span>
+                        </div>
+                        <div class="setting-description">
+                            Sua privacidade é nossa prioridade
+                        </div>
+                    </div>
+                    <div style="color: #888; font-size: 20px;">→</div>
+                </div>
+            </div>
+
+            <!-- Configurações de Aparência -->
+            <div class="settings-section">
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <div class="setting-title">Tamanho da fonte</div>
+                        <div class="setting-description">Ajuste o tamanho para melhor legibilidade</div>
+                    </div>
+                    <div class="font-size-preview">
+                        <div class="size-option" onclick="changeFontSize('small')">P</div>
+                        <div class="size-option active" onclick="changeFontSize('medium')">M</div>
+                        <div class="size-option" onclick="changeFontSize('large')">G</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Configurações da Conta -->
+            <div class="settings-section">
+                <!-- Status de Exclusão (aparece apenas se houver solicitação) -->
+                <div class="setting-item deletion-status-item" id="deletionStatusItem">
+                    <div class="setting-label">
+                        <div class="setting-title">⚠️ Exclusão Pendente</div>
+                        <div class="setting-description">
+                            Sua conta será excluída em 
+                            <span class="deletion-countdown">
+                                <span id="daysRemainingCount">30</span> dias
+                            </span>
+                        </div>
+                    </div>
+                    <button class="btn-warning" onclick="cancelAccountDeletion()">Cancelar Exclusão</button>
+                </div>
+                
+                <!-- Opção para Deletar/Recuperar Conta -->
+                <div class="setting-item" id="deleteAccountItem">
+                    <div class="setting-label">
+                        <div class="setting-title" id="deleteAccountTitle">Deletar conta</div>
+                        <div class="setting-description" id="deleteAccountDesc">
+                            Tem 30 dias para cancelar após solicitar
+                        </div>
+                    </div>
+                    <button class="btn-danger" onclick="openDeleteAccountModal()" id="deleteAccountBtn">
+                        Solicitar Exclusão
+                    </button>
+                </div>
+            </div>
+
+            <!-- Modal de Privacidade Simplificado -->
+            <div class="modal" id="privacyModal">
+                <div class="modal-content">
+                    <div class="modal-title" style="display: flex; align-items: center; gap: 10px;">
+                        <div style="font-size: 24px;">🔒</div>
+                        <div>Privacidade e Segurança</div>
+                    </div>
+                    
+                    <div class="modal-description">
+                        <div style="margin-bottom: 20px;">
+                            <h3 style="color: #00ff40; margin-bottom: 8px; font-size: 16px;"> Seus dados estão protegidos</h3>
+                            <p style="margin-bottom: 15px;">No Gym-p2, levamos a segurança dos seus dados muito a sério. Todas as suas informações pessoais e de treino são protegidas com os mais altos padrões de segurança.</p>
+                            
+                            <div style="background: rgba(0, 255, 64, 0.05); border-left: 3px solid #00ff40; padding: 12px; border-radius: 8px; margin-bottom: 15px;">
+                                <h4 style="color: #00ff40; margin-bottom: 8px; font-size: 14px;"> Criptografia de Ponta a Ponta</h4>
+                                <p style="font-size: 13px; margin: 0;">Todos os seus dados são criptografados usando o padrão AES-256, o mesmo utilizado por instituições financeiras.</p>
+                            </div>
+                            
+                            <div style="background: rgba(0, 255, 64, 0.05); border-left: 3px solid #00ff40; padding: 12px; border-radius: 8px; margin-bottom: 15px;">
+                                <h4 style="color: #00ff40; margin-bottom: 8px; font-size: 14px;"> Autenticação Segura</h4>
+                                <p style="font-size: 13px; margin: 0;">Utilizamos autenticação de dois fatores e tokens seguros para proteger o acesso à sua conta.</p>
+                            </div>
+                            
+                            <div style="background: rgba(0, 255, 64, 0.05); border-left: 3px solid #00ff40; padding: 12px; border-radius: 8px; margin-bottom: 20px;">
+                                <h4 style="color: #00ff40; margin-bottom: 8px; font-size: 14px;"> Controle Total</h4>
+                                <p style="font-size: 13px; margin: 0;">Você tem controle completo sobre seus dados e pode excluí-los a qualquer momento.</p>
+                            </div>
+                            
+                            <div style="display: flex; align-items: center; gap: 10px; padding: 12px; background: rgba(0, 255, 64, 0.08); border-radius: 10px; margin-top: 20px;">
+                                <div style="font-size: 32px;"></div>
+                                <div>
+                                    <div style="font-weight: 600; color: #00ff40;">Status de Segurança:</div>
+                                    <div style="font-size: 13px;">Todos os sistemas operando normalmente</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-buttons">
+                        <button class="btn-confirm" onclick="closePrivacyModal()">
+                            Entendi
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal de Exclusão de Conta -->
+            <div class="modal" id="deleteAccountModal">
+                <div class="modal-content">
+                    <div class="modal-title">⚠️ Confirmar Exclusão da Conta</div>
+                    <div class="modal-description" id="deleteAccountDescription">
+                        <p>Você está solicitando a exclusão permanente da sua conta.</p>
+                        <p><strong>Importante:</strong></p>
+                        <ul style="margin: 10px 0 10px 20px; color: #ff6b6b;">
+                            <li>Sua conta será desativada imediatamente</li>
+                            <li>Você terá <strong>30 dias</strong> para cancelar esta exclusão</li>
+                            <li>Após 30 dias, todos os seus dados serão permanentemente removidos</li>
+                            <li>Durante este período, você poderá cancelar a qualquer momento</li>
+                            <li>Depois de excluída, este email não poderá mais ser usado</li>
+                        </ul>
+                        <p>Deseja continuar?</p>
+                    </div>
+                    <div class="modal-buttons">
+                        <button class="btn-cancel" onclick="closeDeleteModal()">Cancelar</button>
+                        <button class="btn-confirm danger" onclick="requestAccountDeletion()">
+                            Sim, Solicitar Exclusão
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal de Cancelamento de Exclusão -->
+            <div class="modal" id="cancelDeletionModal">
+                <div class="modal-content">
+                    <div class="modal-title">✅ Cancelar Exclusão</div>
+                    <div class="modal-description">
+                        <p>Você está prestes a cancelar a exclusão da sua conta.</p>
+                        <p>Sua conta será reativada imediatamente e você poderá continuar usando normalmente.</p>
+                        <label style="display: block; margin: 15px 0 5px;">
+                            <span>Motivo do cancelamento (opcional):</span>
+                            <textarea id="cancellationReason" 
+                                     placeholder="Por que está cancelando a exclusão?"
+                                     rows="3"
+                                     style="width: 100%; margin-top: 5px; padding: 8px; border-radius: 6px; 
+                                            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+                                            color: inherit; font-family: inherit;"></textarea>
+                        </label>
+                    </div>
+                    <div class="modal-buttons">
+                        <button class="btn-cancel" onclick="closeCancelModal()">Voltar</button>
+                        <button class="btn-confirm" onclick="confirmCancelDeletion()">
+                            Confirmar Cancelamento
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+         // ============================================
+        // VERIFICAÇÃO DE LOGIN
+        // ============================================
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Verificar se o usuário está logado
+            const isLoggedIn = checkIfUserIsLoggedIn();
+            
+            if (isLoggedIn) {
+                // Usuário logado - mostrar configurações
+                showSettingsContent();
+                initializeForLoggedUser();
+            } else {
+                // Usuário não logado - mostrar botão de login
+                showLoginRequired();
+            }
+        });
+        
+        function checkIfUserIsLoggedIn() {
+            // Verificar em vários possíveis locais onde o login pode estar armazenado
+            const possibleKeys = [
+                'currentUser',
+                'gymp2_current_user',
+                'userToken',
+                'authToken',
+                'gymp2_user_data',
+                'loggedInUser'
+            ];
+            
+            for (const key of possibleKeys) {
+                const userData = localStorage.getItem(key);
+                if (userData) {
+                    try {
+                        const parsed = JSON.parse(userData);
+                        if (parsed && (parsed.email || parsed.username || parsed.id)) {
+                            return true;
+                        }
+                    } catch (e) {
+                        // Se não for JSON válido, verificar se é string não vazia
+                        if (userData && userData.trim().length > 0) {
+                            return true;
+                        }
+                    }
+                }
+            }
+            
+            // Verificar também sessionStorage
+            for (const key of possibleKeys) {
+                const userData = sessionStorage.getItem(key);
+                if (userData && userData.trim().length > 0) {
+                    return true;
+                }
+            }
+            
+            return false;
+        }
+        
+        function showLoginRequired() {
+            document.getElementById('loginRequiredSection').style.display = 'block';
+            document.getElementById('settingsContent').classList.add('hidden');
+            document.getElementById('settingsSubtitle').textContent = 'Faça login para personalizar sua experiência';
+        }
+        
+        function showSettingsContent() {
+            document.getElementById('loginRequiredSection').style.display = 'none';
+            document.getElementById('settingsContent').classList.remove('hidden');
+            document.getElementById('settingsSubtitle').textContent = 'Personalize sua experiência no Gym-p2';
+        }
+        
+        function initializeForLoggedUser() {
+            // Salvar página anterior no localStorage
+            const referrer = document.referrer;
+            if (referrer && !referrer.includes('config.html')) {
+                localStorage.setItem('gym-previous-page', referrer);
+            }
+            
+            // Carregar configurações
+            loadSavedPreferences();
+            setupConfigButtons();
+            applyCurrentSettings();
+            
+            // Verificar status da conta (AGORA COM VERIFICAÇÃO DIÁRIA)
+            initializeAccountDeletionSystem();
+            
+            // Iniciar contador regressivo em tempo real
+            startRealTimeCountdown();
+        }
+
+        // ============================================
+        // FUNÇÃO PARA VOLTAR À PÁGINA ANTERIOR
+        // ============================================
+        function goBack() {
+            const isLoggedIn = checkIfUserIsLoggedIn();
+            
+            if (!isLoggedIn) {
+                // Se não estiver logado, voltar para página inicial ou login
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            const previousPage = localStorage.getItem('gym-previous-page');
+            
+            if (previousPage && previousPage !== window.location.href) {
+                window.location.href = previousPage;
+            } else if (document.referrer && !document.referrer.includes('config.html')) {
+                window.history.back();
+            } else {
+                // Fallback: volta para o perfil se estiver logado
+                window.location.href = 'perfil.html';
+            }
+        }
+
+        // ============================================
+        // FUNÇÕES DE CONFIGURAÇÃO (APENAS PARA USUÁRIOS LOGADOS)
+        // ============================================
+        
+        function loadSavedPreferences() {
+            const savedFontSize = localStorage.getItem('gym-fontSize') || 'medium';
+            updateFontSizeButtons(savedFontSize);
+        }
+
+        function setupConfigButtons() {
+            document.querySelectorAll('.size-option').forEach((btn, index) => {
+                btn.addEventListener('click', function() {
+                    const sizes = ['small', 'medium', 'large'];
+                    changeFontSize(sizes[index]);
+                });
+            });
+        }
+
+        function changeFontSize(size) {
+            console.log('✅ Mudando fonte para:', size);
+            localStorage.setItem('gym-fontSize', size);
+            updateFontSizeButtons(size);
+            applyFontSize(size);
+        }
+
+        function updateFontSizeButtons(size) {
+            document.querySelectorAll('.size-option').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            
+            const sizes = ['small', 'medium', 'large'];
+            const index = sizes.indexOf(size);
+            const buttons = document.querySelectorAll('.size-option');
+            if (buttons[index]) {
+                buttons[index].classList.add('active');
+            }
+        }
+
+        // ============================================
+        // APLICAR TAMANHO DA FONTE
+        // ============================================
+        function applyFontSize(size) {
+            const sizes = {
+                'small': { 
+                    h1: '36px', 
+                    h2: '24px', 
+                    h3: '18px',
+                    normal: '14px',
+                    small: '12px'
+                },
+                'medium': { 
+                    h1: '42px',
+                    h2: '28px',
+                    h3: '22px',
+                    normal: '16px',
+                    small: '14px'
+                },
+                'large': { 
+                    h1: '52px',
+                    h2: '34px',
+                    h3: '26px',
+                    normal: '18px',
+                    small: '16px'
+                }
+            };
+
+            const currentSizes = sizes[size];
+            
+            document.querySelectorAll('h1').forEach(el => el.style.fontSize = currentSizes.h1);
+            document.querySelectorAll('h2').forEach(el => el.style.fontSize = currentSizes.h2);
+            document.querySelectorAll('h3').forEach(el => el.style.fontSize = currentSizes.h3);
+            document.querySelectorAll('p, .setting-description, .setting-title').forEach(el => el.style.fontSize = currentSizes.normal);
+            document.querySelectorAll('small, .btn-secondary, .btn-danger').forEach(el => el.style.fontSize = currentSizes.small);
+        }
+
+        function applyCurrentSettings() {
+            const savedFontSize = localStorage.getItem('gym-fontSize') || 'medium';
+            applyFontSize(savedFontSize);
+        }
+
+        // ============================================
+        // MODAL DE PRIVACIDADE SIMPLIFICADO
+        // ============================================
+
+        function openPrivacyModal() {
+            const modal = document.getElementById('privacyModal');
+            if (modal) modal.classList.add('show');
+        }
+
+        function closePrivacyModal() {
+            const modal = document.getElementById('privacyModal');
+            if (modal) modal.classList.remove('show');
+        }
+
+        // Fechar modal ao clicar fora
+        document.addEventListener('click', function(e) {
+            const modal = document.getElementById('privacyModal');
+            const deleteModal = document.getElementById('deleteAccountModal');
+            const cancelModal = document.getElementById('cancelDeletionModal');
+            
+            if (e.target === modal) closePrivacyModal();
+            if (e.target === deleteModal) closeDeleteModal();
+            if (e.target === cancelModal) closeCancelModal();
+        });
+
+        // ============================================
+        // SISTEMA AVANÇADO DE EXCLUSÃO AUTOMÁTICA
+        // (APENAS PARA USUÁRIOS LOGADOS)
+        // ============================================
+
+        // Configurações do sistema
+        const ACCOUNT_DELETION = {
+            GRACE_PERIOD_DAYS: 30, // Período de cancelamento
+            CHECK_INTERVAL: 60000, // Verificar a cada 1 minuto (para demo)
+            AUTO_LOGOUT: true, // Deslogar automaticamente quando perto da exclusão
+            NOTIFICATION_DAYS: [7, 3, 1] // Notificar quando faltar X dias
+        };
+
+        let deletionStatus = null;
+
+        // Inicializar sistema de exclusão
+        function initializeAccountDeletionSystem() {
+            checkAccountDeletionStatus();
+            scheduleDailyCheck();
+        }
+
+        // Verificar status da exclusão com cálculo real de dias
+        function checkAccountDeletionStatus() {
+            try {
+                const savedStatus = localStorage.getItem('gymp2_deletion_status');
+                
+                if (!savedStatus) {
+                    deletionStatus = { hasPendingDeletion: false };
+                    updateDeletionUI(deletionStatus);
+                    return;
+                }
+                
+                deletionStatus = JSON.parse(savedStatus);
+                
+                if (deletionStatus.hasPendingDeletion && deletionStatus.deletionRecord) {
+                    // Calcular dias restantes REAIS
+                    const record = deletionStatus.deletionRecord;
+                    const now = new Date();
+                    const deletionDate = new Date(record.scheduledDeletionDate);
+                    
+                    // Verificar se já passou da data de exclusão
+                    if (now >= deletionDate) {
+                        // TEMPO ESGOTADO - EXCLUIR CONTA
+                        executeAccountDeletion();
+                        return;
+                    }
+                    
+                    // Calcular dias restantes (arredondando para cima)
+                    const timeDiff = deletionDate - now;
+                    const daysRemaining = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+                    
+                    // Atualizar contador no registro
+                    record.daysRemaining = daysRemaining;
+                    
+                    // Verificar notificações
+                    checkForNotifications(daysRemaining);
+                    
+                    // Salvar atualização
+                    localStorage.setItem('gymp2_deletion_status', JSON.stringify(deletionStatus));
+                    
+                    // Atualizar UI
+                    updateDeletionUI(deletionStatus);
+                    
+                    // Verificar se deve deslogar
+                    if (ACCOUNT_DELETION.AUTO_LOGOUT && daysRemaining <= 1) {
+                        prepareForAutoLogout();
+                    }
+                } else {
+                    updateDeletionUI(deletionStatus);
+                }
+                
+            } catch (error) {
+                console.error('Erro ao verificar status:', error);
+            }
+        }
+
+        // Agendar verificação diária
+        function scheduleDailyCheck() {
+            // Verificar imediatamente
+            checkAccountDeletionStatus();
+            
+            // Agendar próximas verificações
+            setInterval(checkAccountDeletionStatus, ACCOUNT_DELETION.CHECK_INTERVAL);
+            
+            // Também agendar para meia-noite
+            scheduleMidnightCheck();
+        }
+
+        // Agendar verificação para meia-noite
+        function scheduleMidnightCheck() {
+            const now = new Date();
+            const midnight = new Date();
+            midnight.setHours(24, 0, 0, 0);
+            
+            const timeUntilMidnight = midnight - now;
+            
+            setTimeout(() => {
+                checkAccountDeletionStatus();
+                // Reagendar para próximo dia
+                scheduleMidnightCheck();
+            }, timeUntilMidnight);
+        }
+
+        // Iniciar contador regressivo em tempo real
+        function startRealTimeCountdown() {
+            setInterval(updateLiveCountdown, 1000); // Atualizar a cada segundo
+        }
+
+        // Atualizar contador em tempo real
+        function updateLiveCountdown() {
+            if (!deletionStatus?.hasPendingDeletion) return;
+            
+            const record = deletionStatus.deletionRecord;
+            const deletionDate = new Date(record.scheduledDeletionDate);
+            const now = new Date();
+            
+            if (now >= deletionDate) {
+                executeAccountDeletion();
+                return;
+            }
+            
+            // Calcular tempo restante
+            const timeRemaining = deletionDate - now;
+            
+            // Converter para dias, horas, minutos, segundos
+            const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+            
+            // Atualizar display se o elemento existir
+            const countdownElement = document.getElementById('liveCountdown');
+            if (countdownElement) {
+                countdownElement.innerHTML = `
+                    <strong>${days}d ${hours}h ${minutes}m ${seconds}s</strong>
+                `;
+            }
+            
+            // Atualizar dias restantes no registro principal
+            record.daysRemaining = days;
+            record.hoursRemaining = hours;
+            record.minutesRemaining = minutes;
+        }
+
+        // Verificar e enviar notificações
+        function checkForNotifications(daysRemaining) {
+            if (!ACCOUNT_DELETION.NOTIFICATION_DAYS.includes(daysRemaining)) return;
+            
+            const notifications = localStorage.getItem('gymp2_deletion_notifications') || '{}';
+            const sentNotifications = JSON.parse(notifications);
+            const userId = getCurrentUserId();
+            
+            if (!sentNotifications[userId] || !sentNotifications[userId].includes(daysRemaining)) {
+                // Enviar notificação
+                showNotification(daysRemaining);
+                
+                // Marcar como enviada
+                if (!sentNotifications[userId]) sentNotifications[userId] = [];
+                sentNotifications[userId].push(daysRemaining);
+                localStorage.setItem('gymp2_deletion_notifications', JSON.stringify(sentNotifications));
+            }
+        }
+
+        // Mostrar notificação
+        function showNotification(daysRemaining) {
+            const messages = {
+                7: `⚠️ ATENÇÃO: Faltam ${daysRemaining} dias para a exclusão permanente da sua conta!`,
+                3: `⏰ URGENTE: Apenas ${daysRemaining} dias restantes! Sua conta será excluída em breve.`,
+                1: `🚨 ÚLTIMO DIA: Sua conta será excluída AMANHÃ! Cancele agora se mudou de ideia.`
+            };
+            
+            if (messages[daysRemaining]) {
+                // Criar notificação na tela
+                createToastNotification(messages[daysRemaining], daysRemaining);
+                
+                // Também mostrar alerta (para desenvolvimento)
+                console.log(`NOTIFICAÇÃO: ${messages[daysRemaining]}`);
+            }
+        }
+
+        // Criar notificação toast
+        function createToastNotification(message, days) {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${days === 1 ? '#ff3b30' : '#ff9500'};
+                color: white;
+                padding: 15px 20px;
+                border-radius: 10px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                z-index: 9999;
+                max-width: 400px;
+                animation: slideIn 0.3s ease;
+                border-left: 5px solid ${days === 1 ? '#ff0000' : '#ff7700'};
+            `;
+            
+            toast.innerHTML = `
+                <div style="font-weight: bold; margin-bottom: 5px;">
+                    ${days === 1 ? '🚨 ULTIMO DIA!' : '⚠️ ALERTA DE EXCLUSÃO'}
+                </div>
+                <div>${message}</div>
+                ${days <= 3 ? `<div style="margin-top: 10px; font-size: 12px;">
+                    <button onclick="cancelAccountDeletion()" 
+                            style="background: white; color: #333; border: none; 
+                                   padding: 5px 10px; border-radius: 5px; cursor: pointer;">
+                        Cancelar Exclusão
+                    </button>
+                </div>` : ''}
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // Remover após 10 segundos
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 10000);
+            
+            // Adicionar estilos de animação
+            if (!document.getElementById('toast-styles')) {
+                const style = document.createElement('style');
+                style.id = 'toast-styles';
+                style.textContent = `
+                    @keyframes slideIn {
+                        from { transform: translateX(100%); opacity: 0; }
+                        to { transform: translateX(0); opacity: 1; }
+                    }
+                    @keyframes slideOut {
+                        from { transform: translateX(0); opacity: 1; }
+                        to { transform: translateX(100%); opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+
+        // Preparar logout automático
+        function prepareForAutoLogout() {
+            if (!ACCOUNT_DELETION.AUTO_LOGOUT) return;
+            
+            // Verificar se faltam menos de 1 hora
+            const record = deletionStatus.deletionRecord;
+            const deletionDate = new Date(record.scheduledDeletionDate);
+            const now = new Date();
+            const hoursRemaining = (deletionDate - now) / (1000 * 60 * 60);
+            
+            if (hoursRemaining < 1) {
+                // Mostrar aviso final
+                showFinalWarning(hoursRemaining);
+                
+                // Deslogar 30 minutos antes da exclusão
+                if (hoursRemaining < 0.5) {
+                    setTimeout(() => {
+                        performAutoLogout();
+                    }, 10 * 60 * 1000); // 10 minutos
+                }
+            }
+        }
+
+        // Mostrar aviso final
+        function showFinalWarning(hoursRemaining) {
+            const minutes = Math.floor(hoursRemaining * 60);
+            
+            const warning = document.createElement('div');
+            warning.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                background: linear-gradient(135deg, #ff3b30, #ff9500);
+                color: white;
+                padding: 15px;
+                text-align: center;
+                z-index: 9998;
+                font-weight: bold;
+                box-shadow: 0 2px 10px rgba(255, 59, 48, 0.3);
+            `;
+            
+            warning.innerHTML = `
+                🚨 CONTA SENDO EXCLUÍDA EM ${minutes} MINUTOS! 
+                <button onclick="cancelAccountDeletion()" 
+                        style="margin-left: 15px; background: white; color: #ff3b30; 
+                               border: none; padding: 5px 15px; border-radius: 20px; 
+                               font-weight: bold; cursor: pointer;">
+                    CANCELAR AGORA!
+                </button>
+            `;
+            
+            document.body.appendChild(warning);
+        }
+
+        // Executar logout automático
+        function performAutoLogout() {
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('gymp2_current_user');
+            
+            // Redirecionar para login com mensagem
+            sessionStorage.setItem('logout_reason', 'account_deletion_imminent');
+            window.location.href = 'login-gym.html';
+        }
+
+        // ============================================
+        // EXECUTAR EXCLUSÃO DA CONTA
+        // ============================================
+
+        async function executeAccountDeletion() {
+            try {
+                console.log('🚨 INICIANDO EXCLUSÃO PERMANENTE DA CONTA');
+                
+                // Obter dados do usuário
+                const currentUser = localStorage.getItem('currentUser') || 
+                                   localStorage.getItem('gymp2_current_user');
+                
+                if (!currentUser) {
+                    // Usuário já deslogado, apenas limpar
+                    cleanupAfterDeletion();
+                    return;
+                }
+                
+                const user = JSON.parse(currentUser);
+                const userEmail = user.email;
+                
+                // 1. Registrar ação
+                logDeletionAction(userEmail);
+                
+                // 2. Limpar dados locais do usuário
+                cleanupUserData(userEmail);
+                
+                // 3. Limpar dados da conta
+                cleanupAccountData();
+                
+                // 4. Atualizar status
+                deletionStatus = {
+                    hasPendingDeletion: false,
+                    wasDeleted: true,
+                    deletionDate: new Date().toISOString(),
+                    deletedEmail: userEmail
+                };
+                
+                localStorage.setItem('gymp2_deletion_status', JSON.stringify(deletionStatus));
+                
+                // 5. Deslogar usuário
+                localStorage.removeItem('currentUser');
+                localStorage.removeItem('gymp2_current_user');
+                
+                // 6. Redirecionar para página de confirmação
+                setTimeout(() => {
+                    window.location.href = 'account-deleted.html';
+                }, 2000);
+                
+            } catch (error) {
+                console.error('Erro na exclusão:', error);
+                // Tentar limpar dados mesmo com erro
+                cleanupAccountData();
+            }
+        }
+
+        // Limpar dados do usuário
+        function cleanupUserData(userEmail) {
+            try {
+                // Limpar dados específicos do usuário no localStorage
+                const prefix = `gymp2_${userEmail.split('@')[0]}_`;
+                
+                Object.keys(localStorage).forEach(key => {
+                    if (key.startsWith(prefix)) {
+                        localStorage.removeItem(key);
+                    }
+                });
+                
+                // Limpar dados de sessão
+                sessionStorage.clear();
+                
+                console.log('✅ Dados do usuário removidos');
+            } catch (error) {
+                console.error('Erro ao limpar dados:', error);
+            }
+        }
+
+        // Limpar dados da conta
+        function cleanupAccountData() {
+            try {
+                // Manter apenas configurações globais
+                const keepKeys = [
+                    'gymp2_deletion_status', // Manter registro da exclusão
+                    'gym-fontSize', // Configurações de aparência
+                    'gym-previous-page' // Histórico
+                ];
+                
+                Object.keys(localStorage).forEach(key => {
+                    if (!keepKeys.includes(key) && 
+                        !key.includes('currentUser') && 
+                        !key.includes('gymp2_current_user')) {
+                        // Não remover tudo, apenas dados sensíveis
+                        if (key.includes('user_') || key.includes('profile_') || 
+                            key.includes('workout_') || key.includes('history_')) {
+                            localStorage.removeItem(key);
+                        }
+                    }
+                });
+                
+                console.log('✅ Limpeza de dados concluída');
+            } catch (error) {
+                console.error('Erro na limpeza:', error);
+            }
+        }
+
+        // Registrar ação de exclusão
+        function logDeletionAction(email) {
+            const deletionLog = localStorage.getItem('gymp2_deletion_log') || '[]';
+            const log = JSON.parse(deletionLog);
+            
+            log.push({
+                email: email,
+                deletedAt: new Date().toISOString(),
+                reason: 'grace_period_expired',
+                restored: false
+            });
+            
+            localStorage.setItem('gymp2_deletion_log', JSON.stringify(log.slice(-100))); // Manter último 100
+        }
+
+        // Limpar após exclusão
+        function cleanupAfterDeletion() {
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('gymp2_current_user');
+            sessionStorage.clear();
+            
+            // Redirecionar
+            window.location.href = 'account-deleted.html';
+        }
+
+        // ============================================
+        // FUNÇÕES AUXILIARES
+        // ============================================
+
+        function getCurrentUserId() {
+            try {
+                const currentUser = localStorage.getItem('currentUser') || 
+                                   localStorage.getItem('gymp2_current_user');
+                if (!currentUser) return null;
+                
+                const user = JSON.parse(currentUser);
+                return user.email || user.id || 'anonymous';
+            } catch {
+                return 'anonymous';
+            }
+        }
+
+        // ============================================
+        // ATUALIZAR INTERFACE (MODIFICADA)
+        // ============================================
+
+        function updateDeletionUI(status) {
+            const deletionItem = document.getElementById('deletionStatusItem');
+            const deleteBtn = document.getElementById('deleteAccountBtn');
+            const deleteTitle = document.getElementById('deleteAccountTitle');
+            const deleteDesc = document.getElementById('deleteAccountDesc');
+            
+            if (status.hasPendingDeletion && status.deletionRecord) {
+                // Mostrar status de exclusão pendente
+                if (deletionItem) {
+                    deletionItem.style.display = 'flex';
+                    
+                    // Atualizar contador de dias
+                    const daysSpan = document.getElementById('daysRemainingCount');
+                    if (daysSpan) {
+                        daysSpan.textContent = status.deletionRecord.daysRemaining;
+                        
+                        // Adicionar contador em tempo real se não existir
+                        if (!document.getElementById('liveCountdown')) {
+                            daysSpan.insertAdjacentHTML('afterend', 
+                                `<div class="deletion-countdown" style="margin-left: 5px;">
+                                    (<span id="liveCountdown">calculando...</span>)
+                                </div>`);
+                        }
+                    }
+                    
+                    // Atualizar estilo baseado na urgência
+                    if (status.deletionRecord.daysRemaining <= 3) {
+                        deletionItem.style.animation = 'pulseWarning 1s infinite';
+                        deletionItem.style.borderColor = 'rgba(255, 59, 48, 0.4)';
+                    } else if (status.deletionRecord.daysRemaining <= 7) {
+                        deletionItem.style.animation = 'pulseWarning 2s infinite';
+                    }
+                }
+                
+                // Atualizar botão de exclusão
+                if (deleteBtn) {
+                    deleteBtn.disabled = true;
+                    deleteBtn.textContent = 'Exclusão Solicitada';
+                    deleteBtn.style.opacity = '0.6';
+                }
+                
+                // Atualizar textos
+                if (deleteTitle) deleteTitle.textContent = 'Exclusão em Andamento';
+                if (deleteDesc) deleteDesc.innerHTML = `
+                    Você pode cancelar a qualquer momento<br>
+                    <small style="color: #ff9500; font-size: 12px;">
+                        ${status.deletionRecord.daysRemaining} dias restantes
+                    </small>
+                `;
+                
+            } else {
+                // Ocultar status de exclusão pendente
+                if (deletionItem) {
+                    deletionItem.style.display = 'none';
+                }
+                
+                // Habilitar botão de exclusão
+                if (deleteBtn) {
+                    deleteBtn.disabled = false;
+                    deleteBtn.textContent = 'Solicitar Exclusão';
+                    deleteBtn.style.opacity = '1';
+                }
+                
+                // Restaurar textos originais
+                if (deleteTitle) deleteTitle.textContent = 'Deletar conta';
+                if (deleteDesc) deleteDesc.textContent = 'Tem 30 dias para cancelar após solicitar';
+            }
+        }
+
+        // ============================================
+        // SOLICITAR EXCLUSÃO (MODIFICADA)
+        // ============================================
+
+        async function requestAccountDeletion() {
+            try {
+                const currentUser = localStorage.getItem('currentUser') || 
+                                   localStorage.getItem('gymp2_current_user');
+                
+                if (!currentUser) {
+                    alert('❌ Sessão expirada. Faça login novamente.');
+                    window.location.href = 'login-gym.html';
+                    return;
+                }
+                
+                const user = JSON.parse(currentUser);
+                
+                // Calcular data de exclusão (30 dias a partir de agora)
+                const deletionDate = new Date();
+                deletionDate.setDate(deletionDate.getDate() + ACCOUNT_DELETION.GRACE_PERIOD_DAYS);
+                
+                // Criar registro de exclusão
+                deletionStatus = {
+                    hasPendingDeletion: true,
+                    deletionRecord: {
+                        userId: user.email || user.id,
+                        requestedAt: new Date().toISOString(),
+                        scheduledDeletionDate: deletionDate.toISOString(),
+                        status: 'pending',
+                        daysRemaining: ACCOUNT_DELETION.GRACE_PERIOD_DAYS,
+                        canCancel: true,
+                        userEmail: user.email
+                    }
+                };
+                
+                // Salvar com timestamp
+                localStorage.setItem('gymp2_deletion_status', JSON.stringify(deletionStatus));
+                localStorage.setItem('gymp2_deletion_requested', new Date().getTime().toString());
+                
+                // Atualizar UI
+                updateDeletionUI(deletionStatus);
+                
+                // Fechar modal
+                closeDeleteModal();
+                
+                // Mostrar confirmação
+                alert(`✅ Solicitação registrada!\n\n` +
+                      `Sua conta será excluída em ${deletionDate.toLocaleDateString()}.\n` +
+                      `Você receberá notificações em 7, 3 e 1 dias antes.`);
+                
+                // Iniciar monitoramento
+                initializeAccountDeletionSystem();
+                
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('❌ Erro ao processar. Tente novamente.');
+            }
+        }
+
+        // ============================================
+        // MODAIS DE EXCLUSÃO (APENAS PARA LOGADOS)
+        // ============================================
+
+        function openDeleteAccountModal() {
+            // Verificar se o usuário está logado
+            if (!checkIfUserIsLoggedIn()) {
+                alert('❌ Faça login para acessar esta função.');
+                showLoginRequired();
+                return;
+            }
+            
+            // Verificar se já tem exclusão pendente
+            if (deletionStatus && deletionStatus.hasPendingDeletion) {
+                alert('⚠️ Você já tem uma solicitação de exclusão pendente.');
+                return;
+            }
+            
+            const modal = document.getElementById('deleteAccountModal');
+            if (modal) modal.classList.add('show');
+        }
+
+        function closeDeleteModal() {
+            const modal = document.getElementById('deleteAccountModal');
+            if (modal) modal.classList.remove('show');
+        }
+
+        function cancelAccountDeletion() {
+            // Verificar se o usuário está logado
+            if (!checkIfUserIsLoggedIn()) {
+                alert('❌ Faça login para acessar esta função.');
+                showLoginRequired();
+                return;
+            }
+            
+            const modal = document.getElementById('cancelDeletionModal');
+            if (modal) modal.classList.add('show');
+        }
+
+        function closeCancelModal() {
+            const modal = document.getElementById('cancelDeletionModal');
+            if (modal) modal.classList.remove('show');
+        }
+
+        async function confirmCancelDeletion() {
+            try {
+                // Verificar se o usuário está logado
+                if (!checkIfUserIsLoggedIn()) {
+                    alert('❌ Sessão expirada. Faça login novamente.');
+                    window.location.href = 'login-gym.html';
+                    return;
+                }
+                
+                const reason = document.getElementById('cancellationReason')?.value || '';
+                
+                // SIMULAÇÃO - Em produção, faça requisição para API
+                console.log('🔄 Cancelando exclusão. Motivo:', reason);
+                
+                // Simular delay da API
+                setTimeout(() => {
+                    // Atualizar status
+                    deletionStatus = {
+                        hasPendingDeletion: false
+                    };
+                    
+                    // Remover registro local
+                    localStorage.removeItem('gymp2_deletion_status');
+                    
+                    // Atualizar UI
+                    updateDeletionUI(deletionStatus);
+                    
+                    // Fechar modal
+                    closeCancelModal();
+                    
+                    // Mostrar mensagem de sucesso
+                    alert('✅ Exclusão cancelada com sucesso!\n\nSua conta foi reativada e está funcionando normalmente.');
+                    
+                }, 1000);
+                
+            } catch (error) {
+                console.error('Erro ao cancelar exclusão:', error);
+                alert('❌ Erro ao cancelar exclusão. Tente novamente.');
+            }
+        }
+    
+    </script>
+
+</body>
+</html>
