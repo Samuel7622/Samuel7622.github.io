@@ -3268,147 +3268,161 @@
     }
 }
 
-/* Mobile Pequeno (480px e abaixo) */
-@media (max-width: 480px) {
+
+/* Para telas muito pequenas, ajustar o layout do header */
+@media (max-width: 640px) {
+    /* Garantir que o header não fique muito apertado */
     .header-container {
-        padding: 0.6rem 0.8rem;
+        padding: 0.8rem 0.8rem !important;
+        min-height: 70px;
+        display: flex;
+        align-items: center;
     }
     
+    /* Ajustar container do nav para mobile */
     .nav-wrapper {
-        gap: 6px;
+        width: 100%;
+        gap: 5px;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+    }
+    
+    /* Logo ajustada para mobile */
+    .brand-container {
+        flex-shrink: 0;
+        min-width: 120px;
     }
     
     .logo-img {
-        height: 40px;
-        min-height: 40px;
+        height: 45px !important;
+        width: auto;
+        max-width: 120px;
     }
     
+    /* Container dos controles à direita */
     .right-controls {
-        gap: 0.3rem;
+        display: flex !important;
+        gap: 8px !important;
+        align-items: center;
+        flex-shrink: 0;
+        flex-wrap: nowrap;
     }
     
-    /* Botão HOME - OCULTAR EM MOBILE */
+    /* Botão "Academias Agora" visível em mobile - OCULTAR O BOTÃO HOME */
+    .gym-access-btn:not(.home-btn) {
+        display: inline-flex !important;
+        padding: 8px 12px !important;
+        font-size: 0.75rem !important;
+        margin: 0 !important;
+        white-space: nowrap;
+        min-width: fit-content;
+        order: 1; /* Garante ordem correta */
+    }
+    
+    /* Esconder o botão Home em mobile */
     .gym-access-btn.home-btn {
         display: none !important;
     }
     
-    /* Manter os outros botões visíveis */
-    .gym-access-btn:not(.home-btn) {
-        display: flex;
-        padding: 6px 10px;
-        font-size: 0.8rem;
-    }
-    
+    /* Botão de pesquisa ajustado */
     .search-toggle-btn {
-        width: 38px;
-        height: 38px;
+        width: 38px !important;
+        height: 38px !important;
+        order: 2;
     }
     
-    .search-icon {
-        width: 16px;
-        height: 16px;
-    }
-    
-    .expandable-search-field {
-        width: 38px;
-        height: 38px;
-    }
-    
+    /* Campo de pesquisa expandido em mobile */
     .expandable-search-field.expanded {
-        width: 200px;
+        width: 200px !important;
         position: fixed;
-        right: 10px;
         top: 70px;
-        transform: none;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-        animation: slideDown 0.3s ease-out;
+        right: 10px;
+        z-index: 3000;
     }
     
-    @keyframes slideDown {
-        from {
-            opacity: 0;
-            transform: translateY(-10px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    /* Menu hamburguer ajustado */
+    .menu-trigger {
+        padding: 8px !important;
+        order: 3;
     }
     
-    .search-input-field {
-        padding: 0 40px 0 15px;
-        font-size: 0.85rem;
-    }
-    
-    .slide-menu {
-        width: 85vw;
-        right: -85vw;
-        padding: 1.5rem 1rem;
-    }
-    
-    .menu-search-btn {
-        padding: 10px 12px;
-        font-size: 0.8rem;
-    }
-    
-    .nav-link {
-        font-size: 0.9rem;
-        padding: 0.8rem 0;
-    }
-    
-    .search-results {
-        top: calc(0.6rem * 2 + 40px + 10px);
-        max-width: 300px;
+    .hamburger-line {
+        width: 24px !important;
+        height: 3px !important;
     }
 }
 
-/* Telas muito pequenas (360px e abaixo) */
-@media (max-width: 360px) {
+/* Ajustes para telas muito pequenas (menos de 480px) */
+@media (max-width: 480px) {
     .header-container {
-        padding: 0.5rem 0.6rem;
+        padding: 0.6rem 0.6rem !important;
+    }
+    
+    .brand-container {
+        min-width: 100px;
     }
     
     .logo-img {
-        height: 35px;
-        min-height: 35px;
+        height: 40px !important;
+        max-width: 100px;
     }
     
-    /* Botão HOME - OCULTAR EM MOBILE */
+    .right-controls {
+        gap: 6px !important;
+    }
+    
+    /* Botão "Academias Agora" ajustado */
+    .gym-access-btn:not(.home-btn) {
+        padding: 6px 10px !important;
+        font-size: 0.7rem !important;
+    }
+    
+    /* Botão Home continua oculto */
     .gym-access-btn.home-btn {
         display: none !important;
     }
     
-    .gym-access-btn:not(.home-btn) {
-        padding: 5px 8px;
-        font-size: 0.75rem;
-    }
-    
     .search-toggle-btn {
-        width: 35px;
-        height: 35px;
+        width: 36px !important;
+        height: 36px !important;
     }
     
-    .search-icon {
-        width: 15px;
-        height: 15px;
+    .menu-trigger {
+        padding: 6px !important;
     }
     
-    .expandable-search-field {
-        width: 35px;
-        height: 35px;
+    .hamburger-line {
+        width: 22px !important;
+        height: 2.5px !important;
     }
     
     .expandable-search-field.expanded {
-        width: 180px;
-        right: 8px;
+        width: 180px !important;
         top: 65px;
     }
+}
+
+/* Ajustes para landscape em mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+    .header-container {
+        min-height: 60px;
+        padding: 0.5rem 0.8rem !important;
+    }
     
-    .slide-menu {
-        width: 90vw;
-        right: -90vw;
+    .logo-img {
+        height: 35px !important;
+    }
+    
+    .gym-access-btn:not(.home-btn) {
+        padding: 5px 8px !important;
+        font-size: 0.65rem !important;
+    }
+    
+    .gym-access-btn.home-btn {
+        display: none !important;
     }
 }
+
     </style>
 </head>
 <body>
