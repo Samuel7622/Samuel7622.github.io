@@ -3180,16 +3180,19 @@
     color: #00ff40;
     transform: translateX(5px);
 }
-        /* ========== RESPONSIVIDADE MOBILE ========== */
-@media (max-width: 480px) {
-    /* Header Mobile */
+     /* ========== RESPONSIVIDADE ESPECÍFICA DO HEADER ========== */
+
+/* Tablets (768px e abaixo) */
+@media (max-width: 768px) {
+    /* Ajustes gerais do header */
     .header-container {
-        padding: 0.6rem 0.8rem;
+        padding: 0.8rem 1rem;
+        backdrop-filter: blur(20px);
     }
     
     .nav-wrapper {
         flex-wrap: nowrap;
-        gap: 8px;
+        gap: 10px;
     }
     
     .logo-img {
@@ -3198,19 +3201,26 @@
     }
     
     .right-controls {
-        gap: 0.4rem;
+        gap: 0.5rem;
+        flex-shrink: 0;
     }
     
-    /* Botões Mobile */
+    /* Ajustes nos botões */
     .gym-access-btn {
         padding: 8px 12px;
-        font-size: 0.85rem;
+        font-size: 0.9rem;
         margin: 2px;
     }
     
+    /* Botão HOME - OCULTAR EM MOBILE */
+    .gym-access-btn.home-btn {
+        display: none !important;
+    }
+    
+    /* Barra de pesquisa */
     .search-toggle-btn {
-        width: 40px;
-        height: 40px;
+        width: 42px;
+        height: 42px;
     }
     
     .search-icon {
@@ -3218,297 +3228,185 @@
         height: 18px;
     }
     
-    /* Menu Mobile */
+    .expandable-search-field {
+        width: 42px;
+        height: 42px;
+    }
+    
+    .expandable-search-field.expanded {
+        width: 250px;
+        z-index: 2002;
+    }
+    
+    .search-input-field {
+        padding: 0 45px 0 16px;
+        font-size: 0.9rem;
+    }
+    
+    /* Menu deslizante */
+    .slide-menu {
+        width: 300px;
+        right: -300px;
+        padding: 80px 1.5rem 2rem;
+    }
+    
+    .menu-search-btn {
+        padding: 12px 16px;
+        font-size: 0.9rem;
+    }
+    
+    .nav-link {
+        font-size: 1rem;
+        padding: 0.9rem 0;
+        white-space: normal;
+        line-height: 1.4;
+    }
+    
+    .search-results {
+        top: calc(0.8rem * 2 + 45px + 10px);
+        max-width: 400px;
+    }
+}
+
+/* Mobile Pequeno (480px e abaixo) */
+@media (max-width: 480px) {
+    .header-container {
+        padding: 0.6rem 0.8rem;
+    }
+    
+    .nav-wrapper {
+        gap: 6px;
+    }
+    
+    .logo-img {
+        height: 40px;
+        min-height: 40px;
+    }
+    
+    .right-controls {
+        gap: 0.3rem;
+    }
+    
+    /* Botão HOME - OCULTAR EM MOBILE */
+    .gym-access-btn.home-btn {
+        display: none !important;
+    }
+    
+    /* Manter os outros botões visíveis */
+    .gym-access-btn:not(.home-btn) {
+        display: flex;
+        padding: 6px 10px;
+        font-size: 0.8rem;
+    }
+    
+    .search-toggle-btn {
+        width: 38px;
+        height: 38px;
+    }
+    
+    .search-icon {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .expandable-search-field {
+        width: 38px;
+        height: 38px;
+    }
+    
+    .expandable-search-field.expanded {
+        width: 200px;
+        position: fixed;
+        right: 10px;
+        top: 70px;
+        transform: none;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        animation: slideDown 0.3s ease-out;
+    }
+    
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .search-input-field {
+        padding: 0 40px 0 15px;
+        font-size: 0.85rem;
+    }
+    
     .slide-menu {
         width: 85vw;
         right: -85vw;
         padding: 1.5rem 1rem;
     }
     
-    /* Hero Section Mobile */
-    .page-title {
-        font-size: 2.5rem;
-        margin-top: 15px;
-    }
-    
-    .title-subtext {
-        font-size: 1rem;
-    }
-    
-    /* Layout Principal Mobile */
-    .main-wrapper {
-        grid-template-columns: 1fr;
-        gap: 25px;
-        padding: 0 15px;
-    }
-    
-    .slider__content {
-        height: 280px;
-    }
-    
-    .image-overlay {
-        padding: 15px;
-    }
-    
-    .image-title {
-        font-size: 1.3rem;
-    }
-    
-    .image-description {
-        font-size: 0.9rem;
-    }
-    
-    /* Cards Laterais Mobile */
-    .info-cards-container {
-        position: static;
-    }
-    
-    .card {
-        padding: 20px;
-    }
-    
-    .card-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
-    }
-    
-    .card-icon {
-        width: 45px;
-        height: 45px;
-        font-size: 1.3rem;
-    }
-    
-    .title {
-        font-size: 1.3rem;
-    }
-    
-    /* Slider Thumbnails Mobile */
-    .thumbnails-container {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
-    }
-    
-    .thumbnail-wrapper {
-        height: 90px;
-    }
-    
-    .thumbnail-label {
-        font-size: 0.75rem;
-    }
-    
-    /* Seção Horários Mobile */
-    .titulo {
-        font-size: 1.8rem;
-        margin: 25px 15px 15px;
-    }
-    
-    .separar {
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-        padding: 15px;
-    }
-    
-    .peak-hours-container {
-        padding: 0 10px;
-    }
-    
-    .peak-hours-card {
-        padding: 25px 20px;
-    }
-    
-    .peak-header h2 {
-        font-size: 1.3rem;
-    }
-    
-    .days {
-        gap: 8px;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-    
-    .day {
-        padding: 8px 12px;
-        font-size: 0.9rem;
-    }
-    
-    .chart {
-        height: 200px;
-    }
-    
-    .bar-container {
-        min-width: 25px;
-    }
-    
-    .hour-label {
-        font-size: 0.7rem;
-    }
-    
-    /* Contador Mobile */
-    .container2 {
-        max-width: 100%;
-        padding: 15px;
-    }
-    
-    .counter-value {
-        font-size: 2.8rem;
-    }
-    
-    .info-panel {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    .info-card {
-        min-width: 100%;
-    }
-    
-    /* Mapa Mobile */
-    .map-container {
-        height: 350px;
-    }
-    
-    .map-title {
-        font-size: 1.8rem;
-        margin-bottom: 20px;
-    }
-    
-    .map-info {
-        max-width: 250px;
-        padding: 12px;
-        font-size: 0.9rem;
-    }
-    
-    /* Descrição Mobile */
-    .descricao-container {
-        padding: 20px 15px;
-        margin: 20px 10px;
-    }
-    
-    .descricao-title {
-        font-size: 1.4rem;
-        flex-direction: column;
-        gap: 8px;
-        text-align: center;
-    }
-    
-    .descricao-text {
-        font-size: 0.95rem;
-        padding: 0 5px;
-    }
-    
-    .descricao-highlights {
-        grid-template-columns: 1fr;
-        padding: 15px 10px;
-    }
-    
-    .highlight-item {
+    .menu-search-btn {
         padding: 10px 12px;
-    }
-    
-    /* Footer Mobile */
-    .academia-footer-inner {
-        padding: 2.5rem 1rem 5rem;
-        gap: 2.5rem;
-    }
-    
-    .academia-footer-inner .academia-top {
-        flex-direction: column;
-        text-align: center;
-        gap: 1.5rem;
-    }
-    
-    .academia-footer-inner .academia-top h2 {
-        font-size: 1.5rem;
-    }
-    
-    .academia-footer-inner .academia-top h3 {
-        font-size: 1rem;
-    }
-    
-    .academia-footer-inner .academia-bottom {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 1.5rem;
-    }
-    
-    .academia-logo-content {
-        align-items: center;
-    }
-    
-    .academia-nav {
-        flex-direction: column;
-        align-items: center;
-        gap: 1.5rem;
-        width: 100%;
-    }
-    
-    .academia-nav ul {
-        align-items: center;
-    }
-    
-    .academia-socials {
-        justify-content: center;
-    }
-    
-    /* Ajustes Específicos para Botões de Contato */
-    .contact-btn {
-        padding: 12px 10px;
-    }
-    
-    .contact-icon {
-        width: 40px;
-        height: 40px;
-        font-size: 1.1rem;
-    }
-    
-    .contact-label {
-        font-size: 0.9rem;
-    }
-    
-    .contact-detail {
         font-size: 0.8rem;
     }
     
-    /* Botões de Ação Mobile */
-    .action-btn {
+    .nav-link {
+        font-size: 0.9rem;
+        padding: 0.8rem 0;
+    }
+    
+    .search-results {
+        top: calc(0.6rem * 2 + 40px + 10px);
+        max-width: 300px;
+    }
+}
+
+/* Telas muito pequenas (360px e abaixo) */
+@media (max-width: 360px) {
+    .header-container {
+        padding: 0.5rem 0.6rem;
+    }
+    
+    .logo-img {
+        height: 35px;
+        min-height: 35px;
+    }
+    
+    /* Botão HOME - OCULTAR EM MOBILE */
+    .gym-access-btn.home-btn {
+        display: none !important;
+    }
+    
+    .gym-access-btn:not(.home-btn) {
+        padding: 5px 8px;
+        font-size: 0.75rem;
+    }
+    
+    .search-toggle-btn {
         width: 35px;
         height: 35px;
-        font-size: 0.9rem;
     }
     
-    /* Slider Controls Mobile */
-    .slider-control--button {
-        width: 45px;
-        height: 45px;
-        font-size: 1.2rem;
+    .search-icon {
+        width: 15px;
+        height: 15px;
     }
     
-    .prev-button {
-        left: 10px;
+    .expandable-search-field {
+        width: 35px;
+        height: 35px;
     }
     
-    .next-button {
-        right: 10px;
+    .expandable-search-field.expanded {
+        width: 180px;
+        right: 8px;
+        top: 65px;
     }
     
-    /* Ocultar elementos desnecessários em mobile */
-    .title-subtext {
-        font-size: 0.9rem;
-    }
-    
-    .hero-badges {
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-    }
-    
-    .badge {
-        width: 100%;
-        max-width: 200px;
-        justify-content: center;
+    .slide-menu {
+        width: 90vw;
+        right: -90vw;
     }
 }
     </style>
