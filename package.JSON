@@ -2,7 +2,7 @@
   "name": "gymp2-sistema-seguro",
   "version": "2.0.0",
   "description": "Sistema de login Gymp2 com segurança aprimorada",
-  "main": "serve-supabase.js",
+  "main": "serve-mysql.js",
   "scripts": {
     "start": "node server-mysql.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,4 +14,5 @@
   "dotenv": "^16.3.1",
   "@supabase/supabase-js": "^2.38.4"
 }
+
 
