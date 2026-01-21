@@ -16,7 +16,7 @@ const io = socketIo(server, {
     cors: { origin: "*", methods: ["GET", "POST", "PUT", "DELETE"] }
 });
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const DATA_DIR = path.join(__dirname, 'data');
 
 // Arquivos de backup
@@ -1531,3 +1531,4 @@ async function startServer() {
 }
 
 startServer();
+
