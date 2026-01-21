@@ -546,7 +546,8 @@
     opacity: 1;
     visibility: visible;
 }
-/* ========== HERO SECTION (PERMANECE IGUAL) ========== */
+
+/* ========== HERO SECTION ========== */
 .hero {
     min-height: 100vh;
     display: flex;
@@ -1369,7 +1370,6 @@
             .slide-menu {
                 width: 300px;
                 right: -300px;
-                padding: 80px 1.5rem 2rem;
             }
 
             .nav-link {
@@ -2115,8 +2115,8 @@
         }
 
      .page-title {
-    font-size: 6.5rem; /* Aumentei de 3.5rem para 4.5rem */
-    font-weight: 750; /* Aumentei o peso da fonte para 800 */
+    font-size: clamp(2.5rem, 8vw, 4.5rem);
+    font-weight: 750;
     margin-bottom: 25px;
     display: flex;
     flex-direction: column;
@@ -2307,7 +2307,8 @@
             max-width: 600px;
         }
 
-        .image-title {
+        /* REMOVIDO: .image-title e .image-description conforme solicitado */
+        /* .image-title {
             font-size: 1.8rem;
             font-weight: 600;
             margin-bottom: 8px;
@@ -2318,7 +2319,7 @@
             font-size: 1rem;
             color: #ccc;
             opacity: 0.9;
-        }
+        } */
 
         /* Botões do slider */
         .slider-control--button {
@@ -2344,8 +2345,6 @@
         .slider-control--button:hover {
             background: #00ff88;
             color: #000;
-         
-        
         }
 
         .prev-button {
@@ -2388,7 +2387,7 @@
 
         @media (max-width: 768px) {
             .thumbnails-container {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(3, 1fr);
             }
         }
 
@@ -2404,8 +2403,6 @@
             transition: all 0.3s ease;
         }
 
-    
-
         .thumbnail-wrapper {
             position: relative;
             width: 100%;
@@ -2418,7 +2415,6 @@
 
         .nav-button.active .thumbnail-wrapper {
             border-color: #00ff88;
-           
         }
 
         .thumbnail {
@@ -2427,8 +2423,6 @@
             object-fit: cover;
             transition: transform 0.3s ease;
         }
-
-    
 
         .thumbnail-overlay {
             position: absolute;
@@ -2453,68 +2447,14 @@
             font-size: 1.2rem;
         }
 
-        .thumbnail-label {
+        /* REMOVIDO: .thumbnail-label conforme solicitado */
+        /* .thumbnail-label {
             font-size: 0.85rem;
             color: #aaa;
             transition: color 0.3s ease;
             text-align: center;
             margin-top: 5px;
-        }
-
-        /* ========== RESPONSIVIDADE SIMPLIFICADA ========== */
-
-/* Para tablets (768px e abaixo) */
-@media (max-width: 768px) {
-    .thumbnails-container {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
-    }
-    
-    .thumbnail-wrapper {
-        height: 90px;
-    }
-    
-    .thumbnail-label {
-        font-size: 0.75rem;
-    }
-}
-
-/* Para mobile (480px e abaixo) */
-@media (max-width: 480px) {
-    .thumbnails-container {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
-    }
-    
-    .thumbnail-wrapper {
-        height: 70px;
-    }
-    
-    .thumbnail-label {
-        display: none; /* Oculta labels para economizar espaço */
-    }
-    
-    .thumbnail-overlay {
-        background: rgba(0, 255, 136, 0.4); /* Mais visível */
-    }
-    
-    .nav-button.active .thumbnail-wrapper {
-        border-width: 3px;
-        box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
-    }
-}
-
-/* Para mobile pequeno (360px e abaixo) */
-@media (max-width: 360px) {
-    .thumbnails-container {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 6px;
-    }
-    
-    .thumbnail-wrapper {
-        height: 80px;
-    }
-}
+        } */
 
         .nav-button.active .thumbnail-label {
             color: #00ff88;
@@ -2568,8 +2508,6 @@
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
         }
-
-      
 
         .card-header {
             display: flex;
@@ -2694,8 +2632,6 @@
             transition: all 0.3s ease;
         }
 
-      
-
         .occupancy-badge {
             display: flex;
             align-items: center;
@@ -2811,7 +2747,6 @@
 
         .map-btn:hover {
             transform: translateY(-2px);
-        
         }
 
         /* CARD DE CONTATO */
@@ -2838,8 +2773,6 @@
             transition: all 0.3s ease;
             border: 1px solid transparent;
         }
-
-
 
         .contact-icon {
             width: 45px;
@@ -2941,13 +2874,13 @@
                 padding: 20px;
             }
 
-            .image-title {
+            /* .image-title {
                 font-size: 1.4rem;
             }
 
             .image-description {
                 font-size: 0.9rem;
-            }
+            } */
 
             .slider-control--button {
                 width: 50px;
@@ -3027,9 +2960,6 @@
             }
         }
 
-
-
-        
 /* ========== FOOTER - ONDAS VERDES ========== */
 .academia-footer {
     position: relative;
@@ -3097,12 +3027,12 @@
 }
 
 .academia-footer-inner .academia-top h2 {
-    font-size: 2rem;
+    font-size: clamp(1.3rem, 4vw, 2rem);
     font-weight: 600;
 }
 
 .academia-footer-inner .academia-top h3 {
-    font-size: 1.25rem;
+    font-size: clamp(0.9rem, 2vw, 1.25rem);
     font-weight: 400;
     opacity: 0.8;
 }
@@ -3148,7 +3078,7 @@
 
 .academia-nav {
     display: flex;
-    gap: 3rem;
+    gap: clamp(1rem, 3vw, 3rem);
     flex-wrap: wrap;
 }
 
@@ -3160,14 +3090,14 @@
 }
 
 .academia-nav h4 {
-    font-size: 1rem;
+    font-size: clamp(0.8rem, 2vw, 1rem);
     font-weight: 600;
     margin-bottom: 0.5rem;
     color: #ccc;
 }
 
 .academia-nav a {
-    font-size: 0.9rem;
+    font-size: clamp(0.75rem, 2vw, 0.9rem);
     color: white;
     opacity: 0.8;
     text-decoration: none;
@@ -3175,10 +3105,446 @@
     cursor: pointer;
 }
 
-.academia-nav  {
+.academia-nav a:hover {
     opacity: 1;
     color: #00ff40;
     transform: translateX(5px);
+}
+
+/* ========== RESPONSIVIDADE ESPECÍFICA PARA CELULAR ========== */
+
+/* Para mobile grande (640px e abaixo) */
+@media (max-width: 640px) {
+    .header-container {
+        padding: 0.8rem 1rem;
+    }
+
+    .nav-wrapper {
+        flex-wrap: nowrap;
+        gap: 8px;
+    }
+
+    .logo-img {
+        height: 35px;
+    }
+
+    .right-controls {
+        gap: 0.5rem;
+    }
+
+    .search-toggle-btn {
+        width: 40px;
+        height: 40px;
+    }
+
+    .search-icon {
+        width: 18px;
+        height: 18px;
+    }
+
+    .expandable-search-field {
+        width: 40px;
+        height: 40px;
+    }
+
+    .expandable-search-field.expanded {
+        width: 220px;
+    }
+
+    .gym-access-btn {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+        display: none;
+    }
+
+    .gym-access-btn.home-btn {
+        display: flex;
+    }
+
+    .menu-trigger {
+        padding: 8px;
+    }
+
+    .hamburger-line {
+        width: 24px;
+        height: 3px;
+    }
+
+    .page-title {
+        font-size: 2rem;
+        margin: 20px 15px;
+    }
+
+    .slider__content {
+        height: 250px;
+    }
+
+    .slider-control--button {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    .prev-button {
+        left: 10px;
+    }
+
+    .next-button {
+        right: 10px;
+    }
+
+    .thumbnails-container {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+
+    .thumbnail-wrapper {
+        height: 70px;
+    }
+
+    .card {
+        padding: 20px;
+    }
+
+    .title {
+        font-size: 1.2rem;
+    }
+
+    .card-subtitle {
+        font-size: 0.8rem;
+    }
+
+    .descricao-container {
+        padding: 20px;
+        margin: 20px 10px;
+    }
+
+    .descricao-title {
+        font-size: 1.4rem;
+    }
+
+    .descricao-text {
+        font-size: 0.95rem;
+    }
+
+    .descricao-highlights {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .map-container {
+        height: 350px;
+    }
+
+    .separar {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .peak-hours-card {
+        padding: 20px;
+    }
+
+    .days {
+        gap: 8px;
+        justify-content: center;
+    }
+
+    .day {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+
+    .chart {
+        height: 180px;
+    }
+
+    .container2 {
+        max-width: 100%;
+    }
+
+    .slide-menu {
+        width: 100%;
+        right: -100%;
+        padding: 1.5rem;
+    }
+
+    .nav-link {
+        padding: 0.8rem 0;
+        font-size: 1rem;
+    }
+}
+
+/* Para mobile pequeno (480px e abaixo) */
+@media (max-width: 480px) {
+    .header-container {
+        padding: 0.6rem 0.8rem;
+    }
+
+    .logo-img {
+        height: 30px;
+    }
+
+    .search-toggle-btn {
+        width: 36px;
+        height: 36px;
+    }
+
+    .expandable-search-field.expanded {
+        width: 180px;
+    }
+
+    .page-title {
+        font-size: 1.8rem;
+    }
+
+    .slider__content {
+        height: 200px;
+    }
+
+    .slider-control--button {
+        width: 35px;
+        height: 35px;
+    }
+
+    .thumbnails-container {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+    }
+
+    .thumbnail-wrapper {
+        height: 60px;
+    }
+
+    .image-overlay {
+        padding: 15px;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    .title {
+        font-size: 1.1rem;
+    }
+
+    .schedule-item {
+        padding: 12px;
+    }
+
+    .day-label {
+        font-size: 0.9rem;
+    }
+
+    .day-status {
+        font-size: 0.7rem;
+        padding: 3px 6px;
+    }
+
+    .map-container {
+        height: 300px;
+    }
+
+    .map-info {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        max-width: 100%;
+        margin-top: 15px;
+    }
+
+    .peak-hours-card {
+        padding: 15px;
+    }
+
+    .days {
+        gap: 4px;
+    }
+
+    .day {
+        padding: 6px 8px;
+        font-size: 11px;
+    }
+
+    .peak-info {
+        font-size: 0.85rem;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .chart {
+        height: 150px;
+    }
+
+    .counter-value {
+        font-size: 2.5rem;
+    }
+}
+
+/* Para telas muito pequenas (360px e abaixo) */
+@media (max-width: 360px) {
+    .header-container {
+        padding: 0.5rem;
+    }
+
+    .logo-img {
+        height: 25px;
+    }
+
+    .search-toggle-btn {
+        width: 32px;
+        height: 32px;
+    }
+
+    .expandable-search-field.expanded {
+        width: 150px;
+    }
+
+    .page-title {
+        font-size: 1.6rem;
+    }
+
+    .slider__content {
+        height: 180px;
+    }
+
+    .slider-control--button {
+        width: 30px;
+        height: 30px;
+        font-size: 0.9rem;
+    }
+
+    .thumbnails-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .thumbnail-wrapper {
+        height: 70px;
+    }
+
+    .card {
+        padding: 12px;
+    }
+
+    .card-icon {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
+
+    .title {
+        font-size: 1rem;
+    }
+
+    .map-container {
+        height: 250px;
+    }
+
+    .days {
+        flex-wrap: wrap;
+    }
+
+    .day {
+        flex: 1;
+        min-width: 40px;
+        text-align: center;
+        padding: 5px;
+        font-size: 10px;
+    }
+
+    .chart {
+        height: 120px;
+    }
+
+    .counter-value {
+        font-size: 2rem;
+    }
+
+    .info-panel {
+        flex-direction: column;
+    }
+
+    .info-card {
+        min-width: 100%;
+    }
+}
+
+/* Para orientação paisagem em celular */
+@media (max-height: 500px) and (orientation: landscape) {
+    .slider__content {
+        height: 250px;
+    }
+
+    .thumbnail-wrapper {
+        height: 60px;
+    }
+
+    .header-container {
+        padding: 0.5rem 1rem;
+    }
+
+    .page-hero {
+        padding: 30px 15px 20px;
+    }
+
+    .page-title {
+        margin-top: 10px;
+        margin-bottom: 15px;
+    }
+
+    .card {
+        padding: 15px;
+    }
+}
+
+/* Ajustes de toque para melhor UX em mobile */
+@media (hover: none) and (pointer: coarse) {
+    .gym-access-btn,
+    .menu-trigger,
+    .search-toggle-btn,
+    .slider-control--button,
+    .nav-button,
+    .action-btn,
+    .day,
+    .contact-btn,
+    .map-btn {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    .nav-button {
+        padding: 5px;
+    }
+
+    .thumbnail-wrapper {
+        border-width: 3px;
+    }
+
+    .bar-container {
+        min-width: 35px;
+    }
+}
+
+/* Melhorias para o carousel em mobile */
+@media (max-width: 768px) {
+    .image-overlay {
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+        padding: 15px;
+    }
+
+    .slider-navigation {
+        gap: 10px;
+    }
+
+    .slider-actions {
+        justify-content: center;
+    }
+
+    .action-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 1.1rem;
+    }
 }
     </style>
 </head>
@@ -3264,8 +3630,7 @@
                     <div class="image-display"></div>
                     <div class="image-overlay">
                         <div class="overlay-content">
-                            <h3 class="image-title">Top X</h3>
-                            <p class="image-description">Ambiente climatizado e equipamentos de última geração</p>
+                            <!-- REMOVIDO conforme solicitado -->
                         </div>
                     </div>
                 </div>
@@ -3283,16 +3648,15 @@
                 </div>
             </div>
 
-            <!-- MINIATURAS COM EFEITO HOVER -->
+            <!-- MINIATURAS SEM LABELS - conforme solicitado -->
             <nav class="slider-navigation">
-               <!-- No HTML, dentro do thumbnails-container, atualize as miniaturas: -->
+               <!-- MINIATURAS SEM NOMES - conforme solicitado -->
 <div class="thumbnails-container">
     <button class="nav-button" aria-selected="false" data-index="0">
         <div class="thumbnail-wrapper">
             <img class="thumbnail" src="logotopx.png" alt="Logo da Top X">
             <div class="thumbnail-overlay"></div>
         </div>
-        <span class="thumbnail-label">Logo</span>
     </button>
 
     <button class="nav-button" aria-selected="false" data-index="1">
@@ -3300,23 +3664,20 @@
             <img class="thumbnail" src="top2.png" alt="Área de musculação">
             <div class="thumbnail-overlay"></div>
         </div>
-        <span class="thumbnail-label">Musculação</span>
     </button>
 
     <button class="nav-button" aria-selected="false" data-index="2">
         <div class="thumbnail-wrapper">
-            <img class="thumbnail" src="top3.png" alt="Fachada da academia">
+            <img class="thumbnail" src="topx_fachada.png" alt="Fachada da academia">
             <div class="thumbnail-overlay"></div>
         </div>
-        <span class="thumbnail-label">Fachada</span>
     </button>
 
     <button class="nav-button" aria-selected="false" data-index="3">
         <div class="thumbnail-wrapper">
-            <img class="thumbnail" src="top4.png" alt="Área de cardio">
+            <img class="thumbnail" src="top3.png" alt="Área de cardio">
             <div class="thumbnail-overlay"></div>
         </div>
-        <span class="thumbnail-label">Cardio</span>
     </button>
 
     <button class="nav-button" aria-selected="false" data-index="4">
@@ -3324,15 +3685,13 @@
             <img class="thumbnail" src="top5.png" alt="Vestuário">
             <div class="thumbnail-overlay"></div>
         </div>
-        <span class="thumbnail-label">Vestiário</span>
     </button>
 
     <button class="nav-button" aria-selected="false" data-index="5">
         <div class="thumbnail-wrapper">
-            <img class="thumbnail" src="top6.png" alt="Recepção">
+            <img class="thumbnail" src="top4.png" alt="Recepção">
             <div class="thumbnail-overlay"></div>
         </div>
-        <span class="thumbnail-label">Recepção</span>
     </button>
 </div>
                 <div class="slider-actions">
@@ -3411,8 +3770,6 @@
                         </div>
                     </div>
                 </div>
-
-            
 
                 <!-- CARD DE CONTATO -->
                 <div class="card card-contact">
@@ -3507,10 +3864,10 @@
 <section class="map-section">
     <h2 class="map-title">Localização da Academia</h2>
     <div class="map-container">
-        <!-- IFRAME DO GOOGLE MAPS (SEM API KEY) -->
+        <!-- IFRAME DO GOOGLE MAPS ATUALIZADO (SUBTITUÍDO) -->
         <iframe 
             class="map-iframe"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3977.8368061024007!2d-41.4472725!3d-4.441459099999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x793901922d9fbf5%3A0x363b5c4230371b5e!2sR.%20Raimundo%20Nonato%20Brand%C3%A3o%2C%20776%2C%20Pedro%20II%20-%20PI%2C%2064255-000!5e0!3m2!1spt-BR!2sbr!4v1768934220004!5m2!1spt-BR!2sbr"  
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3977.884028955417!2d-41.451200799999995!3d-4.4326935!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7939005f4942915%3A0x596b40f512fc8e9c!2sR.%20Dep.%20Jos%C3%A9%20Louren%C3%A7o%20Mour%C3%A3o%2C%20433%20-%20A%20Definir%2C%20Pedro%20II%20-%20PI%2C%2064255-000!5e0!3m2!1spt-BR!2sbr!4v1769033635014!5m2!1spt-BR!2sbr" 
             width="100%" 
             height="100%" 
             style="border:0;" 
@@ -3520,7 +3877,6 @@
             title="Mapa da Academia Top X">
         </iframe>
         
-        
         <div class="map-info">
             <h3>Top X</h3>
             <p>R. Raimundo nonato Brandão 776/p>
@@ -3529,42 +3885,6 @@
         </div>
     </div>
 </section>
-
-<script>
-    // ============================================
-// FUNÇÕES PARA O MAPA (SEM API)
-// ============================================
-
-function abrirMapaCompleto() {
-    // Abre o Google Maps em uma nova aba
-    window.open('https://www.google.com/maps/place/Top+X/@-4.427322,-41.463747,16z', '_blank');
-}
-
-function abrirRota() {
-    // Abre rotas no Google Maps
-    const endereco = encodeURIComponent("R. Cel. Cordeiro, 739, Pedro II - PI");
-    window.open(`https://www.google.com/maps/dir/?api=1&destination=${endereco}`, '_blank');
-}
-
-function obterMinhaLocalizacao() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            function(position) {
-                const userLat = position.coords.latitude;
-                const userLng = position.coords.longitude;
-                
-                // Abre rota do usuário até a academia
-                window.open(`https://www.google.com/maps/dir/?api=1&origin=${userLat},${userLng}&destination=-4.4259,-41.4592`, '_blank');
-            },
-            function(error) {
-                alert("Não foi possível obter sua localização.");
-            }
-        );
-    } else {
-        alert("Seu navegador não suporta geolocalização.");
-    }
-}
-</script>
 
     
     <div class="titulo"><h2>Horários por ocupação</h2></div>
@@ -3697,18 +4017,204 @@ function obterMinhaLocalizacao() {
         </div>
     </footer>
 
-<script src="global-notifications.js"></script>
-
-<!-- 2. Gerenciador de Usuários -->
-<script src="user-manager.js"></script>
-
-<!-- 3. Header com Informações do Usuário -->
-<script src="user-header.js"></script>
-<script>
-    
-</script>
     <script>
-          // Funcionalidade do Menu Hamburguer
+        // ============================================
+        // FUNCIONALIDADES DO CAROUSEL
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function () {
+            const imageDisplay = document.querySelector('.image-display');
+            const navButtons = document.querySelectorAll('.nav-button');
+            const prevButton = document.querySelector('.prev-button');
+            const nextButton = document.querySelector('.next-button');
+            const currentSlideEl = document.querySelector('.current-slide');
+            const progressBar = document.querySelector('.progress-bar');
+            const fullscreenBtn = document.querySelector('.fullscreen-btn');
+            const autoplayBtn = document.querySelector('.autoplay-btn');
+
+            // Arrays de imagens
+            const images = [
+                'top1.png',
+                'top2.png',
+                'topx_fachada.png',
+                'top3.png',
+                'top5.png',
+                'top4.png'
+            ];
+
+            let currentIndex = 0;
+            let isAutoPlaying = false;
+            let autoPlayInterval;
+
+            // Inicializar slider
+            updateSlider(currentIndex);
+
+            // Função para atualizar slider
+            function updateSlider(index) {
+                if (index >= 0 && index < images.length) {
+                    currentIndex = index;
+
+                    // Atualizar imagem principal
+                    imageDisplay.style.backgroundImage = `url(${images[currentIndex]})`;
+
+                    // Atualizar botões de navegação
+                    navButtons.forEach((button, i) => {
+                        const isActive = i === currentIndex;
+                        button.classList.toggle('active', isActive);
+                        button.setAttribute('aria-selected', isActive);
+                    });
+
+                    // Atualizar contador
+                    currentSlideEl.textContent = currentIndex + 1;
+
+                    // Atualizar barra de progresso
+                    const progressPercentage = ((currentIndex + 1) / images.length) * 100;
+                    progressBar.style.width = progressPercentage + '%';
+                }
+            }
+
+            // Event listeners para botões de navegação
+            navButtons.forEach((button, index) => {
+                button.addEventListener('click', () => {
+                    updateSlider(index);
+                    resetAutoPlay();
+                });
+            });
+
+            prevButton.addEventListener('click', () => {
+                const newIndex = currentIndex > 0 ? currentIndex - 1 : images.length - 1;
+                updateSlider(newIndex);
+                resetAutoPlay();
+            });
+
+            nextButton.addEventListener('click', () => {
+                const newIndex = currentIndex < images.length - 1 ? currentIndex + 1 : 0;
+                updateSlider(newIndex);
+                resetAutoPlay();
+            });
+
+            // Funcionalidade de tela cheia
+            fullscreenBtn.addEventListener('click', toggleFullscreen);
+
+            function toggleFullscreen() {
+                const sliderContent = document.querySelector('.slider__content');
+
+                if (!document.fullscreenElement) {
+                    if (sliderContent.requestFullscreen) {
+                        sliderContent.requestFullscreen();
+                    } else if (sliderContent.webkitRequestFullscreen) {
+                        sliderContent.webkitRequestFullscreen();
+                    } else if (sliderContent.msRequestFullscreen) {
+                        sliderContent.msRequestFullscreen();
+                    }
+                    fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i>';
+                    fullscreenBtn.setAttribute('aria-label', 'Sair da tela cheia');
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    } else if (document.webkitExitFullscreen) {
+                        document.webkitExitFullscreen();
+                    } else if (document.msExitFullscreen) {
+                        document.msExitFullscreen();
+                    }
+                    fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
+                    fullscreenBtn.setAttribute('aria-label', 'Tela cheia');
+                }
+            }
+
+            // Auto-play functionality
+            autoplayBtn.addEventListener('click', toggleAutoPlay);
+
+            function toggleAutoPlay() {
+                isAutoPlaying = !isAutoPlaying;
+
+                if (isAutoPlaying) {
+                    startAutoPlay();
+                    autoplayBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                    autoplayBtn.setAttribute('aria-label', 'Pausar reprodução automática');
+                } else {
+                    stopAutoPlay();
+                    autoplayBtn.innerHTML = '<i class="fas fa-play"></i>';
+                    autoplayBtn.setAttribute('aria-label', 'Reproduzir automaticamente');
+                }
+            }
+
+            function startAutoPlay() {
+                autoPlayInterval = setInterval(() => {
+                    const newIndex = currentIndex < images.length - 1 ? currentIndex + 1 : 0;
+                    updateSlider(newIndex);
+                }, 3000);
+            }
+
+            function stopAutoPlay() {
+                if (autoPlayInterval) {
+                    clearInterval(autoPlayInterval);
+                }
+            }
+
+            function resetAutoPlay() {
+                if (isAutoPlaying) {
+                    stopAutoPlay();
+                    startAutoPlay();
+                }
+            }
+
+            // Navegação por teclado
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') {
+                    const newIndex = currentIndex > 0 ? currentIndex - 1 : images.length - 1;
+                    updateSlider(newIndex);
+                    resetAutoPlay();
+                } else if (e.key === 'ArrowRight') {
+                    const newIndex = currentIndex < images.length - 1 ? currentIndex + 1 : 0;
+                    updateSlider(newIndex);
+                    resetAutoPlay();
+                } else if (e.key === ' ') {
+                    e.preventDefault();
+                    toggleAutoPlay();
+                } else if (e.key === 'f' || e.key === 'F') {
+                    toggleFullscreen();
+                }
+            });
+
+            // Atualizar contador total de slides
+            document.querySelector('.total-slides').textContent = images.length;
+
+            // Suporte para toque em dispositivos móveis
+            let touchStartX = 0;
+            const sliderContent = document.querySelector('.slider__content');
+            
+            if (sliderContent) {
+                sliderContent.addEventListener('touchstart', function(e) {
+                    touchStartX = e.changedTouches[0].screenX;
+                }, false);
+                
+                sliderContent.addEventListener('touchend', function(e) {
+                    const touchEndX = e.changedTouches[0].screenX;
+                    const swipeThreshold = 50;
+                    
+                    if (touchStartX - touchEndX > swipeThreshold) {
+                        // Swipe para esquerda = próxima imagem
+                        const newIndex = currentIndex < images.length - 1 ? currentIndex + 1 : 0;
+                        updateSlider(newIndex);
+                    } else if (touchEndX - touchStartX > swipeThreshold) {
+                        // Swipe para direita = imagem anterior
+                        const newIndex = currentIndex > 0 ? currentIndex - 1 : images.length - 1;
+                        updateSlider(newIndex);
+                    }
+                }, false);
+            }
+
+            // Iniciar auto-play após 5 segundos
+            setTimeout(() => {
+                if (!isAutoPlaying) {
+                    toggleAutoPlay();
+                }
+            }, 5000);
+        });
+
+        // ============================================
+        // FUNCIONALIDADES DO MENU E PESQUISA
+        // ============================================
         const menuTrigger = document.getElementById('menuTrigger');
         const slideMenu = document.getElementById('slideMenu');
         const menuOverlay = document.getElementById('menuOverlay');
@@ -3748,16 +4254,17 @@ function obterMinhaLocalizacao() {
 
         // Abrir pesquisa pelo botão do menu
         menuSearchBtn.addEventListener('click', () => {
-            // Fecha o menu
             menuTrigger.classList.remove('active');
             slideMenu.classList.remove('open');
             menuOverlay.classList.remove('visible');
             
-            // Abre a pesquisa
             searchField.classList.add('expanded');
             searchInput.focus();
         });
-             // Funcionalidade da Barra de Pesquisa
+
+        // ============================================
+        // FUNCIONALIDADES DA PESQUISA
+        // ============================================
         const searchToggle = document.getElementById('searchToggle');
         const searchField = document.getElementById('searchField');
         const searchInput = document.getElementById('searchInput');
@@ -3784,130 +4291,9 @@ function obterMinhaLocalizacao() {
             }
         });
 
-        // Dados de exemplo para a pesquisa
-        const searchData = [
-            {
-                category: 'Academia',
-                title: 'Opala fitness',
-                description: 'Academia de musculação no centro',
-                link: 'opala.html'
-            },
-            {
-                category: 'Academia',
-                title: 'vilafitness',
-                description: 'Musculação e fitness',
-                link: 'vilafitness.html'
-            },
-            {
-                category: 'Academia',
-                title: 'Top X',
-                description: 'Treinos de alto desempenho',
-                link: 'topx.html'
-            },
-          
-            {
-                category: 'Página',
-                title: 'Cadastro de Academias',
-                description: 'Divulgue sua academia',
-                link: 'academias-publicas.html'
-            },
-            {
-                category: 'Página',
-                title: 'Personal Trainer',
-                description: 'Cadastro de personal trainers',
-                link: 'cadastro_personal-sem-logar.html'
-            }
-        ];
-
-        // Função de pesquisa
-        searchInput.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase().trim();
-            
-            if (searchTerm.length === 0) {
-                searchResults.classList.remove('active');
-                searchResults.innerHTML = '';
-                return;
-            }
-            
-            const filteredResults = searchData.filter(item => 
-                item.title.toLowerCase().includes(searchTerm) || 
-                item.description.toLowerCase().includes(searchTerm) ||
-                item.category.toLowerCase().includes(searchTerm)
-            );
-            
-            if (filteredResults.length > 0) {
-                searchResults.innerHTML = filteredResults.map(item => `
-                    <div class="search-result-item" onclick="window.location.href='${item.link}'">
-                        <div class="result-category">${item.category}</div>
-                        <div class="result-title">${item.title}</div>
-                        <div class="result-description">${item.description}</div>
-                    </div>
-                `).join('');
-                searchResults.classList.add('active');
-            } else {
-                searchResults.innerHTML = `
-                    <div class="search-result-item">
-                        <div class="result-title">Nenhum resultado encontrado</div>
-                        <div class="result-description">Tente outra palavra-chave</div>
-                    </div>
-                `;
-                searchResults.classList.add('active');
-            }
-        });
-
-        // Prevenir que o Enter no input de pesquisa recarregue a página
-        searchInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-            }
-        });
-
-        // Slider
-        const imageDisplay = document.querySelector('.image-display');
-        const navButtons = document.querySelectorAll('.nav-button');
-        const prevButton = document.querySelector('.prev-button');
-        const nextButton = document.querySelector('.next-button');
-
-        let currentIndex = 0;
-        const images = [];
-
-        navButtons.forEach(button => {
-            const img = button.querySelector('.thumbnail');
-            if (img && img.src) {
-                images.push(img.src);
-            }
-        });
-
-        if (imageDisplay && images.length > 0) {
-            imageDisplay.style.backgroundImage = `url(${images[currentIndex]})`;
-        }
-
-        function updateSlider(index) {
-            if (index >= 0 && index < images.length) {
-                currentIndex = index;
-                imageDisplay.style.backgroundImage = `url(${images[currentIndex]})`;
-                
-                navButtons.forEach((button, i) => {
-                    button.setAttribute('aria-selected', i === currentIndex ? 'true' : 'false');
-                });
-            }
-        }
-
-        navButtons.forEach((button, index) => {
-            button.addEventListener('click', () => updateSlider(index));
-        });
-
-        prevButton.addEventListener('click', () => {
-            const newIndex = currentIndex > 0 ? currentIndex - 1 : images.length - 1;
-            updateSlider(newIndex);
-        });
-
-        nextButton.addEventListener('click', () => {
-            const newIndex = currentIndex < images.length - 1 ? currentIndex + 1 : 0;
-            updateSlider(newIndex);
-        });
-
-        // Horários de pico
+        // ============================================
+        // FUNCIONALIDADES DOS HORÁRIOS DE PICO
+        // ============================================
         const hours = [
             { time: '06', value: 15 },
             { time: '07', value: 20 },
@@ -3977,7 +4363,9 @@ function obterMinhaLocalizacao() {
             });
         });
 
-        // Contador de pessoas
+        // ============================================
+        // FUNCIONALIDADES DO CONTADOR DE PESSOAS
+        // ============================================
         const peopleCountElement = document.getElementById('peopleCount');
         const occupancyRateElement = document.getElementById('occupancyRate');
         const lastUpdateElement = document.getElementById('lastUpdate');
@@ -4014,601 +4402,5 @@ function obterMinhaLocalizacao() {
         updateDisplay();
         setInterval(simulateVariation, 900000);
     </script>
-    <!-- ========== SISTEMA DE MANUTENÇÃO DE LOGIN ========== -->
-<script>
-// ========== VERIFICAÇÃO E MANUTENÇÃO DO LOGIN ==========
-(function() {
-    console.log('🔍 Verificando login na página:', window.location.pathname);
-    
-    // Verificar se há usuário logado
-    const userData = localStorage.getItem('gymp2_current_user') || 
-                     localStorage.getItem('currentUser');
-    
-    if (userData) {
-        try {
-            const user = JSON.parse(userData);
-            console.log('✅ Login mantido:', user.name);
-            
-            // Atualizar interface da página
-            updatePageForLoggedUser(user);
-            
-        } catch (error) {
-            console.error('❌ Erro ao processar login:', error);
-        }
-    } else {
-        console.log('ℹ️ Usuário não está logado');
-    }
-    
-    // ========== FUNÇÃO PARA ATUALIZAR A INTERFACE ==========
-    function updatePageForLoggedUser(user) {
-        console.log('🎨 Atualizando interface para:', user.name);
-        
-        // 1. Atualizar botão Login no header
-        updateLoginButton(user);
-        
-        // 2. Atualizar menu hamburguer
-        updateHamburgerMenu(user);
-        
-        // 3. Adicionar classe ao body
-        document.body.classList.add('logged-in');
-        
-        console.log('✅ Interface atualizada com sucesso!');
-    }
-    
-    // ========== ATUALIZAR BOTÃO LOGIN NO HEADER ==========
-    function updateLoginButton(user) {
-        // Encontrar todos os botões de Login
-        const loginButtons = document.querySelectorAll('.gym-access-btn');
-        
-        loginButtons.forEach(btn => {
-            const link = btn.querySelector('a');
-            
-            // Se for o botão de Login
-            if (btn.textContent.includes('Login') || 
-                (link && link.getAttribute('href') === 'login-gym.html')) {
-                
-                console.log('🔄 Substituindo botão Login...');
-                
-                const initials = user.name
-                    .split(' ')
-                    .map(n => n[0])
-                    .slice(0, 2)
-                    .join('')
-                    .toUpperCase();
-                
-                const firstName = user.name.split(' ')[0];
-                
-             
-                console.log('✅ Botão Login substituído');
-                
-                // Configurar eventos após inserir
-                setTimeout(setupDropdownEvents, 50);
-            }
-        });
-    }
-    
-    // ========== ATUALIZAR MENU HAMBURGUER ==========
-    function updateHamburgerMenu(user) {
-        const navigationList = document.querySelector('.navigation-list');
-        if (!navigationList) return;
-        
-        const navItems = navigationList.querySelectorAll('.nav-item');
-        let loginItem = null;
-        
-        // Encontrar item de Login
-        navItems.forEach(item => {
-            const link = item.querySelector('.nav-link');
-            if (link && (link.textContent.trim() === 'Login' || 
-                         link.getAttribute('href') === '#espaço-cliente' ||
-                         link.getAttribute('href') === 'login-gym.html')) {
-                loginItem = item;
-            }
-        });
-        
-        if (loginItem) {
-            const firstName = user.name.split(' ')[0];
-            
-            // Substituir por Perfil
-            loginItem.innerHTML = `
-                <a href="#perfil" class="nav-link" style="
-                    color: #00ff88; 
-                    font-weight: 700; 
-                    background: rgba(0, 255, 136, 0.1); 
-                    border-radius: 8px; 
-                    margin: 5px 0; 
-                    padding: 12px 15px !important;
-                ">
-                    <i class="fas fa-user" style="margin-right: 10px;"></i>
-                    Meu Perfil (${firstName})
-                </a>
-            `;
-            
-            // Remover logout anterior se existir
-            const existingLogout = navigationList.querySelector('#menuLogoutBtn');
-            if (existingLogout) {
-                existingLogout.closest('.nav-item').remove();
-            }
-            
-            // Adicionar botão Sair
-            const logoutItem = document.createElement('li');
-            logoutItem.className = 'nav-item';
-            logoutItem.innerHTML = `
-                <a href="#logout" class="nav-link" id="menuLogoutBtn" style="
-                    color: #ff4444; 
-                    background: rgba(255, 68, 68, 0.1); 
-                    border-radius: 8px; 
-                    margin: 5px 0; 
-                    padding: 12px 15px !important;
-                ">
-                    <i class="fas fa-sign-out-alt" style="margin-right: 10px;"></i>
-                    Sair
-                </a>
-            `;
-            
-            navigationList.appendChild(logoutItem);
-            
-            // Configurar logout do menu
-            document.getElementById('menuLogoutBtn').addEventListener('click', handleLogout);
-            
-            console.log('✅ Menu hamburguer atualizado');
-        }
-    }
-    
-    // ========== CONFIGURAR EVENTOS DO DROPDOWN ==========
-    function setupDropdownEvents() {
-        const userContainer = document.getElementById('userHeaderContainer');
-        const dropdown = document.getElementById('userDropdown');
-        const logoutBtn = document.getElementById('logoutBtnPage');
-        
-        if (!userContainer || !dropdown || !logoutBtn) {
-            console.log('⚠️ Elementos do dropdown não encontrados');
-            return;
-        }
-        
-        // Toggle dropdown
-        userContainer.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const isVisible = dropdown.style.opacity === '1';
-            
-            if (isVisible) {
-                dropdown.style.opacity = '0';
-                dropdown.style.visibility = 'hidden';
-                dropdown.style.transform = 'translateY(-10px)';
-            } else {
-                dropdown.style.opacity = '1';
-                dropdown.style.visibility = 'visible';
-                dropdown.style.transform = 'translateY(0)';
-            }
-        });
-        
-        // Fechar ao clicar fora
-        document.addEventListener('click', function() {
-            dropdown.style.opacity = '0';
-            dropdown.style.visibility = 'hidden';
-            dropdown.style.transform = 'translateY(-10px)';
-        });
-        
-        // Prevenir fechamento ao clicar no dropdown
-        dropdown.addEventListener('click', function(e) {
-            e.stopPropagation();
-        });
-        
-        // Hover no container
-        userContainer.addEventListener('mouseenter', function() {
-            this.style.background = 'rgba(0, 255, 136, 0.25)';
-            this.style.borderColor = 'rgba(0, 255, 136, 0.6)';
-            this.style.transform = 'translateY(-2px)';
-        });
-        
-        userContainer.addEventListener('mouseleave', function() {
-            this.style.background = 'rgba(0, 255, 136, 0.15)';
-            this.style.borderColor = 'rgba(0, 255, 136, 0.4)';
-            this.style.transform = 'translateY(0)';
-        });
-        
-        // Logout
-        logoutBtn.addEventListener('click', handleLogout);
-        
-        console.log('✅ Eventos do dropdown configurados');
-    }
-    
-    
-    
-    // ========== EXPORTAR FUNÇÃO DE LOGOUT GLOBAL ==========
-    window.logout = handleLogout;
-    
-})();
-
-
-console.log('✅ Sistema de login carregado na página!');
-
-
-</script>
-
-<!-- ADICIONE ISTO ANTES DO </body> NA PÁGINA DA topx -->
-
-<!--JavaScript para aplicar configurações globais-->
-<script>
-    // Aplicar configurações globais - PARA TODAS AS PÁGINAS
-    document.addEventListener('DOMContentLoaded', function() {
-        console.log('🔧 Aplicando configurações globais na topfitness...');
-        applyGlobalSettings();
-        
-        // Verificar se as configurações foram aplicadas
-        setTimeout(() => {
-            console.log('✅ Configurações aplicadas:', {
-                tema: localStorage.getItem('gym-theme'),
-                fonte: localStorage.getItem('gym-fontSize'),
-                bodyClass: document.body.className
-            });
-        }, 500);
-    });
-
-    function applyGlobalSettings() {
-        // Carregar configurações salvas
-        const savedTheme = localStorage.getItem('gym-theme') || 'dark';
-        const savedFontSize = localStorage.getItem('gym-fontSize') || 'medium';
-        
-        console.log('📋 Configurações carregadas:', { savedTheme, savedFontSize });
-        
-        // Aplicar tema
-        if (savedTheme === 'light') {
-            document.body.classList.add('light-mode');
-            console.log('🌙 Modo claro aplicado');
-        } else {
-            document.body.classList.remove('light-mode');
-            console.log('🌙 Modo escuro aplicado');
-        }
-        
-        // Aplicar tamanho da fonte
-        applyFontSize(savedFontSize);
-    }
-
-    function applyFontSize(size) {
-        const sizes = {
-            'small': { 
-                h1: '32px', h2: '24px', h3: '18px',
-                normal: '14px', small: '12px',
-                button: '14px'
-            },
-            'medium': { 
-                h1: '42px', h2: '28px', h3: '22px',
-                normal: '16px', small: '14px',
-                button: '16px'
-            },
-            'large': { 
-                h1: '52px', h2: '32px', h3: '26px',
-                normal: '18px', small: '16px',
-                button: '18px'
-            }
-        };
-
-        const currentSizes = sizes[size];
-        
-        console.log('📝 Aplicando tamanho de fonte:', size, currentSizes);
-        
-        // Aplicar a todos os elementos
-        setTimeout(() => {
-            // Títulos principais
-            document.querySelectorAll('h1').forEach(el => {
-                el.style.fontSize = currentSizes.h1;
-            });
-            
-            // Títulos secundários
-            document.querySelectorAll('h2').forEach(el => {
-                el.style.fontSize = currentSizes.h2;
-            });
-            
-            // Títulos terciários
-            document.querySelectorAll('h3').forEach(el => {
-                el.style.fontSize = currentSizes.h3;
-            });
-            
-            // Textos normais
-            document.querySelectorAll('p, .setting-description, .feedback-text, .nav-link, .result-title, .profile-info p, .feedback-text').forEach(el => {
-                el.style.fontSize = currentSizes.normal;
-            });
-            
-            // Botões
-            document.querySelectorAll('.gym-access-btn, .edit-profile-btn, .menu-search-btn').forEach(el => {
-                el.style.fontSize = currentSizes.button;
-            });
-            
-            // Textos pequenos
-            document.querySelectorAll('.feedback-date, .setting-description, small, .result-description, .feedback-date').forEach(el => {
-                el.style.fontSize = currentSizes.small;
-            });
-            
-            // Estatísticas
-            document.querySelectorAll('.stat-box p').forEach(el => {
-                el.style.fontSize = currentSizes.h2;
-            });
-            
-            document.querySelectorAll('.stat-box h3').forEach(el => {
-                el.style.fontSize = currentSizes.normal;
-            });
-
-            console.log('✅ Tamanhos de fonte aplicados com sucesso');
-        }, 100);
-    }
-
-    // Função para forçar atualização (útil para debugging)
-    function forceUpdateSettings() {
-        console.log('🔄 Forçando atualização das configurações...');
-        applyGlobalSettings();
-    }
-
-    // Adicionar listener para mudanças no localStorage (sincronizar entre abas)
-    window.addEventListener('storage', function(e) {
-        if (e.key === 'gym-theme' || e.key === 'gym-fontSize') {
-            console.log('🔄 Configurações alteradas em outra aba, aplicando...');
-            applyGlobalSettings();
-        }
-    });
-</script>
-
-  <script>
-    // ========== SLIDER FUNCTIONALITY ==========
-    document.addEventListener('DOMContentLoaded', function () {
-        const imageDisplay = document.querySelector('.image-display');
-        const navButtons = document.querySelectorAll('.nav-button');
-        const prevButton = document.querySelector('.prev-button');
-        const nextButton = document.querySelector('.next-button');
-        const currentSlideEl = document.querySelector('.current-slide');
-        const progressBar = document.querySelector('.progress-bar');
-        const fullscreenBtn = document.querySelector('.fullscreen-btn');
-        const autoplayBtn = document.querySelector('.autoplay-btn');
-
-      // Na parte do JavaScript do slider (próximo ao final do código), vamos atualizar os arrays:
-
-const images = [
-    'top1.png',
-    'top2.png',
-    'topx_fachada.png',
-    'top3.png',
-    'top5.png',
-    'top4.png'
-];
-
-const categories = ['Logo', 'Área de Musculação', 'Fachada', 'Área de Cardio', 'Vestiário', 'Recepção'];
-
-const descriptions = [
-    'Logo da Top X - Excelência em fitness',
-    'Área de musculação completa com equipamentos modernos',
-    'Fachada moderna da academia com fácil acesso',
-    'Esteiras, bicicletas e elípticos de última geração',
-    'Vestiários amplos, limpos e com armários individuais',
-    'Recepção acolhedora com atendimento especializado'
-];
-
-        // Inicializar slider
-        updateSlider(currentIndex);
-
-        // Função para atualizar slider
-        function updateSlider(index) {
-            if (index >= 0 && index < images.length) {
-                currentIndex = index;
-
-                // Atualizar imagem principal
-                imageDisplay.style.backgroundImage = `url(${images[currentIndex]})`;
-
-                // Atualizar overlay com título baseado na categoria
-                document.querySelector('.image-title').textContent = `Top X - ${categories[currentIndex]}`;
-                document.querySelector('.image-description').textContent = descriptions[currentIndex];
-
-                // Atualizar botões de navegação
-                navButtons.forEach((button, i) => {
-                    const isActive = i === currentIndex;
-                    button.classList.toggle('active', isActive);
-                    button.setAttribute('aria-selected', isActive);
-                });
-
-                // Atualizar contador
-                currentSlideEl.textContent = currentIndex + 1;
-
-                // Atualizar barra de progresso
-                const progressPercentage = ((currentIndex + 1) / images.length) * 100;
-                progressBar.style.width = progressPercentage + '%';
-            }
-        }
-
-        // Event listeners para botões de navegação
-        navButtons.forEach((button, index) => {
-            button.addEventListener('click', () => updateSlider(index));
-        });
-
-        prevButton.addEventListener('click', () => {
-            const newIndex = currentIndex > 0 ? currentIndex - 1 : images.length - 1;
-            updateSlider(newIndex);
-            resetAutoPlay();
-        });
-
-        nextButton.addEventListener('click', () => {
-            const newIndex = currentIndex < images.length - 1 ? currentIndex + 1 : 0;
-            updateSlider(newIndex);
-            resetAutoPlay();
-        });
-
-        // Funcionalidade de tela cheia
-        fullscreenBtn.addEventListener('click', toggleFullscreen);
-
-        function toggleFullscreen() {
-            const sliderContent = document.querySelector('.slider__content');
-
-            if (!document.fullscreenElement) {
-                if (sliderContent.requestFullscreen) {
-                    sliderContent.requestFullscreen();
-                } else if (sliderContent.webkitRequestFullscreen) {
-                    sliderContent.webkitRequestFullscreen();
-                } else if (sliderContent.msRequestFullscreen) {
-                    sliderContent.msRequestFullscreen();
-                }
-                fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i>';
-                fullscreenBtn.setAttribute('aria-label', 'Sair da tela cheia');
-            } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                } else if (document.webkitExitFullscreen) {
-                    document.webkitExitFullscreen();
-                } else if (document.msExitFullscreen) {
-                    document.msExitFullscreen();
-                }
-                fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
-                fullscreenBtn.setAttribute('aria-label', 'Tela cheia');
-            }
-        }
-
-        // Auto-play functionality
-        autoplayBtn.addEventListener('click', toggleAutoPlay);
-
-        function toggleAutoPlay() {
-            isAutoPlaying = !isAutoPlaying;
-
-            if (isAutoPlaying) {
-                startAutoPlay();
-                autoplayBtn.innerHTML = '<i class="fas fa-pause"></i>';
-                autoplayBtn.setAttribute('aria-label', 'Pausar reprodução automática');
-            } else {
-                stopAutoPlay();
-                autoplayBtn.innerHTML = '<i class="fas fa-play"></i>';
-                autoplayBtn.setAttribute('aria-label', 'Reproduzir automaticamente');
-            }
-        }
-
-        function startAutoPlay() {
-            autoPlayInterval = setInterval(() => {
-                const newIndex = currentIndex < images.length - 1 ? currentIndex + 1 : 0;
-                updateSlider(newIndex);
-            }, 3000); // Muda a cada 3 segundos
-        }
-
-        function stopAutoPlay() {
-            if (autoPlayInterval) {
-                clearInterval(autoPlayInterval);
-            }
-        }
-
-        function resetAutoPlay() {
-            if (isAutoPlaying) {
-                stopAutoPlay();
-                startAutoPlay();
-            }
-        }
-
-        // Iniciar auto-play após 5 segundos
-        setTimeout(() => {
-            if (!isAutoPlaying) {
-                toggleAutoPlay();
-            }
-        }, 5000);
-
-        // Navegação por teclado
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft') {
-                const newIndex = currentIndex > 0 ? currentIndex - 1 : images.length - 1;
-                updateSlider(newIndex);
-                resetAutoPlay();
-            } else if (e.key === 'ArrowRight') {
-                const newIndex = currentIndex < images.length - 1 ? currentIndex + 1 : 0;
-                updateSlider(newIndex);
-                resetAutoPlay();
-            } else if (e.key === ' ') {
-                e.preventDefault();
-                toggleAutoPlay();
-            } else if (e.key === 'f' || e.key === 'F') {
-                toggleFullscreen();
-            }
-        });
-
-        // Função para abrir rota
-        window.abrirRota = function () { 
-            const endereco = encodeURIComponent("R. Cel. Cordeiro, 739, Pedro II - PI");
-            window.open(`https://www.google.com/maps/dir/?api=1&destination=${endereco}`, '_blank');
-        };
-
-        // Atualizar contador total de slides
-        document.querySelector('.total-slides').textContent = images.length;
-
-        // Adicionar efeito de digitação ao título
-        const titleText = document.querySelector('.title-text');
-        const originalText = titleText.textContent;
-        titleText.textContent = '';
-
-        let i = 0;
-        const typeWriter = () => {
-            if (i < originalText.length) {
-                titleText.textContent += originalText.charAt(i);
-                i++;
-                setTimeout(typeWriter, 100);
-            }
-        };
-
-        // Iniciar efeito após 0.5 segundos
-        setTimeout(typeWriter, 500);
-    });
-</script>
-
-
-<script>
-    // Adicione este código ao seu JavaScript existente
-document.addEventListener('DOMContentLoaded', function() {
-    // Detectar dispositivo móvel
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    
-    if (isMobile) {
-        // Aumentar área de toque das thumbnails
-        const navButtons = document.querySelectorAll('.nav-button');
-        navButtons.forEach(button => {
-            button.style.minHeight = '44px'; // Tamanho mínimo recomendado para toque
-            button.style.minWidth = '44px';
-        });
-        
-        // Adicionar classe para mobile
-        const thumbnailsContainer = document.querySelector('.thumbnails-container');
-        if (window.innerWidth <= 640) {
-            thumbnailsContainer.classList.add('mobile-horizontal-layout');
-        }
-        
-        // Ajustar dinamicamente baseado na orientação
-        window.addEventListener('resize', function() {
-            if (window.innerWidth <= 640) {
-                thumbnailsContainer.classList.add('mobile-horizontal-layout');
-            } else {
-                thumbnailsContainer.classList.remove('mobile-horizontal-layout');
-            }
-        });
-        
-        // Melhorar navegação por toque
-        let touchStartX = 0;
-        let touchEndX = 0;
-        
-        const sliderContent = document.querySelector('.slider__content');
-        
-        sliderContent.addEventListener('touchstart', function(e) {
-            touchStartX = e.changedTouches[0].screenX;
-        }, false);
-        
-        sliderContent.addEventListener('touchend', function(e) {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        }, false);
-        
-        function handleSwipe() {
-            const swipeThreshold = 50; // Mínimo de pixels para considerar um swipe
-            
-            if (touchStartX - touchEndX > swipeThreshold) {
-                // Swipe para esquerda = próxima imagem
-                const newIndex = currentIndex < images.length - 1 ? currentIndex + 1 : 0;
-                updateSlider(newIndex);
-            } else if (touchEndX - touchStartX > swipeThreshold) {
-                // Swipe para direita = imagem anterior
-                const newIndex = currentIndex > 0 ? currentIndex - 1 : images.length - 1;
-                updateSlider(newIndex);
-            }
-        }
-    }
-});
-    </script>
 </body>
-
 </html>
