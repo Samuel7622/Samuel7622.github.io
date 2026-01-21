@@ -2,26 +2,16 @@
   "name": "gymp2-sistema-seguro",
   "version": "2.0.0",
   "description": "Sistema de login Gymp2 com segurança aprimorada",
-  "main": "server-gymp2.js",
+  "main": "serve-supabase.js",
   "scripts": {
-    "start": "node server-gymp2.js",
+    "start": "node serve-supabase.js",
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "login",
-    "academia",
-    "gymp2",
-    "segurança",
-    "autenticação"
-  ],
-  "author": "Gymp2 devs",
-  "license": "IFPI",
-  "engines": {
-    "node": ">=14.0.0"
   },
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^5.2.1",
-    "socket.io": "^4.8.3"
+    "express": "^4.18.2", 
+    "socket.io": "^4.8.3",
+    "dotenv": "^16.3.1",
+    "@supabase/supabase-js": "^2.38.4"
   }
 }
