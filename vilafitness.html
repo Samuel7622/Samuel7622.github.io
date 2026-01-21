@@ -32,7 +32,7 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             overflow-x: hidden;
         }
-
+ 
 /* ========== HEADER PRINCIPAL - MELHORADO ========== */
 .header-container {
     padding: 1.2rem 2.5rem;
@@ -546,7 +546,6 @@
     opacity: 1;
     visibility: visible;
 }
-
 /* ========== HERO SECTION (PERMANECE IGUAL) ========== */
 .hero {
     min-height: 100vh;
@@ -2701,16 +2700,16 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            background: rgba(255, 68, 68, 0.15);
+            background: #000000;
             padding: 4px 8px;
             border-radius: 6px;
-            border: 1px solid rgba(255, 68, 68, 0.3);
+            border: 1px solid #0a160d;
         }
 
         .live-dot {
             width: 8px;
             height: 8px;
-            background: #ff4444;
+            background: #00ff50;
             border-radius: 50%;
             animation: pulse 2s infinite;
         }
@@ -2732,7 +2731,7 @@
         .live-text {
             font-size: 0.8rem;
             font-weight: 600;
-            color: #ff4444;
+            color: #00ff40;
         }
 
         .link-text {
@@ -3028,6 +3027,159 @@
             }
         }
 
+
+
+        
+/* ========== FOOTER - ONDAS VERDES ========== */
+.academia-footer {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    margin-top: 60px;
+    background: linear-gradient(to bottom, #000000 0%, #001a00 100%);
+}
+
+/* O SVG das ondas - APENAS ESTA PARTE FOI MODIFICADA */
+.academia-background svg {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    z-index: 0;
+}
+
+/* Se o SVG tem elementos path dentro, você pode estilizá-los assim: */
+.academia-background svg path {
+    fill: #00ff40; /* Cor principal das ondas */
+    opacity: 0.3; /* Transparência para efeito suave */
+}
+
+/* Para criar um efeito de gradiente nas ondas */
+.academia-background svg path:nth-child(1) {
+    fill: #00cc33; /* Tom mais escuro */
+    opacity: 0.4;
+}
+
+.academia-background svg path:nth-child(2) {
+    fill: #00ff40; /* Tom médio */
+    opacity: 0.3;
+}
+
+.academia-background svg path:nth-child(3) {
+    fill: #00ff88; /* Tom mais claro */
+    opacity: 0.2;
+}
+
+/* Se quiser adicionar um efeito sutil de brilho */
+.academia-background svg {
+    filter: drop-shadow(0 0 10px rgba(0, 255, 64, 0.2));
+}
+
+/* O resto do footer permanece EXATAMENTE como estava */
+.academia-footer-inner {
+    position: relative;
+    z-index: 1;
+    padding: 4rem 2rem 8rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+}
+
+.academia-footer-inner .academia-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.academia-footer-inner .academia-top h2 {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.academia-footer-inner .academia-top h3 {
+    font-size: 1.25rem;
+    font-weight: 400;
+    opacity: 0.8;
+}
+
+.academia-footer-inner .academia-bottom {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.academia-logo-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.academia-socials {
+    display: flex;
+    gap: 1rem;
+}
+
+.academia-socials a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    font-size: 1.25rem;
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.academia-socials a:hover {
+    background: rgba(0, 255, 136, 0.3);
+    transform: translateY(-3px);
+}
+
+.academia-nav {
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+}
+
+.academia-nav ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.academia-nav h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #ccc;
+}
+
+.academia-nav a {
+    font-size: 0.9rem;
+    color: white;
+    opacity: 0.8;
+    text-decoration: none;
+    transition: opacity 0.3s;
+    cursor: pointer;
+}
+
+.academia-nav  {
+    opacity: 1;
+    color: #00ff40;
+    transform: translateX(5px);
+}
     </style>
 </head>
 <body>
@@ -3060,7 +3212,6 @@
         </div>
     </div>
 </header>
-
 
     <nav class="slide-menu" id="slideMenu">
         <div class="menu-header">
@@ -3134,48 +3285,56 @@
 
             <!-- MINIATURAS COM EFEITO HOVER -->
             <nav class="slider-navigation">
-                <div class="thumbnails-container">
-                    <button class="nav-button" aria-selected="false" data-index="0">
-                        <div class="thumbnail-wrapper">
-                            <img class="thumbnail" src="Vilafitnes_logo.png" alt="Fachada da academia">
-                            <div class="thumbnail-overlay"></div>
-                        </div>
-                        <span class="thumbnail-label">Fachada</span>
-                    </button>
+               <!-- No HTML, dentro do thumbnails-container, atualize as miniaturas: -->
+<div class="thumbnails-container">
+    <button class="nav-button" aria-selected="false" data-index="0">
+        <div class="thumbnail-wrapper">
+            <img class="thumbnail" src="logovila.png" alt="Logo da Vilafitness">
+            <div class="thumbnail-overlay"></div>
+        </div>
+        <span class="thumbnail-label">Logo</span>
+    </button>
 
-                    <button class="nav-button" aria-selected="false" data-index="1">
-                        <div class="thumbnail-wrapper">
-                            <img class="thumbnail" src="vilafitness1.png" alt="Área de musculação">
-                            <div class="thumbnail-overlay"></div>
-                        </div>
-                        <span class="thumbnail-label">Musculação</span>
-                    </button>
+    <button class="nav-button" aria-selected="false" data-index="1">
+        <div class="thumbnail-wrapper">
+            <img class="thumbnail" src="vila2.png" alt="Área de musculação">
+            <div class="thumbnail-overlay"></div>
+        </div>
+        <span class="thumbnail-label">Musculação</span>
+    </button>
 
-                    <button class="nav-button" aria-selected="false" data-index="2">
-                        <div class="thumbnail-wrapper">
-                            <img class="thumbnail" src="vila2.png" alt="Área de cardio">
-                            <div class="thumbnail-overlay"></div>
-                        </div>
-                        <span class="thumbnail-label">Cardio</span>
-                    </button>
+    <button class="nav-button" aria-selected="false" data-index="2">
+        <div class="thumbnail-wrapper">
+            <img class="thumbnail" src="vilafitness_fachada.png" alt="Fachada da academia">
+            <div class="thumbnail-overlay"></div>
+        </div>
+        <span class="thumbnail-label">Fachada</span>
+    </button>
 
-                    <button class="nav-button" aria-selected="false" data-index="3">
-                        <div class="thumbnail-wrapper">
-                            <img class="thumbnail" src="vila3.png" alt="Vestuário">
-                            <div class="thumbnail-overlay"></div>
-                        </div>
-                        <span class="thumbnail-label">Vestiário</span>
-                    </button>
+    <button class="nav-button" aria-selected="false" data-index="3">
+        <div class="thumbnail-wrapper">
+            <img class="thumbnail" src="vila3.png" alt="Área de cardio">
+            <div class="thumbnail-overlay"></div>
+        </div>
+        <span class="thumbnail-label">Cardio</span>
+    </button>
 
-                    <button class="nav-button" aria-selected="false" data-index="4">
-                        <div class="thumbnail-wrapper">
-                            <img class="thumbnail" src="vila4.png" alt="Recepção">
-                            <div class="thumbnail-overlay"></div>
-                        </div>
-                        <span class="thumbnail-label">Recepção</span>
-                    </button>
-                </div>
+    <button class="nav-button" aria-selected="false" data-index="4">
+        <div class="thumbnail-wrapper">
+            <img class="thumbnail" src="vila5.png" alt="Vestuário">
+            <div class="thumbnail-overlay"></div>
+        </div>
+        <span class="thumbnail-label">Vestiário</span>
+    </button>
 
+    <button class="nav-button" aria-selected="false" data-index="5">
+        <div class="thumbnail-wrapper">
+            <img class="thumbnail" src="vila4.png" alt="Recepção">
+            <div class="thumbnail-overlay"></div>
+        </div>
+        <span class="thumbnail-label">Recepção</span>
+    </button>
+</div>
                 <div class="slider-actions">
                     <button class="action-btn fullscreen-btn" aria-label="Tela cheia">
                         <i class="fas fa-expand"></i>
@@ -3509,7 +3668,7 @@ function obterMinhaLocalizacao() {
             <div class="academia-bottom">
                 <div class="academia-logo-content">
                     <div class="academia-socials">
-                        <a href="#" class="instagram" title="Instagram">
+                        <a href="https://www.instagram.com/gymp2_portal/" class="instagram" title="Instagram">
                             <i class="fab fa-instagram"></i>
                         </a>
                     </div>
@@ -4205,29 +4364,27 @@ console.log('✅ Sistema de login carregado na página!');
         const fullscreenBtn = document.querySelector('.fullscreen-btn');
         const autoplayBtn = document.querySelector('.autoplay-btn');
 
-        const images = [
-            'vila1.png',
-            'Vilafitness.png',
-            'Vilafitness1.jpeg',
-            'Vilafitness2.jpeg',
-            'Vilafitness3.jpeg',
-            'Vilafitness4.jpeg'
-        ];
+      // Na parte do JavaScript do slider (próximo ao final do código), vamos atualizar os arrays:
 
-        const categories = ['Logo', 'Fachada', 'Musculação', 'Cardio', 'Vestiário', 'Recepção'];
-        
-        const descriptions = [
-            'Ambiente climatizado e equipamentos de última geração',
-            'Nossa moderna fachada com fácil acesso e estacionamento',
-            'Área de musculação completa com equipamentos de ponta',
-            'Esteiras, bicicletas e elípticos de última geração',
-            'Vestiários amplos, limpos e com armários individuais',
-            'Recepção acolhedora com profissionais especializados'
-        ];
+const images = [
+    'logovila.png',
+    'vila2.png',
+    'vilafitness_fachada.png',
+    'vila3.png',
+    'vila5.png',
+    'vila4.png'
+];
 
-        let currentIndex = 0;
-        let isAutoPlaying = false;
-        let autoPlayInterval;
+const categories = ['Logo', 'Área de Musculação', 'Fachada', 'Área de Cardio', 'Vestiário', 'Recepção'];
+
+const descriptions = [
+    'Logo da Vilafitness - Excelência em fitness',
+    'Área de musculação completa com equipamentos modernos',
+    'Fachada moderna da academia com fácil acesso',
+    'Esteiras, bicicletas e elípticos de última geração',
+    'Vestiários amplos, limpos e com armários individuais',
+    'Recepção acolhedora com atendimento especializado'
+];
 
         // Inicializar slider
         updateSlider(currentIndex);
