@@ -76,7 +76,7 @@
         </a> 
         <ul class="navigation-list">
             <li class="nav-item"><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
-            <li class="nav-item"><a href="#espaço-client" class="nav-link"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+            <li class="nav-item"><a href="#espaço-cliente" class="nav-link"><i class="fas fa-sign-in-alt"></i> Login</a></li>
             <li class="nav-item"><a href="Filtro_personal.html" class="nav-link"><i class="fas fa-percent"></i> Promoções</a></li>
             <li class="nav-item"><a href="#news" class="nav-link"><i class="fas fa-gift"></i> Sorteios</a></li>
             <li class="nav-item"><a href="config.html" class="nav-link"><i class="fas fa-cog"></i> Configurações</a></li>
@@ -501,31 +501,128 @@ function initLoginSystem() {
                 }
             });
             
-            searchInput.addEventListener('input', function() {
-                if (this.value.trim() !== '') {
-                    searchResults.classList.add('active');
-                    // Simular resultados
-                    searchResults.innerHTML = `
-                        <div class="search-result-item">
-                            <div class="result-category">ACADEMIA</div>
-                            <div class="result-title">Smart Strong</div>
-                            <div class="result-description">Academia de musculação e crossfit</div>
-                        </div>
-                        <div class="search-result-item">
-                            <div class="result-category">ACADEMIA</div>
-                            <div class="result-title">Rede-Fit P2</div>
-                            <div class="result-description">Rede de academias fitness</div>
-                        </div>
-                        <div class="search-result-item">
-                            <div class="result-category">ACADEMIA</div>
-                            <div class="result-title">Olympic Fit</div>
-                            <div class="result-description">Academia de alta performance</div>
-                        </div>
-                    `;
-                } else {
-                    searchResults.classList.remove('active');
-                }
-            });
+        // Dados de exemplo para a pesquisa
+const searchData = [
+    {
+        category: 'Academia',
+        title: 'Opala fitness',
+        description: 'Academia de musculação no centro',
+        link: 'Opala-Fitness.html'
+    },
+    {
+        category: 'Academia',
+        title: 'vilafitness',
+        description: 'Musculação e fitness',
+        link: 'vilafitness.html'
+    },
+    {
+        category: 'Academia',
+        title: 'Top X',
+        description: 'Treinos de alto desempenho',
+        link: 'topx.html'
+    },
+    {
+        category: 'Página',
+        title: 'Cadastro de Academias',
+        description: 'Divulgue sua academia',
+        link: 'academias-publicas.html'
+    },
+    {
+        category: 'Página',
+        title: 'Personal Trainer',
+        description: 'Cadastro de personal trainers',
+        link: 'cadastro_personal-sem-logar.html'
+    },
+    {
+        category: 'Página',
+        title: 'Promoções',
+        description: 'Personal trainers e promoções',
+        link: 'Filtro_personal.html'
+    },
+    {
+        category: 'Página',
+        title: 'Cadastro de Personal',
+        description: 'Cadastre-se como personal trainer',
+        link: 'Cadastrar_personal.html'
+    },
+    {
+        category: 'Página',
+        title: 'Sobre nós',
+        description: 'Conheça o Gym P2',
+        link: 'Sobre_nós.html'
+    },
+    {
+        category: 'Página',
+        title: 'Configurações',
+        description: 'Configurações da conta',
+        link: 'config.html'
+    },
+    {
+        category: 'Página',
+        title: 'Login',
+        description: 'Faça login na sua conta',
+        link: 'login-gym.html'
+    },
+    {
+        category: 'Página',
+        title: 'Home',
+        description: 'Página inicial',
+        link: 'index.html'
+    }
+];
+
+// Função de pesquisa
+searchInput.addEventListener('input', (e) => {
+    const searchTerm = e.target.value.toLowerCase().trim();
+    
+    if (searchTerm.length === 0) {
+        searchResults.classList.remove('active');
+        searchResults.innerHTML = '';
+        return;
+    }
+    
+    // Filtrar resultados
+    const filteredResults = searchData.filter(item => 
+        item.title.toLowerCase().includes(searchTerm) || 
+        item.description.toLowerCase().includes(searchTerm) ||
+        item.category.toLowerCase().includes(searchTerm)
+    );
+    
+    if (filteredResults.length === 0) {
+        searchResults.innerHTML = `
+            <div class="search-result-item">
+                <div class="result-title">Nenhum resultado encontrado</div>
+                <div class="result-description">Tente buscar por "academia", "personal" ou "cadastro"</div>
+            </div>
+        `;
+        searchResults.classList.add('active');
+        return;
+    }
+    
+    // Gerar HTML dos resultados
+    let resultsHTML = '';
+    filteredResults.forEach(result => {
+        resultsHTML += `
+            <a href="${result.link}" class="search-result-link">
+                <div class="search-result-item">
+                    <div class="result-category">${result.category}</div>
+                    <div class="result-title">${result.title}</div>
+                    <div class="result-description">${result.description}</div>
+                </div>
+            </a>
+        `;
+    });
+    
+    searchResults.innerHTML = resultsHTML;
+    searchResults.classList.add('active');
+});
+
+// Fechar resultados ao clicar fora
+document.addEventListener('click', (e) => {
+    if (!searchField.contains(e.target) && !searchToggle.contains(e.target)) {
+        searchResults.classList.remove('active');
+    }
+});
             
             // Fechar pesquisa ao clicar fora
             document.addEventListener('click', function(event) {
@@ -1285,7 +1382,8 @@ window.addEventListener('accountStatusChanged', function() {
     console.log('🔄 Evento de mudança recebido, verificando status...');
     checkAccountDeletionStatus();
 });
+
+
 </script>
 </body>
 </html>
-
