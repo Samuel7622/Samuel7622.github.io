@@ -823,6 +823,45 @@ input:focus {
     justify-content: center;
   }
 }
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+/* Estilo para botão desabilitado */
+.submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+/* Estilo para inputs desabilitados */
+input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Loading animation */
+.fa-spinner {
+    animation: spin 1s linear infinite;
+    margin-right: 8px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Prevenir seleção durante loading */
+.no-select {
+    user-select: none;
+}
   </style>
 </head>
 <body>
@@ -1195,71 +1234,93 @@ input:focus {
       }
     }
 
-    function disableButton(buttonId, disabled = true) {
-      const button = document.getElementById(buttonId);
-      button.disabled = disabled;
-    }
-
-    // MODIFIQUE A FUNÇÃO redirectToMainPage():
+    // ============= FUNÇÕES MELHORADAS =============
     function redirectToMainPage(user) {
-      console.log('🚀 SALVANDO USUÁRIO ANTES DE REDIRECIONAR:', user);
+      console.log('🚀 REDIRECIONANDO para página principal...');
       
-      // SALVAR EM TRÊS LUGARES PARA GARANTIR
+      // Salvar o usuário em localStorage (para outras páginas)
       localStorage.setItem('currentUser', JSON.stringify(user));
-      localStorage.setItem('gymp2_current_user', JSON.stringify(user));
       
-      // Limpar qualquer verificação pendente
-      localStorage.removeItem('redirecting');
+      // Salvar timestamp do login
+      localStorage.setItem('lastLogin', Date.now());
       
-      // Adicionar flag para evitar loops
+      // Adicionar flag específica para evitar verificação de sessão na volta
       sessionStorage.setItem('justLoggedIn', 'true');
+      sessionStorage.setItem('loginTimestamp', Date.now());
       
-      // Disparar evento global
-      window.dispatchEvent(new CustomEvent('userLoginSuccess', {
-        detail: { user: user }
-      }));
+      // Efeito visual antes de redirecionar
+      const container = document.querySelector('.login-container');
+      if (container) {
+        container.style.opacity = '0';
+        container.style.transform = 'translateY(20px)';
+        container.style.transition = 'all 0.5s ease';
+      }
       
-      console.log('🔗 Redirecionando para página principal...');
-      
-      // Adicionar efeito de transição antes do redirecionamento
-      document.querySelector('.login-container').style.opacity = '0';
-      document.querySelector('.login-container').style.transform = 'translateY(20px)';
-      document.querySelector('.login-container').style.transition = 'all 0.5s ease';
-      
+      // Redirecionar após pequeno delay
       setTimeout(() => {
-        window.location.href = 'Menu-inicial-sem-logar.html';
+        window.location.href = 'index.html';
       }, 500);
     }
 
-    // ============= EVENTOS DE LOGIN =============
+    // ============= EVENTOS DE LOGIN - VERSÃO CORRIGIDA =============
     document.getElementById('login-form').addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const email = document.getElementById('login-email').value.trim();
-      const password = document.getElementById('login-password').value;
+      const submitBtn = document.getElementById('btn-submit-login');
+      const emailInput = document.getElementById('login-email');
+      const passwordInput = document.getElementById('login-password');
+      
+      // Evitar múltiplos cliques
+      if (submitBtn.disabled) {
+        console.log('⚠️ Login já em processamento...');
+        return;
+      }
+      
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
 
-      disableButton('btn-submit-login', true);
+      if (!email || !password) {
+        showMessage('login-message', 'Preencha email e senha', 'error');
+        return;
+      }
+
+      // Desabilitar botão e mostrar loading
+      const originalHTML = submitBtn.innerHTML;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Entrando...';
+      submitBtn.disabled = true;
+      
+      // Desabilitar inputs também
+      emailInput.disabled = true;
+      passwordInput.disabled = true;
+      
       showLoading('login-loading', true);
 
       try {
         const result = await api.login(email, password);
 
         showLoading('login-loading', false);
-        disableButton('btn-submit-login', false);
 
         if (result.success) {
           // Salvar na sessão
           session.saveSession(result.token, result.user);
           
           // Mostrar mensagem
-          showMessage('login-message', result.message, 'success');
+          showMessage('login-message', 'Login realizado! Redirecionando...', 'success');
           
           console.log('✅ Login bem-sucedido, redirecionando...');
           
           // Redirecionar IMEDIATAMENTE
-          redirectToMainPage(result.user);
+          setTimeout(() => {
+            redirectToMainPage(result.user);
+          }, 500);
           
         } else {
+          // Restaurar botão e inputs em caso de erro
+          submitBtn.innerHTML = originalHTML;
+          submitBtn.disabled = false;
+          emailInput.disabled = false;
+          passwordInput.disabled = false;
+          
           showMessage('login-message', result.message, 'error');
           // Efeito de shake no formulário
           document.getElementById('login-form').classList.add('shake');
@@ -1268,54 +1329,103 @@ input:focus {
           }, 500);
         }
       } catch (error) {
+        // Restaurar botão e inputs em caso de erro
         showLoading('login-loading', false);
-        disableButton('btn-submit-login', false);
+        submitBtn.innerHTML = originalHTML;
+        submitBtn.disabled = false;
+        emailInput.disabled = false;
+        passwordInput.disabled = false;
+        
         showMessage('login-message', 'Erro no servidor. Tente novamente.', 'error');
         console.error('❌ Erro no login:', error);
       }
     });
 
-    // ============= EVENTOS DE CADASTRO =============
+    // ============= EVENTOS DE CADASTRO - VERSÃO CORRIGIDA =============
     document.getElementById('signup-form').addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const name = document.getElementById('signup-name').value.trim();
-      const email = document.getElementById('signup-email').value.trim();
-      const password = document.getElementById('signup-password').value;
+      const submitBtn = document.getElementById('btn-submit-signup');
+      const nameInput = document.getElementById('signup-name');
+      const emailInput = document.getElementById('signup-email');
+      const passwordInput = document.getElementById('signup-password');
+      
+      // Evitar múltiplos cliques
+      if (submitBtn.disabled) {
+        console.log('⚠️ Cadastro já em processamento...');
+        return;
+      }
+
+      const name = nameInput.value.trim();
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
 
       if (password.length < 6) {
         showMessage('signup-message', 'Senha deve ter no mínimo 6 caracteres', 'error');
         return;
       }
 
-      disableButton('btn-submit-signup', true);
+      // Desabilitar botão e inputs
+      const originalHTML = submitBtn.innerHTML;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Criando conta...';
+      submitBtn.disabled = true;
+      nameInput.disabled = true;
+      emailInput.disabled = true;
+      passwordInput.disabled = true;
+      
       showLoading('signup-loading', true);
 
-      const result = await api.cadastro(name, email, password);
+      try {
+        const result = await api.cadastro(name, email, password);
 
-      showLoading('signup-loading', false);
-      disableButton('btn-submit-signup', false);
+        showLoading('signup-loading', false);
 
-      if (result.success) {
-        showMessage('signup-message', result.message, 'success');
+        if (result.success) {
+          showMessage('signup-message', result.message, 'success');
+          
+          // Efeito de confete visual
+          const formBox = document.querySelector('.form-box');
+          formBox.style.boxShadow = '0 0 40px rgba(0, 255, 64, 0.5)';
+          setTimeout(() => {
+            formBox.style.boxShadow = '';
+          }, 1000);
+          
+          // Faz login automático após cadastro
+          setTimeout(async () => {
+            const loginResult = await api.login(email, password);
+            if (loginResult.success) {
+              session.saveSession(loginResult.token, loginResult.user);
+              redirectToMainPage(loginResult.user);
+            } else {
+              // Restaurar botão se o login falhar
+              submitBtn.innerHTML = originalHTML;
+              submitBtn.disabled = false;
+              nameInput.disabled = false;
+              emailInput.disabled = false;
+              passwordInput.disabled = false;
+            }
+          }, 2000);
+        } else {
+          // Restaurar em caso de erro
+          submitBtn.innerHTML = originalHTML;
+          submitBtn.disabled = false;
+          nameInput.disabled = false;
+          emailInput.disabled = false;
+          passwordInput.disabled = false;
+          
+          showMessage('signup-message', result.message, 'error');
+        }
+      } catch (error) {
+        // Restaurar em caso de erro
+        showLoading('signup-loading', false);
+        submitBtn.innerHTML = originalHTML;
+        submitBtn.disabled = false;
+        nameInput.disabled = false;
+        emailInput.disabled = false;
+        passwordInput.disabled = false;
         
-        // Efeito de confete visual
-        const formBox = document.querySelector('.form-box');
-        formBox.style.boxShadow = '0 0 40px rgba(0, 255, 64, 0.5)';
-        setTimeout(() => {
-          formBox.style.boxShadow = '';
-        }, 1000);
-        
-        // Faz login automático após cadastro
-        setTimeout(async () => {
-          const loginResult = await api.login(email, password);
-          if (loginResult.success) {
-            session.saveSession(loginResult.token, loginResult.user);
-            redirectToMainPage(loginResult.user);
-          }
-        }, 2000);
-      } else {
-        showMessage('signup-message', result.message, 'error');
+        showMessage('signup-message', 'Erro no servidor. Tente novamente.', 'error');
+        console.error('❌ Erro no cadastro:', error);
       }
     });
 
@@ -1469,42 +1579,76 @@ input:focus {
       });
     })();
 
-    // ============= VERIFICAÇÃO DE SESSÃO =============
+    // ============= VERIFICAÇÃO INICIAL =============
     window.addEventListener('DOMContentLoaded', async () => {
       // Efeito de entrada
       document.querySelector('.container').style.opacity = '1';
       
-      // Evitar verificação se já está logado via localStorage
-      const hasLocalUser = localStorage.getItem('currentUser') || localStorage.getItem('gymp2_current_user');
+      // VERIFICAÇÃO CRÍTICA: Se acabamos de fazer login, NÃO verificar sessão
+      const justLoggedIn = sessionStorage.getItem('justLoggedIn');
+      const loginTimestamp = sessionStorage.getItem('loginTimestamp');
+      const currentTime = Date.now();
       
-      if (hasLocalUser) {
-        console.log('✅ Usuário já logado via localStorage, ignorando session...');
+      // Se fez login há menos de 5 segundos, não verificar (evita loop)
+      if (justLoggedIn && loginTimestamp && (currentTime - loginTimestamp < 5000)) {
+        console.log('✅ Login recente detectado, pulando verificação de sessão...');
+        
+        // Limpar a flag após uso
+        setTimeout(() => {
+          sessionStorage.removeItem('justLoggedIn');
+          sessionStorage.removeItem('loginTimestamp');
+        }, 1000);
+        
         return;
       }
       
-      // Apenas verificar sessionStorage se não houver localStorage
+      // Limpar flags antigas
+      sessionStorage.removeItem('justLoggedIn');
+      sessionStorage.removeItem('loginTimestamp');
+      
+      // Verificar se já está logado via localStorage (mais confiável)
+      const localUser = localStorage.getItem('currentUser');
+      if (localUser) {
+        try {
+          const user = JSON.parse(localUser);
+          const lastLogin = localStorage.getItem('lastLogin');
+          
+          // Se fez login há menos de 24 horas, redirecionar
+          if (lastLogin && (currentTime - lastLogin < 24 * 60 * 60 * 1000)) {
+            console.log('✅ Usuário já logado via localStorage, redirecionando...');
+            
+            // Pequeno delay para evitar loop
+            setTimeout(() => {
+              window.location.href = 'index.html';
+            }, 100);
+            
+            return;
+          } else {
+            // Sessão expirada (mais de 24 horas)
+            console.log('⏰ Sessão expirada, limpando...');
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('lastLogin');
+          }
+        } catch (e) {
+          console.error('Erro ao ler localStorage:', e);
+        }
+      }
+      
+      // Se chegou aqui, verificar sessionStorage (API)
       const user = await session.checkSession();
       if (user) {
-        console.log('✅ Sessão ativa encontrada:', user.name);
+        console.log('✅ Sessão ativa encontrada via API:', user.name);
         
-        // Adicionar flag para evitar loops
-        sessionStorage.setItem('justLoggedIn', 'true');
+        // Salvar no localStorage para consistência
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        localStorage.setItem('lastLogin', Date.now());
         
-        redirectToMainPage(user);
+        // Redirecionar
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 100);
       }
     });
-
-    // ============= FUNÇÃO DE LOGOUT (PARA OUTRAS PÁGINAS) =============
-    window.logout = async function() {
-      if (confirm('Deseja realmente sair?')) {
-        const token = session.getToken();
-        if (token) {
-          await api.logout(token);
-        }
-        session.clearSession();
-        window.location.href = 'login-gym.html';
-      }
-    };
 
     console.log('🔒 Sistema de autenticação seguro carregado!');
   </script>
