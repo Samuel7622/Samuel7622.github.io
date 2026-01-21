@@ -81,7 +81,6 @@
     width: auto;
     display: block;
     transition: all 0.3s ease;
-    left: 0;
     filter: drop-shadow(0 4px 8px rgba(0, 255, 64, 0.3));
 }
 
@@ -241,76 +240,37 @@
     pointer-events: auto;
 }
 
-/* ========== RESULTADOS DA PESQUISA - MELHORADOS ========== */
+/* ========== RESULTADOS DA PESQUISA ========== */
 .search-results {
     position: fixed;
     top: calc(1.2rem * 2 + 55px + 10px);
     left: 50%;
-    transform: translateX(-50%) translateY(-10px);
-    background: rgba(255, 255, 255, 0.98);
-    border-radius: 20px;
-    max-height: 400px;
+    transform: translateX(-50%);
+    background: white;
+    border-radius: 15px;
+    max-height: 300px;
     overflow-y: auto;
     display: none;
     z-index: 1999;
     width: calc(100vw - 40px);
     max-width: 600px;
-    box-shadow: 
-        0 20px 60px rgba(0, 0, 0, 0.3),
-        0 0 0 1px rgba(0, 255, 64, 0.2);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    opacity: 0;
-    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .search-results.active {
     display: block;
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-    animation: slideDownResults 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-@keyframes slideDownResults {
-    0% {
-        opacity: 0;
-        transform: translateX(-50%) translateY(-20px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-    }
 }
 
 .search-result-item {
-    padding: 18px 24px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
     color: #333;
     cursor: pointer;
     transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.search-result-item::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 3px;
-    background: linear-gradient(to bottom, #00ff40, #00ff88);
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
 }
 
 .search-result-item:hover {
-    background: linear-gradient(90deg, rgba(0, 255, 64, 0.05), rgba(0, 255, 136, 0.05));
-    padding-left: 30px;
-}
-
-.search-result-item:hover::before {
-    transform: translateX(0);
+    background: #f0f0f0;
 }
 
 .search-result-item:last-child {
@@ -318,28 +278,24 @@
 }
 
 .result-category {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     color: #00ff40;
-    font-weight: 700;
+    font-weight: bold;
     text-transform: uppercase;
-    margin-bottom: 6px;
-    letter-spacing: 1px;
+    margin-bottom: 5px;
 }
 
 .result-title {
-    font-weight: 700;
+    font-weight: 600;
     margin-bottom: 5px;
-    color: #111;
-    font-size: 1.05rem;
 }
 
 .result-description {
     font-size: 0.9rem;
     color: #666;
-    line-height: 1.4;
 }
 
-/* ========== BOTÕES - MELHORADOS ========== */
+/* ========== BOTÕES ========== */
 .gym-access-btn {
     background: linear-gradient(135deg, #00ff40 0%, #00ff88 100%);
     color: #000;
@@ -407,7 +363,7 @@
     gap: 8px;
 }
 
-/* ========== MENU HAMBURGUER - MELHORADO ========== */
+/* ========== MENU HAMBURGUER ========== */
 .menu-trigger {
     display: flex;
     flex-direction: column;
@@ -467,7 +423,7 @@
     background: linear-gradient(45deg, #00ff40, #00ff88);
 }
 
-/* ========== MENU DESLIZANTE - MELHORADO ========== */
+/* ========== MENU DESLIZANTE ========== */
 .slide-menu {
     position: fixed;
     top: -50px;
@@ -475,34 +431,17 @@
     right: -450px;
     width: 450px;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.95);
-    transition: right 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    background: #000000;
+    transition: right 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     z-index: 3000;
     padding: 2rem 2rem;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    backdrop-filter: blur(25px) saturate(180%);
-    border-left: 1px solid rgba(0, 255, 64, 0.2);
-    box-shadow: 
-        -20px 0 60px rgba(0, 0, 0, 0.8),
-        inset 1px 0 0 rgba(255, 255, 255, 0.05);
 }
 
 .slide-menu.open {
     right: 0;
-    animation: slideInMenu 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-@keyframes slideInMenu {
-    0% {
-        right: -450px;
-        opacity: 0.5;
-    }
-    100% {
-        right: 0;
-        opacity: 1;
-    }
 }
 
 .menu-header {
@@ -511,72 +450,48 @@
     align-items: center;
     margin-bottom: 2rem;
     padding-bottom: 1.5rem;
-    border-bottom: 1px solid rgba(0, 255, 64, 0.2);
+    border-bottom: 1px solid #222;
 }
 
 .menu-close-btn {
-    background: rgba(0, 255, 64, 0.1);
-    border: 2px solid rgba(0, 255, 64, 0.3);
-    border-radius: 12px;
+    background: transparent;
+    border: none;
     cursor: pointer;
-    padding: 12px;
+    padding: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.4s ease;
-    backdrop-filter: blur(10px);
+    transition: transform 0.3s ease;
 }
 
 .menu-close-btn:hover {
-    transform: rotate(90deg) scale(1.1);
-    background: rgba(0, 255, 64, 0.2);
-    border-color: rgba(0, 255, 64, 0.5);
-    box-shadow: 0 4px 15px rgba(0, 255, 64, 0.2);
+    transform: rotate(90deg);
 }
 
 .menu-close-icon {
     width: 24px;
     height: 24px;
-    color: #00ff40;
-    stroke-width: 2.5;
-    transition: transform 0.3s ease;
+    color: #fff;
 }
 
 .menu-search-btn {
     width: 100%;
-    background: linear-gradient(135deg, #00ff40 0%, #00ff88 100%);
+    background: linear-gradient(135deg, #00ff40 0%, #00cc3a 100%);
     color: #000;
     border: none;
-    padding: 16px 24px;
-    border-radius: 16px;
-    font-size: 1.1rem;
-    font-weight: 800;
+    padding: 14px 20px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
     cursor: pointer;
-    transition: all 0.4s ease;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 2rem;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 
-        0 6px 25px rgba(0, 255, 64, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4);
-    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    text-transform: none;
+    letter-spacing: 0.3px;
+    margin-bottom: 1.5rem;
 }
 
 .menu-search-btn:hover {
-    transform: translateY(-3px);
-    background: linear-gradient(135deg, #00ff88 0%, #00ff40 100%);
-    box-shadow: 
-        0 10px 35px rgba(0, 255, 64, 0.6),
-        0 5px 0 rgba(0, 255, 64, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.5);
-    border-color: rgba(255, 255, 255, 0.3);
-}
-
-.menu-search-btn:active {
-    transform: translateY(-1px);
-    transition: transform 0.1s ease;
+    background: linear-gradient(135deg, #00ff40 0%, #00ff40 100%);
 }
 
 .navigation-list {
@@ -587,75 +502,30 @@
 }
 
 .nav-item {
-    margin: 0.5rem 0;
+    margin: 0;
     width: 100%;
-    opacity: 0;
-    transform: translateX(20px);
-    animation: slideInItem 0.5s ease forwards;
 }
-
-@keyframes slideInItem {
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-.nav-item:nth-child(1) { animation-delay: 0.1s; }
-.nav-item:nth-child(2) { animation-delay: 0.2s; }
-.nav-item:nth-child(3) { animation-delay: 0.3s; }
-.nav-item:nth-child(4) { animation-delay: 0.4s; }
-.nav-item:nth-child(5) { animation-delay: 0.5s; }
-.nav-item:nth-child(6) { animation-delay: 0.6s; }
-.nav-item:nth-child(7) { animation-delay: 0.7s; }
 
 .nav-link {
     color: #ffffff;
     text-decoration: none;
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     font-weight: 500;
     display: block;
-    padding: 1rem 1.5rem;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    padding: 1rem 0;
+    transition: all 0.3s ease;
     width: 100%;
     box-sizing: border-box;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    position: relative;
-    overflow: hidden;
-}
-
-.nav-link::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 4px;
-    background: linear-gradient(to bottom, #00ff40, #00ff88);
-    transform: translateX(-100%);
-    transition: transform 0.4s ease;
+    border-bottom: 0.5px solid #333;
 }
 
 .nav-link:hover {
     color: #00ff40;
-    padding-left: 2rem;
-    background: rgba(0, 255, 64, 0.1);
-    border-color: rgba(0, 255, 64, 0.2);
-    transform: translateX(5px);
-    box-shadow: 
-        0 5px 20px rgba(0, 255, 64, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    padding-left: 15px;
 }
 
-.nav-link:hover::before {
-    transform: translateX(0);
-}
-
-.nav-link:active {
-    transform: translateX(2px) scale(0.98);
-    transition: transform 0.1s ease;
+.nav-item:last-child .nav-link {
+    border-bottom: none;
 }
 
 .menu-overlay {
@@ -664,188 +534,17 @@
     left: 0;
     width: 100%;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.9);
+    background: rgba(0, 0, 0, 0.8);
     opacity: 0;
     visibility: hidden;
-    transition: all 0.5s ease;
+    transition: all 0.4s ease;
     z-index: 2500;
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(8px);
 }
 
 .menu-overlay.visible {
     opacity: 1;
     visibility: visible;
-}
-
-/* ========== HEADER DO USUÁRIO (quando logado) ========== */
-.user-header-container {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background: rgba(0, 255, 136, 0.15);
-    border: 2px solid rgba(0, 255, 136, 0.3);
-    border-radius: 30px;
-    padding: 8px 20px 8px 8px;
-    cursor: pointer;
-    position: relative;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    backdrop-filter: blur(10px);
-    box-shadow: 
-        0 4px 20px rgba(0, 255, 136, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-}
-
-.user-header-container:hover {
-    background: rgba(0, 255, 136, 0.25);
-    border-color: rgba(0, 255, 136, 0.5);
-    transform: translateY(-2px) scale(1.05);
-    box-shadow: 
-        0 8px 30px rgba(0, 255, 136, 0.3),
-        0 4px 0 rgba(0, 255, 136, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
-}
-
-.user-avatar {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #00ff88 0%, #00ff40 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 800;
-    font-size: 18px;
-    color: #000;
-    border: 3px solid rgba(255, 255, 255, 0.9);
-    box-shadow: 
-        0 4px 15px rgba(0, 255, 136, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.5);
-    transition: all 0.3s ease;
-}
-
-.user-header-container:hover .user-avatar {
-    transform: rotate(10deg) scale(1.1);
-    box-shadow: 
-        0 6px 20px rgba(0, 255, 136, 0.6),
-        inset 0 1px 0 rgba(255, 255, 255, 0.6);
-}
-
-.user-name-text {
-    font-size: 15px;
-    font-weight: 700;
-    color: #fff;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-.user-dropdown-menu {
-    position: absolute;
-    top: calc(100% + 15px);
-    right: 0;
-    background: rgba(26, 26, 26, 0.98);
-    border: 2px solid rgba(0, 255, 136, 0.3);
-    border-radius: 20px;
-    padding: 16px;
-    min-width: 240px;
-    box-shadow: 
-        0 20px 60px rgba(0, 0, 0, 0.8),
-        0 0 0 1px rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(25px) saturate(180%);
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-20px) scale(0.95);
-    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    z-index: 3000;
-}
-
-.user-header-container:hover .user-dropdown-menu {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0) scale(1);
-}
-
-/* ========== RESPONSIVIDADE ========== */
-/* (Mantenha toda a responsividade existente, apenas atualizei a navbar) */
-
-/* Para telas menores que 768px */
-@media (max-width: 768px) {
-    .header-container {
-        padding: 0.8rem 1rem;
-        backdrop-filter: blur(20px);
-    }
-    
-    .search-toggle-btn {
-        width: 42px;
-        height: 42px;
-    }
-    
-    .expandable-search-field.expanded {
-        width: 250px;
-        animation: searchExpandMobile 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-    
-    @keyframes searchExpandMobile {
-        0% { width: 42px; }
-        100% { width: 250px; }
-    }
-    
-    .gym-access-btn {
-        padding: 10px 16px;
-        font-size: 0.9rem;
-    }
-    
-    .gym-access-btn:hover {
-        transform: translateY(-2px) scale(1.03);
-    }
-    
-    .slide-menu {
-        width: 320px;
-        right: -320px;
-    }
-    
-    .slide-menu.open {
-        animation: slideInMenuMobile 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-    
-    @keyframes slideInMenuMobile {
-        0% { right: -320px; }
-        100% { right: 0; }
-    }
-}
-
-/* Para telas menores que 480px */
-@media (max-width: 480px) {
-    .header-container {
-        padding: 0.6rem 0.8rem;
-    }
-    
-    .search-toggle-btn {
-        width: 38px;
-        height: 38px;
-    }
-    
-    .expandable-search-field.expanded {
-        width: 220px;
-    }
-    
-    .gym-access-btn {
-        padding: 8px 12px;
-        font-size: 0.8rem;
-        letter-spacing: 0.5px;
-    }
-    
-    .user-header-container {
-        padding: 6px 14px 6px 6px;
-    }
-    
-    .user-avatar {
-        width: 36px;
-        height: 36px;
-        font-size: 14px;
-    }
-    
-    .user-name-text {
-        font-size: 13px;
-    }
 }
 
 /* ========== HERO SECTION (PERMANECE IGUAL) ========== */
@@ -1237,7 +936,7 @@
             color: white;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
             text-align: center;
-            border: 2px solid #00ff88;
+            border: 2px solid #00ff40;
             flex-shrink: 0;
         }
 
@@ -2106,7 +1805,7 @@
 }
 
 .map-title {
-    color: #00ff88;
+    color: #00ff40;
     text-align: center;
     font-size: 2.2rem;
     margin-bottom: 30px;
@@ -2119,7 +1818,7 @@
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    border: 2px solid #00ff88;
+    border: 2px solid #00ff40;
     position: relative;
 }
 
@@ -3332,37 +3031,36 @@
     </style>
 </head>
 <body>
-    <header class="header-container" id="menu">
-        <div class="nav-wrapper">
-            <div class="brand-container">
-                <a href="#"><img src="logo.png" alt="Logo" class="logo-img"></a>
-            </div>
-            
-            <div class="right-controls">
-                <div class="search-widget" id="searchWidget">
-                    <div class="expandable-search-field" id="searchField">
-                        <input type="text" class="search-input-field" placeholder="Digite sua pesquisa..." id="searchInput">
-                    </div>
-                    <button class="search-toggle-btn" id="searchToggle" aria-label="Abrir pesquisa">
-                        <svg class="search-icon" viewBox="0 0 24 24">
-                            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-                        </svg>
-                    </button>
-                    <div class="search-results" id="searchResults"></div>
-                </div>
-                
-                <button class="gym-access-btn"><a href="index.html">Home</a></button>
-                <button class="gym-access-btn"><a href="academias-publicas.html">Academias</a></button>
-                <button class="gym-access-btn"><a href="login-gym.html">Login</a></button>
-                
-                <button class="menu-trigger" id="menuTrigger" aria-label="Abrir menu">
-                    <div class="hamburger-line"></div>
-                    <div class="hamburger-line"></div>
-                    <div class="hamburger-line"></div>
-                </button>
-            </div>
+       <header class="header-container" id="menu">
+    <div class="nav-wrapper">
+        <div class="brand-container">
+            <a href="#"><img src="logo.png" alt="Logo" class="logo-img"></a>
         </div>
-    </header>
+        <div class="right-controls">
+            <div class="search-widget" id="searchWidget">
+                <div class="expandable-search-field" id="searchField">
+                    <input type="text" class="search-input-field" placeholder="Digite sua pesquisa..." id="searchInput">
+                </div>
+                <button class="search-toggle-btn" id="searchToggle" aria-label="Abrir pesquisa">
+                    <svg class="search-icon" viewBox="0 0 24 24">
+                        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                    </svg>
+                </button>
+                <div class="search-results" id="searchResults"></div>
+            </div>  
+            <!-- ADICIONE A CLASSE home-btn AQUI -->
+            <a href="index.html"><button class="gym-access-btn home-btn"><i class="fas fa-home"></i> Home</button></a>
+            <a href="academias-publicas.html"><button class="gym-access-btn"><i class="fas fa-dumbbell"></i> Academias</button></a>
+            <a href="login-gym.html"><button class="gym-access-btn"><i class="fas fa-sign-in-alt"></i> Login</button></a>
+            <button class="menu-trigger" id="menuTrigger" aria-label="Abrir menu">
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+            </button>
+        </div>
+    </div>
+</header>
+
 
     <nav class="slide-menu" id="slideMenu">
         <div class="menu-header">
@@ -3786,7 +3484,7 @@ function obterMinhaLocalizacao() {
                     <use xlink:href="#wave" opacity=".4">
                         <animateTransform attributeName="transform" attributeType="XML" type="translate" dur="8s" calcMode="spline"
                             values="270 230; -334 180; 270 230" keyTimes="0; .5; 1" keySplines="0.42, 0, 0.58, 1.0;0.42, 0, 0.58, 1.0"
-                            repeatCount="indefinite" />
+                            repeatCount="indefinite" /> 
                     </use>
                     <use xlink:href="#wave" opacity=".6">
                         <animateTransform attributeName="transform" attributeType="XML" type="translate" dur="6s" calcMode="spline"
