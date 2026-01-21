@@ -1,0 +1,4613 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+    <title>Academia - Opala Fitness</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --active-color: #00ff88;
+            --bg-color: #e1e3e5;
+            --icon-default: hsl(0, 0%, 0%);
+            --icon-accent: hsl(203 15 98);
+            --navigation-color: hsl(203 5 25 / 0.3);
+        }
+
+        body {
+            background-color: black;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            overflow-x: hidden;
+        }
+ 
+/* ========== HEADER PRINCIPAL - MELHORADO ========== */
+.header-container {
+    padding: 1.2rem 2.5rem;
+    position: relative;
+    top: 0;
+    z-index: 2000;
+    backdrop-filter: blur(25px) saturate(180%);
+    width: 100%;
+    margin: 0;
+    background: rgba(0, 0, 0, 0.85);
+    box-shadow: 
+        0 8px 32px rgba(0, 255, 64, 0.15),
+        0 1px 0 rgba(0, 255, 64, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(0, 255, 64, 0.2);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.header-container:hover {
+    box-shadow: 
+        0 12px 48px rgba(0, 255, 64, 0.25),
+        0 2px 0 rgba(0, 255, 64, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.nav-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.brand-container {
+    flex-shrink: 0;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.brand-container:hover {
+    transform: translateY(-2px) scale(1.05);
+}
+
+.logo-img {
+    height: 80px;
+    width: auto;
+    display: block;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 4px 8px rgba(0, 255, 64, 0.3));
+}
+
+.brand-container:hover .logo-img {
+    filter: drop-shadow(0 6px 12px rgba(0, 255, 64, 0.5));
+    transform: rotate(-2deg);
+}
+
+.right-controls {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: nowrap;
+}
+
+/* ========== BARRA DE PESQUISA - MELHORADA ========== */
+.search-widget {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.search-toggle-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00ff40 0%, #00ff88 50%, #00ff40 100%);
+    border: 2px solid rgba(0, 255, 64, 0.3);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    position: relative;
+    z-index: 100;
+    flex-shrink: 0;
+    box-shadow: 
+        0 4px 15px rgba(0, 255, 64, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    animation: pulseGlow 3s infinite alternate;
+}
+
+.search-toggle-btn:hover {
+    transform: scale(1.1) rotate(10deg);
+    background: linear-gradient(135deg, #00ff88 0%, #00ff40 50%, #00ff88 100%);
+    box-shadow: 
+        0 6px 25px rgba(0, 255, 64, 0.5),
+        0 0 30px rgba(0, 255, 64, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.search-toggle-btn:active {
+    transform: scale(0.95) rotate(0deg);
+    transition: transform 0.1s ease;
+}
+
+@keyframes pulseGlow {
+    0% {
+        box-shadow: 
+            0 4px 15px rgba(0, 255, 64, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+    100% {
+        box-shadow: 
+            0 4px 20px rgba(0, 255, 64, 0.4),
+            0 0 15px rgba(0, 255, 64, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+}
+
+.search-icon {
+    width: 22px;
+    height: 22px;
+    fill: #000;
+    transition: all 0.4s ease;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+.search-toggle-btn:hover .search-icon {
+    transform: scale(1.2);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+}
+
+.expandable-search-field {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid transparent;
+    border-radius: 30px;
+    width: 48px;
+    height: 48px;
+    overflow: hidden;
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    backdrop-filter: blur(20px);
+    z-index: 50;
+    box-shadow: 
+        0 4px 20px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.expandable-search-field.expanded {
+    width: 320px;
+    border-color: #00ff40;
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 
+        0 8px 32px rgba(0, 255, 64, 0.25),
+        0 0 0 1px rgba(0, 255, 64, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    animation: searchExpand 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes searchExpand {
+    0% {
+        width: 48px;
+        opacity: 0.8;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        width: 320px;
+    }
+}
+
+.search-input-field {
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 0 60px 0 20px;
+    font-size: 1rem;
+    color: #000;
+    font-family: inherit;
+    opacity: 0;
+    transition: opacity 0.3s ease 0.1s;
+    cursor: text;
+}
+
+.expandable-search-field.expanded .search-input-field {
+    opacity: 1;
+}
+
+.search-input-field::placeholder {
+    color: rgba(0, 0, 0, 0.5);
+    transition: color 0.3s ease;
+}
+
+.search-input-field:focus::placeholder {
+    color: rgba(0, 0, 0, 0.3);
+}
+
+.expandable-search-field * {
+    pointer-events: auto;
+}
+
+/* ========== RESULTADOS DA PESQUISA ========== */
+.search-results {
+    position: fixed;
+    top: calc(1.2rem * 2 + 55px + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    border-radius: 15px;
+    max-height: 300px;
+    overflow-y: auto;
+    display: none;
+    z-index: 1999;
+    width: calc(100vw - 40px);
+    max-width: 600px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.search-results.active {
+    display: block;
+}
+
+.search-result-item {
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.search-result-item:hover {
+    background: #f0f0f0;
+}
+
+.search-result-item:last-child {
+    border-bottom: none;
+}
+
+.result-category {
+    font-size: 0.8rem;
+    color: #00ff40;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.result-title {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.result-description {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* ========== BOTÕES ========== */
+.gym-access-btn {
+    background: linear-gradient(135deg, #00ff40 0%, #00ff88 100%);
+    color: #000;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 
+        0 4px 15px rgba(0, 255, 64, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    border: 2px solid transparent;
+}
+
+.gym-access-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.7s ease;
+}
+
+.gym-access-btn:hover {
+    transform: translateY(-4px) scale(1.05);
+    background: linear-gradient(135deg, #00ff88 0%, #00ff40 100%);
+    box-shadow: 
+        0 8px 30px rgba(0, 255, 64, 0.5),
+        0 4px 0 rgba(0, 255, 64, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.gym-access-btn:hover::before {
+    left: 100%;
+}
+
+.gym-access-btn:active {
+    transform: translateY(-1px) scale(0.98);
+    transition: transform 0.1s ease;
+    box-shadow: 
+        0 4px 15px rgba(0, 255, 64, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.gym-access-btn a {
+    text-decoration: none;
+    color: #000;
+    font-weight: 700;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* ========== MENU HAMBURGUER ========== */
+.menu-trigger {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    padding: 12px;
+    background: transparent;
+    border: none;
+    z-index: 2001;
+    position: relative;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+}
+
+.menu-trigger:hover {
+    transform: scale(1.1);
+}
+
+.hamburger-line {
+    width: 28px;
+    height: 4px;
+    background: linear-gradient(45deg, #00ff40, #00ff88);
+    margin: 4px 0;
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 255, 64, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.hamburger-line::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+    transition: left 0.6s ease;
+}
+
+.menu-trigger:hover .hamburger-line::after {
+    left: 100%;
+}
+
+.menu-trigger.active .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+    background: linear-gradient(45deg, #00ff88, #00ff40);
+}
+
+.menu-trigger.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+.menu-trigger.active .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(8px, -8px);
+    background: linear-gradient(45deg, #00ff40, #00ff88);
+}
+
+/* ========== MENU DESLIZANTE ========== */
+.slide-menu {
+    position: fixed;
+    top: -50px;
+    margin-top: 60px;
+    right: -450px;
+    width: 450px;
+    height: 100vh;
+    background: #000000;
+    transition: right 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: 3000;
+    padding: 2rem 2rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.slide-menu.open {
+    right: 0;
+}
+
+.menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #222;
+}
+
+.menu-close-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+.menu-close-btn:hover {
+    transform: rotate(90deg);
+}
+
+.menu-close-icon {
+    width: 24px;
+    height: 24px;
+    color: #fff;
+}
+
+.menu-search-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #00ff40 0%, #00cc3a 100%);
+    color: #000;
+    border: none;
+    padding: 14px 20px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: none;
+    letter-spacing: 0.3px;
+    margin-bottom: 1.5rem;
+}
+
+.menu-search-btn:hover {
+    background: linear-gradient(135deg, #00ff40 0%, #00ff40 100%);
+}
+
+.navigation-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.nav-item {
+    margin: 0;
+    width: 100%;
+}
+
+.nav-link {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+    display: block;
+    padding: 1rem 0;
+    transition: all 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
+    border-bottom: 0.5px solid #333;
+}
+
+.nav-link:hover {
+    color: #00ff40;
+    padding-left: 15px;
+}
+
+.nav-item:last-child .nav-link {
+    border-bottom: none;
+}
+
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease;
+    z-index: 2500;
+    backdrop-filter: blur(8px);
+}
+
+.menu-overlay.visible {
+    opacity: 1;
+    visibility: visible;
+}
+/* ========== HERO SECTION (PERMANECE IGUAL) ========== */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.hero-content {
+    display: grid;
+    justify-content: space-evenly;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    gap: 180px;
+}
+
+.hero-text h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.highlight {
+    color: #00ff40;
+}
+
+.hero-description {
+    font-size: 1.1rem;
+    margin-bottom: 40px;
+    opacity: 0.8;
+    max-width: 500px;
+}
+
+.linha-basica {
+    width: 100%;
+    height: 2px;
+    background-color: #333;
+    margin: 20px 0;
+}
+
+.sentence-1 {
+    opacity: 1;
+}
+
+.sentence-3 {
+    opacity: 0.2;
+}
+
+.workout-card {
+    background: #3c892900;
+    border-radius: 20px;
+    padding: 40px;
+    border: 2px solid #4ecdc500;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.workout-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.workout-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.start-button {
+    padding: 12.5px 30px;
+    border: 0;
+    border-radius: 100px;
+    background-color: #00ff40;
+    color: #000000;
+    font-weight: Bold;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.start-button:hover {
+    background-color: #00ff2f;
+    box-shadow: 0 0 20px #00ff1e;
+    transform: scale(1.1);
+}
+
+.start-button:active {
+    background-color: #00ff40;
+    transition: all 0.25s;
+    -webkit-transition: all 0.25s;
+    box-shadow: none;
+    transform: scale(0.98);
+}
+
+/* Texto Rotativo */
+.rotating-text-container {
+    font-size: 2.5rem;
+    font-weight: bold;
+    line-height: 1.2;
+    margin: 20px 0;
+}
+
+.static-text {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.rotating-text-wrapper {
+    display: inline-block;
+    position: relative;
+    height: 80px;
+    overflow: hidden;
+    vertical-align: top;
+    min-width: 250px;
+}
+
+.rotating-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 1.5rem;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    opacity: 0;
+    transform: translateY(100%);
+    animation: rotateText 12s infinite;
+}
+
+.rotating-text:nth-child(1) { animation-delay: 0s; }
+.rotating-text:nth-child(2) { animation-delay: 3s; }
+.rotating-text:nth-child(3) { animation-delay: 6s; }
+.rotating-text:nth-child(4) { animation-delay: 9s; }
+
+.rotating-text.creative {
+    background: linear-gradient(45deg, #00ff1e, #00d4aa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.rotating-text.innovative {
+    background: linear-gradient(45deg, #00ff1e, #00d4aa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.rotating-text.professional {
+    background: linear-gradient(45deg, #00ff1e, #00d4aa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.rotating-text.dynamic {
+    background: linear-gradient(45deg, #00ff1e, #00ff88);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+@keyframes rotateText {
+    0% {
+        opacity: 0;
+        transform: translateY(100%) rotateX(90deg);
+    }
+    8% {
+        opacity: 1;
+        transform: translateY(0) rotateX(0deg);
+    }
+    25% {
+        opacity: 1;
+        transform: translateY(0) rotateX(0deg);
+    }
+    33% {
+        opacity: 0;
+        transform: translateY(-100%) rotateX(-90deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-100%) rotateX(-90deg);
+    }
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    animation: fadeInUp 1s ease-out 0.5s both;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 0.9;
+        transform: translateY(0);
+    }
+}   
+
+        /* SEÇÃO DE HORÁRIOS */
+        .titulo {
+            color: #00ff88;
+            text-align: center;
+            font-size: 2rem;
+            margin: 40px 20px 20px;
+            font-weight: 600;
+            width: 100%;
+        }
+
+        .separar {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .peak-hours-container {
+            width: 100%;
+            max-width: 900px;
+            padding: 0 20px;
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .peak-hours-card {
+            background: #2d2d2d;
+            border-radius: 12px;
+            padding: 32px;
+            border: 2px solid #00ff88;
+            width: 100%;
+        }
+
+        .peak-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .peak-header h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #fff;
+            margin: 0;
+        }
+
+        .info-icon {
+            width: 20px;
+            height: 20px;
+            background: #555;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #aaa;
+            cursor: help;
+        }
+
+        .days {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid #444;
+            flex-wrap: wrap;
+        }
+
+        .day {
+            padding: 12px 16px;
+            cursor: pointer;
+            color: #888;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+            border-bottom: 2px solid transparent;
+            flex-shrink: 0;
+        }
+
+        .day.active {
+            color: #00ff88;
+            border-bottom-color: #00ff88;
+        }
+
+        .peak-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: #ccc;
+            flex-wrap: wrap;
+        }
+
+        .peak-info svg {
+            width: 20px;
+            height: 20px;
+            fill: #00ff88;
+        }
+
+        .chart {
+            position: relative;
+            height: 200px;
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            padding: 0 4px;
+            overflow-x: auto;
+            width: 100%;
+        }
+
+        .bar-container {
+            flex: 1;
+            min-width: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .bar {
+            width: 100%;
+            background: #555;
+            border-radius: 4px 4px 0 0;
+            transition: all 0.3s;
+            min-height: 8px;
+        }
+
+        .bar.peak {
+            background: #00ff88;
+        }
+
+        .bar-container:hover .bar {
+            opacity: 0.8;
+        }
+
+        .hour-label {
+            font-size: 11px;
+            color: #888;
+            margin-top: 8px;
+        }
+
+        .tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #000;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            margin-bottom: 8px;
+        }
+
+        .bar-container:hover .tooltip {
+            opacity: 1;
+        }
+
+        /* CONTADOR */
+        .container2 {
+            width: 100%;
+            max-width: 280px;
+            background-color: rgba(50, 50, 50, 0.8);
+            border-radius: 12px;
+            padding: 20px;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            border: 2px solid #00ff40;
+            flex-shrink: 0;
+        }
+
+        .container2 h1 {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+        }
+
+        .counter-display {
+            background: linear-gradient(135deg, #2c3e50, #4a6491);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .counter-value {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .counter-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .info-panel {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .info-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 10px;
+            flex: 1;
+            min-width: 80px;
+        }
+
+        .info-card h3 {
+            font-size: 1.0rem !important;
+            margin-bottom: 5px;
+            color: #fdbb2d;
+        }
+
+        .info-card p {
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .last-update {
+            font-size: 0.75rem;
+            opacity: 0.8;
+            margin-top: 10px;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            margin-top: 8px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #4CAF50;
+            margin-right: 5px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+   /* Footer */
+        .academia-footer {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            margin-top: 60px;
+        }
+
+        .academia-background svg {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: auto;
+            z-index: 0;
+        }
+
+        .academia-footer-inner {
+            position: relative;
+            z-index: 1;
+            padding: 4rem 2rem 8rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+        }
+
+        .academia-footer-inner .academia-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .academia-footer-inner .academia-top h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .academia-footer-inner .academia-top h3 {
+            font-size: 1.25rem;
+            font-weight: 400;
+            opacity: 0.8;
+            color: white;
+        }
+
+        .academia-footer-inner .academia-bottom {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .academia-logo-content {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .academia-socials {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .academia-socials a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            font-size: 1.25rem;
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .academia-nav {
+            display: flex;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .academia-nav ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .academia-nav h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #ccc;
+        }
+
+        .academia-nav a {
+            font-size: 0.9rem;
+            color: white;
+            opacity: 0.8;
+            text-decoration: none;
+            transition: opacity 0.3s;
+            cursor: pointer;
+        }
+
+    .academia-nav a:hover {
+    opacity: 1;
+    color: #00ff88;
+    transform: translateX(5px);
+}
+
+        /* ========== RESPONSIVIDADE ========== */
+
+        /* Tablets */
+        @media (max-width: 1024px) {
+            .header-container {
+                padding: 1rem 1.5rem;
+            }
+
+            .logo-img {
+                height: 45px;
+            }
+
+            .right-controls {
+                gap: 1rem;
+            }
+
+            .gym-access-btn {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+
+            .search-toggle-btn {
+                width: 44px;
+                height: 44px;
+            }
+
+            .search-icon {
+                width: 20px;
+                height: 20px;
+            }
+
+            .expandable-search-field {
+                width: 44px;
+                height: 44px;
+            }
+
+            .expandable-search-field.expanded {
+                width: 280px;
+            }
+
+            .search-input-field {
+                padding: 0 50px 0 18px;
+                font-size: 0.95rem;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 30px;
+            }
+            
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-description {
+                max-width: 100%;
+            }
+
+            .rotating-text-wrapper {
+                min-width: 200px;
+                height: 50px;
+            }
+
+            .rotating-text {
+                font-size: 1.8rem;
+            }
+            
+            .circle-progress {
+                width: 280px;
+                height: 280px;
+                border-width: 20px;
+            }
+
+            .circle-progress2 {
+                width: 420px;
+                height: 420px;
+                border-width: 20px;
+            }
+
+            .slider {
+                max-width: 450px;
+                margin: 0 auto;
+                height: 350px;
+            }
+
+            .start-button {
+                position: relative;
+                top: auto;
+                left: auto;
+            }
+
+            .slide-menu {
+                width: 350px;
+                right: -350px;
+            }
+
+            .section-title {
+                font-size: 2.8rem;
+            }
+
+            .cards, .cards2 {
+                justify-content: center;
+            }
+
+            .fitness-content-box {
+                padding: 50px 40px;
+                gap: 40px;
+            }
+
+            .training-info-section h2 {
+                font-size: 2.2rem;
+            }
+
+            .gym-photo-display img {
+                max-width: 400px;
+                height: 450px;
+            }
+        }
+
+        /* Tablets Pequenos e Mobile Grande */
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 0.8rem 1rem;
+            }
+
+            .nav-wrapper {
+                flex-wrap: nowrap;
+                gap: 10px;
+            }
+
+            .logo-img {
+                height: 35px;
+            }
+
+            .right-controls {
+                gap: 0.5rem;
+                flex-shrink: 0;
+            }
+
+            .search-toggle-btn {
+                width: 42px;
+                height: 42px;
+            }
+
+            .search-icon {
+                width: 18px;
+                height: 18px;
+            }
+
+            .expandable-search-field {
+                width: 42px;
+                height: 42px;
+            }
+
+            .expandable-search-field.expanded {
+                width: 250px;
+                z-index: 2002;
+            }
+
+            .search-input-field {
+                padding: 0 45px 0 16px;
+                font-size: 0.9rem;
+            }
+
+            .gym-access-btn {
+                padding: 8px 12px;
+                font-size: 0.8rem;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .hero {
+                min-height: auto;
+                padding: 40px 0;
+            }
+
+            .hero-text h1 {
+                font-size: 1.8rem;
+                margin-bottom: 15px;
+            }
+
+            .rotating-text-wrapper {
+                min-width: 150px;
+                height: 40px;
+            }
+
+            .rotating-text {
+                font-size: 1.4rem;
+            }
+
+            .hero-description {
+                font-size: 0.95rem;
+                margin-bottom: 25px;
+            }
+
+            .linha-basica {
+                margin: 15px 0;
+            }
+
+            .workout-card {
+                padding: 15px;
+                min-height: 300px;
+            }
+
+            .circle-progress {
+                width: 190px;
+                height: 190px;
+                border-width: 15px;
+            }
+
+            .circle-progress2 {
+                width: 250px;
+                height: 250px;
+                border-width: 15px;
+            }
+
+            .slider {
+                max-width: 280px;
+                height: 250px;
+            }
+
+            .start-button {
+                padding: 10px 24px;
+                font-size: 0.9rem;
+            }
+
+            .slide-menu {
+                width: 300px;
+                right: -300px;
+                padding: 80px 1.5rem 2rem;
+            }
+
+            .nav-link {
+                font-size: 1.1rem;
+                padding: 1rem 1.5rem;
+                white-space: normal;
+                line-height: 1.4;
+            }
+
+            .nav-item {
+                margin: 1rem 0;
+            }
+
+            .dois {
+                padding: 40px 0;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+
+            .cards, .cards2 {
+                flex-direction: column;
+                align-items: center;
+                gap: 40px;
+            }
+
+            .academy-card1, .academy-card2 {
+                width: 100%;
+                max-width: 400px;
+            }
+
+            .view-details-btn, .view-details-btn2 {
+                left: 50%;
+                transform: translateX(-50%);
+                width: 90%;
+                max-width: 300px;
+            }
+
+            .tres {
+                padding: 40px 15px;
+            }
+
+            .fitness-content-box {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+                padding: 40px 30px;
+            }
+            
+            .training-info-section h2 {
+                font-size: 2rem;
+            }
+
+            .workout-benefit-row {
+                justify-content: center;
+                font-size: 1rem;
+            }
+            
+            .gym-photo-display img {
+                max-width: 100%;
+                height: 400px;
+            }
+
+            .muscle-guide-link {
+                display: block;
+                width: fit-content;
+                margin: 0 auto;
+            }
+
+            .academia-footer-inner {
+                padding: 3rem 1.5rem 6rem;
+            }
+
+            .academia-footer-inner .academia-top h2 {
+                font-size: 1.6rem;
+            }
+
+            .academia-footer-inner .academia-top h3 {
+                font-size: 1.1rem;
+            }
+
+            .academia-nav {
+                gap: 2rem;
+                justify-content: space-between;
+                width: 100%;
+            }
+        }
+        /* ========== RESPONSIVIDADE DO CONTEÚDO ========== */
+
+        /* Tablets (1024px) */
+        @media (max-width: 1024px) {
+            .page-title {
+                font-size: 2.2rem;
+            }
+
+            .slider__content {
+                height: 350px;
+            }
+
+            .peak-hours-card {
+                padding: 32px;
+            }
+
+        
+        }
+
+        /* Tablets Pequenos (768px) */
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2rem;
+                margin: 25px 15px;
+            }
+
+            .main-wrapper {
+                padding: 15px;
+                gap: 20px;
+            }
+
+            .slider__content {
+                height: 300px;
+            }
+
+            .slider-control--button {
+                width: 45px;
+                height: 45px;
+            }
+
+            .nav-button {
+                width: 70px;
+                height: 50px;
+            }
+
+            .titulo {
+                font-size: 1.8rem;
+                margin: 30px 15px 15px;
+            }
+
+            .separar {
+                gap: 20px;
+                padding: 15px;
+            }
+
+            .peak-hours-card {
+                padding: 32px;
+            }
+
+            .days {
+                gap: 12px;
+            }
+
+            .day {
+                padding: 10px 14px;
+                font-size: 13px;
+            }
+
+            .chart {
+                height: 210px;
+            }
+
+            .bar-container {
+                min-width: 25px;
+            }
+        }
+
+        /* Mobile Grande (640px) */
+        @media (max-width: 640px) {
+            .page-title {
+                font-size: 1.8rem;
+                margin: 20px 10px;
+            }
+
+            .main-wrapper {
+                flex-direction: column;
+                align-items: center;
+                padding: 10px;
+                gap: 15px;
+            }
+
+            .image-slider {
+                max-width: 100%;
+            }
+
+            .slider__content {
+                height: 250px;
+            }
+
+            .slider-control--button {
+                width: 40px;
+                height: 40px;
+            }
+
+            .nav-button {
+                width: 60px;
+                height: 45px;
+            }
+
+            .info-cards-container {
+                max-width: 100%;
+            }
+
+            .titulo {
+                font-size: 1.6rem;
+                margin: 25px 10px 10px;
+            }
+
+            .separar {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+                padding: 10px;
+            }
+
+            .peak-hours-container {
+                padding: 0 10px;
+                max-width: 100%;
+            }
+
+            .peak-hours-card {
+                padding: 32px;
+            }
+
+            .days {
+                gap: 8px;
+                justify-content: center;
+            }
+
+            .day {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+
+            .peak-info {
+                font-size: 13px;
+                justify-content: center;
+                text-align: center;
+            }
+
+            .chart {
+                height: 190px;
+                gap: 6px;
+            }
+
+            .bar-container {
+                min-width: 20px;
+            }
+
+            .hour-label {
+                font-size: 9px;
+            }
+
+            .container2 {
+                max-width: 100%;
+            }
+
+            .counter-value {
+                font-size: 3rem;
+            }
+        }
+
+        /* Mobile Pequeno (480px) */
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 1.5rem;
+                margin: 15px 8px;
+            }
+
+            .slider__content {
+                height: 200px;
+            }
+
+            .slider-control--button {
+                width: 35px;
+                height: 35px;
+            }
+
+            .nav-button {
+                width: 50px;
+                height: 40px;
+            }
+
+            .card {
+                padding: 16px;
+            }
+
+            .title {
+                font-size: 16px;
+            }
+
+            .info-row {
+                font-size: 13px;
+            }
+
+            .contato-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+
+            .titulo {
+                font-size: 1.4rem;
+                margin: 20px 8px 8px;
+            }
+
+            .peak-hours-card {
+                padding: 32px;
+            }
+
+            .peak-header h2 {
+                font-size: 20px;
+            }
+
+            .days {
+                gap: 4px;
+            }
+
+            .day {
+                padding: 6px 10px;
+                font-size: 11px;
+            }
+
+            .peak-info {
+                font-size: 12px;
+            }
+
+            .chart {
+                height: 160px;
+            }
+
+            .bar-container {
+                min-width: 18px;
+            }
+
+            .hour-label {
+                font-size: 8px;
+            }
+
+            .counter-value {
+                font-size: 2.5rem;
+            }
+
+            .info-panel {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+
+        /* Telas muito pequenas (360px) */
+        @media (max-width: 360px) {
+            .page-title {
+                font-size: 1.3rem;
+            }
+
+            .slider__content {
+                height: 180px;
+            }
+
+            .slider-control--button {
+                width: 30px;
+                height: 30px;
+            }
+
+            .nav-button {
+                width: 45px;
+                height: 35px;
+            }
+
+            .titulo {
+                font-size: 1.2rem;
+            }
+
+            .days {
+                gap: 2px;
+            }
+
+            .day {
+                padding: 5px 8px;
+                font-size: 10px;
+            }
+
+            .chart {
+                height: 100px;
+            }
+
+            .bar-container {
+                min-width: 16px;
+            }
+
+            .counter-value {
+                font-size: 2rem;
+            }
+        }
+
+        /* Ajustes específicos para o conteúdo */
+        @media (max-width: 640px) {
+            .contato p {
+                font-size: 14px;
+                text-align: center;
+            }
+            
+            .contato-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .info-row {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .info-label, .info-value {
+                text-align: center;
+            }
+        }
+
+        /* Garante que o input seja clicável */
+        .search-input-field {
+            cursor: text;
+        }
+
+        /* Remove qualquer sobreposição que impeça o clique */
+        .expandable-search-field * {
+            pointer-events: auto;
+        }
+
+/* ========== SEÇÃO DO MAPA ========== */
+.map-section {
+    padding: 40px 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.map-title {
+    color: #00ff40;
+    text-align: center;
+    font-size: 2.2rem;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+.map-container {
+    width: 100%;
+    height: 500px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 2px solid #00ff40;
+    position: relative;
+}
+
+.map-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+}
+
+.map-controls {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.map-btn {
+    background: rgba(0, 255, 136, 0.9);
+    border: none;
+    border-radius: 8px;
+    padding: 10px 15px;
+    color: #000;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    font-size: 14px;
+}
+
+.map-btn:hover {
+    background: rgba(0, 255, 136, 1);
+    transform: translateY(-2px);
+}
+
+.map-info {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    max-width: 300px;
+    z-index: 1000;
+    border-left: 4px solid #00ff88;
+}
+
+.map-info h3 {
+    margin-bottom: 8px;
+    color: #00ff88;
+}
+
+.map-info p {
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+/* ========== COMPONENTE DESCRIÇÃO DA ACADEMIA ========== */
+
+.descricao-container {
+    background: #1a1a1a;
+    border-radius: 10px;
+    border: 2px solid #00ff88;
+    padding: 25px;
+    margin: 25px auto;
+    width: 95%;
+    max-width: 1400px;
+}
+
+.descricao-header {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.descricao-title {
+    color: #00ff88;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.descricao-title i {
+    font-size: 1.6rem;
+}
+
+.descricao-content {
+    color: #fff;
+    line-height: 1.6;
+}
+
+.descricao-text {
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+    color: #e0e0e0;
+    text-align: center;
+    padding: 0 15px;
+}
+
+.descricao-text strong {
+    color: #00ff88;
+    font-weight: 600;
+}
+
+.descricao-highlights {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    padding: 20px;
+    background: #222;
+    border-radius: 8px;
+}
+
+.highlight-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    background: #2a2a2a;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.highlight-item:hover {
+    background: #333;
+    transform: translateY(-2px);
+}
+
+.highlight-item i {
+    color: #00ff88;
+    font-size: 1.2rem;
+    width: 25px;
+    text-align: center;
+}
+
+.highlight-item span {
+    color: #fff;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+/* ========== RESPONSIVIDADE ========== */
+
+@media (max-width: 1024px) {
+    .descricao-container {
+        width: 90%;
+        padding: 20px;
+    }
+    
+    .descricao-title {
+        font-size: 1.6rem;
+    }
+    
+    .descricao-text {
+        font-size: 1rem;
+    }
+    
+    .descricao-highlights {
+        grid-template-columns: repeat(3, 1fr);
+        padding: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .descricao-container {
+        width: 95%;
+        padding: 18px;
+        margin: 20px auto;
+    }
+    
+    .descricao-title {
+        font-size: 1.5rem;
+    }
+    
+    .descricao-title i {
+        font-size: 1.4rem;
+    }
+    
+    .descricao-text {
+        padding: 0;
+        margin-bottom: 20px;
+    }
+    
+    .descricao-highlights {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        padding: 15px;
+    }
+    
+    .highlight-item {
+        padding: 10px 12px;
+    }
+    
+    .highlight-item i {
+        font-size: 1.1rem;
+    }
+    
+    .highlight-item span {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .descricao-container {
+        width: 100%;
+        margin: 15px 0;
+        border-radius: 8px;
+    }
+    
+    .descricao-title {
+        font-size: 1.4rem;
+    }
+    
+    .descricao-text {
+        font-size: 0.95rem;
+    }
+    
+    .descricao-highlights {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .descricao-container {
+        padding: 15px;
+    }
+    
+    .descricao-title {
+        font-size: 1.3rem;
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .descricao-title i {
+        font-size: 1.3rem;
+    }
+    
+    .descricao-text {
+        font-size: 0.9rem;
+    }
+    
+    .descricao-highlights {
+        padding: 12px;
+    }
+    
+    .highlight-item {
+        padding: 10px;
+    }
+}
+
+
+        /* ========== HERO SECTION ========== */
+        .page-hero {
+            position: relative;
+            background: linear-gradient(135deg, #000000 0%, #0a1a0a 50%, #000000 100%);
+            padding: 80px 20px 50px;
+            margin-bottom: 50px;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(0,255,136,0.08)"/></svg>') no-repeat bottom right;
+            background-size: 40% auto;
+            opacity: 0.7;
+        }
+
+        .gradient-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 50%, rgba(0, 255, 136, 0.15) 0%, transparent 60%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+     .page-title {
+    font-size: 6.5rem; /* Aumentei de 3.5rem para 4.5rem */
+    font-weight: 750; /* Aumentei o peso da fonte para 800 */
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 25px;
+    text-align: center;
+}
+
+        .title-text {
+            background: linear-gradient(135deg, #00ff88 0%, #00cc66 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 4px 20px rgba(0, 255, 136, 0.3);
+        }
+
+        .title-subtext {
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: #aaa;
+            margin-top: 5px;
+        }
+
+        .hero-badges {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(10px);
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .badge.premium {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(255, 140, 0, 0.15) 100%);
+            border-color: rgba(255, 215, 0, 0.3);
+            color: #ffd700;
+        }
+
+        .badge.equipamentos {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.15) 0%, rgba(0, 200, 100, 0.15) 100%);
+            border-color: rgba(0, 255, 136, 0.3);
+            color: #00ff88;
+        }
+
+        .badge.avaliacoes {
+            background: linear-gradient(135deg, rgba(255, 68, 68, 0.15) 0%, rgba(255, 102, 102, 0.15) 100%);
+            border-color: rgba(255, 68, 68, 0.3);
+            color: #ff4444;
+        }
+
+        /* ========== NOVO LAYOUT - GALERIA ESQUERDA, CARDS DIREITA ========== */
+        .main-wrapper {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 40px;
+            padding: 0 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 1200px) {
+            .main-wrapper {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .sidebar-cards {
+                order: 2;
+            }
+
+            .gallery-section {
+                order: 1;
+            }
+        }
+
+        /* SEÇÃO DA GALERIA (ESQUERDA) */
+        .gallery-section {
+            width: 100%;
+        }
+
+        /* SEÇÃO DOS CARDS (DIREITA) */
+        .sidebar-cards {
+            width: 100%;
+        }
+
+        /* ========== SLIDER MODERNO ========== */
+        .image-slider-container {
+            background: rgba(20, 20, 20, 0.8);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(0, 255, 136, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            height: fit-content;
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+        }
+
+        .slider-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .slider-title i {
+            color: #00ff88;
+            font-size: 1.5rem;
+        }
+
+        .slider-counter {
+            font-size: 1.1rem;
+            color: #aaa;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 6px 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .current-slide {
+            color: #00ff88;
+            font-weight: 600;
+        }
+
+        .image-slider {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .slider__content {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .image-display-wrapper {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .image-display {
+            width: 100%;
+            height: 100%;
+            background-image: url('top1.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: all 0.5s ease;
+        }
+
+        .image-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            padding: 30px;
+            color: white;
+        }
+
+        .overlay-content {
+            max-width: 600px;
+        }
+
+        .image-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #00ff88;
+        }
+
+        .image-description {
+            font-size: 1rem;
+            color: #ccc;
+            opacity: 0.9;
+        }
+
+        /* Botões do slider */
+        .slider-control--button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #00ff88;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+            font-size: 1.5rem;
+            color: #00ff88;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .slider-control--button:hover {
+            background: #00ff88;
+            color: #000;
+         
+        
+        }
+
+        .prev-button {
+            left: 20px;
+        }
+
+        .next-button {
+            right: 20px;
+        }
+
+        /* Barra de progresso */
+        .slider-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .progress-bar {
+            width: 16.66%;
+            height: 100%;
+            background: #00ff88;
+            transition: width 0.3s ease;
+        }
+
+        /* Navegação do slider */
+        .slider-navigation {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .thumbnails-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .thumbnails-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .nav-button {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+    
+
+        .thumbnail-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .nav-button.active .thumbnail-wrapper {
+            border-color: #00ff88;
+           
+        }
+
+        .thumbnail {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+    
+
+        .thumbnail-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 255, 136, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-button.active .thumbnail-overlay {
+            opacity: 1;
+        }
+
+        .thumbnail-overlay i {
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .thumbnail-label {
+            font-size: 0.85rem;
+            color: #aaa;
+            transition: color 0.3s ease;
+            text-align: center;
+            margin-top: 5px;
+        }
+
+        /* ========== RESPONSIVIDADE SIMPLIFICADA ========== */
+
+/* Para tablets (768px e abaixo) */
+@media (max-width: 768px) {
+    .thumbnails-container {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+    
+    .thumbnail-wrapper {
+        height: 90px;
+    }
+    
+    .thumbnail-label {
+        font-size: 0.75rem;
+    }
+}
+
+/* Para mobile (480px e abaixo) */
+@media (max-width: 480px) {
+    .thumbnails-container {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+    
+    .thumbnail-wrapper {
+        height: 70px;
+    }
+    
+    .thumbnail-label {
+        display: none; /* Oculta labels para economizar espaço */
+    }
+    
+    .thumbnail-overlay {
+        background: rgba(0, 255, 136, 0.4); /* Mais visível */
+    }
+    
+    .nav-button.active .thumbnail-wrapper {
+        border-width: 3px;
+        box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+    }
+}
+
+/* Para mobile pequeno (360px e abaixo) */
+@media (max-width: 360px) {
+    .thumbnails-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px;
+    }
+    
+    .thumbnail-wrapper {
+        height: 80px;
+    }
+}
+
+        .nav-button.active .thumbnail-label {
+            color: #00ff88;
+            font-weight: 500;
+        }
+
+        /* Ações do slider */
+        .slider-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .action-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .action-btn:hover {
+            background: #00ff88;
+            color: #000;
+            border-color: #00ff88;
+        }
+
+        /* ========== INFO CARDS NO LADO DIREITO ========== */
+        .info-cards-container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            height: 100%;
+            position: sticky;
+            top: 20px;
+        }
+
+        .card {
+            background: rgba(25, 25, 25, 0.8);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(0, 255, 136, 0.1);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+      
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #00ff88, #00cc66);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #000;
+        }
+
+        .card-title-wrapper {
+            flex: 1;
+        }
+
+        .title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .card-subtitle {
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        /* CARD DE HORÁRIOS */
+        .card-hours .card-icon {
+            background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+        }
+
+        .schedule-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .schedule-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .day-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .day-label {
+            font-weight: 500;
+            color: #fff;
+        }
+
+        .day-status {
+            font-size: 0.8rem;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+
+        .day-status.open {
+            background: rgba(0, 255, 136, 0.15);
+            color: #00ff88;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+
+        .day-status.limited {
+            background: rgba(255, 193, 7, 0.15);
+            color: #ffc107;
+            border: 1px solid rgba(255, 193, 7, 0.3);
+        }
+
+        .day-status.closed {
+            background: rgba(255, 68, 68, 0.15);
+            color: #ff4444;
+            border: 1px solid rgba(255, 68, 68, 0.3);
+        }
+
+        .time-slot {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ccc;
+        }
+
+        .time-icon {
+            color: #00ff88;
+            font-size: 1rem;
+        }
+
+        .time-range {
+            font-weight: 500;
+        }
+
+        .live-occupancy {
+            margin-top: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .occupancy-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+
+      
+
+        .occupancy-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #000000;
+            padding: 4px 8px;
+            border-radius: 6px;
+            border: 1px solid #0a160d;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #00ff50;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .live-text {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #00ff40;
+        }
+
+        .link-text {
+            flex: 1;
+            margin-left: 10px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: white;
+        }
+
+        .occupancy-link i {
+            color: #00ff88;
+        }
+
+        /* CARD DE ENDEREÇO */
+        .card-address .card-icon {
+            background: linear-gradient(135deg, #4dabf7, #339af0);
+        }
+
+        .address-details {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .address-line {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ccc;
+        }
+
+        .address-line i {
+            color: #4dabf7;
+            width: 20px;
+        }
+
+        .location-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .feature-tag {
+            background: rgba(77, 171, 247, 0.1);
+            color: #4dabf7;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            border: 1px solid rgba(77, 171, 247, 0.2);
+        }
+
+        .feature-tag i {
+            font-size: 0.8rem;
+        }
+
+        .map-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #4dabf7, #339af0);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .map-btn:hover {
+            transform: translateY(-2px);
+        
+        }
+
+        /* CARD DE CONTATO */
+        .card-contact .card-icon {
+            background: linear-gradient(135deg, #51cf66, #40c057);
+        }
+
+        .contact-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .contact-btn {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+
+
+        .contact-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .contact-btn.whatsapp .contact-icon {
+            background: rgba(37, 211, 102, 0.15);
+            color: #25d366;
+        }
+
+        .contact-btn.phone .contact-icon {
+            background: rgba(64, 192, 87, 0.15);
+            color: #40c057;
+        }
+
+        .contact-btn.email .contact-icon {
+            background: rgba(255, 107, 107, 0.15);
+            color: #ff6b6b;
+        }
+
+        .contact-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .contact-label {
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 3px;
+            font-size: 0.95rem;
+        }
+
+        .contact-detail {
+            font-size: 0.85rem;
+            color: #aaa;
+        }
+
+        .contact-btn i.fa-external-link-alt {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        .response-time {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #ffc107;
+            font-size: 0.85rem;
+            background: rgba(255, 193, 7, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 193, 7, 0.2);
+        }
+
+        .response-time i {
+            font-size: 1rem;
+        }
+
+        /* ========== RESPONSIVIDADE ========== */
+        @media (max-width: 1024px) {
+            .page-title {
+                font-size: 2.8rem;
+            }
+
+            .slider__content {
+                height: 400px;
+            }
+
+            .info-cards-container {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-hero {
+                padding: 60px 15px 40px;
+            }
+
+            .page-title {
+                font-size: 2.2rem;
+            }
+
+            .title-subtext {
+                font-size: 1rem;
+            }
+
+            .slider__content {
+                height: 300px;
+            }
+
+            .image-overlay {
+                padding: 20px;
+            }
+
+            .image-title {
+                font-size: 1.4rem;
+            }
+
+            .image-description {
+                font-size: 0.9rem;
+            }
+
+            .slider-control--button {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+
+            .thumbnail-wrapper {
+                height: 80px;
+            }
+
+            .main-wrapper {
+                padding: 0 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 1.8rem;
+            }
+
+            .hero-badges {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .badge {
+                width: 100%;
+                max-width: 200px;
+                justify-content: center;
+            }
+
+            .slider__content {
+                height: 250px;
+            }
+
+            .slider-control--button {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+
+            .prev-button {
+                left: 10px;
+            }
+
+            .next-button {
+                right: 10px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .card-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+
+            .title {
+                font-size: 1.2rem;
+            }
+
+            .thumbnails-container {
+                grid-template-columns: 1fr;
+            }
+
+            .thumbnail-wrapper {
+                height: 120px;
+            }
+        }
+
+
+
+        
+/* ========== FOOTER - ONDAS VERDES ========== */
+.academia-footer {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    margin-top: 60px;
+    background: linear-gradient(to bottom, #000000 0%, #001a00 100%);
+}
+
+/* O SVG das ondas - APENAS ESTA PARTE FOI MODIFICADA */
+.academia-background svg {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    z-index: 0;
+}
+
+/* Se o SVG tem elementos path dentro, você pode estilizá-los assim: */
+.academia-background svg path {
+    fill: #00ff40; /* Cor principal das ondas */
+    opacity: 0.3; /* Transparência para efeito suave */
+}
+
+/* Para criar um efeito de gradiente nas ondas */
+.academia-background svg path:nth-child(1) {
+    fill: #00cc33; /* Tom mais escuro */
+    opacity: 0.4;
+}
+
+.academia-background svg path:nth-child(2) {
+    fill: #00ff40; /* Tom médio */
+    opacity: 0.3;
+}
+
+.academia-background svg path:nth-child(3) {
+    fill: #00ff88; /* Tom mais claro */
+    opacity: 0.2;
+}
+
+/* Se quiser adicionar um efeito sutil de brilho */
+.academia-background svg {
+    filter: drop-shadow(0 0 10px rgba(0, 255, 64, 0.2));
+}
+
+/* O resto do footer permanece EXATAMENTE como estava */
+.academia-footer-inner {
+    position: relative;
+    z-index: 1;
+    padding: 4rem 2rem 8rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+}
+
+.academia-footer-inner .academia-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.academia-footer-inner .academia-top h2 {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.academia-footer-inner .academia-top h3 {
+    font-size: 1.25rem;
+    font-weight: 400;
+    opacity: 0.8;
+}
+
+.academia-footer-inner .academia-bottom {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.academia-logo-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.academia-socials {
+    display: flex;
+    gap: 1rem;
+}
+
+.academia-socials a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    font-size: 1.25rem;
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.academia-socials a:hover {
+    background: rgba(0, 255, 136, 0.3);
+    transform: translateY(-3px);
+}
+
+.academia-nav {
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+}
+
+.academia-nav ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.academia-nav h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #ccc;
+}
+
+.academia-nav a {
+    font-size: 0.9rem;
+    color: white;
+    opacity: 0.8;
+    text-decoration: none;
+    transition: opacity 0.3s;
+    cursor: pointer;
+}
+
+.academia-nav  {
+    opacity: 1;
+    color: #00ff40;
+    transform: translateX(5px);
+}
+    </style>
+</head>
+<body>
+       <header class="header-container" id="menu">
+    <div class="nav-wrapper">
+        <div class="brand-container">
+            <a href="#"><img src="logo.png" alt="Logo" class="logo-img"></a>
+        </div>
+        <div class="right-controls">
+            <div class="search-widget" id="searchWidget">
+                <div class="expandable-search-field" id="searchField">
+                    <input type="text" class="search-input-field" placeholder="Digite sua pesquisa..." id="searchInput">
+                </div>
+                <button class="search-toggle-btn" id="searchToggle" aria-label="Abrir pesquisa">
+                    <svg class="search-icon" viewBox="0 0 24 24">
+                        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                    </svg>
+                </button>
+                <div class="search-results" id="searchResults"></div>
+            </div>  
+            <!-- ADICIONE A CLASSE home-btn AQUI -->
+            <a href="index.html"><button class="gym-access-btn home-btn"><i class="fas fa-home"></i> Home</button></a>
+            <a href="academias-publicas.html"><button class="gym-access-btn"><i class="fas fa-dumbbell"></i> Academias</button></a>
+            <a href="login-gym.html"><button class="gym-access-btn"><i class="fas fa-sign-in-alt"></i> Login</button></a>
+            <button class="menu-trigger" id="menuTrigger" aria-label="Abrir menu">
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+            </button>
+        </div>
+    </div>
+</header>
+
+    <nav class="slide-menu" id="slideMenu">
+        <div class="menu-header">
+            <button class="menu-close-btn" id="menuCloseBtn" aria-label="Fechar menu">
+                <svg class="menu-close-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        
+        <button class="menu-search-btn" id="menuSearchBtn">Academias</button>
+        
+         <ul class="navigation-list">
+            <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+            <li class="nav-item"><a href="#espaço-cliente" class="nav-link">Login</a></li>
+            <li class="nav-item"><a href="Filtro_personal.html" class="nav-link">Personais</a></li>
+            <li class="nav-item"><a href="#news" class="nav-link">Sorteios</a></li>
+            <li class="nav-item"><a href="config.html" class="nav-link">Configurações</a></li>
+            
+            <li class="nav-item"><a href="Sobre_nós.html" class="nav-link">Sobre nós</a></li>
+        </ul>
+    </nav>
+
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <!-- Conteúdo Principal -->
+    
+    <h1 class="page-title">
+        <span class="title-text">Opala Fitness</span>
+    </h1>
+
+    <div class="main-wrapper">
+     <!-- GALERIA DE FOTOS (ESQUERDA) -->
+<div class="gallery-section">
+    <div class="image-slider-container">
+        <div class="slider-header">
+            <h2 class="slider-title">
+                <i class="fas fa-images"></i>
+                Galeria da Academia
+            </h2>
+            <div class="slider-counter">
+                <span class="current-slide">1</span> / <span class="total-slides">6</span>
+            </div>
+        </div>
+
+        <div class="image-slider">
+            <div class="slider__content">
+                <div class="image-display-wrapper">
+                    <div class="image-display"></div>
+                    <div class="image-overlay">
+                        <div class="overlay-content">
+                            <h3 class="image-title">Opala Fitness</h3>
+                            <p class="image-description">Ambiente climatizado e equipamentos de última geração</p>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" class="slider-control--button prev-button" aria-label="Imagem anterior">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+
+                <button type="button" class="slider-control--button next-button" aria-label="Próxima imagem">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+
+                <div class="slider-progress">
+                    <div class="progress-bar"></div>
+                </div>
+            </div>
+
+            <!-- MINIATURAS COM EFEITO HOVER -->
+            <nav class="slider-navigation">
+               <!-- No HTML, dentro do thumbnails-container, atualize as miniaturas: -->
+<div class="thumbnails-container">
+    <button class="nav-button" aria-selected="false" data-index="0">
+        <div class="thumbnail-wrapper">
+            <img class="thumbnail" src="logoopala.png" alt="Logo da Opala Fitness">
+            <div class="thumbnail-overlay"></div>
+        </div>
+        <span class="thumbnail-label">Logo</span>
+    </button>
+
+    <button class="nav-button" aria-selected="false" data-index="1">
+        <div class="thumbnail-wrapper">
+            <img class="thumbnail" src="opala2.png" alt="Área de musculação">
+            <div class="thumbnail-overlay"></div>
+        </div>
+        <span class="thumbnail-label">Musculação</span>
+    </button>
+
+    <button class="nav-button" aria-selected="false" data-index="2">
+        <div class="thumbnail-wrapper">
+            <img class="thumbnail" src="Opala-Fitness.png" alt="Fachada da academia">
+            <div class="thumbnail-overlay"></div>
+        </div>
+        <span class="thumbnail-label">Fachada</span>
+    </button>
+
+    <button class="nav-button" aria-selected="false" data-index="3">
+        <div class="thumbnail-wrapper">
+            <img class="thumbnail" src="opala4.png" alt="Área de cardio">
+            <div class="thumbnail-overlay"></div>
+        </div>
+        <span class="thumbnail-label">Equipamentos</span>
+    </button>
+
+    <button class="nav-button" aria-selected="false" data-index="4">
+        <div class="thumbnail-wrapper">
+            <img class="thumbnail" src="opala5.png" alt="Vestuário">
+            <div class="thumbnail-overlay"></div>
+        </div>
+        <span class="thumbnail-label">Equipamentos</span>
+    </button>
+
+    <button class="nav-button" aria-selected="false" data-index="5">
+        <div class="thumbnail-wrapper">
+            <img class="thumbnail" src="opala3.png" alt="Recepção">
+            <div class="thumbnail-overlay"></div>
+        </div>
+        <span class="thumbnail-label">equipamentos</span>
+    </button>
+</div>
+                <div class="slider-actions">
+                    <button class="action-btn fullscreen-btn" aria-label="Tela cheia">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                    <button class="action-btn autoplay-btn" aria-label="Reproduzir automaticamente">
+                        <i class="fas fa-play"></i>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+
+        <!-- CARDS DE INFORMAÇÃO (DIREITA) -->
+        <div class="sidebar-cards">
+            <div class="info-cards-container">
+                <!-- CARD DE HORÁRIOS COM ÍCONES -->
+                <div class="card card-hours">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="card-title-wrapper">
+                            <h3 class="title">Horário de Funcionamento</h3>
+                            <p class="card-subtitle">Planos flexíveis para sua rotina</p>
+                        </div>
+                    </div>
+
+                    <div class="card-content">
+                        <div class="schedule-grid">
+                            <div class="schedule-item">
+                                <div class="day-group">
+                                    <span class="day-label">Segunda a Sexta</span>
+                                    <span class="day-status open">Aberto</span>
+                                </div>
+                                <div class="time-slot">
+                                    <span class="time-icon"><i class="fas fa-sun"></i></span>
+                                    <span class="time-range"> 5:00h às 21:00h</span>
+                                </div>
+                            </div>
+
+                            <div class="schedule-item">
+                                <div class="day-group">
+                                    <span class="day-label">Sábados e Feriados</span>
+                                    <span class="day-status limited">Horário reduzido</span>
+                                </div>
+                                <div class="time-slot">
+                                    <span class="time-icon"><i class="fas fa-cloud-sun"></i></span>
+                                    <span class="time-range"> 5:00h às 21:00h</span>
+                                </div>
+                            </div>
+
+                            <div class="schedule-item">
+                                <div class="day-group">
+                                    <span class="day-label">Domingos</span>
+                                    <span class="day-status closed">Fechado</span>
+                                </div>
+                                <div class="time-slot">
+                                    <span class="time-icon"><i class="fas fa-moon"></i></span>
+                                    <span class="time-range">--:-- - --:--</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="live-occupancy">
+                            <a href="#peak" class="occupancy-link">
+                                <div class="occupancy-badge">
+                                    <span class="live-dot"></span>
+                                    <span class="live-text">AO VIVO</span>
+                                </div>
+                                <span class="link-text">Ver ocupação em tempo real</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            
+
+                <!-- CARD DE CONTATO -->
+                <div class="card card-contact">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <div class="card-title-wrapper">
+                            <h3 class="title">Contato</h3>
+                            <p class="card-subtitle">Estamos aqui para ajudar</p>
+                        </div>
+                    </div>
+
+                    <div class="card-content">
+                        <div class="contact-methods">
+
+
+                            <a href="tel:+11977949953" class="contact-btn phone">
+                                <div class="contact-icon">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div class="contact-info">
+                                    <span class="contact-label">Telefone</span>
+                                    <span class="contact-detail">(86) 995655276</span>
+                                </div>
+                            </a>
+
+                            <a href="mailto:contato@opalafitness.com" class="contact-btn email">
+                                <div class="contact-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                
+                            </a>
+                        </div>
+
+                        <div class="response-time">
+                            <i class="fas fa-bolt"></i>
+                            <span>Horário de resposta: </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- COMPONENTE DESCRIÇÃO DA ACADEMIA -->
+<div class="descricao-container">
+    <div class="descricao-header">
+        <h2 class="descricao-title">
+            <i class="fas fa-info-circle"></i>
+            Descrição
+        </h2>
+    </div>
+    
+    <div class="descricao-content">
+        <p class="descricao-text">
+            A <strong>Opala Fitness</strong> é uma academia premium localizada no coração de Pedro II, 
+            oferecendo infraestrutura completa para quem busca saúde, bem-estar e resultados 
+            reais. Com equipamentos de última geração, instrutores qualificados e um ambiente 
+            motivador, somos referência em excelência no fitness.
+        </p>
+        
+        <div class="descricao-highlights">
+            <div class="highlight-item">
+                <i class="fas fa-dumbbell"></i>
+                <span>Equipamentos Modernos</span>
+            </div>
+            <div class="highlight-item">
+                <i class="fas fa-user-graduate"></i>
+                <span>Instrutores Certificados</span>
+            </div>
+            <div class="highlight-item">
+                <i class="fas fa-clock"></i>
+                <span>Horário Estendido</span>
+            </div>
+            <div class="highlight-item">
+                <i class="fas fa-users"></i>
+                <span>Comunidade Ativa</span>
+            </div>
+            <div class="highlight-item">
+                <i class="fas fa-heartbeat"></i>
+                <span>Avaliação Física</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SEÇÃO DO MAPA -->
+<section class="map-section">
+    <h2 class="map-title">Localização da Academia</h2>
+    <div class="map-container">
+        <!-- IFRAME DO GOOGLE MAPS (SEM API KEY) -->
+        <iframe 
+            class="map-iframe"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3977.8368061024007!2d-41.4472725!3d-4.441459099999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x793901922d9fbf5%3A0x363b5c4230371b5e!2sR.%20Raimundo%20Nonato%20Brand%C3%A3o%2C%20776%2C%20Pedro%20II%20-%20PI%2C%2064255-000!5e0!3m2!1spt-BR!2sbr!4v1768934220004!5m2!1spt-BR!2sbr"  
+            width="100%" 
+            height="100%" 
+            style="border:0;" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Mapa da Academia opala Fitness">
+        </iframe>
+        
+        
+        <div class="map-info">
+            <h3>Opala Fitness</h3>
+            <p>RUA: CORINTO ANDRADE N° 143 - CENTRO
+
+</p>
+            <p>PEDRO II - PI, em frente conselho do tutelar</p>
+            
+        </div>
+    </div>
+</section>
+
+<script>
+    // ============================================
+// FUNÇÕES PARA O MAPA (SEM API)
+// ============================================
+
+function abrirMapaCompleto() {
+    // Abre o Google Maps em uma nova aba
+    window.open('https://www.google.com/maps/place/opala+Fitness/@-4.427322,-41.463747,16z', '_blank');
+}
+
+function abrirRota() {
+    // Abre rotas no Google Maps
+    const endereco = encodeURIComponent("R. Cel. Cordeiro, 739, Pedro II - PI");
+    window.open(`https://www.google.com/maps/dir/?api=1&destination=${endereco}`, '_blank');
+}
+
+function obterMinhaLocalizacao() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            function(position) {
+                const userLat = position.coords.latitude;
+                const userLng = position.coords.longitude;
+                
+                // Abre rota do usuário até a academia
+                window.open(`https://www.google.com/maps/dir/?api=1&origin=${userLat},${userLng}&destination=-4.4259,-41.4592`, '_blank');
+            },
+            function(error) {
+                alert("Não foi possível obter sua localização.");
+            }
+        );
+    } else {
+        alert("Seu navegador não suporta geolocalização.");
+    }
+}
+</script>
+
+    
+    <div class="titulo"><h2>Horários por ocupação</h2></div>
+
+    <div class="separar">
+        <div class="peak-hours-container">
+            <div class="peak-hours-card">
+                <div class="peak-header">
+                    <h2>Horários de pico</h2>
+                    <div class="info-icon">?</div>
+                </div>
+
+                <div class="days">
+                    <div class="day active">SEG.</div>
+                    <div class="day">TER.</div>
+                    <div class="day">QUA.</div>
+                    <div class="day">QUI.</div>
+                    <div class="day">SEX.</div>
+                    <div class="day">SÁB.</div>
+                    <div class="day">DOM.</div>
+                </div>
+
+                <div class="peak-info">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                    <span><strong>17:00:</strong> Geralmente é o horário mais movimentado</span>
+                </div>
+
+                <div class="chart" id="chart"></div>
+            </div>
+        </div>
+        
+        <div class="container2" id="peak">
+            <header>
+                <h1>Opala Fitness</h1>
+                <p class="counter-label">Pessoas na academia</p>
+            </header>
+            
+            <div class="counter-display">
+                <div class="counter-value" id="peopleCount">42</div>
+            </div>
+            
+            <div class="info-panel">
+                <div class="info-card">
+                    <h3>Capacidade</h3>
+                    <p>80</p>
+                </div>
+                <div class="info-card">
+                    <h3>Ocupação</h3>
+                    <p id="occupancyRate">52.5%</p>
+                </div>
+            </div>
+            
+            <div class="status">
+                <div class="status-dot"></div>
+                <span>Sistema ativo</span>
+            </div>
+            
+            <div class="last-update">
+                <p>Atualiza a cada 15 min</p>
+                <p>Última: <span id="lastUpdate">15:30</span></p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="academia-footer">
+        <div class="academia-background">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                width="100%" height="100%" viewBox="0 0 1600 900">
+                <defs>
+                    <path id="wave" fill="rgba(0, 200, 100, 0.5)" d="M-363.852,502.589c0,0,236.988-41.997,505.475,0
+                    s371.981,38.998,575.971,0s293.985-39.278,505.474,5.859s493.475,48.368,716.963-4.995v560.106H-363.852V502.589z" />
+                </defs>
+                <g>
+                    <use xlink:href="#wave" opacity=".4">
+                        <animateTransform attributeName="transform" attributeType="XML" type="translate" dur="8s" calcMode="spline"
+                            values="270 230; -334 180; 270 230" keyTimes="0; .5; 1" keySplines="0.42, 0, 0.58, 1.0;0.42, 0, 0.58, 1.0"
+                            repeatCount="indefinite" /> 
+                    </use>
+                    <use xlink:href="#wave" opacity=".6">
+                        <animateTransform attributeName="transform" attributeType="XML" type="translate" dur="6s" calcMode="spline"
+                            values="-270 230;243 220;-270 230" keyTimes="0; .6; 1" keySplines="0.42, 0, 0.58, 1.0;0.42, 0, 0.58, 1.0"
+                            repeatCount="indefinite" />
+                    </use>
+                    <use xlink:href="#wave" opacty=".9">
+                        <animateTransform attributeName="transform" attributeType="XML" type="translate" dur="4s" calcMode="spline"
+                            values="0 230;-140 200;0 230" keyTimes="0; .4; 1" keySplines="0.42, 0, 0.58, 1.0;0.42, 0, 0.58, 1.0"
+                            repeatCount="indefinite" />
+                    </use>
+                </g>
+            </svg>
+        </div>
+        <div class="academia-footer-inner">
+            <div class="academia-top">
+                <div>
+                    <h2>VOCÊ ESTÁ PRONTO PARA TRANSFORMAR SEU CORPO E SUA VIDA?</h2>
+                    <h3>Encontre as melhores academias, dicas e uma comunidade que te impulsiona!</h3>
+                </div>
+            </div>
+            <div class="academia-bottom">
+                <div class="academia-logo-content">
+                    <div class="academia-socials">
+                        <a href="https://www.instagram.com/gymp2_portal/" class="instagram" title="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+                <nav class="academia-nav">
+                    <ul>
+                        <li><h4>SOBRE O GYM P2</h4></li>
+                        <li><a href="#">Quem Somos</a></li>
+                        <li><a href="#">Nossa Missão</a></li>
+                        <li><a href="#">Contatos</a></li>
+                    </ul>
+                    <ul>
+                        <li><h4>EXPLORE</h4></li>
+                        <li><a href="#">Academias</a></li>
+                        <li><a href="#">Artes Marciais</a></li>
+                        <li><a href="#">Blog e Dicas</a></li>
+                    </ul>
+                    <ul>
+                        <li><h4>CONECTE-SE</h4></li>
+                        <li><a href="#">Siga-nos nas Redes Sociais</a></li>
+                        <li><a href="#">Política de Privacidade</a></li>
+                        <li><a href="#">Termos de Uso</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </footer>
+
+<script src="global-notifications.js"></script>
+
+<!-- 2. Gerenciador de Usuários -->
+<script src="user-manager.js"></script>
+
+<!-- 3. Header com Informações do Usuário -->
+<script src="user-header.js"></script>
+<script>
+    
+</script>
+    <script>
+          // Funcionalidade do Menu Hamburguer
+        const menuTrigger = document.getElementById('menuTrigger');
+        const slideMenu = document.getElementById('slideMenu');
+        const menuOverlay = document.getElementById('menuOverlay');
+        const menuCloseBtn = document.getElementById('menuCloseBtn');
+        const menuSearchBtn = document.getElementById('menuSearchBtn');
+
+        // Abrir/fechar menu
+        menuTrigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            menuTrigger.classList.toggle('active');
+            slideMenu.classList.toggle('open');
+            menuOverlay.classList.toggle('visible');
+        });
+
+        // Fechar menu pelo botão X
+        menuCloseBtn.addEventListener('click', () => {
+            menuTrigger.classList.remove('active');
+            slideMenu.classList.remove('open');
+            menuOverlay.classList.remove('visible');
+        });
+
+        // Fechar menu ao clicar no overlay
+        menuOverlay.addEventListener('click', () => {
+            menuTrigger.classList.remove('active');
+            slideMenu.classList.remove('open');
+            menuOverlay.classList.remove('visible');
+        });
+
+        // Fechar menu ao clicar em um link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                menuTrigger.classList.remove('active');
+                slideMenu.classList.remove('open');
+                menuOverlay.classList.remove('visible');
+            });
+        });
+
+        // Abrir pesquisa pelo botão do menu
+        menuSearchBtn.addEventListener('click', () => {
+            // Fecha o menu
+            menuTrigger.classList.remove('active');
+            slideMenu.classList.remove('open');
+            menuOverlay.classList.remove('visible');
+            
+            // Abre a pesquisa
+            searchField.classList.add('expanded');
+            searchInput.focus();
+        });
+             // Funcionalidade da Barra de Pesquisa
+        const searchToggle = document.getElementById('searchToggle');
+        const searchField = document.getElementById('searchField');
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+
+        // Abrir/fechar pesquisa
+        searchToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            searchField.classList.toggle('expanded');
+            if (searchField.classList.contains('expanded')) {
+                searchInput.focus();
+            } else {
+                searchInput.value = '';
+                searchResults.classList.remove('active');
+            }
+        });
+
+        // Fechar pesquisa ao clicar fora
+        document.addEventListener('click', (e) => {
+            if (!searchField.contains(e.target) && !searchToggle.contains(e.target)) {
+                searchField.classList.remove('expanded');
+                searchInput.value = '';
+                searchResults.classList.remove('active');
+            }
+        });
+
+        // Dados de exemplo para a pesquisa
+        const searchData = [
+            {
+                category: 'Academia',
+                title: 'Opala fitness',
+                description: 'Academia de musculação no centro',
+                link: 'Opala-Fitness.html'
+            },
+            {
+                category: 'Academia',
+                title: 'vilafitness',
+                description: 'Musculação e fitness',
+                link: 'vilafitness.html'
+            },
+            {
+                category: 'Academia',
+                title: 'Top X',
+                description: 'Treinos de alto desempenho',
+                link: 'topx.html'
+            },
+          
+            {
+                category: 'Página',
+                title: 'Cadastro de Academias',
+                description: 'Divulgue sua academia',
+                link: 'academias-publicas.html'
+            },
+            {
+                category: 'Página',
+                title: 'Personal Trainer',
+                description: 'Cadastro de personal trainers',
+                link: 'cadastro_personal-sem-logar.html'
+            }
+        ];
+
+        // Função de pesquisa
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase().trim();
+            
+            if (searchTerm.length === 0) {
+                searchResults.classList.remove('active');
+                searchResults.innerHTML = '';
+                return;
+            }
+            
+            const filteredResults = searchData.filter(item => 
+                item.title.toLowerCase().includes(searchTerm) || 
+                item.description.toLowerCase().includes(searchTerm) ||
+                item.category.toLowerCase().includes(searchTerm)
+            );
+            
+            if (filteredResults.length > 0) {
+                searchResults.innerHTML = filteredResults.map(item => `
+                    <div class="search-result-item" onclick="window.location.href='${item.link}'">
+                        <div class="result-category">${item.category}</div>
+                        <div class="result-title">${item.title}</div>
+                        <div class="result-description">${item.description}</div>
+                    </div>
+                `).join('');
+                searchResults.classList.add('active');
+            } else {
+                searchResults.innerHTML = `
+                    <div class="search-result-item">
+                        <div class="result-title">Nenhum resultado encontrado</div>
+                        <div class="result-description">Tente outra palavra-chave</div>
+                    </div>
+                `;
+                searchResults.classList.add('active');
+            }
+        });
+
+        // Prevenir que o Enter no input de pesquisa recarregue a página
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+            }
+        });
+
+        // Slider
+        const imageDisplay = document.querySelector('.image-display');
+        const navButtons = document.querySelectorAll('.nav-button');
+        const prevButton = document.querySelector('.prev-button');
+        const nextButton = document.querySelector('.next-button');
+
+        let currentIndex = 0;
+        const images = [];
+
+        navButtons.forEach(button => {
+            const img = button.querySelector('.thumbnail');
+            if (img && img.src) {
+                images.push(img.src);
+            }
+        });
+
+        if (imageDisplay && images.length > 0) {
+            imageDisplay.style.backgroundImage = `url(${images[currentIndex]})`;
+        }
+
+        function updateSlider(index) {
+            if (index >= 0 && index < images.length) {
+                currentIndex = index;
+                imageDisplay.style.backgroundImage = `url(${images[currentIndex]})`;
+                
+                navButtons.forEach((button, i) => {
+                    button.setAttribute('aria-selected', i === currentIndex ? 'true' : 'false');
+                });
+            }
+        }
+
+        navButtons.forEach((button, index) => {
+            button.addEventListener('click', () => updateSlider(index));
+        });
+
+        prevButton.addEventListener('click', () => {
+            const newIndex = currentIndex > 0 ? currentIndex - 1 : images.length - 1;
+            updateSlider(newIndex);
+        });
+
+        nextButton.addEventListener('click', () => {
+            const newIndex = currentIndex < images.length - 1 ? currentIndex + 1 : 0;
+            updateSlider(newIndex);
+        });
+
+        // Horários de pico
+        const hours = [
+            { time: '06', value: 15 },
+            { time: '07', value: 20 },
+            { time: '08', value: 25 },
+            { time: '09', value: 30 },
+            { time: '10', value: 40 },
+            { time: '11', value: 45 },
+            { time: '12', value: 55 },
+            { time: '13', value: 60 },
+            { time: '14', value: 70 },
+            { time: '15', value: 80 },
+            { time: '16', value: 90 },
+            { time: '17', value: 100 },
+            { time: '18', value: 85 },
+            { time: '19', value: 75 },
+            { time: '20', value: 65 },
+            { time: '21', value: 50 }
+        ];
+
+        const chart = document.getElementById('chart');
+        const maxValue = Math.max(...hours.map(h => h.value));
+        const peakHour = hours.reduce((max, h) => h.value > max.value ? h : max, hours[0]);
+
+        hours.forEach(hour => {
+            const container = document.createElement('div');
+            container.className = 'bar-container';
+
+            const bar = document.createElement('div');
+            bar.className = 'bar';
+            if (hour.time === peakHour.time) {
+                bar.classList.add('peak');
+            }
+            
+            const height = (hour.value / maxValue) * 140;
+            bar.style.height = height + 'px';
+
+            const tooltip = document.createElement('div');
+            tooltip.className = 'tooltip';
+            tooltip.textContent = `${hour.time}:00 - ${hour.value}% ocupação`;
+
+            const label = document.createElement('div');
+            label.className = 'hour-label';
+            label.textContent = hour.time;
+
+            container.appendChild(tooltip);
+            container.appendChild(bar);
+            container.appendChild(label);
+            chart.appendChild(container);
+        });
+
+        // Dias da semana
+        const days = document.querySelectorAll('.day');
+        days.forEach(day => {
+            day.addEventListener('click', function() {
+                days.forEach(d => d.classList.remove('active'));
+                this.classList.add('active');
+                
+                const bars = document.querySelectorAll('.bar');
+                bars.forEach((bar, i) => {
+                    bar.style.animation = 'none';
+                    setTimeout(() => {
+                        const randomVariation = 0.8 + Math.random() * 0.4;
+                        const newHeight = (hours[i].value / maxValue) * 140 * randomVariation;
+                        bar.style.height = newHeight + 'px';
+                    }, i * 30);
+                });
+            });
+        });
+
+        // Contador de pessoas
+        const peopleCountElement = document.getElementById('peopleCount');
+        const occupancyRateElement = document.getElementById('occupancyRate');
+        const lastUpdateElement = document.getElementById('lastUpdate');
+        
+        let peopleCount = 42;
+        const maxCapacity = 80;
+        
+        function updateDisplay() {
+            peopleCountElement.textContent = peopleCount;
+            
+            const occupancyRate = (peopleCount / maxCapacity * 100).toFixed(1);
+            occupancyRateElement.textContent = `${occupancyRate}%`;
+            
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+            lastUpdateElement.textContent = timeString;
+        }
+        
+        function simulateVariation() {
+            const variation = Math.floor(Math.random() * 11) - 5;
+            const newCount = peopleCount + variation;
+            
+            if (newCount >= 0 && newCount <= maxCapacity) {
+                peopleCount = newCount;
+            } else if (newCount < 0) {
+                peopleCount = 0;
+            } else {
+                peopleCount = maxCapacity;
+            }
+            
+            updateDisplay();
+        }
+        
+        updateDisplay();
+        setInterval(simulateVariation, 900000);
+    </script>
+    <!-- ========== SISTEMA DE MANUTENÇÃO DE LOGIN ========== -->
+<script>
+// ========== VERIFICAÇÃO E MANUTENÇÃO DO LOGIN ==========
+(function() {
+    console.log('🔍 Verificando login na página:', window.location.pathname);
+    
+    // Verificar se há usuário logado
+    const userData = localStorage.getItem('gymp2_current_user') || 
+                     localStorage.getItem('currentUser');
+    
+    if (userData) {
+        try {
+            const user = JSON.parse(userData);
+            console.log('✅ Login mantido:', user.name);
+            
+            // Atualizar interface da página
+            updatePageForLoggedUser(user);
+            
+        } catch (error) {
+            console.error('❌ Erro ao processar login:', error);
+        }
+    } else {
+        console.log('ℹ️ Usuário não está logado');
+    }
+    
+    // ========== FUNÇÃO PARA ATUALIZAR A INTERFACE ==========
+    function updatePageForLoggedUser(user) {
+        console.log('🎨 Atualizando interface para:', user.name);
+        
+        // 1. Atualizar botão Login no header
+        updateLoginButton(user);
+        
+        // 2. Atualizar menu hamburguer
+        updateHamburgerMenu(user);
+        
+        // 3. Adicionar classe ao body
+        document.body.classList.add('logged-in');
+        
+        console.log('✅ Interface atualizada com sucesso!');
+    }
+    
+    // ========== ATUALIZAR BOTÃO LOGIN NO HEADER ==========
+    function updateLoginButton(user) {
+        // Encontrar todos os botões de Login
+        const loginButtons = document.querySelectorAll('.gym-access-btn');
+        
+        loginButtons.forEach(btn => {
+            const link = btn.querySelector('a');
+            
+            // Se for o botão de Login
+            if (btn.textContent.includes('Login') || 
+                (link && link.getAttribute('href') === 'login-gym.html')) {
+                
+                console.log('🔄 Substituindo botão Login...');
+                
+                const initials = user.name
+                    .split(' ')
+                    .map(n => n[0])
+                    .slice(0, 2)
+                    .join('')
+                    .toUpperCase();
+                
+                const firstName = user.name.split(' ')[0];
+                
+             
+                console.log('✅ Botão Login substituído');
+                
+                // Configurar eventos após inserir
+                setTimeout(setupDropdownEvents, 50);
+            }
+        });
+    }
+    
+    // ========== ATUALIZAR MENU HAMBURGUER ==========
+    function updateHamburgerMenu(user) {
+        const navigationList = document.querySelector('.navigation-list');
+        if (!navigationList) return;
+        
+        const navItems = navigationList.querySelectorAll('.nav-item');
+        let loginItem = null;
+        
+        // Encontrar item de Login
+        navItems.forEach(item => {
+            const link = item.querySelector('.nav-link');
+            if (link && (link.textContent.trim() === 'Login' || 
+                         link.getAttribute('href') === '#espaço-cliente' ||
+                         link.getAttribute('href') === 'login-gym.html')) {
+                loginItem = item;
+            }
+        });
+        
+        if (loginItem) {
+            const firstName = user.name.split(' ')[0];
+            
+            // Substituir por Perfil
+            loginItem.innerHTML = `
+                <a href="#perfil" class="nav-link" style="
+                    color: #00ff88; 
+                    font-weight: 700; 
+                    background: rgba(0, 255, 136, 0.1); 
+                    border-radius: 8px; 
+                    margin: 5px 0; 
+                    padding: 12px 15px !important;
+                ">
+                    <i class="fas fa-user" style="margin-right: 10px;"></i>
+                    Meu Perfil (${firstName})
+                </a>
+            `;
+            
+            // Remover logout anterior se existir
+            const existingLogout = navigationList.querySelector('#menuLogoutBtn');
+            if (existingLogout) {
+                existingLogout.closest('.nav-item').remove();
+            }
+            
+            // Adicionar botão Sair
+            const logoutItem = document.createElement('li');
+            logoutItem.className = 'nav-item';
+            logoutItem.innerHTML = `
+                <a href="#logout" class="nav-link" id="menuLogoutBtn" style="
+                    color: #ff4444; 
+                    background: rgba(255, 68, 68, 0.1); 
+                    border-radius: 8px; 
+                    margin: 5px 0; 
+                    padding: 12px 15px !important;
+                ">
+                    <i class="fas fa-sign-out-alt" style="margin-right: 10px;"></i>
+                    Sair
+                </a>
+            `;
+            
+            navigationList.appendChild(logoutItem);
+            
+            // Configurar logout do menu
+            document.getElementById('menuLogoutBtn').addEventListener('click', handleLogout);
+            
+            console.log('✅ Menu hamburguer atualizado');
+        }
+    }
+    
+    // ========== CONFIGURAR EVENTOS DO DROPDOWN ==========
+    function setupDropdownEvents() {
+        const userContainer = document.getElementById('userHeaderContainer');
+        const dropdown = document.getElementById('userDropdown');
+        const logoutBtn = document.getElementById('logoutBtnPage');
+        
+        if (!userContainer || !dropdown || !logoutBtn) {
+            console.log('⚠️ Elementos do dropdown não encontrados');
+            return;
+        }
+        
+        // Toggle dropdown
+        userContainer.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const isVisible = dropdown.style.opacity === '1';
+            
+            if (isVisible) {
+                dropdown.style.opacity = '0';
+                dropdown.style.visibility = 'hidden';
+                dropdown.style.transform = 'translateY(-10px)';
+            } else {
+                dropdown.style.opacity = '1';
+                dropdown.style.visibility = 'visible';
+                dropdown.style.transform = 'translateY(0)';
+            }
+        });
+        
+        // Fechar ao clicar fora
+        document.addEventListener('click', function() {
+            dropdown.style.opacity = '0';
+            dropdown.style.visibility = 'hidden';
+            dropdown.style.transform = 'translateY(-10px)';
+        });
+        
+        // Prevenir fechamento ao clicar no dropdown
+        dropdown.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+        
+        // Hover no container
+        userContainer.addEventListener('mouseenter', function() {
+            this.style.background = 'rgba(0, 255, 136, 0.25)';
+            this.style.borderColor = 'rgba(0, 255, 136, 0.6)';
+            this.style.transform = 'translateY(-2px)';
+        });
+        
+        userContainer.addEventListener('mouseleave', function() {
+            this.style.background = 'rgba(0, 255, 136, 0.15)';
+            this.style.borderColor = 'rgba(0, 255, 136, 0.4)';
+            this.style.transform = 'translateY(0)';
+        });
+        
+        // Logout
+        logoutBtn.addEventListener('click', handleLogout);
+        
+        console.log('✅ Eventos do dropdown configurados');
+    }
+    
+    
+    
+    // ========== EXPORTAR FUNÇÃO DE LOGOUT GLOBAL ==========
+    window.logout = handleLogout;
+    
+})();
+
+
+console.log('✅ Sistema de login carregado na página!');
+
+
+</script>
+
+<!-- ADICIONE ISTO ANTES DO </body> NA PÁGINA DA oapalapx -->
+
+<!--JavaScript para aplicar configurações globais-->
+<script>
+    // Aplicar configurações globais - PARA TODAS AS PÁGINAS
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('🔧 Aplicando configurações globais na opalafitness...');
+        applyGlobalSettings();
+        
+        // Verificar se as configurações foram aplicadas
+        setTimeout(() => {
+            console.log('✅ Configurações aplicadas:', {
+                tema: localStorage.getItem('gym-theme'),
+                fonte: localStorage.getItem('gym-fontSize'),
+                bodyClass: document.body.className
+            });
+        }, 500);
+    });
+
+    function applyGlobalSettings() {
+        // Carregar configurações salvas
+        const savedTheme = localStorage.getItem('gym-theme') || 'dark';
+        const savedFontSize = localStorage.getItem('gym-fontSize') || 'medium';
+        
+        console.log('📋 Configurações carregadas:', { savedTheme, savedFontSize });
+        
+        // Aplicar tema
+        if (savedTheme === 'light') {
+            document.body.classList.add('light-mode');
+            console.log('🌙 Modo claro aplicado');
+        } else {
+            document.body.classList.remove('light-mode');
+            console.log('🌙 Modo escuro aplicado');
+        }
+        
+        // Aplicar tamanho da fonte
+        applyFontSize(savedFontSize);
+    }
+
+    function applyFontSize(size) {
+        const sizes = {
+            'small': { 
+                h1: '32px', h2: '24px', h3: '18px',
+                normal: '14px', small: '12px',
+                button: '14px'
+            },
+            'medium': { 
+                h1: '42px', h2: '28px', h3: '22px',
+                normal: '16px', small: '14px',
+                button: '16px'
+            },
+            'large': { 
+                h1: '52px', h2: '32px', h3: '26px',
+                normal: '18px', small: '16px',
+                button: '18px'
+            }
+        };
+
+        const currentSizes = sizes[size];
+        
+        console.log('📝 Aplicando tamanho de fonte:', size, currentSizes);
+        
+        // Aplicar a todos os elementos
+        setTimeout(() => {
+            // Títulos principais
+            document.querySelectorAll('h1').forEach(el => {
+                el.style.fontSize = currentSizes.h1;
+            });
+            
+            // Títulos secundários
+            document.querySelectorAll('h2').forEach(el => {
+                el.style.fontSize = currentSizes.h2;
+            });
+            
+            // Títulos terciários
+            document.querySelectorAll('h3').forEach(el => {
+                el.style.fontSize = currentSizes.h3;
+            });
+            
+            // Textos normais
+            document.querySelectorAll('p, .setting-description, .feedback-text, .nav-link, .result-title, .profile-info p, .feedback-text').forEach(el => {
+                el.style.fontSize = currentSizes.normal;
+            });
+            
+            // Botões
+            document.querySelectorAll('.gym-access-btn, .edit-profile-btn, .menu-search-btn').forEach(el => {
+                el.style.fontSize = currentSizes.button;
+            });
+            
+            // Textos pequenos
+            document.querySelectorAll('.feedback-date, .setting-description, small, .result-description, .feedback-date').forEach(el => {
+                el.style.fontSize = currentSizes.small;
+            });
+            
+            // Estatísticas
+            document.querySelectorAll('.stat-box p').forEach(el => {
+                el.style.fontSize = currentSizes.h2;
+            });
+            
+            document.querySelectorAll('.stat-box h3').forEach(el => {
+                el.style.fontSize = currentSizes.normal;
+            });
+
+            console.log('✅ Tamanhos de fonte aplicados com sucesso');
+        }, 100);
+    }
+
+    // Função para forçar atualização (útil para debugging)
+    function forceUpdateSettings() {
+        console.log('🔄 Forçando atualização das configurações...');
+        applyGlobalSettings();
+    }
+
+    // Adicionar listener para mudanças no localStorage (sincronizar entre abas)
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'gym-theme' || e.key === 'gym-fontSize') {
+            console.log('🔄 Configurações alteradas em outra aba, aplicando...');
+            applyGlobalSettings();
+        }
+    });
+</script>
+
+  <script>
+    // ========== SLIDER FUNCTIONALITY ==========
+    document.addEventListener('DOMContentLoaded', function () {
+        const imageDisplay = document.querySelector('.image-display');
+        const navButtons = document.querySelectorAll('.nav-button');
+        const prevButton = document.querySelector('.prev-button');
+        const nextButton = document.querySelector('.next-button');
+        const currentSlideEl = document.querySelector('.current-slide');
+        const progressBar = document.querySelector('.progress-bar');
+        const fullscreenBtn = document.querySelector('.fullscreen-btn');
+        const autoplayBtn = document.querySelector('.autoplay-btn');
+
+      // Na parte do JavaScript do slider (próximo ao final do código), vamos atualizar os arrays:
+
+const images = [
+    'logoopala.png',
+    'opala2.png',
+    'Opala-Fitness.png',
+    'opala3.png',
+    'opala5.png',
+    'opala4.png'
+];
+
+const categories = ['Logo', 'Área de Musculação', 'Fachada', 'Área de Cardio', 'Vestiário', 'Recepção'];
+
+const descriptions = [
+    'Logo da opala   - Excelência em fitness',
+    'Área de musculação completa com equipamentos modernos',
+    'Fachada moderna da academia com fácil acesso',
+    'Esteiras, bicicletas e elípticos de última geração',
+    'Vestiários amplos, limpos e com armários individuais',
+    'Recepção acolhedora com atendimento especializado'
+];
+
+        // Inicializar slider
+        updateSlider(currentIndex);
+
+        // Função para atualizar slider
+        function updateSlider(index) {
+            if (index >= 0 && index < images.length) {
+                currentIndex = index;
+
+                // Atualizar imagem principal
+                imageDisplay.style.backgroundImage = `url(${images[currentIndex]})`;
+
+                // Atualizar overlay com título baseado na categoria
+                document.querySelector('.image-title').textContent = `Opala Fitness - ${categories[currentIndex]}`;
+                document.querySelector('.image-description').textContent = descriptions[currentIndex];
+
+                // Atualizar botões de navegação
+                navButtons.forEach((button, i) => {
+                    const isActive = i === currentIndex;
+                    button.classList.toggle('active', isActive);
+                    button.setAttribute('aria-selected', isActive);
+                });
+
+                // Atualizar contador
+                currentSlideEl.textContent = currentIndex + 1;
+
+                // Atualizar barra de progresso
+                const progressPercentage = ((currentIndex + 1) / images.length) * 100;
+                progressBar.style.width = progressPercentage + '%';
+            }
+        }
+
+        // Event listeners para botões de navegação
+        navButtons.forEach((button, index) => {
+            button.addEventListener('click', () => updateSlider(index));
+        });
+
+        prevButton.addEventListener('click', () => {
+            const newIndex = currentIndex > 0 ? currentIndex - 1 : images.length - 1;
+            updateSlider(newIndex);
+            resetAutoPlay();
+        });
+
+        nextButton.addEventListener('click', () => {
+            const newIndex = currentIndex < images.length - 1 ? currentIndex + 1 : 0;
+            updateSlider(newIndex);
+            resetAutoPlay();
+        });
+
+        // Funcionalidade de tela cheia
+        fullscreenBtn.addEventListener('click', toggleFullscreen);
+
+        function toggleFullscreen() {
+            const sliderContent = document.querySelector('.slider__content');
+
+            if (!document.fullscreenElement) {
+                if (sliderContent.requestFullscreen) {
+                    sliderContent.requestFullscreen();
+                } else if (sliderContent.webkitRequestFullscreen) {
+                    sliderContent.webkitRequestFullscreen();
+                } else if (sliderContent.msRequestFullscreen) {
+                    sliderContent.msRequestFullscreen();
+                }
+                fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i>';
+                fullscreenBtn.setAttribute('aria-label', 'Sair da tela cheia');
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+                fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
+                fullscreenBtn.setAttribute('aria-label', 'Tela cheia');
+            }
+        }
+
+        // Auto-play functionality
+        autoplayBtn.addEventListener('click', toggleAutoPlay);
+
+        function toggleAutoPlay() {
+            isAutoPlaying = !isAutoPlaying;
+
+            if (isAutoPlaying) {
+                startAutoPlay();
+                autoplayBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                autoplayBtn.setAttribute('aria-label', 'Pausar reprodução automática');
+            } else {
+                stopAutoPlay();
+                autoplayBtn.innerHTML = '<i class="fas fa-play"></i>';
+                autoplayBtn.setAttribute('aria-label', 'Reproduzir automaticamente');
+            }
+        }
+
+        function startAutoPlay() {
+            autoPlayInterval = setInterval(() => {
+                const newIndex = currentIndex < images.length - 1 ? currentIndex + 1 : 0;
+                updateSlider(newIndex);
+            }, 3000); // Muda a cada 3 segundos
+        }
+
+        function stopAutoPlay() {
+            if (autoPlayInterval) {
+                clearInterval(autoPlayInterval);
+            }
+        }
+
+        function resetAutoPlay() {
+            if (isAutoPlaying) {
+                stopAutoPlay();
+                startAutoPlay();
+            }
+        }
+
+        // Iniciar auto-play após 5 segundos
+        setTimeout(() => {
+            if (!isAutoPlaying) {
+                toggleAutoPlay();
+            }
+        }, 5000);
+
+        // Navegação por teclado
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                const newIndex = currentIndex > 0 ? currentIndex - 1 : images.length - 1;
+                updateSlider(newIndex);
+                resetAutoPlay();
+            } else if (e.key === 'ArrowRight') {
+                const newIndex = currentIndex < images.length - 1 ? currentIndex + 1 : 0;
+                updateSlider(newIndex);
+                resetAutoPlay();
+            } else if (e.key === ' ') {
+                e.preventDefault();
+                toggleAutoPlay();
+            } else if (e.key === 'f' || e.key === 'F') {
+                toggleFullscreen();
+            }
+        });
+
+        // Função para abrir rota
+        window.abrirRota = function () { 
+            const endereco = encodeURIComponent("R. Cel. Cordeiro, 739, Pedro II - PI");
+            window.open(`https://www.google.com/maps/dir/?api=1&destination=${endereco}`, '_blank');
+        };
+
+        // Atualizar contador total de slides
+        document.querySelector('.total-slides').textContent = images.length;
+
+        // Adicionar efeito de digitação ao título
+        const titleText = document.querySelector('.title-text');
+        const originalText = titleText.textContent;
+        titleText.textContent = '';
+
+        let i = 0;
+        const typeWriter = () => {
+            if (i < originalText.length) {
+                titleText.textContent += originalText.charAt(i);
+                i++;
+                setTimeout(typeWriter, 100);
+            }
+        };
+
+        // Iniciar efeito após 0.5 segundos
+        setTimeout(typeWriter, 500);
+    });
+</script>
+
+
+<script>
+    // Adicione este código ao seu JavaScript existente
+document.addEventListener('DOMContentLoaded', function() {
+    // Detectar dispositivo móvel
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    
+    if (isMobile) {
+        // Aumentar área de toque das thumbnails
+        const navButtons = document.querySelectorAll('.nav-button');
+        navButtons.forEach(button => {
+            button.style.minHeight = '44px'; // Tamanho mínimo recomendado para toque
+            button.style.minWidth = '44px';
+        });
+        
+        // Adicionar classe para mobile
+        const thumbnailsContainer = document.querySelector('.thumbnails-container');
+        if (window.innerWidth <= 640) {
+            thumbnailsContainer.classList.add('mobile-horizontal-layout');
+        }
+        
+        // Ajustar dinamicamente baseado na orientação
+        window.addEventListener('resize', function() {
+            if (window.innerWidth <= 640) {
+                thumbnailsContainer.classList.add('mobile-horizontal-layout');
+            } else {
+                thumbnailsContainer.classList.remove('mobile-horizontal-layout');
+            }
+        });
+        
+        // Melhorar navegação por toque
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        const sliderContent = document.querySelector('.slider__content');
+        
+        sliderContent.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        }, false);
+        
+        sliderContent.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, false);
+        
+        function handleSwipe() {
+            const swipeThreshold = 50; // Mínimo de pixels para considerar um swipe
+            
+            if (touchStartX - touchEndX > swipeThreshold) {
+                // Swipe para esquerda = próxima imagem
+                const newIndex = currentIndex < images.length - 1 ? currentIndex + 1 : 0;
+                updateSlider(newIndex);
+            } else if (touchEndX - touchStartX > swipeThreshold) {
+                // Swipe para direita = imagem anterior
+                const newIndex = currentIndex > 0 ? currentIndex - 1 : images.length - 1;
+                updateSlider(newIndex);
+            }
+        }
+    }
+});
+    </script>
+</body>
+
+</html>
