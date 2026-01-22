@@ -445,18 +445,15 @@ function initLoginSystem() {
         }
     });
     
-    // Função de logout
-    function logout() {
-        if (confirm('Tem certeza que deseja sair da sua conta?')) {
-            // Limpar dados do usuário
-            localStorage.removeItem('currentUser');
-            localStorage.removeItem('gymp2_current_user');
-            sessionStorage.removeItem('gymp2_user');
-            
-            // Redirecionar para página inicial
-            window.location.href = 'index.html';
-        }
+   // Procure a função logout() e ajuste o nome do arquivo aqui:
+function logout() {
+    if (confirm('Tem certeza que deseja sair da sua conta?')) {
+        localStorage.clear();
+        sessionStorage.clear();
+        // AJUSTE AQUI: Mude para o nome exato do seu arquivo (ex: Menu-inicial-sem-logar.html)
+        window.location.href = 'index.html'; 
     }
+}
 // Dados de exemplo para a pesquisa
 const searchData = [
     {
@@ -1313,5 +1310,6 @@ const searchData = [
     
 </body>
 </html>
+
 
 
