@@ -332,5 +332,4 @@ function redirectIfLoggedIn() {
 window.protectPage = protectPage;
 window.redirectIfLoggedIn = redirectIfLoggedIn;
 
-
 console.log('🔐 Sistema de autenticação UNIFICADO carregado!');
