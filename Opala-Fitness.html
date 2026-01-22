@@ -2103,159 +2103,6 @@
             }
         }
 
-/* Para telas muito pequenas, ajustar o layout do header */
-@media (max-width: 640px) {
-    /* Garantir que o header não fique muito apertado */
-    .header-container {
-        padding: 0.8rem 0.8rem !important;
-        min-height: 70px;
-        display: flex;
-        align-items: center;
-    }
-    
-    /* Ajustar container do nav para mobile */
-    .nav-wrapper {
-        width: 100%;
-        gap: 5px;
-        flex-wrap: nowrap;
-        justify-content: space-between;
-    }
-    
-    /* Logo ajustada para mobile */
-    .brand-container {
-        flex-shrink: 0;
-        min-width: 120px;
-    }
-    
-    .logo-img {
-        height: 45px !important;
-        width: auto;
-        max-width: 120px;
-    }
-    
-    /* Container dos controles à direita */
-    .right-controls {
-        display: flex !important;
-        gap: 8px !important;
-        align-items: center;
-        flex-shrink: 0;
-        flex-wrap: nowrap;
-    }
-    
-    /* Botão "Academias Agora" visível em mobile - OCULTAR O BOTÃO HOME */
-    .gym-access-btn:not(.home-btn) {
-        display: inline-flex !important;
-        padding: 8px 12px !important;
-        font-size: 0.75rem !important;
-        margin: 0 !important;
-        white-space: nowrap;
-        min-width: fit-content;
-        order: 1; /* Garante ordem correta */
-    }
-    
-    /* Esconder o botão Home em mobile */
-    .gym-access-btn.home-btn {
-        display: none !important;
-    }
-    
-    /* Botão de pesquisa ajustado */
-    .search-toggle-btn {
-        width: 38px !important;
-        height: 38px !important;
-        order: 2;
-    }
-    
-    /* Campo de pesquisa expandido em mobile */
-    .expandable-search-field.expanded {
-        width: 200px !important;
-        position: fixed;
-        top: 70px;
-        right: 10px;
-        z-index: 3000;
-    }
-    
-    /* Menu hamburguer ajustado */
-    .menu-trigger {
-        padding: 8px !important;
-        order: 3;
-    }
-    
-    .hamburger-line {
-        width: 24px !important;
-        height: 3px !important;
-    }
-}
-
-/* Ajustes para telas muito pequenas (menos de 480px) */
-@media (max-width: 480px) {
-    .header-container {
-        padding: 0.6rem 0.6rem !important;
-    }
-    
-    .brand-container {
-        min-width: 100px;
-    }
-    
-    .logo-img {
-        height: 40px !important;
-        max-width: 100px;
-    }
-    
-    .right-controls {
-        gap: 6px !important;
-    }
-    
-    /* Botão "Academias Agora" ajustado */
-    .gym-access-btn:not(.home-btn) {
-        padding: 6px 10px !important;
-        font-size: 0.7rem !important;
-    }
-    
-    /* Botão Home continua oculto */
-    .gym-access-btn.home-btn {
-        display: none !important;
-    }
-    
-    .search-toggle-btn {
-        width: 36px !important;
-        height: 36px !important;
-    }
-    
-    .menu-trigger {
-        padding: 6px !important;
-    }
-    
-    .hamburger-line {
-        width: 22px !important;
-        height: 2.5px !important;
-    }
-    
-    .expandable-search-field.expanded {
-        width: 180px !important;
-        top: 65px;
-    }
-}
-
-/* Ajustes para landscape em mobile */
-@media (max-height: 500px) and (orientation: landscape) {
-    .header-container {
-        min-height: 60px;
-        padding: 0.5rem 0.8rem !important;
-    }
-    
-    .logo-img {
-        height: 35px !important;
-    }
-    
-    .gym-access-btn:not(.home-btn) {
-        padding: 5px 8px !important;
-        font-size: 0.65rem !important;
-    }
-    
-    .gym-access-btn.home-btn {
-        display: none !important;
-    }
-}
         /* Mobile Pequeno (480px) */
         @media (max-width: 480px) {
             .page-title {
@@ -2440,6 +2287,168 @@
         .mobile-horizontal-layout .thumbnail-wrapper {
             height: 80px;
         }
+
+        /* ========== FOOTER - ONDAS VERDES ========== */
+.academia-footer {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    margin-top: 60px;
+    background: linear-gradient(to bottom, #000000 0%, #001a00 100%);
+}
+
+/* O SVG das ondas - APENAS ESTA PARTE FOI MODIFICADA */
+.academia-background svg {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    z-index: 0;
+}
+
+/* Se o SVG tem elementos path dentro, você pode estilizá-los assim: */
+.academia-background svg path {
+    fill: #00ff40; /* Cor principal das ondas */
+    opacity: 0.3; /* Transparência para efeito suave */
+}
+
+/* Para criar um efeito de gradiente nas ondas */
+.academia-background svg path:nth-child(1) {
+    fill: #00cc33; /* Tom mais escuro */
+    opacity: 0.4;
+}
+
+.academia-background svg path:nth-child(2) {
+    fill: #00ff40; /* Tom médio */
+    opacity: 0.3;
+}
+
+.academia-background svg path:nth-child(3) {
+    fill: #00ff88; /* Tom mais claro */
+    opacity: 0.2;
+}
+
+/* Se quiser adicionar um efeito sutil de brilho */
+.academia-background svg {
+    filter: drop-shadow(0 0 10px rgba(0, 255, 64, 0.2));
+}
+
+/* O resto do footer permanece EXATAMENTE como estava */
+.academia-footer-inner {
+    position: relative;
+    z-index: 1;
+    padding: 4rem 2rem 8rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+}
+
+.academia-footer-inner .academia-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.academia-footer-inner .academia-top h2 {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.academia-footer-inner .academia-top h3 {
+    font-size: 1.25rem;
+    font-weight: 400;
+    opacity: 0.8;
+}
+
+.academia-footer-inner .academia-bottom {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.academia-logo-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.academia-socials {
+    display: flex;
+    gap: 1rem;
+}
+
+.academia-socials a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    font-size: 1.25rem;
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.academia-socials a:hover {
+    background: rgba(0, 255, 136, 0.3);
+    transform: translateY(-3px);
+}
+
+.academia-nav {
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+}
+
+.academia-nav ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.academia-nav h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #ccc;
+}
+
+.academia-nav a {
+    font-size: 0.9rem;
+    color: white;
+    opacity: 0.8;
+    text-decoration: none;
+    transition: opacity 0.3s;
+    cursor: pointer;
+}
+
+.academia-nav  {
+    opacity: 1;
+    color: #00ff40;
+    transform: translateX(5px);
+}
+.search-result-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.search-result-link:hover .search-result-item {
+    background: rgba(0, 255, 136, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 255, 136, 0.2);
+}
     </style>
 </head>
 <body>
@@ -2985,39 +2994,134 @@
             }
         });
 
-        // Dados de exemplo para a pesquisa
-        const searchData = [
-            {
-                category: 'Academia',
-                title: 'Opala Fitness',
-                description: 'Academia de musculação no centro',
-                link: 'Opala-Fitness.html'
-            },
-            {
-                category: 'Academia',
-                title: 'Vila Fitness',
-                description: 'Musculação e fitness',
-                link: 'vilafitness.html'
-            },
-            {
-                category: 'Academia',
-                title: 'Top X',
-                description: 'Treinos de alto desempenho',
-                link: 'topx.html'
-            },
-            {
-                category: 'Página',
-                title: 'Cadastro de Academias',
-                description: 'Divulgue sua academia',
-                link: 'academias-publicas.html'
-            },
-            {
-                category: 'Página',
-                title: 'Personal Trainer',
-                description: 'Cadastro de personal trainers',
-                link: 'cadastro_personal-sem-logar.html'
-            }
-        ];
+
+
+
+    // Atualizar informações do usuário no header
+    function updateHeaderUserInfo(user) {
+        // Nome no botão do header
+        const userNameHeader = document.getElementById('userNameHeader');
+        const dropdownUserName = document.getElementById('dropdownUserName');
+        const dropdownUserEmail = document.getElementById('dropdownUserEmail');
+        const userAvatar = document.getElementById('userAvatar');
+        
+        if (userNameHeader) userNameHeader.textContent = user.name || 'Usuário';
+        if (dropdownUserName) dropdownUserName.textContent = user.name || 'Usuário';
+        if (dropdownUserEmail) dropdownUserEmail.textContent = user.email || 'email@exemplo.com';
+        
+        // Atualizar avatar com iniciais
+        if (userAvatar && user.name) {
+            const initials = getInitials(user.name);
+            userAvatar.textContent = initials;
+        }
+    }
+    
+    // Função para obter iniciais do nome
+    function getInitials(name) {
+        if (!name) return 'U';
+        return name
+            .split(' ')
+            .map(n => n[0])
+            .slice(0, 2)
+            .join('')
+            .toUpperCase();
+    }
+    
+    // Sistema de dropdown do usuário
+    document.addEventListener('DOMContentLoaded', function() {
+        const userHeaderContainer = document.getElementById('userHeaderContainer');
+        const userDropdown = document.getElementById('userDropdown');
+        
+        if (userHeaderContainer && userDropdown) {
+            userHeaderContainer.addEventListener('click', function() {
+                userDropdown.style.opacity = userDropdown.style.opacity === '1' ? '0' : '1';
+                userDropdown.style.visibility = userDropdown.style.visibility === 'visible' ? 'hidden' : 'visible';
+                userDropdown.style.transform = userDropdown.style.transform === 'translateY(0px)' ? 'translateY(-10px)' : 'translateY(0px)';
+            });
+            
+            // Fechar dropdown ao clicar fora
+            document.addEventListener('click', function(event) {
+                if (!userHeaderContainer.contains(event.target)) {
+                    userDropdown.style.opacity = '0';
+                    userDropdown.style.visibility = 'hidden';
+                    userDropdown.style.transform = 'translateY(-10px)';
+                }
+            });
+        }
+    });
+    
+    // Função de logout
+    function logout() {
+        if (confirm('Tem certeza que deseja sair da sua conta?')) {
+            // Limpar dados do usuário
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('gymp2_current_user');
+            sessionStorage.removeItem('gymp2_user');
+            
+            // Redirecionar para página inicial
+            window.location.href = 'index.html';
+        }
+    }
+   
+             // Dados de exemplo para a pesquisa
+const searchData = [
+    {
+        category: 'Academia',
+        title: 'Opala fitness',
+        description: 'Academia de musculação no centro',
+        link: 'Opala-Fitness.html'
+    },
+    {
+        category: 'Academia',
+        title: 'vilafitness',
+        description: 'Musculação e fitness',
+        link: 'vilafitness.html'
+    },
+    {
+        category: 'Academia',
+        title: 'Redefitness',
+        description: 'Treinos de alto desempenho',
+        link: 'Redefitness.html'
+    },
+    {
+        category: 'Página',
+        title: 'Cadastro de Academias',
+        description: 'Divulgue sua academia',
+        link: 'academias-publicas.html'
+    },
+   
+    {
+        category: 'Página',
+        title: 'personais',
+        description: ' filtrar personais ',
+        link: 'Filtro_personal.html'
+    },
+    {
+        category: 'Página',
+        title: 'Cadastro de Personal',
+        description: 'Cadastre-se como personal trainer',
+        link: 'Cadastrar_personal.html'
+    },
+    {
+        category: 'Página',
+        title: 'Sobre nós',
+        description: 'Conheça o Gym P2',
+        link: 'Sobre_nós.html'
+    },
+    {
+        category: 'Página',
+        title: 'Configurações',
+        description: 'Configurações da conta',
+        link: 'config.html'
+    },
+  
+    {
+        category: 'Página',
+        title: 'Home',
+        description: 'Página inicial',
+        link: 'index.html'
+    }
+];
 
         // Função de pesquisa
         searchInput.addEventListener('input', (e) => {
@@ -3158,140 +3262,7 @@
 
         // Auto-play functionality
         autoplayBtn.addEventListener('click', toggleAutoPlay);
-     
-            // Configurar dropdown do usuário
-            function setupUserDropdown() {
-                const userContainer = document.getElementById('userHeaderContainer');
-                const dropdownMenu = document.getElementById('userDropdownMenu');
-                const logoutBtn = document.getElementById('logoutBtnHeader'); // ID ALTERADO AQUI
-                
-                if (!userContainer || !dropdownMenu || !logoutBtn) {
-                    console.log('⚠️ Elementos do dropdown não encontrados');
-                    return;
-                }
-                
-                // Toggle do dropdown
-                userContainer.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const isActive = dropdownMenu.style.opacity === '1';
-                    
-                    if (isActive) {
-                        dropdownMenu.style.opacity = '0';
-                        dropdownMenu.style.visibility = 'hidden';
-                        dropdownMenu.style.transform = 'translateY(-10px)';
-                    } else {
-                        dropdownMenu.style.opacity = '1';
-                        dropdownMenu.style.visibility = 'visible';
-                        dropdownMenu.style.transform = 'translateY(0)';
-                    }
-                });
-                
-                // Fechar dropdown ao clicar fora
-                document.addEventListener('click', (e) => {
-                    if (!userContainer.contains(e.target)) {
-                        dropdownMenu.style.opacity = '0';
-                        dropdownMenu.style.visibility = 'hidden';
-                        dropdownMenu.style.transform = 'translateY(-10px)';
-                    }
-                });
-                
-                // Prevenir fechamento ao clicar no dropdown
-                dropdownMenu.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                });
-                
-                // Hover effect no container
-                userContainer.addEventListener('mouseenter', () => {
-                    userContainer.style.background = 'rgba(0, 255, 136, 0.2)';
-                    userContainer.style.borderColor = 'rgba(0, 255, 136, 0.5)';
-                    userContainer.style.transform = 'translateY(-2px)';
-                    userContainer.style.boxShadow = '0 4px 15px rgba(0, 255, 136, 0.3)';
-                });
-                
-                userContainer.addEventListener('mouseleave', () => {
-                    userContainer.style.background = 'rgba(0, 255, 136, 0.1)';
-                    userContainer.style.borderColor = 'rgba(0, 255, 136, 0.3)';
-                    userContainer.style.transform = 'translateY(0)';
-                    userContainer.style.boxShadow = 'none';
-                });
-                
-                // Hover nos itens do menu
-                const menuItems = dropdownMenu.querySelectorAll('a, #logoutBtnHeader');
-                menuItems.forEach(item => {
-                    item.addEventListener('mouseenter', () => {
-                        item.style.background = 'rgba(0, 255, 136, 0.1)';
-                    });
-                    item.addEventListener('mouseleave', () => {
-                        item.style.background = 'transparent';
-                    });
-                });
-            }
-        
-    // Atualizar informações do usuário no header
-    function updateHeaderUserInfo(user) {
-        // Nome no botão do header
-        const userNameHeader = document.getElementById('userNameHeader');
-        const dropdownUserName = document.getElementById('dropdownUserName');
-        const dropdownUserEmail = document.getElementById('dropdownUserEmail');
-        const userAvatar = document.getElementById('userAvatar');
-        
-        if (userNameHeader) userNameHeader.textContent = user.name || 'Usuário';
-        if (dropdownUserName) dropdownUserName.textContent = user.name || 'Usuário';
-        if (dropdownUserEmail) dropdownUserEmail.textContent = user.email || 'email@exemplo.com';
-        
-        // Atualizar avatar com iniciais
-        if (userAvatar && user.name) {
-            const initials = getInitials(user.name);
-            userAvatar.textContent = initials;
-        }
-    }
-    
-    // Função para obter iniciais do nome
-    function getInitials(name) {
-        if (!name) return 'U';
-        return name
-            .split(' ')
-            .map(n => n[0])
-            .slice(0, 2)
-            .join('')
-            .toUpperCase();
-    }
-    
-    // Sistema de dropdown do usuário
-    document.addEventListener('DOMContentLoaded', function() {
-        const userHeaderContainer = document.getElementById('userHeaderContainer');
-        const userDropdown = document.getElementById('userDropdown');
-        
-        if (userHeaderContainer && userDropdown) {
-            userHeaderContainer.addEventListener('click', function() {
-                userDropdown.style.opacity = userDropdown.style.opacity === '1' ? '0' : '1';
-                userDropdown.style.visibility = userDropdown.style.visibility === 'visible' ? 'hidden' : 'visible';
-                userDropdown.style.transform = userDropdown.style.transform === 'translateY(0px)' ? 'translateY(-10px)' : 'translateY(0px)';
-            });
-            
-            // Fechar dropdown ao clicar fora
-            document.addEventListener('click', function(event) {
-                if (!userHeaderContainer.contains(event.target)) {
-                    userDropdown.style.opacity = '0';
-                    userDropdown.style.visibility = 'hidden';
-                    userDropdown.style.transform = 'translateY(-10px)';
-                }
-            });
-        }
-    });
-    
-    // Função de logout
-    function logout() {
-        if (confirm('Tem certeza que deseja sair da sua conta?')) {
-            // Limpar dados do usuário
-            localStorage.removeItem('currentUser');
-            localStorage.removeItem('gymp2_current_user');
-            sessionStorage.removeItem('gymp2_user');
-            
-            // Redirecionar para página inicial
-            window.location.href = 'index.html';
-        }
-    }
+
         function toggleAutoPlay() {
             isAutoPlaying = !isAutoPlaying;
 
@@ -3358,7 +3329,7 @@
         // FUNÇÕES PARA O MAPA
         // ============================================
         window.abrirMapaCompleto = function() {
-            window.open('https://www.google.com/maps/place/R.+Corinto+Andrade,+143+-+Centro,+Pedro+II+-+PI,+64255-000/', '_blank');
+            window.open('www.google.com/maps/place/Academia,+Opala+fitness+academia+musculação/data=!4m2!3m1!1s0x0:0x3267fb7dff3537b0?sa=X&ved=1t:2428&ictx=111');
         };
 
         window.abrirRota = function() {
@@ -3563,7 +3534,6 @@
         };
 
         setTimeout(typeWriter, 500);
-        
     </script>
 </body>
 </html>
