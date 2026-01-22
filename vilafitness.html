@@ -2452,35 +2452,35 @@
     </style>
 </head>
 <body>
-    <header class="header-container" id="menu">
-        <div class="nav-wrapper">
-            <div class="brand-container">
-                <a href="#"><img src="logo.png" alt="Logo" class="logo-img"></a>
-            </div>
-            <div class="right-controls">
-                <div class="search-widget" id="searchWidget">
-                    <div class="expandable-search-field" id="searchField">
-                        <input type="text" class="search-input-field" placeholder="Digite sua pesquisa..." id="searchInput">
-                    </div>
-                    <button class="search-toggle-btn" id="searchToggle" aria-label="Abrir pesquisa">
-                        <svg class="search-icon" viewBox="0 0 24 24">
-                            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-                        </svg>
-                    </button>
-                    <div class="search-results" id="searchResults"></div>
-                </div>  
-                <a href="index.html"><button class="gym-access-btn home-btn"><i class="fas fa-home"></i> Home</button></a>
-                <a href="academias-publicas.html"><button class="gym-access-btn"><i class="fas fa-dumbbell"></i> Academias</button></a>
-                <a href="login-gym.html"><button class="gym-access-btn"><i class="fas fa-sign-in-alt"></i> Login</button></a>
-                <button class="menu-trigger" id="menuTrigger" aria-label="Abrir menu">
-                    <div class="hamburger-line"></div>
-                    <div class="hamburger-line"></div>
-                    <div class="hamburger-line"></div>
-                </button>
-            </div>
+     <header class="header-container" id="menu">
+    <div class="nav-wrapper">
+        <div class="brand-container">
+            <a href="#"><img src="logo.png" alt="Logo" class="logo-img"></a>
         </div>
-    </header>
-
+        <div class="right-controls">
+            <div class="search-widget" id="searchWidget">
+                <div class="expandable-search-field" id="searchField">
+                    <input type="text" class="search-input-field" placeholder="Digite sua pesquisa..." id="searchInput">
+                </div>
+                <button class="search-toggle-btn" id="searchToggle" aria-label="Abrir pesquisa">
+                    <svg class="search-icon" viewBox="0 0 24 24">
+                        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                    </svg>
+                </button>
+                <div class="search-results" id="searchResults"></div>
+            </div>  
+            <!-- ADICIONE A CLASSE home-btn AQUI -->
+            <a href="index.html"><button class="gym-access-btn home-btn"><i class="fas fa-home"></i> Home</button></a>
+            <a href="academias-publicas.html"><button class="gym-access-btn"><i class="fas fa-dumbbell"></i> Academias</button></a>
+            <a href="login-gym.html"><button class="gym-access-btn"><i class="fas fa-sign-in-alt"></i> Login</button></a>
+            <button class="menu-trigger" id="menuTrigger" aria-label="Abrir menu">
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+            </button>
+        </div>
+    </div>
+</header>
     <nav class="slide-menu" id="slideMenu">
         <div class="menu-header">
             <button class="menu-close-btn" id="menuCloseBtn" aria-label="Fechar menu">
@@ -2490,21 +2490,20 @@
                 </svg>
             </button>
         </div>
-        
-        <button class="menu-search-btn" id="menuSearchBtn">Academias</button>
-        
+       <a href="academias-publicas.html"><button class="menu-search-btn">
+            <i class="fas fa-search"></i> Academias
+        </button>
+        </a> 
         <ul class="navigation-list">
-            <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
-            <li class="nav-item"><a href="#espaço-cliente" class="nav-link">Login</a></li>
-            <li class="nav-item"><a href="Filtro_personal.html" class="nav-link">Personais</a></li>
-            <li class="nav-item"><a href="#news" class="nav-link">Sorteios</a></li>
-            <li class="nav-item"><a href="config.html" class="nav-link">Configurações</a></li>
-            <li class="nav-item"><a href="Sobre_nós.html" class="nav-link">Sobre nós</a></li>
+            <li class="nav-item"><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+            <li class="nav-item"><a href="login-gym.html" class="nav-link"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+            <li class="nav-item"><a href="Filtro_personal.html" class="nav-link"><i class="fas fa-percent"></i> Promoções</a></li>
+            <li class="nav-item"><a href="#news" class="nav-link"><i class="fas fa-gift"></i> Sorteios</a></li>
+            <li class="nav-item"><a href="config.html" class="nav-link"><i class="fas fa-cog"></i> Configurações</a></li>
+            <li class="nav-item"><a href="Sobre_nós.html" class="nav-link"><i class="fas fa-info-circle"></i> Sobre nós</a></li>
         </ul>
     </nav>
-
     <div class="menu-overlay" id="menuOverlay"></div>
-
     
         <h1 class="page-title">
             <span class="title-text">Rede Fitness</span>
