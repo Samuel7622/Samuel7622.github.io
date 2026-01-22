@@ -3005,7 +3005,140 @@
 
         // Auto-play functionality
         autoplayBtn.addEventListener('click', toggleAutoPlay);
-
+     
+            // Configurar dropdown do usuário
+            function setupUserDropdown() {
+                const userContainer = document.getElementById('userHeaderContainer');
+                const dropdownMenu = document.getElementById('userDropdownMenu');
+                const logoutBtn = document.getElementById('logoutBtnHeader'); // ID ALTERADO AQUI
+                
+                if (!userContainer || !dropdownMenu || !logoutBtn) {
+                    console.log('⚠️ Elementos do dropdown não encontrados');
+                    return;
+                }
+                
+                // Toggle do dropdown
+                userContainer.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const isActive = dropdownMenu.style.opacity === '1';
+                    
+                    if (isActive) {
+                        dropdownMenu.style.opacity = '0';
+                        dropdownMenu.style.visibility = 'hidden';
+                        dropdownMenu.style.transform = 'translateY(-10px)';
+                    } else {
+                        dropdownMenu.style.opacity = '1';
+                        dropdownMenu.style.visibility = 'visible';
+                        dropdownMenu.style.transform = 'translateY(0)';
+                    }
+                });
+                
+                // Fechar dropdown ao clicar fora
+                document.addEventListener('click', (e) => {
+                    if (!userContainer.contains(e.target)) {
+                        dropdownMenu.style.opacity = '0';
+                        dropdownMenu.style.visibility = 'hidden';
+                        dropdownMenu.style.transform = 'translateY(-10px)';
+                    }
+                });
+                
+                // Prevenir fechamento ao clicar no dropdown
+                dropdownMenu.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                });
+                
+                // Hover effect no container
+                userContainer.addEventListener('mouseenter', () => {
+                    userContainer.style.background = 'rgba(0, 255, 136, 0.2)';
+                    userContainer.style.borderColor = 'rgba(0, 255, 136, 0.5)';
+                    userContainer.style.transform = 'translateY(-2px)';
+                    userContainer.style.boxShadow = '0 4px 15px rgba(0, 255, 136, 0.3)';
+                });
+                
+                userContainer.addEventListener('mouseleave', () => {
+                    userContainer.style.background = 'rgba(0, 255, 136, 0.1)';
+                    userContainer.style.borderColor = 'rgba(0, 255, 136, 0.3)';
+                    userContainer.style.transform = 'translateY(0)';
+                    userContainer.style.boxShadow = 'none';
+                });
+                
+                // Hover nos itens do menu
+                const menuItems = dropdownMenu.querySelectorAll('a, #logoutBtnHeader');
+                menuItems.forEach(item => {
+                    item.addEventListener('mouseenter', () => {
+                        item.style.background = 'rgba(0, 255, 136, 0.1)';
+                    });
+                    item.addEventListener('mouseleave', () => {
+                        item.style.background = 'transparent';
+                    });
+                });
+            }
+        
+    // Atualizar informações do usuário no header
+    function updateHeaderUserInfo(user) {
+        // Nome no botão do header
+        const userNameHeader = document.getElementById('userNameHeader');
+        const dropdownUserName = document.getElementById('dropdownUserName');
+        const dropdownUserEmail = document.getElementById('dropdownUserEmail');
+        const userAvatar = document.getElementById('userAvatar');
+        
+        if (userNameHeader) userNameHeader.textContent = user.name || 'Usuário';
+        if (dropdownUserName) dropdownUserName.textContent = user.name || 'Usuário';
+        if (dropdownUserEmail) dropdownUserEmail.textContent = user.email || 'email@exemplo.com';
+        
+        // Atualizar avatar com iniciais
+        if (userAvatar && user.name) {
+            const initials = getInitials(user.name);
+            userAvatar.textContent = initials;
+        }
+    }
+    
+    // Função para obter iniciais do nome
+    function getInitials(name) {
+        if (!name) return 'U';
+        return name
+            .split(' ')
+            .map(n => n[0])
+            .slice(0, 2)
+            .join('')
+            .toUpperCase();
+    }
+    
+    // Sistema de dropdown do usuário
+    document.addEventListener('DOMContentLoaded', function() {
+        const userHeaderContainer = document.getElementById('userHeaderContainer');
+        const userDropdown = document.getElementById('userDropdown');
+        
+        if (userHeaderContainer && userDropdown) {
+            userHeaderContainer.addEventListener('click', function() {
+                userDropdown.style.opacity = userDropdown.style.opacity === '1' ? '0' : '1';
+                userDropdown.style.visibility = userDropdown.style.visibility === 'visible' ? 'hidden' : 'visible';
+                userDropdown.style.transform = userDropdown.style.transform === 'translateY(0px)' ? 'translateY(-10px)' : 'translateY(0px)';
+            });
+            
+            // Fechar dropdown ao clicar fora
+            document.addEventListener('click', function(event) {
+                if (!userHeaderContainer.contains(event.target)) {
+                    userDropdown.style.opacity = '0';
+                    userDropdown.style.visibility = 'hidden';
+                    userDropdown.style.transform = 'translateY(-10px)';
+                }
+            });
+        }
+    });
+    
+    // Função de logout
+    function logout() {
+        if (confirm('Tem certeza que deseja sair da sua conta?')) {
+            // Limpar dados do usuário
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('gymp2_current_user');
+            sessionStorage.removeItem('gymp2_user');
+            
+            // Redirecionar para página inicial
+            window.location.href = 'index.html';
+        }
+    }
         function toggleAutoPlay() {
             isAutoPlaying = !isAutoPlaying;
 
@@ -3277,6 +3410,7 @@
         };
 
         setTimeout(typeWriter, 500);
+        
     </script>
 </body>
 </html>
