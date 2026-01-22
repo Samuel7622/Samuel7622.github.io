@@ -1,3527 +1,569 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #000000;
-    color: white;
-    min-height: 100vh;
-    overflow-x: hidden;
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-/* ========== HEADER PRINCIPAL - MELHORADO ========== */
-.header-container {
-    padding: 1.2rem 2.5rem;
-    position: relative;
-    top: 0;
-    z-index: 2000;
-    backdrop-filter: blur(25px) saturate(180%);
-    width: 100%;
-    margin: 0;
-    background: rgba(0, 0, 0, 0.85);
-    box-shadow: 
-        0 8px 32px rgba(0, 255, 64, 0.15),
-        0 1px 0 rgba(0, 255, 64, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.05);
-    border-bottom: 1px solid rgba(0, 255, 64, 0.2);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.header-container:hover {
-    box-shadow: 
-        0 12px 48px rgba(0, 255, 64, 0.25),
-        0 2px 0 rgba(0, 255, 64, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.08);
-}
-
-.nav-wrapper {
-    max-width: 1400px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
-
-.brand-container {
-    flex-shrink: 0;
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.brand-container:hover {
-    transform: translateY(-2px) scale(1.05);
-}
-
-.logo-img {
-    height: 80px;
-    width: auto;
-    display: block;
-    transition: all 0.3s ease;
-    filter: drop-shadow(0 4px 8px rgba(0, 255, 64, 0.3));
-}
-
-.brand-container:hover .logo-img {
-    filter: drop-shadow(0 6px 12px rgba(0, 255, 64, 0.5));
-    transform: rotate(-2deg);
-}
-
-.right-controls {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    flex-wrap: nowrap;
-}
-
-/* ========== BARRA DE PESQUISA - MELHORADA ========== */
-.search-widget {
-    position: relative;
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-}
-
-.search-toggle-btn {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #00ff40 0%, #00ff88 50%, #00ff40 100%);
-    border: 2px solid rgba(0, 255, 64, 0.3);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    position: relative;
-    z-index: 100;
-    flex-shrink: 0;
-    box-shadow: 
-        0 4px 15px rgba(0, 255, 64, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    animation: pulseGlow 3s infinite alternate;
-}
-
-.search-toggle-btn:hover {
-    transform: scale(1.1) rotate(10deg);
-    background: linear-gradient(135deg, #00ff88 0%, #00ff40 50%, #00ff88 100%);
-    box-shadow: 
-        0 6px 25px rgba(0, 255, 64, 0.5),
-        0 0 30px rgba(0, 255, 64, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
-}
-
-.search-toggle-btn:active {
-    transform: scale(0.95) rotate(0deg);
-    transition: transform 0.1s ease;
-}
-
-@keyframes pulseGlow {
-    0% {
-        box-shadow: 
-            0 4px 15px rgba(0, 255, 64, 0.3),
-            inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    }
-    100% {
-        box-shadow: 
-            0 4px 20px rgba(0, 255, 64, 0.4),
-            0 0 15px rgba(0, 255, 64, 0.2),
-            inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    }
-}
-
-.search-icon {
-    width: 22px;
-    height: 22px;
-    fill: #000;
-    transition: all 0.4s ease;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
-}
-
-.search-toggle-btn:hover .search-icon {
-    transform: scale(1.2);
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
-}
-
-.expandable-search-field {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(255, 255, 255, 0.95);
-    border: 2px solid transparent;
-    border-radius: 30px;
-    width: 48px;
-    height: 48px;
-    overflow: hidden;
-    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-    backdrop-filter: blur(20px);
-    z-index: 50;
-    box-shadow: 
-        0 4px 20px rgba(0, 0, 0, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.8);
-}
-
-.expandable-search-field.expanded {
-    width: 320px;
-    border-color: #00ff40;
-    background: rgba(255, 255, 255, 0.98);
-    box-shadow: 
-        0 8px 32px rgba(0, 255, 64, 0.25),
-        0 0 0 1px rgba(0, 255, 64, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.9);
-    animation: searchExpand 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-@keyframes searchExpand {
-    0% {
-        width: 48px;
-        opacity: 0.8;
-    }
-    50% {
-        opacity: 1;
-    }
-    100% {
-        width: 320px;
-    }
-}
-.search-result-link {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-}
-
-.search-result-link:hover .search-result-item {
-    background: rgba(0, 255, 136, 0.1);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 255, 136, 0.2);
-}
-.search-input-field {
-    width: 100%;
-    height: 100%;
-    border: none;
-    outline: none;
-    background: transparent;
-    padding: 0 60px 0 20px;
-    font-size: 1rem;
-    color: #000;
-    font-family: inherit;
-    opacity: 0;
-    transition: opacity 0.3s ease 0.1s;
-    cursor: text;
-}
-
-.expandable-search-field.expanded .search-input-field {
-    opacity: 1;
-}
-
-.search-input-field::placeholder {
-    color: rgba(0, 0, 0, 0.5);
-    transition: color 0.3s ease;
-}
-
-.search-input-field:focus::placeholder {
-    color: rgba(0, 0, 0, 0.3);
-}
-
-.expandable-search-field * {
-    pointer-events: auto;
-}
-
-/* ========== RESULTADOS DA PESQUISA ========== */
-.search-results {
-    position: fixed;
-    top: calc(1.2rem * 2 + 55px + 10px);
-    left: 50%;
-    transform: translateX(-50%);
-    background: white;
-    border-radius: 15px;
-    max-height: 300px;
-    overflow-y: auto;
-    display: none;
-    z-index: 1999;
-    width: calc(100vw - 40px);
-    max-width: 600px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-}
-
-.search-results.active {
-    display: block;
-}
-
-.search-result-item {
-    padding: 15px 20px;
-    border-bottom: 1px solid #eee;
-    color: #333;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.search-result-item:hover {
-    background: #f0f0f0;
-}
-
-.search-result-item:last-child {
-    border-bottom: none;
-}
-
-.result-category {
-    font-size: 0.8rem;
-    color: #00ff40;
-    font-weight: bold;
-    text-transform: uppercase;
-    margin-bottom: 5px;
-}
-
-.result-title {
-    font-weight: 600;
-    margin-bottom: 5px;
-}
-
-.result-description {
-    font-size: 0.9rem;
-    color: #666;
-}
-
-/* ========== BOTÕES ========== */
-.gym-access-btn {
-    background: linear-gradient(135deg, #00ff40 0%, #00ff88 100%);
-    color: #000;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 30px;
-    font-size: 1rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    white-space: nowrap;
-    flex-shrink: 0;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 
-        0 4px 15px rgba(0, 255, 64, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    border: 2px solid transparent;
-}
-
-.gym-access-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-    transition: left 0.7s ease;
-}
-
-.gym-access-btn:hover {
-    transform: translateY(-4px) scale(1.05);
-    background: linear-gradient(135deg, #00ff88 0%, #00ff40 100%);
-    box-shadow: 
-        0 8px 30px rgba(0, 255, 64, 0.5),
-        0 4px 0 rgba(0, 255, 64, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4);
-    border-color: rgba(255, 255, 255, 0.3);
-}
-
-.gym-access-btn:hover::before {
-    left: 100%;
-}
-
-.gym-access-btn:active {
-    transform: translateY(-1px) scale(0.98);
-    transition: transform 0.1s ease;
-    box-shadow: 
-        0 4px 15px rgba(0, 255, 64, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
-}
-
-.gym-access-btn a {
-    text-decoration: none;
-    color: #000;
-    font-weight: 700;
-    position: relative;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-
-/* ========== MENU HAMBURGUER ========== */
-.menu-trigger {
-    display: flex;
-    flex-direction: column;
-    cursor: pointer;
-    padding: 12px;
-    background: transparent;
-    border: none;
-    z-index: 2001;
-    position: relative;
-    flex-shrink: 0;
-    transition: transform 0.3s ease;
-}
-
-.menu-trigger:hover {
-    transform: scale(1.1);
-}
-
-.hamburger-line {
-    width: 28px;
-    height: 4px;
-    background: linear-gradient(45deg, #00ff40, #00ff88);
-    margin: 4px 0;
-    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    border-radius: 4px;
-    box-shadow: 0 2px 5px rgba(0, 255, 64, 0.3);
-    position: relative;
-    overflow: hidden;
-}
-
-.hamburger-line::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
-    transition: left 0.6s ease;
-}
-
-.menu-trigger:hover .hamburger-line::after {
-    left: 100%;
-}
-
-.menu-trigger.active .hamburger-line:nth-child(1) {
-    transform: rotate(45deg) translate(8px, 8px);
-    background: linear-gradient(45deg, #00ff88, #00ff40);
-}
-
-.menu-trigger.active .hamburger-line:nth-child(2) {
-    opacity: 0;
-    transform: translateX(-20px);
-}
-
-.menu-trigger.active .hamburger-line:nth-child(3) {
-    transform: rotate(-45deg) translate(8px, -8px);
-    background: linear-gradient(45deg, #00ff40, #00ff88);
-}
-
-/* ========== MENU DESLIZANTE ========== */
-.slide-menu {
-    position: fixed;
-    top: -50px;
-    margin-top: 60px;
-    right: -450px;
-    width: 450px;
-    height: 100vh;
-    background: #000000;
-    transition: right 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    z-index: 3000;
-    padding: 2rem 2rem;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-}
-
-.slide-menu.open {
-    right: 0;
-}
-
-.menu-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid #222;
-}
-
-.menu-close-btn {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.3s ease;
-}
-
-.menu-close-btn:hover {
-    transform: rotate(90deg);
-}
-
-.menu-close-icon {
-    width: 24px;
-    height: 24px;
-    color: #fff;
-}
-
-.menu-search-btn {
-    width: 100%;
-    background: linear-gradient(135deg, #00ff40 0%, #00cc3a 100%);
-    color: #000;
-    border: none;
-    padding: 14px 20px;
-    border-radius: 12px;
-    font-size: 1rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-transform: none;
-    letter-spacing: 0.3px;
-    margin-bottom: 1.5rem;
-}
-
-.menu-search-btn:hover {
-    background: linear-gradient(135deg, #00ff40 0%, #00ff40 100%);
-}
-
-.navigation-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    width: 100%;
-}
-
-.nav-item {
-    margin: 0;
-    width: 100%;
-}
-
-.nav-link {
-    color: #ffffff;
-    text-decoration: none;
-    font-size: 1.1rem;
-    font-weight: 500;
-    display: block;
-    padding: 1rem 0;
-    transition: all 0.3s ease;
-    width: 100%;
-    box-sizing: border-box;
-    border-bottom: 0.5px solid #333;
-}
-
-.nav-link:hover {
-    color: #00ff40;
-    padding-left: 15px;
-}
-
-.nav-item:last-child .nav-link {
-    border-bottom: none;
-}
-
-.menu-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.8);
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.4s ease;
-    z-index: 2500;
-    backdrop-filter: blur(8px);
-}
-
-.menu-overlay.visible {
-    opacity: 1;
-    visibility: visible;
-}
-
-/* ========== HERO SECTION ========== */
-.hero {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-}
-
-.hero-content {
-    display: grid;
-    justify-content: space-evenly;
-    grid-template-columns: 1fr 1fr;
-    width: 100%;
-    gap: 180px;
-}
-
-.hero-text h1 {
-    font-size: 3rem;
-    font-weight: 700;
-    margin-bottom: 20px;
-}
-
-.highlight {
-    color: #00ff40;
-}
-
-.hero-description {
-    font-size: 1.1rem;
-    margin-bottom: 40px;
-    opacity: 0.8;
-    max-width: 500px;
-}
-
-.linha-basica {
-    width: 100%;
-    height: 2px;
-    background-color: #333;
-    margin: 20px 0;
-}
-
-.sentence-1 {
-    opacity: 1;
-}
-
-.sentence-3 {
-    opacity: 0.2;
-}
-
-.workout-card {
-    background: #3c892900;
-    border-radius: 20px;
-    padding: 40px;
-    border: 2px solid #4ecdc500;
-    min-height: 400px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.workout-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-}
-
-.workout-image {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-}
-
-.start-button {
-    padding: 12.5px 30px;
-    border: 0;
-    border-radius: 100px;
-    background-color: #00ff1e;
-    color: #000000;
-    font-weight: Bold;
-    transition: all 0.5s;
-    -webkit-transition: all 0.5s;
-    cursor: pointer;
-    margin-top: 20px;
-}
-
-.start-button:hover {
-    background-color: #00ff2f;
-    box-shadow: 0 0 20px #00ff1e;
-    transform: scale(1.1);
-}
-
-.start-button:active {
-    background-color: #00ff88;
-    transition: all 0.25s;
-    -webkit-transition: all 0.25s;
-    box-shadow: none;
-    transform: scale(0.98);
-}
-
-/* Texto Rotativo */
-.rotating-text-container {
-    font-size: 2.5rem;
-    font-weight: bold;
-    line-height: 1.2;
-    margin: 20px 0;
-}
-
-.static-text {
-    display: inline-block;
-    margin-right: 20px;
-}
-
-.rotating-text-wrapper {
-    display: inline-block;
-    position: relative;
-    height: 80px;
-    overflow: hidden;
-    vertical-align: top;
-    min-width: 250px;
-}
-
-.rotating-text {
-    position: absolute;
-    top: 0;
-    left: 0;
-    font-size: 1.5rem;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    opacity: 0;
-    transform: translateY(100%);
-    animation: rotateText 12s infinite;
-}
-
-.rotating-text:nth-child(1) { animation-delay: 0s; }
-.rotating-text:nth-child(2) { animation-delay: 3s; }
-.rotating-text:nth-child(3) { animation-delay: 6s; }
-.rotating-text:nth-child(4) { animation-delay: 9s; }
-
-.rotating-text.creative {
-    background: linear-gradient(45deg, #00ff1e, #00d4aa);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.rotating-text.innovative {
-    background: linear-gradient(45deg, #00ff1e, #00d4aa);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.rotating-text.professional {
-    background: linear-gradient(45deg, #00ff1e, #00d4aa);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.rotating-text.dynamic {
-    background: linear-gradient(45deg, #00ff1e, #00ff88);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-@keyframes rotateText {
-    0% {
-        opacity: 0;
-        transform: translateY(100%) rotateX(90deg);
-    }
-    8% {
-        opacity: 1;
-        transform: translateY(0) rotateX(0deg);
-    }
-    25% {
-        opacity: 1;
-        transform: translateY(0) rotateX(0deg);
-    }
-    33% {
-        opacity: 0;
-        transform: translateY(-100%) rotateX(-90deg);
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(-100%) rotateX(-90deg);
-    }
-}
-
-.subtitle {
-    font-size: 1.2rem;
-    opacity: 0.9;
-    animation: fadeInUp 1s ease-out 0.5s both;
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 0.9;
-        transform: translateY(0);
-    }
-}
-
-/* SLIDER PROFISSIONAL */
-.slider {
-    width: 100%;
-    max-width: 699px;
-    height: 500px;
-    position: relative;
-    overflow: hidden;
-    background: #000;
-    border-radius: 20px;
-    border: 2px solid rgba(0, 255, 64, 0.4);
-    transform: translateZ(0);
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.slide1 {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0;
-    animation: fade 20s infinite;
-    transform: scale(1.05);
-    transition: transform 0.8s ease;
-    filter: brightness(0.9) contrast(1.1);
-}
-
-.slide1:nth-of-type(1) { 
-    animation-delay: 0s; 
-    background-image: url('5.png');
-}
-.slide1:nth-of-type(2) { 
-    animation-delay: 4s; 
-    background-image: url('4.png');
-}
-.slide1:nth-of-type(3) { 
-    animation-delay: 8s; 
-    background-image: url('3.png');
-}
-.slide1:nth-of-type(4) { 
-    animation-delay: 12s; 
-    background-image: url('2.png');
-}
-.slide1:nth-of-type(5) { 
-    animation-delay: 16s; 
-    background-image: url('1.png');
-}
-
-/* Animações mais suaves */
-@keyframes fade {
-    0% { 
-        opacity: 0;
-        transform: scale(1.05);
-        filter: brightness(0.9) contrast(1.1);
-    }
-    8% { 
-        opacity: 1;
-        transform: scale(1);
-        filter: brightness(1) contrast(1.15);
-    }
-    20% { 
-        opacity: 1;
-        transform: scale(1);
-        filter: brightness(1) contrast(1.15);
-    }
-    28% { 
-        opacity: 0;
-        transform: scale(1.05);
-        filter: brightness(0.9) contrast(1.1);
-    }
-    100% { 
-        opacity: 0;
-        transform: scale(1.05);
-        filter: brightness(0.9) contrast(1.1);
-    }
-}
-
-/* Overlay gradiente */
-.slider::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0.15) 0%,
-        transparent 30%,
-        transparent 70%,
-        rgba(77, 255, 0, 0.25) 100%
-    );
-    z-index: 1;
-    pointer-events: none;
-    border-radius: 20px;
-}
-
-.circle-progress {
-    width: 400px;
-    height: 400px;
-    border: 30px solid #00ff40;
-    border-radius: 50%;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    z-index: 1;
-}
-
-.circle-progress2 {
-    width: 600px;
-    height: 600px;
-    border: 30px solid #00ff40;
-    border-radius: 70%;
-    position: absolute;
-    display: flex;
-    align-items: center;
-    z-index: 2;
-}
-
-/* ========== SEÇÃO DOIS - ACADEMIAS ========== */
-.dois {
-    padding: 80px 0;
-    background-color: #000000;
-}
-
-.section-header {
-    text-align: center;
-    margin-bottom: 60px;
-}
-
-.section-title {
-    font-size: 3.5rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, #00ff1e, #00ff88);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 1rem;
-    opacity: 0;
-    transform: translateY(30px);
-    animation: fadeInUp 1s ease forwards;
-}
-
-.cards {
-    justify-content: space-evenly;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-    margin-bottom: 80px;
-}
-
-.academy-card1 {
-    background: #1a1a1a;
-    border: 1px solid #333;
-    border-radius: 12px;
-    overflow: hidden;
-    margin-top: 50px;
-    transition: transform 0.3s, box-shadow 0.3s;
-    position: relative;
-    width: 360px;
-    height: 500px;
-}
-
-.card-image {
-    height: 200px;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-start;
-    color: white;
-    font-size: 1.2rem;
-    font-weight: bold;
-    position: relative;
-}
-
-.card-image::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.7) 100%);
-}
-
-.price-badge {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: #000;
-    color: #00ff1e;
-    padding: 0.8rem 1rem;
-    border-radius: 8px;
-    font-weight: bold;
-    font-size: 1.1rem;
-    z-index: 10;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
-    border: 1px solid #00ff1e;
-}
-
-.card-content {
-    padding: 1.5rem;
-}
-
-.academy-name {
-    font-size: 1.3rem;
-    font-weight: bold;
-    margin-bottom: 0.8rem;
-    color: #fff;
-}
-
-.academy-type {
-    background: #28a745;
-    color: white;
-    padding: 0.3rem 0.8rem;
-    border-radius: 15px;
-    font-size: 0.8rem;
-    display: inline-block;
-    margin-bottom: 0.8rem;
-}
-
-.academy-location {
-    color: #ccc;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.schedule-section {
-    border-top: 1px solid #333;
-    padding-top: 1rem;
-    margin-top: 1rem;
-}
-
-.schedule {
-    font-size: 0.9rem;
-    color: #ccc;
-    line-height: 1.4;
-}
-
-.schedule-line {
-    margin-bottom: 0.3rem;
-}
-
-.view-details-btn {
-    background: #28a745;
-    color: white;
-    border: none;
-    padding: 0.8rem 1.5rem;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    margin-top: 1rem;
-    transition: background 0.3s;
-    text-decoration: none;
-    display: block;
-    text-align: center;
-    width: 300px;
-    position: absolute;
-    left: 8%;
-    bottom: 20px;
-}
-
-.view-details-btn:hover {
-    background: #1a5d1a;
-}
-
-.cards2 {
-    justify-content: space-evenly;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-}
-
-.academy-card2 {
-    background: #1a1a1a;
-    border: 1px solid #333;
-    border-radius: 12px;
-    overflow: hidden;
-    transition: transform 0.3s, box-shadow 0.3s;
-    position: relative;
-    width: 360px;
-    height: 500px;
-}
-
-.card-image2 {
-    height: 200px;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-start;
-    color: white;
-    font-size: 1.2rem;
-    font-weight: bold;
-    position: relative;
-}
-
-.card-image2::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.7) 100%);
-}
-
-.price-badge2 {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: #000;
-    color: #d80a0a;
-    padding: 0.8rem 1rem;
-    border-radius: 8px;
-    font-weight: bold;
-    font-size: 1.1rem;
-    z-index: 10;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
-    border: 1px solid #d80a0a;
-}
-
-.card-content2 {
-    padding: 1.5rem;
-}
-
-.academy-name2 {
-    font-size: 1.3rem;
-    font-weight: bold;
-    margin-bottom: 0.8rem;
-    color: #fff;
-}
-
-.academy-type2 {
-    background: #d80a0a;
-    color: white;
-    padding: 0.3rem 0.8rem;
-    border-radius: 15px;
-    font-size: 0.8rem;
-    display: inline-block;
-    margin-bottom: 0.8rem;
-}
-
-.academy-location2 {
-    color: #ccc;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.schedule-section2 {
-    border-top: 1px solid #333;
-    padding-top: 1rem;
-    margin-top: 1rem;
-}
-
-.schedule2 {
-    font-size: 0.9rem;
-    color: #ccc;
-    line-height: 1.4;
-}
-
-.schedule-line2 {
-    margin-bottom: 0.3rem;
-}
-
-.view-details-btn2 {
-    background: #d80a0a;
-    color: white;
-    border: none;
-    padding: 0.8rem 1.5rem;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    margin-top: 1rem;
-    transition: background 0.3s;
-    text-decoration: none;
-    display: block;
-    text-align: center;
-    width: 300px;
-    position: absolute;
-    left: 8%;
-    bottom: 20px;
-}
-
-.view-details-btn2:hover {
-    background: #6b0202;
-}
-
-/* ========== SEÇÃO TRÊS ========== */
-.tres {
-    padding: 80px 20px;
-    background-color: #000000;
-    position: relative;
-    flex-wrap: wrap;
-    justify-content: center;
-    display: flex;
-}
-
-.fitness-content-box {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 50px;
-    max-width: 1200px;
-    width: 100%;
-    margin: 0 auto;
-    align-items: center;
-    background: linear-gradient(135deg, #001a00, #00ff88);
-    padding: 60px;
-    border-radius: 20px;
-}
-
-.training-info-section h2 {
-    font-size: 2.5rem;
-    color: #ffffff;
-    margin-bottom: 25px;
-    font-weight: 700;
-    line-height: 1.3;
-}
-
-.training-info-section ul {
-    list-style: none;
-    margin-bottom: 25px;
-}
-
-.workout-benefit-row {
-    display: flex;
-    align-items: center;
-    padding: 12px 0;
-    font-size: 1.1rem;
-    color: #e0ffe0;
-    border-bottom: 1px solid rgba(0, 255, 128, 0.2);
-}
-
-.workout-benefit-row:last-child {
-    border-bottom: none;
-}
-
-.green-fitness-symbol {
-    color: #00ff7f;
-    margin-right: 15px;
-    width: 20px;
-    text-align: center;
-    flex-shrink: 0;
-}
-
-.program-description {
-    font-size: 1.1rem;
-    color: #b3ffb3;
-    margin-bottom: 30px;
-    line-height: 1.6;
-}
-
-.muscle-guide-link {
-    display: inline-block;
-    background: #00ff88;
-    color: #000;
-    padding: 15px 30px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 1rem;
-    box-shadow: 0 4px 15px rgba(0, 255, 85, 0.3);
-    transition: all 0.3s ease;
-}
-
-.muscle-guide-link:hover {
-    background: #00ff40;
-}
-
-.gym-photo-display {
-    display: flex;
-    justify-content: center;
-}
-
-.gym-photo-display img {
-    width: 100%;
-    max-width: 450px;
-    height: 500px;
-    object-fit: cover;
-    border-radius: 15px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-    transition: transform 0.3s ease;
-}
-
-/* ========== SEÇÃO QUATRO - PERSONAL TRAINERS ========== */
-.quatro {
-    background: #2a2a2a54;
-    padding: 60px 20px;
-    position: relative;
-    overflow: hidden;
-}
-
-.personal-wrapper {
-    max-width: 1300px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: 60px;
-    align-items: center;
-}
-
-/* LADO ESQUERDO - TEXTO */
-.personal-text {
-    padding-right: 20px;
-}
-
-.personal-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    line-height: 1.2;
-    margin-bottom: 20px;
-    color: #ffffff;
-}
-
-.personal-subtitle {
-    font-size: 1.1rem;
-    color: #cccccc;
-    margin-bottom: 30px;
-    line-height: 1.5;
-}
-
-/* LISTA SIMPLES */
-.info-list {
-    list-style: none;
-    margin-bottom: 35px;
-}
-
-.info-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    margin-bottom: 12px;
-    font-size: 1rem;
-    color: #e0e0e0;
-}
-
-.bullet {
-    width: 6px;
-    height: 6px;
-    background: #00ff88;
-    border-radius: 50%;
-    margin-top: 8px;
-    flex-shrink: 0;
-}
-
-/* EXTRAS */
-.extra-info {
-    font-size: 0.95rem;
-    color: #aaa;
-    margin-bottom: 35px;
-    font-style: italic;
-}
-
-/* BOTÕES */
-.cta-buttons {
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
-}
-
-.btn {
-    padding: 12px 28px;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    border: none;
-}
-
-.btn-download {
-    background: #00ff88;
-    color: #000;
-}
-
-.btn-download:hover {
-    background: #00cc6a;
-    transform: translateY(-2px);
-}
-
-.btn-secondary {
-    background: transparent;
-    color: #fff;
-    border: 2px solid #555;
-}
-
-.btn-secondary:hover {
-    border-color: #00ff88;
-    color: #00ff88;
-}
-
-/* LADO DIREITO - MOCKUPS */
-.phones-mockup {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    position: relative;
-}
-
-.phone {
-    width: 240px;
-    height: 490px;
-    background: #1a1a1a;
-    border-radius: 30px;
-    padding: 12px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-    border: 6px solid #3a3a3a;
-    position: relative;
-}
-
-.phone.phone-1 {
-    transform: translateY(-20px);
-}
-
-.phone.phone-2 {
-    transform: translateY(20px);
-}
-
-.phone-screen {
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #1a1a1a 0%, #000 100%);
-    border-radius: 22px;
-    overflow: hidden;
-    position: relative;
-}
-
-/* NOTCH */
-.notch {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 120px;
-    height: 25px;
-    background: #000;
-    border-radius: 0 0 15px 15px;
-    z-index: 10;
-}
-
-/* CONTEÚDO SIMPLIFICADO - CORRIGIDO */
-.screen-content {
-    padding: 40px 15px 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    height: 100%;
-}
-
-.screen-header {
-    background: rgba(0, 255, 136, 0.15);
-    border: 1px solid rgba(0, 255, 136, 0.3);
-    border-radius: 15px;
-    padding: 15px 10px;
-    text-align: center;
-}
-
-.screen-header h4 {
-    font-size: 0.9rem;
-    color: #00ff88;
-    margin-bottom: 5px;
-    white-space: nowrap;
-}
-
-.screen-header p {
-    font-size: 0.75rem;
-    color: #888;
-    white-space: nowrap;
-}
-
-.screen-card {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: 12px 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    min-height: 45px;
-}
-
-.card-info {
-    font-size: 0.75rem;
-    color: #ccc;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.card-value {
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: #00ff88;
-    white-space: nowrap;
-    margin-left: 10px;
-}
-
-/* ACENTO LARANJA */
-.accent-bar {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 120px;
-    height: 500px;
-    background: linear-gradient(180deg, #00ff88 0%, rgba(0, 255, 136, 0.3)100%);
-    border-radius: 30px 0 0 30px;
-    z-index: 0;
-}
-
-/* ========== FOOTER ========== */
-.academia-footer {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-    margin-top: 60px;
-}
-
-.academia-background svg {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: auto;
-    z-index: 0;
-}
-
-.academia-footer-inner {
-    position: relative;
-    z-index: 1;
-    padding: 4rem 2rem 8rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 4rem;
-}
-
-.academia-footer-inner .academia-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 2rem;
-}
-
-.academia-footer-inner .academia-top h2 {
-    font-size: 2rem;
-    font-weight: 600;
-}
-
-.academia-footer-inner .academia-top h3 {
-    font-size: 1.25rem;
-    font-weight: 400;
-    opacity: 0.8;
-}
-
-.academia-footer-inner .academia-bottom {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 2rem;
-}
-
-.academia-logo-content {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-}
-
-.academia-socials {
-    display: flex;
-    gap: 1rem;
-}
-
-.academia-socials a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 45px;
-    height: 45px;
-    font-size: 1.25rem;
-    color: white;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-}
-
-.academia-nav {
-    display: flex;
-    gap: 3rem;
-    flex-wrap: wrap;
-}
-
-.academia-nav ul {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.academia-nav h4 {
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: #ccc;
-}
-
-.academia-nav a {
-    font-size: 0.9rem;
-    color: white;
-    opacity: 0.8;
-    text-decoration: none;
-    transition: opacity 0.3s;
-    cursor: pointer;
-}
-
-.academia-nav a:hover {
-    opacity: 1;
-    color: #00ff88;
-    transform: translateX(5px);
-}
-
-/* Estilos para o menu hamburguer quando logado */
-.nav-link i {
-    width: 20px;
-    text-align: center;
-    margin-right: 10px;
-}
-
-.nav-link[style*="color: #00ff40"] {
-    background-color: #00ff40;
-    border-radius: 8px;
-    margin: 5px 0;
-    padding: 12px 15px !important;
-}
-
-.nav-link[style*="color: #ff4444"] {
-    background: rgba(240, 9, 9, 0.1);
-    border-radius: 8px;
-    margin: 5px 0;
-    padding: 12px 15px !important;
-}
-
-.nav-link[style*="color: #00ff40"]:hover {
-   background: #00ff40;
-    color: #00ff40 !important;
-}
-
-.nav-link[style*="color: #ff4444"]:hover {
-    background: rgba(255, 68, 68, 0.2);
-    color: #ff4444 !important;
-}
-
-/* ========== RESPONSIVIDADE ========== */
-
-/* Tablets Grandes (1024px e abaixo) */
-@media (max-width: 1024px) {
-    .header-container {
-        padding: 1rem 1.5rem;
-    }
-
-    .logo-img {
-        height: 65px;
-    }
-
-    .right-controls {
-        gap: 1rem;
-    }
-
-    .gym-access-btn {
-        padding: 10px 16px;
-        font-size: 0.95rem;
-    }
-
-    .search-toggle-btn {
-        width: 44px;
-        height: 44px;
-    }
-
-    .search-icon {
-        width: 20px;
-        height: 20px;
-    }
-
-    .expandable-search-field {
-        width: 44px;
-        height: 44px;
-    }
-
-    .expandable-search-field.expanded {
-        width: 280px;
-    }
-
-    .search-input-field {
-        padding: 0 50px 0 18px;
-        font-size: 0.95rem;
-    }
-
-    .slide-menu {
-        width: 350px;
-        right: -350px;
-        padding: 2rem 1.5rem;
-    }
-
-    .menu-search-btn {
-        padding: 12px 18px;
-        font-size: 0.95rem;
-    }
-
-    .search-results {
-        top: calc(1rem * 2 + 65px + 10px);
-        max-width: 500px;
+// ========== SISTEMA DE PÁGINAS ==========
+const pages = [
+    'home-page',
+    'academias-page', 
+    'personal-trainer-page',
+    'blog-page',
+    'sobre-page'
+];
+
+function goToPage(pageId) {
+    // Esconder todas as páginas
+    pages.forEach(page => {
+        const pageElement = document.getElementById(page);
+        if (pageElement) {
+            pageElement.classList.remove('active');
+        }
+    });
+    
+    // Mostrar a página desejada
+    const targetPage = document.getElementById(pageId);
+    if (targetPage) {
+        targetPage.classList.add('active');
     }
     
-    .hero-content {
-        grid-template-columns: 1fr;
-        text-align: center;
-        gap: 30px;
-    }
-    
-    .hero-text h1 {
-        font-size: 2.5rem;
-    }
-
-    .hero-description {
-        max-width: 100%;
-    }
-
-    .rotating-text-wrapper {
-        min-width: 200px;
-        height: 50px;
-    }
-
-    .rotating-text {
-        font-size: 1.8rem;
-    }
-    
-    .circle-progress {
-        width: 280px;
-        height: 280px;
-        border-width: 20px;
-    }
-
-    .circle-progress2 {
-        width: 420px;
-        height: 420px;
-        border-width: 20px;
-    }
-
-    .slider {
-        max-width: 450px;
-        margin: 0 auto;
-        height: 350px;
-    }
-
-    .start-button {
-        position: relative;
-        top: auto;
-        left: auto;
-    }
-
-    .section-title {
-        font-size: 2.8rem;
-    }
-
-    .cards, .cards2 {
-        justify-content: center;
-    }
-
-    .fitness-content-box {
-        padding: 50px 40px;
-        gap: 40px;
-    }
-
-    .training-info-section h2 {
-        font-size: 2.2rem;
-    }
-
-    .gym-photo-display img {
-        max-width: 400px;
-        height: 450px;
-    }
-    
-    .personal-wrapper {
-        grid-template-columns: 1fr;
-        gap: 50px;
-        text-align: center;
-    }
-
-    .personal-text {
-        padding-right: 0;
-    }
-
-    .personal-title {
-        font-size: 2.2rem;
-    }
-
-    .info-list {
-        max-width: 500px;
-        margin: 0 auto 35px;
-    }
-
-    .info-item {
-        justify-content: center;
-    }
-
-    .cta-buttons {
-        justify-content: center;
-    }
-
-    .accent-bar {
-        display: none;
-    }
+    // Fechar a pesquisa
+    closeSearch();
+    console.log(`📍 Navegado para: ${pageId}`);
 }
 
-/* Tablets Pequenos e Mobile Grande (768px e abaixo) */
-@media (max-width: 768px) {
-    /* BOTÃO ACADEMIAS AGORA FICA VISÍVEL */
-    .header-container {
-        padding: 0.8rem 1rem;
-        backdrop-filter: blur(20px);
-    }
-
-    .nav-wrapper {
-        flex-wrap: nowrap;
-        gap: 10px;
-    }
-
-    .logo-img {
-        height: 50px;
-        min-height: 50px;
-    }
-
-    .right-controls {
-        gap: 0.5rem;
-        flex-shrink: 0;
-    }
-
-    .search-toggle-btn {
-        width: 42px;
-        height: 42px;
-    }
-
-    .search-icon {
-        width: 18px;
-        height: 18px;
-    }
-
-    .expandable-search-field {
-        width: 42px;
-        height: 42px;
-    }
-
-    .expandable-search-field.expanded {
-        width: 250px;
-        z-index: 2002;
-    }
-
-    .search-input-field {
-        padding: 0 45px 0 16px;
-        font-size: 0.9rem;
-    }
-
-    .gym-access-btn {
-        padding: 8px 12px;
-        font-size: 0.9rem;
-        margin: 3px;
-    }
-
-    .slide-menu {
-        width: 300px;
-        right: -300px;
-        padding: 1.5rem 1.2rem;
-    }
-
-    .menu-search-btn {
-        padding: 12px 16px;
-        font-size: 0.9rem;
-    }
-
-    .nav-link {
-        font-size: 1rem;
-        padding: 0.9rem 0;
-        white-space: normal;
-        line-height: 1.4;
-    }
-
-    .search-results {
-        top: calc(0.8rem * 2 + 50px + 10px);
-        max-width: 400px;
-    }
-    
-    .container {
-        padding: 15px;
-    }
-
-    .hero {
-        min-height: auto;
-        padding: 40px 0;
-    }
-
-    .hero-text h1 {
-        font-size: 1.8rem;
-        margin-bottom: 15px;
-    }
-
-    .rotating-text-wrapper {
-        min-width: 150px;
-        height: 40px;
-    }
-
-    .rotating-text {
-        font-size: 1.4rem;
-    }
-
-    .hero-description {
-        font-size: 0.95rem;
-        margin-bottom: 25px;
-    }
-
-    .linha-basica {
-        margin: 15px 0;
-    }
-
-    .workout-card {
-        padding: 15px;
-        min-height: 300px;
-    }
-
-    .circle-progress {
-        width: 190px;
-        height: 190px;
-        border-width: 15px;
-    }
-
-    .circle-progress2 {
-        width: 250px;
-        height: 250px;
-        border-width: 15px;
-    }
-
-    .slider {
-        max-width: 280px;
-        height: 250px;
-    }
-
-    .start-button {
-        padding: 10px 24px;
-        font-size: 0.9rem;
-    }
-
-    .nav-link {
-        font-size: 1.1rem;
-        padding: 1rem 1.5rem;
-        white-space: normal;
-        line-height: 1.4;
-    }
-
-    .nav-item {
-        margin: 1rem 0;
-    }
-
-    .dois {
-        padding: 40px 0;
-    }
-
-    .section-title {
-        font-size: 2.2rem;
-    }
-
-    .cards, .cards2 {
-        flex-direction: column;
-        align-items: center;
-        gap: 40px;
-    }
-
-    .academy-card1, .academy-card2 {
-        width: 100%;
-        max-width: 400px;
-    }
-
-    .view-details-btn, .view-details-btn2 {
+function cadastrar() {
+    // Criar notificação visual
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 50%;
         left: 50%;
-        transform: translateX(-50%);
-        width: 90%;
-        max-width: 300px;
-    }
-
-    .tres {
-        padding: 40px 15px;
-    }
-
-    .fitness-content-box {
-        grid-template-columns: 1fr;
-        gap: 40px;
-        text-align: center;
-        padding: 40px 30px;
-    }
-    
-    .training-info-section h2 {
-        font-size: 2rem;
-    }
-
-    .workout-benefit-row {
-        justify-content: center;
-        font-size: 1rem;
-    }
-    
-    .gym-photo-display img {
-        max-width: 100%;
-        height: 400px;
-    }
-
-    .muscle-guide-link {
-        display: block;
-        width: fit-content;
-        margin: 0 auto;
-    }
-
-    .academia-footer-inner {
-        padding: 3rem 1.5rem 6rem;
-    }
-
-    .academia-footer-inner .academia-top h2 {
-        font-size: 1.6rem;
-    }
-
-    .academia-footer-inner .academia-top h3 {
-        font-size: 1.1rem;
-    }
-
-    .academia-nav {
-        gap: 2rem;
-        justify-content: space-between;
-        width: 100%;
-    }
-    
-    .quatro {
-        padding: 50px 15px;
-    }
-
-    .personal-title {
-        font-size: 2rem;
-    }
-
-    .personal-subtitle {
-        font-size: 1rem;
-    }
-
-    .phones-mockup {
-        gap: 15px;
-    }
-
-    .phone {
-        width: 180px;
-        height: 370px;
-        padding: 10px;
-    }
-
-    .screen-content {
-        padding: 35px 12px 12px;
-        gap: 10px;
-    }
-
-    .screen-header {
-        padding: 12px 8px;
-    }
-
-    .screen-header h4 {
-        font-size: 0.8rem;
-    }
-
-    .screen-header p {
-        font-size: 0.7rem;
-    }
-
-    .screen-card {
-        padding: 10px 8px;
-        min-height: 40px;
-    }
-
-    .card-info {
-        font-size: 0.7rem;
-    }
-
-    .card-value {
-        font-size: 0.85rem;
-    }
-
-    .notch {
-        width: 100px;
-        height: 22px;
-    }
-
-    .cta-buttons {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .btn {
-        justify-content: center;
-    }
-}
-
-/* Mobile (640px e abaixo) */
-@media (max-width: 640px) {
-    /* BOTÃO ACADEMIAS AGORA FICA VISÍVEL */
-
-    .content {
-        padding: 40px 15px;
-    }
-    
-    .hero-text h1 {
-        font-size: 1.5rem;
-    }
-
-    .rotating-text-wrapper {
-        min-width: 120px;
-        height: 35px;
-    }
-
-    .rotating-text {
+        transform: translate(-50%, -50%);
+        background: rgba(0, 255, 64, 0.95);
+        color: #000;
+        padding: 24px 40px;
+        border-radius: 20px;
+        font-weight: 700;
         font-size: 1.2rem;
-    }
-
-    .hero-description {
-        font-size: 0.9rem;
-    }
-
-    .circle-progress {
-        width: 120px;
-        height: 120px;
-        border-width: 12px;
-    }
-
-    .circle-progress2 {
-        width: 200px;
-        height: 200px;
-        border-width: 12px;
-    }
-
-    .slider {
-        max-width: 220px;
-        height: 200px;
-    }
-
-    .section-title {
-        font-size: 1.8rem;
-    }
-
-    .academy-card1, .academy-card2 {
-        width: 100%;
-        max-width: 360px;
-    }
-
-    .card-content, .card-content2 {
-        padding: 1rem;
-    }
-
-    .academy-name, .academy-name2 {
-        font-size: 1.1rem;
-    }
-
-    .price-badge, .price-badge2 {
-        padding: 0.6rem 0.8rem;
-        font-size: 1rem;
-    }
-
-    .tres {
-        padding: 30px 10px;
-    }
-
-    .fitness-content-box {
-        padding: 30px 20px;
-        gap: 30px;
-    }
-
-    .training-info-section h2 {
-        font-size: 1.6rem;
-        margin-bottom: 20px;
-    }
-
-    .workout-benefit-row {
-        font-size: 0.95rem;
-        padding: 10px 0;
-    }
-
-    .program-description {
-        font-size: 1rem;
-        margin-bottom: 25px;
-    }
-
-    .muscle-guide-link {
-        padding: 12px 25px;
-        font-size: 0.9rem;
-    }
-
-    .gym-photo-display img {
-        height: 300px;
-    }
-
-    .academia-footer-inner .academia-bottom {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-
-    .academia-logo-content {
-        align-items: center;
-    }
-
-    .academia-nav {
-        flex-direction: column;
-        align-items: center;
-        gap: 1.5rem;
-    }
-
-    .academia-nav ul {
-        align-items: center;
-    }
+        z-index: 10000;
+        box-shadow: 0 20px 60px rgba(0, 255, 64, 0.4);
+        backdrop-filter: blur(20px);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    `;
     
-    .quatro {
-        padding: 40px 10px;
-    }
-
-    .personal-title {
-        font-size: 1.8rem;
-    }
-
-    .phone {
-        width: 160px;
-        height: 330px;
-        padding: 8px;
-    }
-
-    .screen-content {
-        padding: 32px 10px 10px;
-        gap: 8px;
-    }
-
-    .screen-header {
-        padding: 10px 6px;
-    }
-
-    .screen-header h4 {
-        font-size: 0.75rem;
-    }
-
-    .screen-header p {
-        font-size: 0.65rem;
-    }
-
-    .screen-card {
-        padding: 8px 6px;
-        min-height: 35px;
-    }
-
-    .card-info {
-        font-size: 0.65rem;
-    }
-
-    .card-value {
-        font-size: 0.8rem;
-        margin-left: 5px;
-    }
-
-    .notch {
-        width: 90px;
-        height: 20px;
-    }
-
-    .cta-buttons {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .btn {
-        justify-content: center;
-    }
-}
-
-/* Pequenos Smartphones (480px e abaixo) */
-@media (max-width: 480px) {
-  
-    .content {
-        padding: 30px 10px;
-    }
-
-    .content h1 {
-        font-size: 1.5rem;
-    }
-
-    .content p {
-        font-size: 0.95rem;
-    }
+    notification.textContent = '🚀 Redirecionando para o cadastro...';
+    document.body.appendChild(notification);
     
-    .personal-title {
-        font-size: 1.6rem;
-    }
-
-    .phones-mockup {
-        gap: 10px;
-    }
-
-    .phone {
-        width: 140px;
-        height: 290px;
-        padding: 7px;
-        border-width: 4px;
-    }
-
-    .phone.phone-1,
-    .phone.phone-2 {
-        transform: translateY(0);
-    }
-
-    .screen-content {
-        padding: 28px 8px 8px;
-        gap: 7px;
-    }
-
-    .screen-header {
-        padding: 8px 5px;
-        border-radius: 10px;
-    }
-
-    .screen-header h4 {
-        font-size: 0.7rem;
-    }
-
-    .screen-header p {
-        font-size: 0.6rem;
-    }
-
-    .screen-card {
-        padding: 7px 5px;
-        min-height: 30px;
-        border-radius: 8px;
-    }
-
-    .card-info {
-        font-size: 0.6rem;
-    }
-
-    .card-value {
-        font-size: 0.75rem;
-    }
-
-    .notch {
-        width: 80px;
-        height: 18px;
-    }
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.remove();
+        }
+        // Aqui iria o código para o cadastro
+    }, 2000);
+    
+    console.log('📝 Iniciando cadastro da academia...');
 }
 
-/* Landscape para tablets */
-@media (max-width: 968px) and (orientation: landscape) {
-    .hero {
-        min-height: auto;
-        padding: 40px 0;
-    }
-
-    .hero-content {
-        grid-template-columns: 1fr 1fr;
-        gap: 30px;
-    }
-
-    .circle-progress {
-        width: 150px;
-        height: 150px;
-    }
-
-    .circle-progress2 {
-        width: 280px;
-        height: 280px;
-    }
+// ========== ANIMAÇÃO DE POP-IN ==========
+function createPopInAnimation() {
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes popIn {
+            0% { 
+                opacity: 0; 
+                transform: translate(-50%, -50%) scale(0.5); 
+            }
+            70% { 
+                opacity: 1; 
+                transform: translate(-50%, -50%) scale(1.1); 
+            }
+            100% { 
+                transform: translate(-50%, -50%) scale(1); 
+            }
+        }
+        
+        @keyframes slideInFromRight {
+            0% { 
+                opacity: 0; 
+                transform: translateX(30px); 
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateX(0); 
+            }
+        }
+        
+        @keyframes fadeInUp {
+            0% { 
+                opacity: 0; 
+                transform: translateY(20px); 
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+    `;
+    document.head.appendChild(style);
 }
-/* ========== CORREÇÕES DE RESPONSIVIDADE DO HEADER ========== */
 
-/* Para telas muito pequenas, ajustar o layout do header */
-@media (max-width: 640px) {
-    /* Garantir que o header não fique muito apertado */
-    .header-container {
-        padding: 0.8rem 0.8rem !important;
-        min-height: 70px;
+// ========== FUNCIONALIDADE DO MENU HAMBURGUER - MELHORADA ==========
+const menuTrigger = document.getElementById('menuTrigger');
+const slideMenu = document.getElementById('slideMenu');
+const menuOverlay = document.getElementById('menuOverlay');
+const menuCloseBtn = document.getElementById('menuCloseBtn');
+const menuSearchBtn = document.getElementById('menuSearchBtn');
+
+// Adicionar efeito de clique ao botão do menu
+menuTrigger.addEventListener('mousedown', () => {
+    menuTrigger.style.transform = 'scale(0.95)';
+});
+
+menuTrigger.addEventListener('mouseup', () => {
+    menuTrigger.style.transform = 'scale(1)';
+});
+
+// Abrir/fechar menu com animação melhorada
+menuTrigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    menuTrigger.classList.toggle('active');
+    slideMenu.classList.toggle('open');
+    menuOverlay.classList.toggle('visible');
+    
+    // Adicionar efeito sonoro visual
+    if (menuTrigger.classList.contains('active')) {
+        console.log('📱 Menu aberto');
+        // Animação de entrada dos itens
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach((item, index) => {
+            item.style.animationDelay = `${index * 0.1}s`;
+        });
+    } else {
+        console.log('📱 Menu fechado');
+    }
+});
+
+// Fechar menu pelo botão X com animação
+menuCloseBtn.addEventListener('click', () => {
+    closeMenuWithAnimation();
+});
+
+// Fechar menu ao clicar no overlay com fade out
+menuOverlay.addEventListener('click', () => {
+    closeMenuWithAnimation();
+});
+
+// Fechar menu ao clicar em um link com transição suave
+document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        // Adicionar efeito visual ao clicar no link
+        link.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            link.style.transform = '';
+        }, 150);
+        
+        // Fechar menu com delay para ver a animação
+        setTimeout(() => {
+            closeMenuWithAnimation();
+            
+            // Navegar para o link após fechar o menu
+            const href = link.getAttribute('href');
+            if (href && href !== '#') {
+                window.location.href = href;
+            }
+        }, 200);
+    });
+});
+
+// Função para fechar menu com animação
+function closeMenuWithAnimation() {
+    menuTrigger.classList.remove('active');
+    slideMenu.classList.remove('open');
+    menuOverlay.classList.remove('visible');
+    
+    // Resetar animações dos itens
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+        item.style.animationDelay = '0s';
+    });
+}
+
+// Abrir pesquisa pelo botão do menu com animação
+menuSearchBtn.addEventListener('click', () => {
+    // Animação no botão
+    menuSearchBtn.style.transform = 'scale(0.95)';
+    setTimeout(() => {
+        menuSearchBtn.style.transform = '';
+    }, 150);
+    
+    // Fecha o menu
+    closeMenuWithAnimation();
+    
+    // Abre a pesquisa com delay
+    setTimeout(() => {
+        searchField.classList.add('expanded');
+        searchInput.focus();
+        
+        // Efeito visual na barra de pesquisa
+        searchField.style.animation = 'searchExpand 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        setTimeout(() => {
+            searchField.style.animation = '';
+        }, 600);
+    }, 300);
+});
+
+// 
+// ========== FUNÇÕES AUXILIARES MELHORADAS ==========
+function showNotification(message, type = 'success') {
+    // Criar notificação estilizada
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${type === 'success' ? 'rgba(0, 255, 64, 0.95)' : 'rgba(255, 68, 68, 0.95)'};
+        color: #000;
+        padding: 16px 24px;
+        border-radius: 16px;
+        font-weight: 700;
+        font-size: 0.95rem;
+        z-index: 10000;
+        box-shadow: 0 10px 40px ${type === 'success' ? 'rgba(0, 255, 64, 0.4)' : 'rgba(255, 68, 68, 0.4)'};
+        backdrop-filter: blur(20px);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        animation: fadeInUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         display: flex;
         align-items: center;
-    }
-    
-    /* Ajustar container do nav para mobile */
-    .nav-wrapper {
-        width: 100%;
-        gap: 5px;
-        flex-wrap: nowrap;
-        justify-content: space-between;
-    }
-    
-    /* Logo ajustada para mobile */
-    .brand-container {
-        flex-shrink: 0;
-        min-width: 120px;
-    }
-    
-    .logo-img {
-        height: 45px !important;
-        width: auto;
-        max-width: 120px;
-    }
-    
-    /* Container dos controles à direita */
-    .right-controls {
-        display: flex !important;
-        gap: 8px !important;
-        align-items: center;
-        flex-shrink: 0;
-        flex-wrap: nowrap;
-    }
-    
-    /* Botão "Academias Agora" visível em mobile - OCULTAR O BOTÃO HOME */
-    .gym-access-btn:not(.home-btn) {
-        display: inline-flex !important;
-        padding: 8px 12px !important;
-        font-size: 0.75rem !important;
-        margin: 0 !important;
-        white-space: nowrap;
-        min-width: fit-content;
-        order: 1; /* Garante ordem correta */
-    }
-    
-    /* Esconder o botão Home em mobile */
-    .gym-access-btn.home-btn {
-        display: none !important;
-    }
-    
-    /* Botão de pesquisa ajustado */
-    .search-toggle-btn {
-        width: 38px !important;
-        height: 38px !important;
-        order: 2;
-    }
-    
-    /* Campo de pesquisa expandido em mobile */
-    .expandable-search-field.expanded {
-        width: 200px !important;
-        position: fixed;
-        top: 70px;
-        right: 10px;
-        z-index: 3000;
-    }
-    
-    /* Menu hamburguer ajustado */
-    .menu-trigger {
-        padding: 8px !important;
-        order: 3;
-    }
-    
-    .hamburger-line {
-        width: 24px !important;
-        height: 3px !important;
-    }
-}
-
-/* Ajustes para telas muito pequenas (menos de 480px) */
-@media (max-width: 480px) {
-    .header-container {
-        padding: 0.6rem 0.6rem !important;
-    }
-    
-    .brand-container {
-        min-width: 100px;
-    }
-    
-    .logo-img {
-        height: 40px !important;
-        max-width: 100px;
-    }
-    
-    .right-controls {
-        gap: 6px !important;
-    }
-    
-    /* Botão "Academias Agora" ajustado */
-    .gym-access-btn:not(.home-btn) {
-        padding: 6px 10px !important;
-        font-size: 0.7rem !important;
-    }
-    
-    /* Botão Home continua oculto */
-    .gym-access-btn.home-btn {
-        display: none !important;
-    }
-    
-    .search-toggle-btn {
-        width: 36px !important;
-        height: 36px !important;
-    }
-    
-    .menu-trigger {
-        padding: 6px !important;
-    }
-    
-    .hamburger-line {
-        width: 22px !important;
-        height: 2.5px !important;
-    }
-    
-    .expandable-search-field.expanded {
-        width: 180px !important;
-        top: 65px;
-    }
-}
-
-/* Ajustes para landscape em mobile */
-@media (max-height: 500px) and (orientation: landscape) {
-    .header-container {
-        min-height: 60px;
-        padding: 0.5rem 0.8rem !important;
-    }
-    
-    .logo-img {
-        height: 35px !important;
-    }
-    
-    .gym-access-btn:not(.home-btn) {
-        padding: 5px 8px !important;
-        font-size: 0.65rem !important;
-    }
-    
-    .gym-access-btn.home-btn {
-        display: none !important;
-    }
-}
-/* Responsividade do slider */
-@media (max-width: 1024px) {
-    .slider {
-        max-width: 550px;
-        height: 400px;
-        border-radius: 18px;
-    }
-    
-    .circle-progress {
-        width: 350px;
-        height: 350px;
-        border-width: 25px;
-    }
-    
-    .circle-progress2 {
-        width: 500px;
-        height: 500px;
-        border-width: 25px;
-    }
-}
-
-@media (max-width: 768px) {
-    .slider {
-        max-width: 420px;
-        height: 300px;
-        border-radius: 15px;
-    }
-    
-    .slider-indicators {
-        bottom: 20px;
-    }
-    
-    .indicator-dot {
-        width: 10px;
-        height: 10px;
-    }
-    
-    .circle-progress {
-        width: 300px;
-        height: 300px;
-        border-width: 20px;
-    }
-    
-    .circle-progress2 {
-        width: 400px;
-        height: 400px;
-        border-width: 20px;
-    }
-    
-    .workout-card {
-        padding: 20px;
-    }
-}
-
-@media (max-width: 480px) {
-    .slider {
-        max-width: 300px;
-        height: 220px;
-        border-radius: 12px;
-    }
-    
-    .slider-indicators {
-        bottom: 15px;
-        gap: 8px;
-    }
-    
-    .indicator-dot {
-        width: 8px;
-        height: 8px;
-    }
-    
-    .circle-progress {
-        width: 220px;
-        height: 220px;
-        border-width: 15px;
-    }
-    
-    .circle-progress2 {
-        width: 300px;
-        height: 300px;
-        border-width: 15px;
-    }
-}
-/* ========== RESPONSIVIDADE ========== */
-
-/* Tablets Grandes (1024px e abaixo) */
-@media (max-width: 1024px) {
-    .header-container {
-        padding: 1rem 1.5rem;
-    }
-
-    .logo-img {
-        height: 65px;
-    }
-
-    .right-controls {
-        gap: 1rem;
-    }
-
-    .gym-access-btn {
-        padding: 10px 16px;
-        font-size: 0.95rem;
-    }
-
-    .search-toggle-btn {
-        width: 44px;
-        height: 44px;
-    }
-
-    .search-icon {
-        width: 20px;
-        height: 20px;
-    }
-
-    .expandable-search-field {
-        width: 44px;
-        height: 44px;
-    }
-
-    .expandable-search-field.expanded {
-        width: 280px;
-    }
-
-    .search-input-field {
-        padding: 0 50px 0 18px;
-        font-size: 0.95rem;
-    }
-
-    .slide-menu {
-        width: 350px;
-        right: -350px;
-        padding: 2rem 1.5rem;
-    }
-
-    .menu-search-btn {
-        padding: 12px 18px;
-        font-size: 0.95rem;
-    }
-
-    .search-results {
-        top: calc(1rem * 2 + 65px + 10px);
-        max-width: 500px;
-    }
-    
-    .hero-content {
-        grid-template-columns: 1fr;
-        text-align: center;
-        gap: 30px;
-    }
-    
-    .hero-text h1 {
-        font-size: 2.5rem;
-    }
-
-    .hero-description {
-        max-width: 100%;
-    }
-
-    .rotating-text-wrapper {
-        min-width: 200px;
-        height: 50px;
-    }
-
-    .rotating-text {
-        font-size: 1.8rem;
-    }
-    
-    .circle-progress {
-        width: 280px;
-        height: 280px;
-        border-width: 20px;
-    }
-
-    .circle-progress2 {
-        width: 420px;
-        height: 420px;
-        border-width: 20px;
-    }
-
-    .slider {
-        max-width: 450px;
-        margin: 0 auto;
-        height: 350px;
-    }
-
-    .start-button {
-        position: relative;
-        top: auto;
-        left: auto;
-    }
-
-    .section-title {
-        font-size: 2.8rem;
-    }
-
-    .cards, .cards2 {
-        justify-content: center;
-    }
-
-    .fitness-content-box {
-        padding: 50px 40px;
-        gap: 40px;
-    }
-
-    .training-info-section h2 {
-        font-size: 2.2rem;
-    }
-
-    .gym-photo-display img {
+        gap: 12px;
         max-width: 400px;
-        height: 450px;
-    }
+        transform-origin: top right;
+    `;
     
-    .personal-wrapper {
-        grid-template-columns: 1fr;
-        gap: 50px;
-        text-align: center;
-    }
-
-    .personal-text {
-        padding-right: 0;
-    }
-
-    .personal-title {
-        font-size: 2.2rem;
-    }
-
-    .info-list {
-        max-width: 500px;
-        margin: 0 auto 35px;
-    }
-
-    .info-item {
-        justify-content: center;
-    }
-
-    .cta-buttons {
-        justify-content: center;
-    }
-
-    .accent-bar {
-        display: none;
-    }
-}
-
-/* Tablets Pequenos e Mobile Grande (768px e abaixo) */
-@media (max-width: 768px) {
-    /* OCULTAR APENAS O BOTÃO HOME EM MOBILE */
-    .gym-access-btn.home-btn {
-        display: none;
-    }
-
-    .header-container {
-        padding: 0.8rem 1rem;
-        backdrop-filter: blur(20px);
-    }
-
-    .nav-wrapper {
-        flex-wrap: nowrap;
-        gap: 10px;
-    }
-
-    .logo-img {
-        height: 50px;
-        min-height: 50px;
-    }
-
-    .right-controls {
-        gap: 0.5rem;
-        flex-shrink: 0;
-    }
-
-    .search-toggle-btn {
-        width: 42px;
-        height: 42px;
-    }
-
-    .search-icon {
-        width: 18px;
-        height: 18px;
-    }
-
-    .expandable-search-field {
-        width: 42px;
-        height: 42px;
-    }
-
-    .expandable-search-field.expanded {
-        width: 250px;
-        z-index: 2002;
-    }
-
-    .search-input-field {
-        padding: 0 45px 0 16px;
-        font-size: 0.9rem;
-    }
-
-    .gym-access-btn {
-        padding: 8px 12px;
-        font-size: 0.9rem;
-        margin: 3px;
-    }
-
-    .slide-menu {
-        width: 300px;
-        right: -300px;
-        padding: 1.5rem 1.2rem;
-    }
-
-    .menu-search-btn {
-        padding: 12px 16px;
-        font-size: 0.9rem;
-    }
-
-    .nav-link {
-        font-size: 1rem;
-        padding: 0.9rem 0;
-        white-space: normal;
-        line-height: 1.4;
-    }
-
-    .search-results {
-        top: calc(0.8rem * 2 + 50px + 10px);
-        max-width: 400px;
-    }
+    const icon = type === 'success' ? '✅' : '⚠️';
+    notification.innerHTML = `
+        <span style="font-size: 1.2rem;">${icon}</span>
+        <span>${message}</span>
+    `;
     
-    .container {
-        padding: 15px;
-    }
-
-    .hero {
-        min-height: auto;
-        padding: 40px 0;
-    }
-
-    .hero-text h1 {
-        font-size: 1.8rem;
-        margin-bottom: 15px;
-    }
-
-    .rotating-text-wrapper {
-        min-width: 150px;
-        height: 40px;
-    }
-
-    .rotating-text {
-        font-size: 1.4rem;
-    }
-
-    .hero-description {
-        font-size: 0.95rem;
-        margin-bottom: 25px;
-    }
-
-    .linha-basica {
-        margin: 15px 0;
-    }
-
-    .workout-card {
-        padding: 15px;
-        min-height: 300px;
-    }
-
-    .circle-progress {
-        width: 190px;
-        height: 190px;
-        border-width: 15px;
-    }
-
-    .circle-progress2 {
-        width: 250px;
-        height: 250px;
-        border-width: 15px;
-    }
-
-    .slider {
-        max-width: 280px;
-        height: 250px;
-    }
-
-    .start-button {
-        padding: 10px 24px;
-        font-size: 0.9rem;
-    }
-
-    .nav-link {
-        font-size: 1.1rem;
-        padding: 1rem 1.5rem;
-        white-space: normal;
-        line-height: 1.4;
-    }
-
-    .nav-item {
-        margin: 1rem 0;
-    }
-
-    .dois {
-        padding: 40px 0;
-    }
-
-    .section-title {
-        font-size: 2.2rem;
-    }
-
-    .cards, .cards2 {
-        flex-direction: column;
-        align-items: center;
-        gap: 40px;
-    }
-
-    .academy-card1, .academy-card2 {
-        width: 100%;
-        max-width: 400px;
-    }
-
-    .view-details-btn, .view-details-btn2 {
-        left: 50%;
-        transform: translateX(-50%);
-        width: 90%;
-        max-width: 300px;
-    }
-
-    .tres {
-        padding: 40px 15px;
-    }
-
-    .fitness-content-box {
-        grid-template-columns: 1fr;
-        gap: 40px;
-        text-align: center;
-        padding: 40px 30px;
-    }
+    document.body.appendChild(notification);
     
-    .training-info-section h2 {
-        font-size: 2rem;
-    }
-
-    .workout-benefit-row {
-        justify-content: center;
-        font-size: 1rem;
-    }
+    // Remover após 3 segundos com animação
+    setTimeout(() => {
+        notification.style.animation = 'fadeOutUp 0.5s ease forwards';
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.remove();
+            }
+        }, 500);
+    }, 3000);
     
-    .gym-photo-display img {
-        max-width: 100%;
-        height: 400px;
-    }
-
-    .muscle-guide-link {
-        display: block;
-        width: fit-content;
-        margin: 0 auto;
-    }
-
-    .academia-footer-inner {
-        padding: 3rem 1.5rem 6rem;
-    }
-
-    .academia-footer-inner .academia-top h2 {
-        font-size: 1.6rem;
-    }
-
-    .academia-footer-inner .academia-top h3 {
-        font-size: 1.1rem;
-    }
-
-    .academia-nav {
-        gap: 2rem;
-        justify-content: space-between;
-        width: 100%;
-    }
-    
-    .quatro {
-        padding: 50px 15px;
-    }
-
-    .personal-title {
-        font-size: 2rem;
-    }
-
-    .personal-subtitle {
-        font-size: 1rem;
-    }
-
-    .phones-mockup {
-        gap: 15px;
-    }
-
-    .phone {
-        width: 180px;
-        height: 370px;
-        padding: 10px;
-    }
-
-    .screen-content {
-        padding: 35px 12px 12px;
-        gap: 10px;
-    }
-
-    .screen-header {
-        padding: 12px 8px;
-    }
-
-    .screen-header h4 {
-        font-size: 0.8rem;
-    }
-
-    .screen-header p {
-        font-size: 0.7rem;
-    }
-
-    .screen-card {
-        padding: 10px 8px;
-        min-height: 40px;
-    }
-
-    .card-info {
-        font-size: 0.7rem;
-    }
-
-    .card-value {
-        font-size: 0.85rem;
-    }
-
-    .notch {
-        width: 100px;
-        height: 22px;
-    }
-
-    .cta-buttons {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .btn {
-        justify-content: center;
-    }
-}
-
-/* Mobile (640px e abaixo) */
-@media (max-width: 640px) {
-  
-
-    @keyframes slideDown {
-        from {
-            opacity: 0;
-            transform: translateY(-10px);
+    // Adicionar animação de fade out
+    const fadeOutStyle = document.createElement('style');
+    fadeOutStyle.textContent = `
+        @keyframes fadeOutUp {
+            0% { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
+            100% { 
+                opacity: 0; 
+                transform: translateY(-20px) scale(0.9); 
+            }
         }
-        to {
-            opacity: 1;
-            transform: translateY(0);
+    `;
+    document.head.appendChild(fadeOutStyle);
+}
+
+// ========== FUNÇÕES DE PESQUISA ADICIONAIS ==========
+function closeSearch() {
+    if (searchField.classList.contains('expanded')) {
+        searchField.style.animation = 'searchCollapse 0.4s ease';
+        setTimeout(() => {
+            searchField.classList.remove('expanded');
+            searchField.style.animation = '';
+            searchInput.value = '';
+            searchResults.classList.remove('active');
+        }, 400);
+    }
+}
+
+function toggleSearch() {
+    searchToggle.click();
+}
+
+function performSearch(query) {
+    searchInput.value = query;
+    searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+    
+    // Expandir se não estiver expandido
+    if (!searchField.classList.contains('expanded')) {
+        searchToggle.click();
+    }
+}
+
+// ========== INICIALIZAÇÃO MELHORADA ==========
+function initializeSearch() {
+    // Criar animações
+    createPopInAnimation();
+    
+    console.log('🎨 Sistema de navegação com efeitos visuais carregado!');
+    console.log('📱 Menu hamburguer: ✅');
+    console.log('🔍 Barra de pesquisa: ✅');
+    console.log('✨ Efeitos visuais: ✅');
+    
+    // Adicionar efeito de inicialização
+    setTimeout(() => {
+        const logo = document.querySelector('.logo-img');
+        if (logo) {
+            logo.style.transition = 'all 0.5s ease';
+            logo.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                logo.style.transform = 'scale(1)';
+            }, 300);
         }
-    }
+    }, 1000);
+}
 
-   
-    .content {
-        padding: 40px 15px;
-    }
+// Inicializar quando o DOM estiver carregado
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        initializeSearch();
+        console.log('🚀 Sistema inicializado com sucesso!');
+    });
+} else {
+    initializeSearch();
+    console.log('🚀 Sistema inicializado (DOM já carregado)');
+}
+
+// ========== FUNÇÕES ADICIONAIS ==========
+function buscarPersonal() {
+    showNotification('🔍 Buscando personal trainers...', 'success');
+    // Aqui você pode adicionar a lógica de busca
+}
+
+function cadastrarPersonal() {
+    showNotification('👤 Redirecionando para cadastro de personal trainer...', 'success');
+    // Aqui você pode adicionar a lógica de cadastro
+}
+
+// Adicionando eventos para filtros específicos que podem estar no menu
+document.querySelectorAll('[onclick*="buscarPersonal"]').forEach(btn => {
+    btn.addEventListener('click', buscarPersonal);
+});
+
+document.querySelectorAll('[onclick*="cadastrarPersonal"]').forEach(btn => {
+    btn.addEventListener('click', cadastrarPersonal);
+});
+
+// Adicionar efeito de hover aos botões de gym-access
+document.querySelectorAll('.gym-access-btn').forEach(btn => {
+    btn.addEventListener('mouseenter', function() {
+        this.style.zIndex = '100';
+    });
     
-    .hero-text h1 {
-        font-size: 1.5rem;
-    }
+    btn.addEventListener('mouseleave', function() {
+        this.style.zIndex = '';
+    });
+});
 
-    .rotating-text-wrapper {
-        min-width: 120px;
-        height: 35px;
+// Adicionar efeito de clique nos resultados da pesquisa
+document.addEventListener('click', function(e) {
+    if (e.target.closest('.search-result-item')) {
+        const item = e.target.closest('.search-result-item');
+        item.style.animation = 'pulse 0.3s ease';
     }
+});
 
-    .rotating-text {
-        font-size: 1.2rem;
+// ========== ANIMAÇÃO DE PULSO ==========
+const pulseStyle = document.createElement('style');
+pulseStyle.textContent = `
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(0.98); }
+        100% { transform: scale(1); }
     }
+`;
+document.head.appendChild(pulseStyle);
 
-    .hero-description {
-        font-size: 0.9rem;
-    }
+console.log('🎯 Todas as funcionalidades da navbar carregadas com efeitos visuais!');
+        // Dados das promoções
+        const promocoes = [
+            {
+                id: 1,
+                titulo: "Creatina Monohidratada 300g",
+                subtitulo: "Marca: Max Titanium",
+                descricao: "Creatina pura em pó, aumenta a força e o desempenho nos treinos. Sabor neutro, fácil de misturar.",
+                categoria: "creatina",
+                precoAntigo: 89.90,
+                precoNovo: 67.90,
+                desconto: "25%",
+                validoAte: "30/11/2023",
+                destaque: true
+            },
+            {
+                id: 2,
+                titulo: "Plano Anual Academia",
+                subtitulo: "Smart Fit - Unidade Centro",
+                descricao: "Plano anual com acesso ilimitado a todas unidades, aulas coletivas e área de musculação. Isenção de taxa de adesão.",
+                categoria: "academia",
+                precoAntigo: 99.90,
+                precoNovo: 79.90,
+                desconto: "20%",
+                validoAte: "15/12/2023",
+                destaque: false
+            },
+            {
+                id: 3,
+                titulo: "Whey Protein Concentrado 1kg",
+                subtitulo: "Marca: IntegralMédica",
+                descricao: "Proteína de alta qualidade para recuperação muscular. Disponível em vários sabores.",
+                categoria: "proteina",
+                precoAntigo: 119.90,
+                precoNovo: 89.90,
+                desconto: "25%",
+                validoAte: "10/12/2023",
+                destaque: true
+            },
+            
+            {
+                id: 5,
+                titulo: "Creatina Creapure® 500g",
+                subtitulo: "Marca: Growth",
+                descricao: "Creatina alemã de altíssima pureza, considerada a melhor do mercado. Máxima absorção.",
+                categoria: "creatina",
+                precoAntigo: 159.90,
+                precoNovo: 129.90,
+                desconto: "19%",
+                validoAte: "20/12/2023",
+                destaque: false
+            },
+            {
+                id: 6,
+                titulo: "Plano Semestral + Personal",
+                subtitulo: "Bluefit - Unidade Zona Sul",
+                descricao: "6 meses de academia + 4 sessões mensais com personal trainer. Avaliação física inclusa.",
+                categoria: "academia",
+                precoAntigo: 199.90,
+                precoNovo: 149.90,
+                desconto: "25%",
+                validoAte: "25/11/2023",
+                destaque: true
+            },
+            {
+                id: 7,
+                titulo: "BCAA 2400mg 120 cápsulas",
+                subtitulo: "Marca: Probiotica",
+                descricao: "Aminoácidos de cadeia ramificada para reduzir fadiga e melhorar recuperação muscular.",
+                categoria: "proteina",
+                precoAntigo: 79.90,
+                precoNovo: 59.90,
+                desconto: "25%",
+                validoAte: "12/12/2023",
+                destaque: false
+            }
+        ];
 
-    .circle-progress {
-        width: 120px;
-        height: 120px;
-        border-width: 12px;
-    }
-
-    .circle-progress2 {
-        width: 200px;
-        height: 200px;
-        border-width: 12px;
-    }
-
-    .slider {
-        max-width: 220px;
-        height: 200px;
-    }
-
-    .section-title {
-        font-size: 1.8rem;
-    }
-
-    .academy-card1, .academy-card2 {
-        width: 100%;
-        max-width: 360px;
-    }
-
-    .card-content, .card-content2 {
-        padding: 1rem;
-    }
-
-    .academy-name, .academy-name2 {
-        font-size: 1.1rem;
-    }
-
-    .price-badge, .price-badge2 {
-        padding: 0.6rem 0.8rem;
-        font-size: 1rem;
-    }
-
-    .tres {
-        padding: 30px 10px;
-    }
-
-    .fitness-content-box {
-        padding: 30px 20px;
-        gap: 30px;
-    }
-
-    .training-info-section h2 {
-        font-size: 1.6rem;
-        margin-bottom: 20px;
-    }
-
-    .workout-benefit-row {
-        font-size: 0.95rem;
-        padding: 10px 0;
-    }
-
-    .program-description {
-        font-size: 1rem;
-        margin-bottom: 25px;
-    }
-
-    .muscle-guide-link {
-        padding: 12px 25px;
-        font-size: 0.9rem;
-    }
-
-    .gym-photo-display img {
-        height: 300px;
-    }
-
-    .academia-footer-inner .academia-bottom {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-
-    .academia-logo-content {
-        align-items: center;
-    }
-
-    .academia-nav {
-        flex-direction: column;
-        align-items: center;
-        gap: 1.5rem;
-    }
-
-    .academia-nav ul {
-        align-items: center;
-    }
+        // Função para renderizar as promoções
+        function renderPromocoes(filter = 'all') {
+            const promoGrid = document.getElementById('promoGrid');
+            promoGrid.innerHTML = '';
+            
+            const promocoesFiltradas = filter === 'all' 
+                ? promocoes 
+                : promocoes.filter(promo => promo.categoria === filter);
+            
+            if (promocoesFiltradas.length === 0) {
+                promoGrid.innerHTML = '<div class="no-results">Nenhuma promoção encontrada para esta categoria.</div>';
+                return;
+            }
+            
+            promocoesFiltradas.forEach(promo => {
+                const promoCard = document.createElement('div');
+                promoCard.className = 'promo-card';
+                
+                // Determinar a classe de categoria para o cabeçalho
+                const categoryClass = promo.categoria;
+                
+                promoCard.innerHTML = `
+                    <div class="card-header ${categoryClass}">
+                        <span class="card-category">${getCategoryName(promo.categoria)}</span>
+                        <h3 class="card-title">${promo.titulo}</h3>
+                        <p class="card-subtitle">${promo.subtitulo}</p>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-description">${promo.descricao}</p>
+                        <div class="price-container">
+                            <span class="old-price">R$ ${promo.precoAntigo.toFixed(2)}</span>
+                            <span class="new-price">R$ ${promo.precoNovo.toFixed(2)}</span>
+                            <span class="discount-badge">-${promo.desconto}</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="valid-date">
+                            <i class="far fa-calendar-alt"></i> Válido até: ${promo.validoAte}
+                        </div>
+                        <button class="btn-promo" onclick="verPromocao(${promo.id})">
+                            <i class="fas fa-shopping-cart"></i> Ver Oferta
+                        </button>
+                    </div>
+                `;
+                
+                promoGrid.appendChild(promoCard);
+            });
+        }
+        
+        // Função para obter o nome da categoria formatado
+        function getCategoryName(category) {
+            const names = {
+                'creatina': 'Creatina',
+                'academia': 'Academia',
+                'proteina': 'Proteína',
+                'acessorio': 'Acessório'
+            };
+            return names[category] || category;
+        }
+        
+        // Função para filtrar as promoções
+        function setupFilters() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remover classe active de todos os botões
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Adicionar classe active ao botão clicado
+                    button.classList.add('active');
+                    
+                    // Filtrar promoções
+                    const filter = button.getAttribute('data-filter');
+                    renderPromocoes(filter);
+                });
+            });
+        }
+        
+        // Função para simular clique em uma promoção
+        function verPromocao(id) {
+            const promocao = promocoes.find(p => p.id === id);
+            if (promocao) {
+                alert(`Redirecionando para a oferta: ${promocao.titulo}\nPreço: R$ ${promocao.precoNovo.toFixed(2)}\nVálido até: ${promocao.validoAte}`);
+                // Em um site real, aqui seria o redirecionamento para a página da oferta
+            }
+        }
+        
+        // Inicializar a página
+        document.addEventListener('DOMContentLoaded', () => {
+            renderPromocoes();
+            setupFilters();
+            
+            // Configurar botão de destaque
+            const highlightBtn = document.querySelector('.highlight-btn');
+            highlightBtn.addEventListener('click', () => {
+                alert('Redirecionando para a oferta especial do mês!');
+            });
+        });
     
-    .quatro {
-        padding: 40px 10px;
-    }
-
-    .personal-title {
-        font-size: 1.8rem;
-    }
-
-    .phone {
-        width: 160px;
-        height: 330px;
-        padding: 8px;
-    }
-
-    .screen-content {
-        padding: 32px 10px 10px;
-        gap: 8px;
-    }
-
-    .screen-header {
-        padding: 10px 6px;
-    }
-
-    .screen-header h4 {
-        font-size: 0.75rem;
-    }
-
-    .screen-header p {
-        font-size: 0.65rem;
-    }
-
-    .screen-card {
-        padding: 8px 6px;
-        min-height: 35px;
-    }
-
-    .card-info {
-        font-size: 0.65rem;
-    }
-
-    .card-value {
-        font-size: 0.8rem;
-        margin-left: 5px;
-    }
-
-    .notch {
-        width: 90px;
-        height: 20px;
-    }
-
-    .cta-buttons {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .btn {
-        justify-content: center;
-    }
-}
-
-/* Pequenos Smartphones (480px e abaixo) */
-@media (max-width: 480px) {
-    /* OCULTAR APENAS O BOTÃO HOME EM MOBILE */
-    .gym-access-btn.home-btn {
-        display: none;
-    }
-
-    .header-container {
-        padding: 0.6rem 0.6rem;
-    }
-
-    .nav-wrapper {
-        gap: 6px;
-    }
-
-    .logo-img {
-        height: 40px;
-        min-height: 40px;
-    }
-
-    .right-controls {
-        gap: 0.3rem;
-        flex-wrap: wrap; /* Permite que os botões quebrem linha se necessário */
-    }
-
-    .search-toggle-btn {
-        width: 36px;
-        height: 36px;
-    }
-
-    .search-icon {
-        width: 16px;
-        height: 16px;
-    }
-
-    .expandable-search-field {
-        width: 36px;
-        height: 36px;
-    }
-
-    .expandable-search-field.expanded {
-        width: 200px;
-        right: 10px;
-        top: 65px;
-    }
-
-    .search-input-field {
-        padding: 0 38px 0 12px;
-        font-size: 0.8rem;
-    }
-
-    .gym-access-btn {
-        padding: 5px 8px;
-        font-size: 0.75rem;
-    }
-
-    .slide-menu {
-        width: 260px;
-        right: -260px;
-        padding: 1.2rem 0.8rem;
-    }
-
-    .menu-search-btn {
-        padding: 10px 12px;
-        font-size: 0.8rem;
-    }
-
-    .nav-link {
-        font-size: 0.9rem;
-        padding: 0.8rem 0;
-    }
-
-    .search-results {
-        top: calc(0.6rem * 2 + 40px + 10px);
-        max-width: 300px;
-    }
-
-    .content {
-        padding: 30px 10px;
-    }
-
-    .content h1 {
-        font-size: 1.5rem;
-    }
-
-    .content p {
-        font-size: 0.95rem;
-    }
-    
-    .personal-title {
-        font-size: 1.6rem;
-    }
-
-    .phones-mockup {
-        gap: 10px;
-    }
-
-    .phone {
-        width: 140px;
-        height: 290px;
-        padding: 7px;
-        border-width: 4px;
-    }
-
-    .phone.phone-1,
-    .phone.phone-2 {
-        transform: translateY(0);
-    }
-
-    .screen-content {
-        padding: 28px 8px 8px;
-        gap: 7px;
-    }
-
-    .screen-header {
-        padding: 8px 5px;
-        border-radius: 10px;
-    }
-
-    .screen-header h4 {
-        font-size: 0.7rem;
-    }
-
-    .screen-header p {
-        font-size: 0.6rem;
-    }
-
-    .screen-card {
-        padding: 7px 5px;
-        min-height: 30px;
-        border-radius: 8px;
-    }
-
-    .card-info {
-        font-size: 0.6rem;
-    }
-
-    .card-value {
-        font-size: 0.75rem;
-    }
-
-    .notch {
-        width: 80px;
-        height: 18px;
-    }
-}
-
-
-
-/* ========== FOOTER - ONDAS VERDES ========== */
-.academia-footer {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-    margin-top: 60px;
-    background: linear-gradient(to bottom, #000000 0%, #001a00 100%);
-}
-
-/* O SVG das ondas - APENAS ESTA PARTE FOI MODIFICADA */
-.academia-background svg {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: auto;
-    z-index: 0;
-}
-
-/* Se o SVG tem elementos path dentro, você pode estilizá-los assim: */
-.academia-background svg path {
-    fill: #00ff40; /* Cor principal das ondas */
-    opacity: 0.3; /* Transparência para efeito suave */
-}
-
-/* Para criar um efeito de gradiente nas ondas */
-.academia-background svg path:nth-child(1) {
-    fill: #00cc33; /* Tom mais escuro */
-    opacity: 0.4;
-}
-
-.academia-background svg path:nth-child(2) {
-    fill: #00ff40; /* Tom médio */
-    opacity: 0.3;
-}
-
-.academia-background svg path:nth-child(3) {
-    fill: #00ff88; /* Tom mais claro */
-    opacity: 0.2;
-}
-
-/* Se quiser adicionar um efeito sutil de brilho */
-.academia-background svg {
-    filter: drop-shadow(0 0 10px rgba(0, 255, 64, 0.2));
-}
-
-/* O resto do footer permanece EXATAMENTE como estava */
-.academia-footer-inner {
-    position: relative;
-    z-index: 1;
-    padding: 4rem 2rem 8rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 4rem;
-}
-
-.academia-footer-inner .academia-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 2rem;
-}
-
-.academia-footer-inner .academia-top h2 {
-    font-size: 2rem;
-    font-weight: 600;
-}
-
-.academia-footer-inner .academia-top h3 {
-    font-size: 1.25rem;
-    font-weight: 400;
-    opacity: 0.8;
-}
-
-.academia-footer-inner .academia-bottom {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 2rem;
-}
-
-.academia-logo-content {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-}
-
-.academia-socials {
-    display: flex;
-    gap: 1rem;
-}
-
-.academia-socials a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 45px;
-    height: 45px;
-    font-size: 1.25rem;
-    color: white;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-}
-
-.academia-socials a:hover {
-    background: rgba(0, 255, 136, 0.3);
-    transform: translateY(-3px);
-}
-
-.academia-nav {
-    display: flex;
-    gap: 3rem;
-    flex-wrap: wrap;
-}
-
-.academia-nav ul {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.academia-nav h4 {
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: #ccc;
-}
-
-.academia-nav a {
-    font-size: 0.9rem;
-    color: white;
-    opacity: 0.8;
-    text-decoration: none;
-    transition: opacity 0.3s;
-    cursor: pointer;
-}
-
-.academia-nav  {
-    opacity: 1;
-    color: #00ff40;
-    transform: translateX(5px);
-}
