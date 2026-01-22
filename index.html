@@ -7,7 +7,8 @@
     integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Gym P2 | Fitness e Bem-Estar</title>
-    <link rel="stylesheet" href="menu-inicial.css">
+   <link rel="stylesheet" href="menu-inicial.css">
+     
 </head>
 <body>
    <header class="header-container" id="menu">
@@ -39,28 +40,6 @@
         </div>
     </div>
 </header>
- <!-- NO TOPO DO perfil.html, DEPOIS DO HEADER -->
-<div id="deletionWarningBanner" style="display: none; margin: 10px 20px;">
-    <div style="background: linear-gradient(90deg, #ff9500, #ff5e00); 
-                color: white; padding: 12px 20px; border-radius: 8px; 
-                text-align: center; position: relative;">
-        <strong>⚠️ CONTA AGENDADA PARA EXCLUSÃO</strong>
-        <p style="margin: 5px 0; font-size: 14px;">
-            Sua conta será excluída em <span id="profileDaysRemaining">X</span> dias.
-            <a href="config.html" style="color: #00ff40; text-decoration: underline; margin-left: 10px;">
-                Clique aqui para cancelar
-            </a>
-        </p>
-        <button onclick="closeWarningBanner()" 
-                style="position: absolute; right: 10px; top: 10px; 
-                       background: rgba(255,255,255,0.2); border: none; 
-                       color: white; border-radius: 50%; width: 24px; height: 24px; 
-                       cursor: pointer; font-size: 16px;">×</button>
-    </div>
-</div>
-
-
-
     <nav class="slide-menu" id="slideMenu">
         <div class="menu-header">
             <button class="menu-close-btn" id="menuCloseBtn" aria-label="Fechar menu">
@@ -76,7 +55,7 @@
         </a> 
         <ul class="navigation-list">
             <li class="nav-item"><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
-            <li class="nav-item"><a href="#espaço-cliente" class="nav-link"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+            <li class="nav-item"><a href="login-gym.html" class="nav-link"><i class="fas fa-sign-in-alt"></i> Login</a></li>
             <li class="nav-item"><a href="Filtro_personal.html" class="nav-link"><i class="fas fa-percent"></i> Promoções</a></li>
             <li class="nav-item"><a href="#news" class="nav-link"><i class="fas fa-gift"></i> Sorteios</a></li>
             <li class="nav-item"><a href="config.html" class="nav-link"><i class="fas fa-cog"></i> Configurações</a></li>
@@ -132,20 +111,20 @@
         </div>
         <div class="cards">
             <div class="academy-card1" data-type="musculacao" data-location="centro" data-price="60">
-                <div class="price-badge">R$ 70/mês</div>
-                <div class="card-image" style="background-image: url('vilafitness_fachada.png')">
+                <div class="price-badge">R$ 85/mês</div>
+                <div class="card-image" style="background-image: url('')">
                 </div>
                 <div class="card-content">
-                    <h3 class="academy-name">Vila Fitness</h3>
+                    <h3 class="academy-name"></h3>
                     <span class="academy-type">Tipo: Musculação</span>
-                    <div class="academy-location">R. Raimundo nonato Brandão 776,Pedro II - PI, 64255-000</div>
+                    <div class="academy-location">R. Ângelo, n°137, Pedro II - PI, 64255-000</div>
                     <div class="schedule-section">
                         <div class="schedule">
-                            <div class="schedule-line"><strong>Seg a Sex:</strong> Aberto 05:00 - 22:00</div>
-                            <div class="schedule-line"><strong>Sáb/Feriados:</strong> 08:00 - 14:00</div>
+                            <div class="schedule-line"><strong>Seg a Sex:</strong> 6h - 22h</div>
+                            <div class="schedule-line"><strong>Sáb/Feriados:</strong> 9h - 14h</div>
                         </div>
                     </div>
-                    <a href="vilafitness.html" class="view-details-btn">Ver Detalhes</a>
+                    <a href="Smart-Strong.html" class="view-details-btn">Ver Detalhes</a>
                 </div>
             </div>
             <div class="academy-card1" data-type="musculacao" data-location="centro" data-price="60">
@@ -155,39 +134,88 @@
                 <div class="card-content">
                     <h3 class="academy-name"></h3>
                     <span class="academy-type">Tipo: Musculação</span>
-                    <div class="academy-location">Av. José Lourenço Mourão nº 419 - Pedro II - PI
-</div>
+                    <div class="academy-location">R. . Cordeiro, 739, Pedro II - PI, 64255-000</div>
                     <div class="schedule-section">
                         <div class="schedule">
-                            <div class="schedule-line"><strong>Seg a Sex:</strong> 5:30 - 22h</div>
-                            <div class="schedule-line"><strong>Sáb/Feriados:</strong> 7:30h - 13h</div>
+                            <div class="schedule-line"><strong>Seg a Sex:</strong> 5h - 23h</div>
+                            <div class="schedule-line"><strong>Sáb/Feriados:</strong> 8h - 17h</div>
                         </div>
                     </div>
-                    <a href="topx.html" class="view-details-btn">Ver Detalhes</a>
+                    <a href="Redefit.html" class="view-details-btn">Ver Detalhes</a>
                 </div>
             </div>
-            
             <div class="academy-card1" data-type="musculacao" data-location="centro" data-price="60">
-                <div class="price-badge">R$ 80/mês</div>
-                <div class="card-image" style="background-image: url('Opala-Fitness.png')">
+                <div class="price-badge">R$ 60/mês</div>
+                <div class="card-image" style="background-image: url('')">
                 </div>
                 <div class="card-content">
-                    <h3 class="academy-name">Opala-Fitness</h3>
+                    <h3 class="academy-name">Academia</h3>
                     <span class="academy-type">Tipo: Musculação</span>
-                    <div class="academy-location"> RUA: CORINTO ANDRADE N° 143 - CENTRO
-
-PEDRO II - PI, em frente conselho do tutelar</div>
+                    <div class="academy-location"> José Lourenço Mourão, 865A, Pedro II - PI, 64255-000</div>
                     <div class="schedule-section">
                         <div class="schedule">
-                            <div class="schedule-line"><strong>Seg a Sex:</strong>  5:00h às 21:00h </div>
-                            <div class="schedule-line"><strong>Sáb/Feriados:</strong> 7:00 h às 16:00 h</div>
+                            <div class="schedule-line"><strong>Seg a Sex:</strong> 5h - 23h</div>
+                            <div class="schedule-line"><strong>Sáb/Feriados:</strong> 8h - 17h</div>
                         </div>
                     </div>
-                    <a href="Opala-Fitness.html" class="view-details-btn">Ver Detalhes</a>
+                    <a href="Olympic-fit.html" class="view-details-btn">Ver Detalhes</a>
                 </div>
             </div>
         </div>
-        
+        <div class="cards2">
+            <div class="academy-card2" data-type="musculacao" data-location="centro" data-price="60">
+                <div class="price-badge2">R$ 60/mês</div>
+                <div class="card-image2" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&h=250&fit=crop&q=80')">
+                </div>
+                <div class="card-content2">
+                    <h3 class="academy-name2">Academia Força Total</h3>
+                    <span class="academy-type2">Tipo: Artes Marciais</span>
+                    <div class="academy-location2">Rua Principal, 123 - Centro</div>
+                    <div class="schedule-section2">
+                        <div class="schedule2">
+                            <div class="schedule-line2"><strong>Seg a Sex:</strong> 5h - 23h</div>
+                            <div class="schedule-line2"><strong>Sáb/Feriados:</strong> 8h - 17h</div>
+                        </div>
+                    </div>
+                    <a href="#" class="view-details-btn2">Ver Detalhes</a>
+                </div>
+            </div>
+            <div class="academy-card2" data-type="musculacao" data-location="centro" data-price="60">
+                <div class="price-badge2">R$ 60/mês</div>
+                <div class="card-image2" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&h=250&fit=crop&q=80')">
+                </div>
+                <div class="card-content2">
+                    <h3 class="academy-name2">Academia Força Total</h3>
+                    <span class="academy-type2">Tipo: Artes Marciais</span>
+                    <div class="academy-location2">Rua Principal, 123 - Centro</div>
+                    <div class="schedule-section2">
+                        <div class="schedule2">
+                            <div class="schedule-line2"><strong>Seg a Sex:</strong> 5h - 23h</div>
+                            <div class="schedule-line2"><strong>Sáb/Feriados:</strong> 8h - 17h</div>
+                        </div>
+                    </div>
+                    <a href="#" class="view-details-btn2">Ver Detalhes</a>
+                </div>
+            </div>
+
+            <div class="academy-card2" data-type="musculacao" data-location="centro" data-price="60">
+                <div class="price-badge2">R$ 60/mês</div>
+                <div class="card-image2" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&h=250&fit=crop&q=80')">
+                </div>
+                <div class="card-content2">
+                    <h3 class="academy-name2">Academia Força Total</h3>
+                    <span class="academy-type2">Tipo: Artes Marciais</span>
+                    <div class="academy-location2">Rua Principal, 123 - Centro</div>
+                    <div class="schedule-section2">
+                        <div class="schedule2">
+                            <div class="schedule-line2"><strong>Seg a Sex:</strong> 5h - 23h</div>
+                            <div class="schedule-line2"><strong>Sáb/Feriados:</strong> 8h - 17h</div>
+                        </div>
+                    </div>
+                    <a href="#" class="view-details-btn2">Ver Detalhes</a>
+                </div>
+            </div>
+        </div>
     </section>
   
     <section class="quatro">
@@ -330,7 +358,7 @@ PEDRO II - PI, em frente conselho do tutelar</div>
             <div class="academia-bottom">
                 <div class="academia-logo-content">
                     <div class="academia-socials">
-                        <a href="https://www.instagram.com/gymp2_portal/" class="instagram" title="Instagram">
+                        <a href="#" class="instagram" title="Instagram">
                             <i class="fab fa-instagram"></i>
                         </a>
                     </div>
@@ -480,28 +508,7 @@ function initLoginSystem() {
             window.location.href = 'index.html';
         }
     }
-
-    // ========== FUNÇÕES DO HEADER (PESQUISA E MENU) ==========
-    
-    // Sistema de pesquisa
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchToggle = document.getElementById('searchToggle');
-        const searchField = document.getElementById('searchField');
-        const searchInput = document.getElementById('searchInput');
-        const searchResults = document.getElementById('searchResults');
-        
-        if (searchToggle && searchField && searchInput) {
-            searchToggle.addEventListener('click', function() {
-                searchField.classList.toggle('expanded');
-                if (searchField.classList.contains('expanded')) {
-                    searchInput.focus();
-                } else {
-                    searchInput.value = '';
-                    searchResults.classList.remove('active');
-                }
-            });
-            
-        // Dados de exemplo para a pesquisa
+// Dados de exemplo para a pesquisa
 const searchData = [
     {
         category: 'Academia',
@@ -623,6 +630,51 @@ document.addEventListener('click', (e) => {
         searchResults.classList.remove('active');
     }
 });
+    // ========== FUNÇÕES DO HEADER (PESQUISA E MENU) ==========
+    
+    // Sistema de pesquisa
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchToggle = document.getElementById('searchToggle');
+        const searchField = document.getElementById('searchField');
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+        
+        if (searchToggle && searchField && searchInput) {
+            searchToggle.addEventListener('click', function() {
+                searchField.classList.toggle('expanded');
+                if (searchField.classList.contains('expanded')) {
+                    searchInput.focus();
+                } else {
+                    searchInput.value = '';
+                    searchResults.classList.remove('active');
+                }
+            });
+            
+            searchInput.addEventListener('input', function() {
+                if (this.value.trim() !== '') {
+                    searchResults.classList.add('active');
+                    // Simular resultados
+                    searchResults.innerHTML = `
+                        <div class="search-result-item">
+                            <div class="result-category">ACADEMIA</div>
+                            <div class="result-title">Smart Strong</div>
+                            <div class="result-description">Academia de musculação e crossfit</div>
+                        </div>
+                        <div class="search-result-item">
+                            <div class="result-category">ACADEMIA</div>
+                            <div class="result-title">Rede-Fit P2</div>
+                            <div class="result-description">Rede de academias fitness</div>
+                        </div>
+                        <div class="search-result-item">
+                            <div class="result-category">ACADEMIA</div>
+                            <div class="result-title">Olympic Fit</div>
+                            <div class="result-description">Academia de alta performance</div>
+                        </div>
+                    `;
+                } else {
+                    searchResults.classList.remove('active');
+                }
+            });
             
             // Fechar pesquisa ao clicar fora
             document.addEventListener('click', function(event) {
@@ -1267,123 +1319,6 @@ document.addEventListener('click', (e) => {
             }
         }
     </script>
-
-
-<script>
-// Adicionar este script no perfil.html
-document.addEventListener('DOMContentLoaded', async function() {
-    console.log('📋 Página do perfil carregada');
-    await checkAccountDeletionStatus();
-});
-
-async function checkAccountDeletionStatus() {
-    try {
-        console.log('🔍 Verificando status de exclusão da conta...');
-        
-        // Verificar primeiro no localStorage (sistema simulado)
-        const savedStatus = localStorage.getItem('gymp2_deletion_status');
-        
-        if (savedStatus) {
-            console.log('📁 Status encontrado no localStorage');
-            const statusData = JSON.parse(savedStatus);
-            
-            if (statusData.hasPendingDeletion && statusData.deletionRecord) {
-                const banner = document.getElementById('deletionWarningBanner');
-                const daysSpan = document.getElementById('profileDaysRemaining');
-                
-                if (banner && daysSpan) {
-                    const daysRemaining = statusData.deletionRecord.daysRemaining || 0;
-                    daysSpan.textContent = daysRemaining;
-                    banner.style.display = 'block';
-                    
-                    console.log(`⚠️ Exclusão pendente: ${daysRemaining} dias restantes`);
-                    
-                    // Se restarem menos de 5 dias, alerta mais visível
-                    if (daysRemaining <= 5) {
-                        banner.querySelector('div').style.background = 'linear-gradient(90deg, #ff3b30, #ff1a00)';
-                    }
-                    
-                    return;
-                }
-            }
-        }
-        
-        // Se chegou aqui, não há exclusão pendente ou não encontrou os elementos
-        console.log('✅ Nenhuma exclusão pendente encontrada');
-        
-        // CASO QUEIRA USAR API REAL (descomente e ajuste):
-        /*
-        const token = localStorage.getItem('gymp2_token') || 
-                     sessionStorage.getItem('gymp2_token');
-        
-        if (!token) {
-            console.log('❌ Token não encontrado');
-            return;
-        }
-        
-        const response = await fetch('http://localhost:3000/api/account/deletion-status', {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            }
-        });
-        
-        if (response.ok) {
-            const data = await response.json();
-            
-            if (data.hasPendingDeletion) {
-                const banner = document.getElementById('deletionWarningBanner');
-                const daysSpan = document.getElementById('profileDaysRemaining');
-                
-                if (banner && daysSpan) {
-                    daysSpan.textContent = data.deletionRecord.daysRemaining;
-                    banner.style.display = 'block';
-                    
-                    // Salvar no localStorage para cache
-                    localStorage.setItem('gymp2_deletion_status', JSON.stringify(data));
-                }
-            }
-        }
-        */
-        
-    } catch (error) {
-        console.error('❌ Erro ao verificar status:', error);
-        // Não mostrar erro ao usuário, apenas no console
-    }
-}
-
-function closeWarningBanner() {
-    const banner = document.getElementById('deletionWarningBanner');
-    if (banner) {
-        banner.style.display = 'none';
-        console.log('🔒 Banner fechado pelo usuário');
-        
-        // Salvar preferência do usuário (não mostrar novamente nesta sessão)
-        sessionStorage.setItem('hideDeletionBanner', 'true');
-    }
-}
-
-// Verificar se usuário já fechou o banner nesta sessão
-if (sessionStorage.getItem('hideDeletionBanner') === 'true') {
-    const banner = document.getElementById('deletionWarningBanner');
-    if (banner) banner.style.display = 'none';
-}
-
-// Atualizar banner quando houver mudanças no localStorage (de outras páginas)
-window.addEventListener('storage', function(event) {
-    if (event.key === 'gymp2_deletion_status') {
-        console.log('🔄 Status atualizado, verificando novamente...');
-        checkAccountDeletionStatus();
-    }
-});
-
-// Também ouvir eventos personalizados (se usar entre páginas)
-window.addEventListener('accountStatusChanged', function() {
-    console.log('🔄 Evento de mudança recebido, verificando status...');
-    checkAccountDeletionStatus();
-});
-
-
-</script>
+    
 </body>
 </html>
