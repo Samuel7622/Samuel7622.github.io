@@ -1,19 +1,19 @@
 {
   "name": "gymp2-sistema-seguro",
   "version": "2.0.1",
-  "description": "Sistema de login Gymp2 com segurança aprimorada",
-  "main": "serve-mysql.js",
+  "main": "server-mysql.js",
   "scripts": {
     "start": "node server-mysql.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-"dependencies": {
-  "express": "^4.18.2",
-  "cors": "^2.8.5",
-  "socket.io": "^4.8.3",
-  "dotenv": "^16.3.1",
-  "@supabase/supabase-js": "^2.38.4"
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "socket.io": "^4.7.2",
+    "dotenv": "^16.3.1",
+    "@supabase/supabase-js": "^2.38.4"
+  },
+  "engines": {
+    "node": "18.x"
+  }
 }
-
-
-
