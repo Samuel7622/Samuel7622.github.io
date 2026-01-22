@@ -379,7 +379,7 @@ body {
 .hamburger-line {
     width: 28px;
     height: 4px;
-    background: linear-gradient(45deg, #00ff40, #00ff88);
+    background: linear-gradient(45deg, #00ff40, #00ff40);
     margin: 4px 0;
     transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     border-radius: 4px;
@@ -415,7 +415,7 @@ body {
 
 .menu-trigger.active .hamburger-line:nth-child(3) {
     transform: rotate(-45deg) translate(8px, -8px);
-    background: linear-gradient(45deg, #00ff40, #00ff88);
+    background: linear-gradient(45deg, #00ff40, #00ff40);
 }
 
 /* ========== MENU DESLIZANTE ========== */
@@ -634,7 +634,7 @@ body {
 }
 
 .start-button:active {
-    background-color: #00ff88;
+    background-color: #00ff40;
     transition: all 0.25s;
     -webkit-transition: all 0.25s;
     box-shadow: none;
@@ -705,7 +705,7 @@ body {
 }
 
 .rotating-text.dynamic {
-    background: linear-gradient(45deg, #00ff1e, #00ff88);
+    background: linear-gradient(45deg, #00ff1e, #00ff40);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -885,7 +885,7 @@ body {
 .section-title {
     font-size: 3.5rem;
     font-weight: 800;
-    background: linear-gradient(135deg, #00ff1e, #00ff88);
+    background: linear-gradient(135deg, #00ff1e, #00ff40);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -1014,7 +1014,7 @@ body {
     text-align: center;
     width: 300px;
     position: absolute;
-    left: 14%;
+    left: 15%;
     bottom: 20px;
 }
 
@@ -1165,7 +1165,7 @@ body {
     width: 100%;
     margin: 0 auto;
     align-items: center;
-    background: linear-gradient(135deg, #001a00, #00ff88);
+    background: linear-gradient(135deg, #001a00, #00ff40);
     padding: 60px;
     border-radius: 20px;
 }
@@ -1213,7 +1213,7 @@ body {
 
 .muscle-guide-link {
     display: inline-block;
-    background: #00ff88;
+    background: #00ff40;
     color: #000;
     padding: 15px 30px;
     border-radius: 8px;
@@ -3525,5 +3525,3 @@ body {
     color: #00ff40;
     transform: translateX(5px);
 }
-
-
