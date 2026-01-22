@@ -4888,4 +4888,557 @@ document.addEventListener('DOMContentLoaded', function() {
     </script>
 </body>
 
+</html>        const loginButtons = document.querySelectorAll('.gym-access-btn');
+        
+        loginButtons.forEach(btn => {
+            const link = btn.querySelector('a');
+            
+            // Se for o botão de Login
+            if (btn.textContent.includes('Login') || 
+                (link && link.getAttribute('href') === 'login-gym.html')) {
+                
+                console.log('🔄 Substituindo botão Login...');
+                
+                const initials = user.name
+                    .split(' ')
+                    .map(n => n[0])
+                    .slice(0, 2)
+                    .join('')
+                    .toUpperCase();
+                
+                const firstName = user.name.split(' ')[0];
+                
+             
+                console.log('✅ Botão Login substituído');
+                
+                // Configurar eventos após inserir
+                setTimeout(setupDropdownEvents, 50);
+            }
+        });
+    }
+    
+    // ========== ATUALIZAR MENU HAMBURGUER ==========
+    function updateHamburgerMenu(user) {
+        const navigationList = document.querySelector('.navigation-list');
+        if (!navigationList) return;
+        
+        const navItems = navigationList.querySelectorAll('.nav-item');
+        let loginItem = null;
+        
+        // Encontrar item de Login
+        navItems.forEach(item => {
+            const link = item.querySelector('.nav-link');
+            if (link && (link.textContent.trim() === 'Login' || 
+                         link.getAttribute('href') === '#espaço-cliente' ||
+                         link.getAttribute('href') === 'login-gym.html')) {
+                loginItem = item;
+            }
+        });
+        
+        if (loginItem) {
+            const firstName = user.name.split(' ')[0];
+            
+            // Substituir por Perfil
+            loginItem.innerHTML = `
+                <a href="#perfil" class="nav-link" style="
+                    color: #00ff88; 
+                    font-weight: 700; 
+                    background: rgba(0, 255, 136, 0.1); 
+                    border-radius: 8px; 
+                    margin: 5px 0; 
+                    padding: 12px 15px !important;
+                ">
+                    <i class="fas fa-user" style="margin-right: 10px;"></i>
+                    Meu Perfil (${firstName})
+                </a>
+            `;
+            
+            // Remover logout anterior se existir
+            const existingLogout = navigationList.querySelector('#menuLogoutBtn');
+            if (existingLogout) {
+                existingLogout.closest('.nav-item').remove();
+            }
+            
+            // Adicionar botão Sair
+            const logoutItem = document.createElement('li');
+            logoutItem.className = 'nav-item';
+            logoutItem.innerHTML = `
+                <a href="#logout" class="nav-link" id="menuLogoutBtn" style="
+                    color: #ff4444; 
+                    background: rgba(255, 68, 68, 0.1); 
+                    border-radius: 8px; 
+                    margin: 5px 0; 
+                    padding: 12px 15px !important;
+                ">
+                    <i class="fas fa-sign-out-alt" style="margin-right: 10px;"></i>
+                    Sair
+                </a>
+            `;
+            
+            navigationList.appendChild(logoutItem);
+            
+            // Configurar logout do menu
+            document.getElementById('menuLogoutBtn').addEventListener('click', handleLogout);
+            
+            console.log('✅ Menu hamburguer atualizado');
+        }
+    }
+    
+    // ========== CONFIGURAR EVENTOS DO DROPDOWN ==========
+    function setupDropdownEvents() {
+        const userContainer = document.getElementById('userHeaderContainer');
+        const dropdown = document.getElementById('userDropdown');
+        const logoutBtn = document.getElementById('logoutBtnPage');
+        
+        if (!userContainer || !dropdown || !logoutBtn) {
+            console.log('⚠️ Elementos do dropdown não encontrados');
+            return;
+        }
+        
+        // Toggle dropdown
+        userContainer.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const isVisible = dropdown.style.opacity === '1';
+            
+            if (isVisible) {
+                dropdown.style.opacity = '0';
+                dropdown.style.visibility = 'hidden';
+                dropdown.style.transform = 'translateY(-10px)';
+            } else {
+                dropdown.style.opacity = '1';
+                dropdown.style.visibility = 'visible';
+                dropdown.style.transform = 'translateY(0)';
+            }
+        });
+        
+        // Fechar ao clicar fora
+        document.addEventListener('click', function() {
+            dropdown.style.opacity = '0';
+            dropdown.style.visibility = 'hidden';
+            dropdown.style.transform = 'translateY(-10px)';
+        });
+        
+        // Prevenir fechamento ao clicar no dropdown
+        dropdown.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+        
+        // Hover no container
+        userContainer.addEventListener('mouseenter', function() {
+            this.style.background = 'rgba(0, 255, 136, 0.25)';
+            this.style.borderColor = 'rgba(0, 255, 136, 0.6)';
+            this.style.transform = 'translateY(-2px)';
+        });
+        
+        userContainer.addEventListener('mouseleave', function() {
+            this.style.background = 'rgba(0, 255, 136, 0.15)';
+            this.style.borderColor = 'rgba(0, 255, 136, 0.4)';
+            this.style.transform = 'translateY(0)';
+        });
+        
+        // Logout
+        logoutBtn.addEventListener('click', handleLogout);
+        
+        console.log('✅ Eventos do dropdown configurados');
+    }
+    
+    
+    
+    // ========== EXPORTAR FUNÇÃO DE LOGOUT GLOBAL ==========
+    window.logout = handleLogout;
+    
+})();
+
+
+console.log('✅ Sistema de login carregado na página!');
+
+
+</script>
+
+<!-- ADICIONE ISTO ANTES DO </body> NA PÁGINA DA Vilafitness -->
+
+<!--JavaScript para aplicar configurações globais-->
+<script>
+    // Aplicar configurações globais - PARA TODAS AS PÁGINAS
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('🔧 Aplicando configurações globais na Vilafitness...');
+        applyGlobalSettings();
+        
+        // Verificar se as configurações foram aplicadas
+        setTimeout(() => {
+            console.log('✅ Configurações aplicadas:', {
+                tema: localStorage.getItem('gym-theme'),
+                fonte: localStorage.getItem('gym-fontSize'),
+                bodyClass: document.body.className
+            });
+        }, 500);
+    });
+
+    function applyGlobalSettings() {
+        // Carregar configurações salvas
+        const savedTheme = localStorage.getItem('gym-theme') || 'dark';
+        const savedFontSize = localStorage.getItem('gym-fontSize') || 'medium';
+        
+        console.log('📋 Configurações carregadas:', { savedTheme, savedFontSize });
+        
+        // Aplicar tema
+        if (savedTheme === 'light') {
+            document.body.classList.add('light-mode');
+            console.log('🌙 Modo claro aplicado');
+        } else {
+            document.body.classList.remove('light-mode');
+            console.log('🌙 Modo escuro aplicado');
+        }
+        
+        // Aplicar tamanho da fonte
+        applyFontSize(savedFontSize);
+    }
+
+    function applyFontSize(size) {
+        const sizes = {
+            'small': { 
+                h1: '32px', h2: '24px', h3: '18px',
+                normal: '14px', small: '12px',
+                button: '14px'
+            },
+            'medium': { 
+                h1: '42px', h2: '28px', h3: '22px',
+                normal: '16px', small: '14px',
+                button: '16px'
+            },
+            'large': { 
+                h1: '52px', h2: '32px', h3: '26px',
+                normal: '18px', small: '16px',
+                button: '18px'
+            }
+        };
+
+        const currentSizes = sizes[size];
+        
+        console.log('📝 Aplicando tamanho de fonte:', size, currentSizes);
+        
+        // Aplicar a todos os elementos
+        setTimeout(() => {
+            // Títulos principais
+            document.querySelectorAll('h1').forEach(el => {
+                el.style.fontSize = currentSizes.h1;
+            });
+            
+            // Títulos secundários
+            document.querySelectorAll('h2').forEach(el => {
+                el.style.fontSize = currentSizes.h2;
+            });
+            
+            // Títulos terciários
+            document.querySelectorAll('h3').forEach(el => {
+                el.style.fontSize = currentSizes.h3;
+            });
+            
+            // Textos normais
+            document.querySelectorAll('p, .setting-description, .feedback-text, .nav-link, .result-title, .profile-info p, .feedback-text').forEach(el => {
+                el.style.fontSize = currentSizes.normal;
+            });
+            
+            // Botões
+            document.querySelectorAll('.gym-access-btn, .edit-profile-btn, .menu-search-btn').forEach(el => {
+                el.style.fontSize = currentSizes.button;
+            });
+            
+            // Textos pequenos
+            document.querySelectorAll('.feedback-date, .setting-description, small, .result-description, .feedback-date').forEach(el => {
+                el.style.fontSize = currentSizes.small;
+            });
+            
+            // Estatísticas
+            document.querySelectorAll('.stat-box p').forEach(el => {
+                el.style.fontSize = currentSizes.h2;
+            });
+            
+            document.querySelectorAll('.stat-box h3').forEach(el => {
+                el.style.fontSize = currentSizes.normal;
+            });
+
+            console.log('✅ Tamanhos de fonte aplicados com sucesso');
+        }, 100);
+    }
+
+    // Função para forçar atualização (útil para debugging)
+    function forceUpdateSettings() {
+        console.log('🔄 Forçando atualização das configurações...');
+        applyGlobalSettings();
+    }
+
+    // Adicionar listener para mudanças no localStorage (sincronizar entre abas)
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'gym-theme' || e.key === 'gym-fontSize') {
+            console.log('🔄 Configurações alteradas em outra aba, aplicando...');
+            applyGlobalSettings();
+        }
+    });
+</script>
+
+  <script>
+    // ========== SLIDER FUNCTIONALITY ==========
+    document.addEventListener('DOMContentLoaded', function () {
+        const imageDisplay = document.querySelector('.image-display');
+        const navButtons = document.querySelectorAll('.nav-button');
+        const prevButton = document.querySelector('.prev-button');
+        const nextButton = document.querySelector('.next-button');
+        const currentSlideEl = document.querySelector('.current-slide');
+        const progressBar = document.querySelector('.progress-bar');
+        const fullscreenBtn = document.querySelector('.fullscreen-btn');
+        const autoplayBtn = document.querySelector('.autoplay-btn');
+
+      // Na parte do JavaScript do slider (próximo ao final do código), vamos atualizar os arrays:
+
+const images = [
+    'logovila.png',
+    'vila2.png',
+    'vilafitness_fachada.png',
+    'vila3.png',
+    'vila5.png',
+    'vila4.png'
+];
+
+const categories = ['Logo', 'Área de Musculação', 'Fachada', 'Área de Cardio', 'Vestiário', 'Recepção'];
+
+const descriptions = [
+    'Logo da Vilafitness - Excelência em fitness',
+    'Área de musculação completa com equipamentos modernos',
+    'Fachada moderna da academia com fácil acesso',
+    'Esteiras, bicicletas e elípticos de última geração',
+    'Vestiários amplos, limpos e com armários individuais',
+    'Recepção acolhedora com atendimento especializado'
+];
+
+        // Inicializar slider
+        updateSlider(currentIndex);
+
+        // Função para atualizar slider
+        function updateSlider(index) {
+            if (index >= 0 && index < images.length) {
+                currentIndex = index;
+
+                // Atualizar imagem principal
+                imageDisplay.style.backgroundImage = `url(${images[currentIndex]})`;
+
+                // Atualizar overlay com título baseado na categoria
+                document.querySelector('.image-title').textContent = `Vilafitness - ${categories[currentIndex]}`;
+                document.querySelector('.image-description').textContent = descriptions[currentIndex];
+
+                // Atualizar botões de navegação
+                navButtons.forEach((button, i) => {
+                    const isActive = i === currentIndex;
+                    button.classList.toggle('active', isActive);
+                    button.setAttribute('aria-selected', isActive);
+                });
+
+                // Atualizar contador
+                currentSlideEl.textContent = currentIndex + 1;
+
+                // Atualizar barra de progresso
+                const progressPercentage = ((currentIndex + 1) / images.length) * 100;
+                progressBar.style.width = progressPercentage + '%';
+            }
+        }
+
+        // Event listeners para botões de navegação
+        navButtons.forEach((button, index) => {
+            button.addEventListener('click', () => updateSlider(index));
+        });
+
+        prevButton.addEventListener('click', () => {
+            const newIndex = currentIndex > 0 ? currentIndex - 1 : images.length - 1;
+            updateSlider(newIndex);
+            resetAutoPlay();
+        });
+
+        nextButton.addEventListener('click', () => {
+            const newIndex = currentIndex < images.length - 1 ? currentIndex + 1 : 0;
+            updateSlider(newIndex);
+            resetAutoPlay();
+        });
+
+        // Funcionalidade de tela cheia
+        fullscreenBtn.addEventListener('click', toggleFullscreen);
+
+        function toggleFullscreen() {
+            const sliderContent = document.querySelector('.slider__content');
+
+            if (!document.fullscreenElement) {
+                if (sliderContent.requestFullscreen) {
+                    sliderContent.requestFullscreen();
+                } else if (sliderContent.webkitRequestFullscreen) {
+                    sliderContent.webkitRequestFullscreen();
+                } else if (sliderContent.msRequestFullscreen) {
+                    sliderContent.msRequestFullscreen();
+                }
+                fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i>';
+                fullscreenBtn.setAttribute('aria-label', 'Sair da tela cheia');
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+                fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
+                fullscreenBtn.setAttribute('aria-label', 'Tela cheia');
+            }
+        }
+
+        // Auto-play functionality
+        autoplayBtn.addEventListener('click', toggleAutoPlay);
+
+        function toggleAutoPlay() {
+            isAutoPlaying = !isAutoPlaying;
+
+            if (isAutoPlaying) {
+                startAutoPlay();
+                autoplayBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                autoplayBtn.setAttribute('aria-label', 'Pausar reprodução automática');
+            } else {
+                stopAutoPlay();
+                autoplayBtn.innerHTML = '<i class="fas fa-play"></i>';
+                autoplayBtn.setAttribute('aria-label', 'Reproduzir automaticamente');
+            }
+        }
+
+        function startAutoPlay() {
+            autoPlayInterval = setInterval(() => {
+                const newIndex = currentIndex < images.length - 1 ? currentIndex + 1 : 0;
+                updateSlider(newIndex);
+            }, 3000); // Muda a cada 3 segundos
+        }
+
+        function stopAutoPlay() {
+            if (autoPlayInterval) {
+                clearInterval(autoPlayInterval);
+            }
+        }
+
+        function resetAutoPlay() {
+            if (isAutoPlaying) {
+                stopAutoPlay();
+                startAutoPlay();
+            }
+        }
+
+        // Iniciar auto-play após 5 segundos
+        setTimeout(() => {
+            if (!isAutoPlaying) {
+                toggleAutoPlay();
+            }
+        }, 5000);
+
+        // Navegação por teclado
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                const newIndex = currentIndex > 0 ? currentIndex - 1 : images.length - 1;
+                updateSlider(newIndex);
+                resetAutoPlay();
+            } else if (e.key === 'ArrowRight') {
+                const newIndex = currentIndex < images.length - 1 ? currentIndex + 1 : 0;
+                updateSlider(newIndex);
+                resetAutoPlay();
+            } else if (e.key === ' ') {
+                e.preventDefault();
+                toggleAutoPlay();
+            } else if (e.key === 'f' || e.key === 'F') {
+                toggleFullscreen();
+            }
+        });
+
+        // Função para abrir rota
+        window.abrirRota = function () { 
+            const endereco = encodeURIComponent("R. Cel. Cordeiro, 739, Pedro II - PI");
+            window.open(`https://www.google.com/maps/dir/?api=1&destination=${endereco}`, '_blank');
+        };
+
+        // Atualizar contador total de slides
+        document.querySelector('.total-slides').textContent = images.length;
+
+        // Adicionar efeito de digitação ao título
+        const titleText = document.querySelector('.title-text');
+        const originalText = titleText.textContent;
+        titleText.textContent = '';
+
+        let i = 0;
+        const typeWriter = () => {
+            if (i < originalText.length) {
+                titleText.textContent += originalText.charAt(i);
+                i++;
+                setTimeout(typeWriter, 100);
+            }
+        };
+
+        // Iniciar efeito após 0.5 segundos
+        setTimeout(typeWriter, 500);
+    });
+</script>
+
+
+<script>
+    // Adicione este código ao seu JavaScript existente
+document.addEventListener('DOMContentLoaded', function() {
+    // Detectar dispositivo móvel
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    
+    if (isMobile) {
+        // Aumentar área de toque das thumbnails
+        const navButtons = document.querySelectorAll('.nav-button');
+        navButtons.forEach(button => {
+            button.style.minHeight = '44px'; // Tamanho mínimo recomendado para toque
+            button.style.minWidth = '44px';
+        });
+        
+        // Adicionar classe para mobile
+        const thumbnailsContainer = document.querySelector('.thumbnails-container');
+        if (window.innerWidth <= 640) {
+            thumbnailsContainer.classList.add('mobile-horizontal-layout');
+        }
+        
+        // Ajustar dinamicamente baseado na orientação
+        window.addEventListener('resize', function() {
+            if (window.innerWidth <= 640) {
+                thumbnailsContainer.classList.add('mobile-horizontal-layout');
+            } else {
+                thumbnailsContainer.classList.remove('mobile-horizontal-layout');
+            }
+        });
+        
+        // Melhorar navegação por toque
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        const sliderContent = document.querySelector('.slider__content');
+        
+        sliderContent.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        }, false);
+        
+        sliderContent.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, false);
+        
+        function handleSwipe() {
+            const swipeThreshold = 50; // Mínimo de pixels para considerar um swipe
+            
+            if (touchStartX - touchEndX > swipeThreshold) {
+                // Swipe para esquerda = próxima imagem
+                const newIndex = currentIndex < images.length - 1 ? currentIndex + 1 : 0;
+                updateSlider(newIndex);
+            } else if (touchEndX - touchStartX > swipeThreshold) {
+                // Swipe para direita = imagem anterior
+                const newIndex = currentIndex > 0 ? currentIndex - 1 : images.length - 1;
+                updateSlider(newIndex);
+            }
+        }
+    }
+});
+    </script>
+</body>
+
 </html>
