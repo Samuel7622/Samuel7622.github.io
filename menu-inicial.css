@@ -911,8 +911,8 @@ body {
     margin-top: 50px;
     transition: transform 0.3s, box-shadow 0.3s;
     position: relative;
-    width: 460px;
-    height: 530px;
+    width: 420px;
+    height: 550px;
 }
 
 .card-image {
