@@ -2103,6 +2103,159 @@
             }
         }
 
+/* Para telas muito pequenas, ajustar o layout do header */
+@media (max-width: 640px) {
+    /* Garantir que o header não fique muito apertado */
+    .header-container {
+        padding: 0.8rem 0.8rem !important;
+        min-height: 70px;
+        display: flex;
+        align-items: center;
+    }
+    
+    /* Ajustar container do nav para mobile */
+    .nav-wrapper {
+        width: 100%;
+        gap: 5px;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+    }
+    
+    /* Logo ajustada para mobile */
+    .brand-container {
+        flex-shrink: 0;
+        min-width: 120px;
+    }
+    
+    .logo-img {
+        height: 45px !important;
+        width: auto;
+        max-width: 120px;
+    }
+    
+    /* Container dos controles à direita */
+    .right-controls {
+        display: flex !important;
+        gap: 8px !important;
+        align-items: center;
+        flex-shrink: 0;
+        flex-wrap: nowrap;
+    }
+    
+    /* Botão "Academias Agora" visível em mobile - OCULTAR O BOTÃO HOME */
+    .gym-access-btn:not(.home-btn) {
+        display: inline-flex !important;
+        padding: 8px 12px !important;
+        font-size: 0.75rem !important;
+        margin: 0 !important;
+        white-space: nowrap;
+        min-width: fit-content;
+        order: 1; /* Garante ordem correta */
+    }
+    
+    /* Esconder o botão Home em mobile */
+    .gym-access-btn.home-btn {
+        display: none !important;
+    }
+    
+    /* Botão de pesquisa ajustado */
+    .search-toggle-btn {
+        width: 38px !important;
+        height: 38px !important;
+        order: 2;
+    }
+    
+    /* Campo de pesquisa expandido em mobile */
+    .expandable-search-field.expanded {
+        width: 200px !important;
+        position: fixed;
+        top: 70px;
+        right: 10px;
+        z-index: 3000;
+    }
+    
+    /* Menu hamburguer ajustado */
+    .menu-trigger {
+        padding: 8px !important;
+        order: 3;
+    }
+    
+    .hamburger-line {
+        width: 24px !important;
+        height: 3px !important;
+    }
+}
+
+/* Ajustes para telas muito pequenas (menos de 480px) */
+@media (max-width: 480px) {
+    .header-container {
+        padding: 0.6rem 0.6rem !important;
+    }
+    
+    .brand-container {
+        min-width: 100px;
+    }
+    
+    .logo-img {
+        height: 40px !important;
+        max-width: 100px;
+    }
+    
+    .right-controls {
+        gap: 6px !important;
+    }
+    
+    /* Botão "Academias Agora" ajustado */
+    .gym-access-btn:not(.home-btn) {
+        padding: 6px 10px !important;
+        font-size: 0.7rem !important;
+    }
+    
+    /* Botão Home continua oculto */
+    .gym-access-btn.home-btn {
+        display: none !important;
+    }
+    
+    .search-toggle-btn {
+        width: 36px !important;
+        height: 36px !important;
+    }
+    
+    .menu-trigger {
+        padding: 6px !important;
+    }
+    
+    .hamburger-line {
+        width: 22px !important;
+        height: 2.5px !important;
+    }
+    
+    .expandable-search-field.expanded {
+        width: 180px !important;
+        top: 65px;
+    }
+}
+
+/* Ajustes para landscape em mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+    .header-container {
+        min-height: 60px;
+        padding: 0.5rem 0.8rem !important;
+    }
+    
+    .logo-img {
+        height: 35px !important;
+    }
+    
+    .gym-access-btn:not(.home-btn) {
+        padding: 5px 8px !important;
+        font-size: 0.65rem !important;
+    }
+    
+    .gym-access-btn.home-btn {
+        display: none !important;
+    }
+}
         /* Mobile Pequeno (480px) */
         @media (max-width: 480px) {
             .page-title {
