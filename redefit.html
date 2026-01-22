@@ -3440,6 +3440,74 @@ const searchData = [
         };
 
         setTimeout(typeWriter, 500);
+          // Configurar dropdown do usuário
+            function setupUserDropdown() {
+                const userContainer = document.getElementById('userHeaderContainer');
+                const dropdownMenu = document.getElementById('userDropdownMenu');
+                const logoutBtn = document.getElementById('logoutBtnHeader'); // ID ALTERADO AQUI
+                
+                if (!userContainer || !dropdownMenu || !logoutBtn) {
+                    console.log('⚠️ Elementos do dropdown não encontrados');
+                    return;
+                }
+                
+                // Toggle do dropdown
+                userContainer.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const isActive = dropdownMenu.style.opacity === '1';
+                    
+                    if (isActive) {
+                        dropdownMenu.style.opacity = '0';
+                        dropdownMenu.style.visibility = 'hidden';
+                        dropdownMenu.style.transform = 'translateY(-10px)';
+                    } else {
+                        dropdownMenu.style.opacity = '1';
+                        dropdownMenu.style.visibility = 'visible';
+                        dropdownMenu.style.transform = 'translateY(0)';
+                    }
+                });
+                
+                // Fechar dropdown ao clicar fora
+                document.addEventListener('click', (e) => {
+                    if (!userContainer.contains(e.target)) {
+                        dropdownMenu.style.opacity = '0';
+                        dropdownMenu.style.visibility = 'hidden';
+                        dropdownMenu.style.transform = 'translateY(-10px)';
+                    }
+                });
+                
+                // Prevenir fechamento ao clicar no dropdown
+                dropdownMenu.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                });
+                
+                // Hover effect no container
+                userContainer.addEventListener('mouseenter', () => {
+                    userContainer.style.background = 'rgba(0, 255, 136, 0.2)';
+                    userContainer.style.borderColor = 'rgba(0, 255, 136, 0.5)';
+                    userContainer.style.transform = 'translateY(-2px)';
+                    userContainer.style.boxShadow = '0 4px 15px rgba(0, 255, 136, 0.3)';
+                });
+                
+                userContainer.addEventListener('mouseleave', () => {
+                    userContainer.style.background = 'rgba(0, 255, 136, 0.1)';
+                    userContainer.style.borderColor = 'rgba(0, 255, 136, 0.3)';
+                    userContainer.style.transform = 'translateY(0)';
+                    userContainer.style.boxShadow = 'none';
+                });
+                
+                // Hover nos itens do menu
+                const menuItems = dropdownMenu.querySelectorAll('a, #logoutBtnHeader');
+                menuItems.forEach(item => {
+                    item.addEventListener('mouseenter', () => {
+                        item.style.background = 'rgba(0, 255, 136, 0.1)';
+                    });
+                    item.addEventListener('mouseleave', () => {
+                        item.style.background = 'transparent';
+                    });
+                });
+            }
+    
     </script>
 </body>
 </html>
