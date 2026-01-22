@@ -1143,8 +1143,16 @@ const API_URL = 'https://scintillating-achievement-production.up.railway.app';
             options.body = JSON.stringify(data);
           }
 
-          const response = await fetch(`${this.baseURL = 'https://samuel7622githubio-production.up.railway.app';}${endpoint}`, options);
-          const result = await response.json();
+         // ... código anterior ...
+
+// 1. Defina a base aqui
+this.baseURL = 'https://samuel7622githubio-production.up.railway.app';
+
+// 2. Use a base aqui (Linha 1146 corrigida)
+const response = await fetch(`${this.baseURL}${endpoint}`, options);
+const result = await response.json();
+
+// ... resto do código ...
 
           return result;
         } catch (error) {
@@ -1655,6 +1663,7 @@ const API_URL = 'https://scintillating-achievement-production.up.railway.app';
   </script>
 </body>
 </html>
+
 
 
 
