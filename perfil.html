@@ -10,33 +10,34 @@
 <body>
     
   <header class="header-container" id="menu">
-        <div class="nav-wrapper">   
-            <div class="brand-container">
-                <a href="#"><img src="logo.png" alt="Logo" class="logo-img"></a>
-            </div>
-            <div class="right-controls">
-                     <div class="search-widget" id="searchWidget">
-                         <div class="expandable-search-field" id="searchField">
-                             <input type="text" class="search-input-field" placeholder="Digite sua pesquisa..." id="searchInput">
-                         </div>
-                         <button class="search-toggle-btn" id="searchToggle" aria-label="Abrir pesquisa">
-                             <svg class="search-icon" viewBox="0 0 24 24">
-                                 <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-                             </svg>
-                         </button>
-                    <div class="search-results" id="searchResults"></div>
-                </div>  
-           <button class="gym-access-btn"><a href="index.html">Home</a></button>
-           <button class="gym-access-btn"><a href="academias-publicas.html">Academias</a></button>
-           <button class="gym-access-btn"><a href="login-gym.html">Login</a></button>
-           <button class="menu-trigger" id="menuTrigger" aria-label="Abrir menu">
-                    <div class="hamburger-line"></div>
-                    <div class="hamburger-line"></div>
-                    <div class="hamburger-line"></div>
-                </button>
-            </div>
+    <div class="nav-wrapper">
+        <div class="brand-container">
+            <a href="#"><img src="logo.png" alt="Logo" class="logo-img"></a>
         </div>
-    </header>
+        <div class="right-controls">
+            <div class="search-widget" id="searchWidget">
+                <div class="expandable-search-field" id="searchField">
+                    <input type="text" class="search-input-field" placeholder="Digite sua pesquisa..." id="searchInput">
+                </div>
+                <button class="search-toggle-btn" id="searchToggle" aria-label="Abrir pesquisa">
+                    <svg class="search-icon" viewBox="0 0 24 24">
+                        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                    </svg>
+                </button>
+                <div class="search-results" id="searchResults"></div>
+            </div>  
+            <!-- ADICIONE A CLASSE home-btn AQUI -->
+            <a href="index.html"><button class="gym-access-btn home-btn"><i class="fas fa-home"></i> Home</button></a>
+            <a href="academias-publicas.html"><button class="gym-access-btn"><i class="fas fa-dumbbell"></i> Academias</button></a>
+            <a href="login-gym.html"><button class="gym-access-btn"><i class="fas fa-sign-in-alt"></i> Login</button></a>
+            <button class="menu-trigger" id="menuTrigger" aria-label="Abrir menu">
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+            </button>
+        </div>
+    </div>
+</header>
     <!-- NO TOPO DO perfil.html, DEPOIS DO HEADER -->
 <div id="deletionWarningBanner" style="display: none; margin: 10px 20px;">
     <div style="background: linear-gradient(90deg, #ff9500, #ff5e00); 
@@ -429,33 +430,119 @@ window.addEventListener('accountStatusChanged', function() {
                     searchResults.classList.remove('active');
                 }
             });
-            
-            searchInput.addEventListener('input', function() {
-                if (this.value.trim() !== '') {
-                    searchResults.classList.add('active');
-                    // Simular resultados
-                    searchResults.innerHTML = `
-                        <div class="search-result-item">
-                            <div class="result-category">ACADEMIA</div>
-                            <div class="result-title">Smart Strong</div>
-                            <div class="result-description">Academia de musculação e crossfit</div>
-                        </div>
-                        <div class="search-result-item">
-                            <div class="result-category">ACADEMIA</div>
-                            <div class="result-title">Rede-Fit P2</div>
-                            <div class="result-description">Rede de academias fitness</div>
-                        </div>
-                        <div class="search-result-item">
-                            <div class="result-category">ACADEMIA</div>
-                            <div class="result-title">Olympic Fit</div>
-                            <div class="result-description">Academia de alta performance</div>
-                        </div>
-                    `;
-                } else {
-                    searchResults.classList.remove('active');
-                }
-            });
-            
+       
+         
+             // Dados de exemplo para a pesquisa
+const searchData = [
+    {
+        category: 'Academia',
+        title: 'Opala fitness',
+        description: 'Academia de musculação no centro',
+        link: 'Opala-Fitness.html'
+    },
+    {
+        category: 'Academia',
+        title: 'vilafitness',
+        description: 'Musculação e fitness',
+        link: 'vilafitness.html'
+    },
+    {
+        category: 'Academia',
+        title: 'Redefitness',
+        description: 'Treinos de alto desempenho',
+        link: 'Redefitness.html'
+    },
+    {
+        category: 'Página',
+        title: 'Cadastro de Academias',
+        description: 'Divulgue sua academia',
+        link: 'academias-publicas.html'
+    },
+   
+    {
+        category: 'Página',
+        title: 'personais',
+        description: ' filtrar personais ',
+        link: 'Filtro_personal.html'
+    },
+    {
+        category: 'Página',
+        title: 'Cadastro de Personal',
+        description: 'Cadastre-se como personal trainer',
+        link: 'Cadastrar_personal.html'
+    },
+    {
+        category: 'Página',
+        title: 'Sobre nós',
+        description: 'Conheça o Gym P2',
+        link: 'Sobre_nós.html'
+    },
+    {
+        category: 'Página',
+        title: 'Configurações',
+        description: 'Configurações da conta',
+        link: 'config.html'
+    },
+  
+    {
+        category: 'Página',
+        title: 'Home',
+        description: 'Página inicial',
+        link: 'index.html'
+    }
+];
+// Função de pesquisa
+searchInput.addEventListener('input', (e) => {
+    const searchTerm = e.target.value.toLowerCase().trim();
+    
+    if (searchTerm.length === 0) {
+        searchResults.classList.remove('active');
+        searchResults.innerHTML = '';
+        return;
+    }
+    
+    // Filtrar resultados
+    const filteredResults = searchData.filter(item => 
+        item.title.toLowerCase().includes(searchTerm) || 
+        item.description.toLowerCase().includes(searchTerm) ||
+        item.category.toLowerCase().includes(searchTerm)
+    );
+    
+    if (filteredResults.length === 0) {
+        searchResults.innerHTML = `
+            <div class="search-result-item">
+                <div class="result-title">Nenhum resultado encontrado</div>
+                <div class="result-description">Tente buscar por "academia", "personal" ou "cadastro"</div>
+            </div>
+        `;
+        searchResults.classList.add('active');
+        return;
+    }
+    
+    // Gerar HTML dos resultados
+    let resultsHTML = '';
+    filteredResults.forEach(result => {
+        resultsHTML += `
+            <a href="${result.link}" class="search-result-link">
+                <div class="search-result-item">
+                    <div class="result-category">${result.category}</div>
+                    <div class="result-title">${result.title}</div>
+                    <div class="result-description">${result.description}</div>
+                </div>
+            </a>
+        `;
+    });
+    
+    searchResults.innerHTML = resultsHTML;
+    searchResults.classList.add('active');
+});
+
+// Fechar resultados ao clicar fora
+document.addEventListener('click', (e) => {
+    if (!searchField.contains(e.target) && !searchToggle.contains(e.target)) {
+        searchResults.classList.remove('active');
+    }
+});
             // Fechar pesquisa ao clicar fora
             document.addEventListener('click', function(event) {
                 if (!searchField.contains(event.target) && !searchToggle.contains(event.target)) {
