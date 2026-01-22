@@ -1152,7 +1152,9 @@
     </div>
   </footer>
 
-  <script>
+<script>
+    const API_BASE_URL = 'https://samuel7622githubio-production.up.railway.app';
+    
     // Função para alternar FAQ
     function toggleFaq(element) {
       const answer = element.querySelector('.faq-answer');
@@ -1238,7 +1240,20 @@
       }
     }
 
-    // Função de envio do formulário
+    // Função para coletar dados do formulário
+    function coletarDadosFormulario() {
+      const form = document.getElementById('cadastroForm');
+      const formData = new FormData(form);
+      const dados = {};
+      
+      formData.forEach((value, key) => {
+        dados[key] = value;
+      });
+      
+      return dados;
+    }
+
+    // Função de envio do formulário para a API
     async function enviarCadastro() {
       const progresso = verificarProgresso();
 
@@ -1272,13 +1287,34 @@
       submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
       submitBtn.disabled = true;
 
-      // Simular envio
-      setTimeout(() => {
+      try {
+        // Coletar dados do formulário
+        const dadosCadastro = coletarDadosFormulario();
+        
+        // Adicionar data/hora do cadastro
+        dadosCadastro.dataCadastro = new Date().toISOString();
+        
+        // Enviar para a API
+        const resposta = await fetch(`${API_BASE_URL}/cadastros`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(dadosCadastro)
+        });
+
+        if (!resposta.ok) {
+          throw new Error(`Erro na API: ${resposta.status}`);
+        }
+
+        const resultado = await resposta.json();
+        
         submitBtn.innerHTML = '<i class="fas fa-check"></i> Cadastro Enviado!';
         submitBtn.style.background = '#00cc33';
         
         alert('✅ Cadastro enviado com sucesso!\n\n📧 Em até 24 horas você receberá um email com o resultado da aprovação.');
         
+        // Resetar formulário após sucesso
         setTimeout(() => {
           document.getElementById('cadastroForm').reset();
           submitBtn.innerHTML = originalHTML;
@@ -1287,7 +1323,20 @@
           document.getElementById('formProgress').style.width = '0%';
           document.getElementById('progressText').innerHTML = '<i class="fas fa-spinner fa-spin"></i> 0% completo';
         }, 3000);
-      }, 1500);
+        
+      } catch (erro) {
+        console.error('Erro ao enviar cadastro:', erro);
+        submitBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Erro ao enviar';
+        submitBtn.style.background = '#ff4444';
+        
+        alert('❌ Erro ao enviar cadastro. Por favor, tente novamente ou entre em contato conosco.');
+        
+        setTimeout(() => {
+          submitBtn.innerHTML = originalHTML;
+          submitBtn.disabled = false;
+          submitBtn.style.background = '';
+        }, 3000);
+      }
     }
 
     // Adicionar eventos de input para atualizar progresso
@@ -1309,4 +1358,5 @@
 </body>
 
 </html>
+
 
