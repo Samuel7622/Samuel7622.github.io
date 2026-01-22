@@ -1388,6 +1388,8 @@ body {
 }
 /* ========== CORREÇÕES DE RESPONSIVIDADE DO HEADER ========== */
 
+/* ========== CORREÇÕES DE RESPONSIVIDADE DO HEADER ========== */
+
 /* Para telas muito pequenas, ajustar o layout do header */
 @media (max-width: 640px) {
     /* Garantir que o header não fique muito apertado */
@@ -1541,6 +1543,28 @@ body {
         display: none !important;
     }
 }
+
+
+/* Ajustes para landscape em mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+    .header-container {
+        min-height: 60px;
+        padding: 0.5rem 0.8rem !important;
+    }
+    
+    .logo-img {
+        height: 35px !important;
+    }
+    
+    .gym-access-btn:not(.home-btn) {
+        padding: 5px 8px !important;
+        font-size: 0.65rem !important;
+    }
+    
+    .gym-access-btn.home-btn {
+        display: none !important;
+    }
+}
 /* Mobile (640px e abaixo) */
 @media (max-width: 640px) {
  
@@ -1578,7 +1602,297 @@ body {
         font-size: 1rem;
     }
 }
+/* ========== CORREÇÕES PARA O BOTÃO "VER ACADEMIA" ========== */
 
+/* Primeiro, remova qualquer estilo de posicionamento absoluto do botão */
+.view-details-btn {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+    margin-top: 1rem;
+    transition: background 0.3s;
+    font-size: 1rem;
+    display: block; /* Garante que ocupe toda a largura disponível */
+    text-align: center;
+    position: static !important; /* Remove qualquer position absolute/relative */
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+}
+
+.view-details-btn:hover {
+    background: #1a5d1a;
+}
+
+/* ========== RESPONSIVIDADE ESPECÍFICA PARA O BOTÃO ========== */
+
+/* Tablets Grandes (1024px e abaixo) - Correção do botão */
+@media (max-width: 1024px) {
+    .view-details-btn {
+        width: 100%;
+        margin: 1rem auto 0 auto;
+        display: block;
+    }
+    
+    /* Remove qualquer posicionamento específico em mobile */
+    .academy-card .view-details-btn {
+        position: relative !important;
+        left: 0 !important;
+        transform: none !important;
+        bottom: 0 !important;
+    }
+}
+
+/* Tablets Pequenos e Mobile Grande (768px e abaixo) */
+@media (max-width: 768px) {
+    /* CORREÇÃO DO BOTÃO EM MOBILE */
+    .view-details-btn {
+        width: 90% !important;
+        max-width: 250px !important;
+        margin: 15px auto 0 auto !important;
+        display: block;
+        padding: 12px 20px !important;
+        font-size: 1rem;
+        border-radius: 8px;
+        text-align: center;
+        position: relative !important;
+        left: 0 !important;
+        transform: none !important;
+        bottom: 0 !important;
+    }
+    
+    /* Garantir que o card tenha espaço para o botão */
+    .academy-card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-height: auto;
+        height: auto;
+    }
+    
+    .card-content {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        padding-bottom: 20px; /* Espaço para o botão */
+    }
+    
+    /* Garantir que o botão fique no final do card */
+    .schedule-section {
+        margin-bottom: auto;
+    }
+    
+    .view-details-btn {
+        margin-top: auto;
+        align-self: center;
+    }
+}
+
+/* Mobile (640px e abaixo) */
+@media (max-width: 640px) {
+    .view-details-btn {
+        width: 85% !important;
+        max-width: 220px !important;
+        margin: 15px auto 0 auto !important;
+        padding: 10px 16px !important;
+        font-size: 0.95rem;
+    }
+    
+    /* Ajustar layout do card para mobile */
+    .academy-card {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+    }
+    
+    .card-content {
+        padding: 18px;
+    }
+}
+
+/* Pequenos Smartphones (480px e abaixo) */
+@media (max-width: 480px) {
+    .view-details-btn {
+        width: 80% !important;
+        max-width: 200px !important;
+        margin: 12px auto 0 auto !important;
+        padding: 10px 14px !important;
+        font-size: 0.9rem;
+    }
+    
+    /* Ajustes adicionais para telas muito pequenas */
+    .academy-card {
+        padding-bottom: 15px;
+    }
+    
+    .card-content {
+        padding: 15px;
+    }
+}
+
+/* ========== CORREÇÕES ESPECÍFICAS PARA BOTÕES COM position: absolute ========== */
+
+/* Remove qualquer estilo de posicionamento absoluto que possa estar causando problemas */
+.academy-card1 .view-details-btn,
+.academy-card2 .view-details-btn,
+.academy-card .view-details-btn {
+    position: relative !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    top: 0 !important;
+    transform: none !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+/* ========== CORREÇÃO PARA OS CARDS ESPECÍFICOS DA PÁGINA ========== */
+
+/* Remove estilos específicos para academy-card1 e academy-card2 */
+.academy-card1 .view-details-btn,
+.academy-card2 .view-details-btn {
+    width: 90% !important;
+    max-width: 300px !important;
+    margin: 15px auto !important;
+    position: relative !important;
+    left: 0 !important;
+    transform: none !important;
+}
+
+/* ========== AJUSTES PARA O LAYOUT DO CARD ========== */
+
+@media (max-width: 768px) {
+    /* Garantir que o card tenha um layout flexível */
+    .academy-card,
+    .academy-card1,
+    .academy-card2 {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        min-height: 500px; /* Altura mínima para garantir espaço */
+    }
+    
+    .card-content,
+    .card-content2 {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+    
+    /* Garantir que o botão fique sempre na parte inferior */
+    .schedule-section,
+    .schedule-section2 {
+        margin-top: auto;
+        margin-bottom: 10px;
+    }
+    
+    /* Centralizar o botão */
+    .view-details-btn,
+    .view-details-btn2 {
+        align-self: center;
+        justify-self: flex-end;
+        margin-top: auto;
+        margin-bottom: 10px;
+    }
+}
+
+/* ========== CORREÇÃO PARA O SEU HTML ESPECÍFICO ========== */
+
+/* Se você tiver botões com position: absolute no seu HTML original, remova isso */
+.view-details-btn[style*="position: absolute"],
+.view-details-btn[style*="left:"],
+.view-details-btn[style*="bottom:"] {
+    position: relative !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    transform: none !important;
+    margin: 15px auto !important;
+}
+
+/* ========== GARANTIR QUE O BOTÃO NÃO SAI DA TELA ========== */
+
+@media (max-width: 375px) {
+    .view-details-btn {
+        width: 95% !important;
+        max-width: none !important;
+        padding: 10px !important;
+        font-size: 0.85rem;
+    }
+}
+
+/* ========== CORREÇÃO PARA O HOVER EM MOBILE ========== */
+
+@media (hover: none) and (pointer: coarse) {
+    .view-details-btn:active {
+        transform: scale(0.98);
+        transition: transform 0.1s;
+    }
+}
+
+/* ========== CORREÇÃO ESPECÍFICA PARA O SEU CÓDIGO ========== */
+
+/* Remova estas linhas se existirem no seu CSS original */
+.view-details-btn[style*="left: 8%"],
+.view-details-btn[style*="left: 50%"],
+.view-details-btn[style*="transform: translateX"],
+.view-details-btn2[style*="left: 8%"],
+.view-details-btn2[style*="left: 50%"],
+.view-details-btn2[style*="transform: translateX"] {
+    left: 0 !important;
+    transform: none !important;
+    margin: 15px auto !important;
+}
+
+/* ========== ESTILO UNIFICADO PARA TODOS OS BOTÕES ========== */
+
+/* Garante que todos os botões "Ver Detalhes" tenham o mesmo estilo */
+.view-details-btn,
+.view-details-btn2,
+.academy-card .view-details-btn,
+.academy-card1 .view-details-btn,
+.academy-card2 .view-details-btn {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+    font-size: 1rem;
+    display: block;
+    text-align: center;
+    width: 90%;
+    max-width: 250px;
+    margin: 20px auto 10px auto;
+}
+
+.view-details-btn:hover,
+.view-details-btn2:hover,
+.academy-card .view-details-btn:hover,
+.academy-card1 .view-details-btn:hover,
+.academy-card2 .view-details-btn:hover {
+    background: #1a5d1a;
+}
+
+@media (max-width: 768px) {
+    .view-details-btn,
+    .view-details-btn2,
+    .academy-card .view-details-btn,
+    .academy-card1 .view-details-btn,
+    .academy-card2 .view-details-btn {
+        width: 85%;
+        max-width: 220px;
+        margin: 15px auto 10px auto;
+        padding: 10px 20px;
+    }
+}
     </style>
 </head>
 <body>
@@ -1814,6 +2128,7 @@ body {
     <script src="user-manager.js"></script>
     <!-- 3. Header com Informações do Usuário -->
     <script src="user-header.js"></script>
+    
 <script>
 // ===========================================
 // ACADEMIAS PÚBLICAS - SUPABASE DIRETO
@@ -1963,7 +2278,370 @@ function criarCardAcademia(academia) {
     
     return card;
 }
+// Dados de exemplo para a pesquisa
+const searchData = [
+    {
+        category: 'Academia',
+        title: 'Opala fitness',
+        description: 'Academia de musculação no centro',
+        link: 'Opala-Fitness.html'
+    },
+    {
+        category: 'Academia',
+        title: 'vilafitness',
+        description: 'Musculação e fitness',
+        link: 'vilafitness.html'
+    },
+    {
+        category: 'Academia',
+        title: 'Top X',
+        description: 'Treinos de alto desempenho',
+        link: 'topx.html'
+    },
+    {
+        category: 'Página',
+        title: 'Cadastro de Academias',
+        description: 'Divulgue sua academia',
+        link: 'academias-publicas.html'
+    },
+    {
+        category: 'Página',
+        title: 'Personal Trainer',
+        description: 'Cadastro de personal trainers',
+        link: 'cadastro_personal-sem-logar.html'
+    },
+    {
+        category: 'Página',
+        title: 'Promoções',
+        description: 'Personal trainers e promoções',
+        link: 'Filtro_personal.html'
+    },
+    {
+        category: 'Página',
+        title: 'Cadastro de Personal',
+        description: 'Cadastre-se como personal trainer',
+        link: 'Cadastrar_personal.html'
+    },
+    {
+        category: 'Página',
+        title: 'Sobre nós',
+        description: 'Conheça o Gym P2',
+        link: 'Sobre_nós.html'
+    },
+    {
+        category: 'Página',
+        title: 'Configurações',
+        description: 'Configurações da conta',
+        link: 'config.html'
+    },
+    {
+        category: 'Página',
+        title: 'Login',
+        description: 'Faça login na sua conta',
+        link: 'login-gym.html'
+    },
+    {
+        category: 'Página',
+        title: 'Home',
+        description: 'Página inicial',
+        link: 'index.html'
+    }
+];
 
+// Função de pesquisa
+searchInput.addEventListener('input', (e) => {
+    const searchTerm = e.target.value.toLowerCase().trim();
+    
+    if (searchTerm.length === 0) {
+        searchResults.classList.remove('active');
+        searchResults.innerHTML = '';
+        return;
+    }
+    
+    // Filtrar resultados
+    const filteredResults = searchData.filter(item => 
+        item.title.toLowerCase().includes(searchTerm) || 
+        item.description.toLowerCase().includes(searchTerm) ||
+        item.category.toLowerCase().includes(searchTerm)
+    );
+    
+    if (filteredResults.length === 0) {
+        searchResults.innerHTML = `
+            <div class="search-result-item">
+                <div class="result-title">Nenhum resultado encontrado</div>
+                <div class="result-description">Tente buscar por "academia", "personal" ou "cadastro"</div>
+            </div>
+        `;
+        searchResults.classList.add('active');
+        return;
+    }
+    
+    // Gerar HTML dos resultados
+    let resultsHTML = '';
+    filteredResults.forEach(result => {
+        resultsHTML += `
+            <a href="${result.link}" class="search-result-link">
+                <div class="search-result-item">
+                    <div class="result-category">${result.category}</div>
+                    <div class="result-title">${result.title}</div>
+                    <div class="result-description">${result.description}</div>
+                </div>
+            </a>
+        `;
+    });
+    
+    searchResults.innerHTML = resultsHTML;
+    searchResults.classList.add('active');
+});
+
+// Fechar resultados ao clicar fora
+document.addEventListener('click', (e) => {
+    if (!searchField.contains(e.target) && !searchToggle.contains(e.target)) {
+        searchResults.classList.remove('active');
+    }
+});
+    // ========== FUNÇÕES DO HEADER (PESQUISA E MENU) ==========
+    
+    // Sistema de pesquisa
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchToggle = document.getElementById('searchToggle');
+        const searchField = document.getElementById('searchField');
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+        
+        if (searchToggle && searchField && searchInput) {
+            searchToggle.addEventListener('click', function() {
+                searchField.classList.toggle('expanded');
+                if (searchField.classList.contains('expanded')) {
+                    searchInput.focus();
+                } else {
+                    searchInput.value = '';
+                    searchResults.classList.remove('active');
+                }
+            });
+            
+            searchInput.addEventListener('input', function() {
+                if (this.value.trim() !== '') {
+                    searchResults.classList.add('active');
+                    // Simular resultados
+                    searchResults.innerHTML = `
+                        <div class="search-result-item">
+                            <div class="result-category">ACADEMIA</div>
+                            <div class="result-title">Smart Strong</div>
+                            <div class="result-description">Academia de musculação e crossfit</div>
+                        </div>
+                        <div class="search-result-item">
+                            <div class="result-category">ACADEMIA</div>
+                            <div class="result-title">Rede-Fit P2</div>
+                            <div class="result-description">Rede de academias fitness</div>
+                        </div>
+                        <div class="search-result-item">
+                            <div class="result-category">ACADEMIA</div>
+                            <div class="result-title">Olympic Fit</div>
+                            <div class="result-description">Academia de alta performance</div>
+                        </div>
+                    `;
+                } else {
+                    searchResults.classList.remove('active');
+                }
+            });
+            
+            // Fechar pesquisa ao clicar fora
+            document.addEventListener('click', function(event) {
+                if (!searchField.contains(event.target) && !searchToggle.contains(event.target)) {
+                    searchField.classList.remove('expanded');
+                    searchResults.classList.remove('active');
+                }
+            });
+        }
+        
+// ========== FUNCIONALIDADE DO MENU HAMBURGUER - MELHORADA ==========
+const menuTrigger = document.getElementById('menuTrigger');
+const slideMenu = document.getElementById('slideMenu');
+const menuOverlay = document.getElementById('menuOverlay');
+const menuCloseBtn = document.getElementById('menuCloseBtn');
+const menuSearchBtn = document.getElementById('menuSearchBtn');
+
+// Adicionar efeito de clique ao botão do menu
+menuTrigger.addEventListener('mousedown', () => {
+    menuTrigger.style.transform = 'scale(0.95)';
+});
+
+menuTrigger.addEventListener('mouseup', () => {
+    menuTrigger.style.transform = 'scale(1)';
+});
+
+// Abrir/fechar menu com animação melhorada
+menuTrigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    menuTrigger.classList.toggle('active');
+    slideMenu.classList.toggle('open');
+    menuOverlay.classList.toggle('visible');
+    
+    // Adicionar efeito sonoro visual
+    if (menuTrigger.classList.contains('active')) {
+        console.log('📱 Menu aberto');
+        // Animação de entrada dos itens
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach((item, index) => {
+            item.style.animationDelay = `${index * 0.1}s`;
+        });
+    } else {
+        console.log('📱 Menu fechado');
+    }
+});
+
+// Fechar menu pelo botão X com animação
+menuCloseBtn.addEventListener('click', () => {
+    closeMenuWithAnimation();
+});
+
+// Fechar menu ao clicar no overlay com fade out
+menuOverlay.addEventListener('click', () => {
+    closeMenuWithAnimation();
+});
+
+// Fechar menu ao clicar em um link com transição suave
+document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        // Adicionar efeito visual ao clicar no link
+        link.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            link.style.transform = '';
+        }, 150);
+        
+        // Fechar menu com delay para ver a animação
+        setTimeout(() => {
+            closeMenuWithAnimation();
+            
+            // Navegar para o link após fechar o menu
+            const href = link.getAttribute('href');
+            if (href && href !== '#') {
+                window.location.href = href;
+            }
+        }, 200);
+    });
+});
+
+// Função para fechar menu com animação
+function closeMenuWithAnimation() {
+    menuTrigger.classList.remove('active');
+    slideMenu.classList.remove('open');
+    menuOverlay.classList.remove('visible');
+    
+    // Resetar animações dos itens
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+        item.style.animationDelay = '0s';
+    });
+}
+
+// Abrir pesquisa pelo botão do menu com animação
+menuSearchBtn.addEventListener('click', () => {
+    // Animação no botão
+    menuSearchBtn.style.transform = 'scale(0.95)';
+    setTimeout(() => {
+        menuSearchBtn.style.transform = '';
+    }, 150);
+    
+    // Fecha o menu
+    closeMenuWithAnimation();
+    
+    // Abre a pesquisa com delay
+    setTimeout(() => {
+        searchField.classList.add('expanded');
+        searchInput.focus();
+        
+        // Efeito visual na barra de pesquisa
+        searchField.style.animation = 'searchExpand 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        setTimeout(() => {
+            searchField.style.animation = '';
+        }, 600);
+    }, 300);
+});
+
+      
+            
+            // Função para obter iniciais do nome
+            function getInitials(name) {
+                return name
+                    .split(' ')
+                    .map(n => n[0])
+                    .slice(0, 2)
+                    .join('')
+                    .toUpperCase();
+            }
+            
+            // Configurar dropdown do usuário
+            function setupUserDropdown() {
+                const userContainer = document.getElementById('userHeaderContainer');
+                const dropdownMenu = document.getElementById('userDropdownMenu');
+                const logoutBtn = document.getElementById('logoutBtnHeader'); // ID ALTERADO AQUI
+                
+                if (!userContainer || !dropdownMenu || !logoutBtn) {
+                    console.log('⚠️ Elementos do dropdown não encontrados');
+                    return;
+                }
+                
+                // Toggle do dropdown
+                userContainer.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const isActive = dropdownMenu.style.opacity === '1';
+                    
+                    if (isActive) {
+                        dropdownMenu.style.opacity = '0';
+                        dropdownMenu.style.visibility = 'hidden';
+                        dropdownMenu.style.transform = 'translateY(-10px)';
+                    } else {
+                        dropdownMenu.style.opacity = '1';
+                        dropdownMenu.style.visibility = 'visible';
+                        dropdownMenu.style.transform = 'translateY(0)';
+                    }
+                });
+                
+                // Fechar dropdown ao clicar fora
+                document.addEventListener('click', (e) => {
+                    if (!userContainer.contains(e.target)) {
+                        dropdownMenu.style.opacity = '0';
+                        dropdownMenu.style.visibility = 'hidden';
+                        dropdownMenu.style.transform = 'translateY(-10px)';
+                    }
+                });
+                
+                // Prevenir fechamento ao clicar no dropdown
+                dropdownMenu.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                });
+                
+                // Hover effect no container
+                userContainer.addEventListener('mouseenter', () => {
+                    userContainer.style.background = 'rgba(0, 255, 136, 0.2)';
+                    userContainer.style.borderColor = 'rgba(0, 255, 136, 0.5)';
+                    userContainer.style.transform = 'translateY(-2px)';
+                    userContainer.style.boxShadow = '0 4px 15px rgba(0, 255, 136, 0.3)';
+                });
+                
+                userContainer.addEventListener('mouseleave', () => {
+                    userContainer.style.background = 'rgba(0, 255, 136, 0.1)';
+                    userContainer.style.borderColor = 'rgba(0, 255, 136, 0.3)';
+                    userContainer.style.transform = 'translateY(0)';
+                    userContainer.style.boxShadow = 'none';
+                });
+                
+                // Hover nos itens do menu
+                const menuItems = dropdownMenu.querySelectorAll('a, #logoutBtnHeader');
+                menuItems.forEach(item => {
+                    item.addEventListener('mouseenter', () => {
+                        item.style.background = 'rgba(0, 255, 136, 0.1)';
+                    });
+                    item.addEventListener('mouseleave', () => {
+                        item.style.background = 'transparent';
+                    });
+                });
+            }
+        });
 // ========== FILTROS ==========
 function configurarFiltros() {
     // Filtros de tipo
