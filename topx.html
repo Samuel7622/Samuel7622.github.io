@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
     <title>Academia - Top X</title>
     <style>
-        * {
+           * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -546,8 +546,7 @@
     opacity: 1;
     visibility: visible;
 }
-
-/* ========== HERO SECTION ========== */
+/* ========== HERO SECTION (PERMANECE IGUAL) ========== */
 .hero {
     min-height: 100vh;
     display: flex;
@@ -1370,6 +1369,7 @@
             .slide-menu {
                 width: 300px;
                 right: -300px;
+                padding: 80px 1.5rem 2rem;
             }
 
             .nav-link {
@@ -1535,6 +1535,159 @@
             }
         }
 
+/* Para telas muito pequenas, ajustar o layout do header */
+@media (max-width: 640px) {
+    /* Garantir que o header não fique muito apertado */
+    .header-container {
+        padding: 0.8rem 0.8rem !important;
+        min-height: 70px;
+        display: flex;
+        align-items: center;
+    }
+    
+    /* Ajustar container do nav para mobile */
+    .nav-wrapper {
+        width: 100%;
+        gap: 5px;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+    }
+    
+    /* Logo ajustada para mobile */
+    .brand-container {
+        flex-shrink: 0;
+        min-width: 120px;
+    }
+    
+    .logo-img {
+        height: 45px !important;
+        width: auto;
+        max-width: 120px;
+    }
+    
+    /* Container dos controles à direita */
+    .right-controls {
+        display: flex !important;
+        gap: 8px !important;
+        align-items: center;
+        flex-shrink: 0;
+        flex-wrap: nowrap;
+    }
+    
+    /* Botão "Academias Agora" visível em mobile - OCULTAR O BOTÃO HOME */
+    .gym-access-btn:not(.home-btn) {
+        display: inline-flex !important;
+        padding: 8px 12px !important;
+        font-size: 0.75rem !important;
+        margin: 0 !important;
+        white-space: nowrap;
+        min-width: fit-content;
+        order: 1; /* Garante ordem correta */
+    }
+    
+    /* Esconder o botão Home em mobile */
+    .gym-access-btn.home-btn {
+        display: none !important;
+    }
+    
+    /* Botão de pesquisa ajustado */
+    .search-toggle-btn {
+        width: 38px !important;
+        height: 38px !important;
+        order: 2;
+    }
+    
+    /* Campo de pesquisa expandido em mobile */
+    .expandable-search-field.expanded {
+        width: 200px !important;
+        position: fixed;
+        top: 70px;
+        right: 10px;
+        z-index: 3000;
+    }
+    
+    /* Menu hamburguer ajustado */
+    .menu-trigger {
+        padding: 8px !important;
+        order: 3;
+    }
+    
+    .hamburger-line {
+        width: 24px !important;
+        height: 3px !important;
+    }
+}
+
+/* Ajustes para telas muito pequenas (menos de 480px) */
+@media (max-width: 480px) {
+    .header-container {
+        padding: 0.6rem 0.6rem !important;
+    }
+    
+    .brand-container {
+        min-width: 100px;
+    }
+    
+    .logo-img {
+        height: 40px !important;
+        max-width: 100px;
+    }
+    
+    .right-controls {
+        gap: 6px !important;
+    }
+    
+    /* Botão "Academias Agora" ajustado */
+    .gym-access-btn:not(.home-btn) {
+        padding: 6px 10px !important;
+        font-size: 0.7rem !important;
+    }
+    
+    /* Botão Home continua oculto */
+    .gym-access-btn.home-btn {
+        display: none !important;
+    }
+    
+    .search-toggle-btn {
+        width: 36px !important;
+        height: 36px !important;
+    }
+    
+    .menu-trigger {
+        padding: 6px !important;
+    }
+    
+    .hamburger-line {
+        width: 22px !important;
+        height: 2.5px !important;
+    }
+    
+    .expandable-search-field.expanded {
+        width: 180px !important;
+        top: 65px;
+    }
+}
+
+/* Ajustes para landscape em mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+    .header-container {
+        min-height: 60px;
+        padding: 0.5rem 0.8rem !important;
+    }
+    
+    .logo-img {
+        height: 35px !important;
+    }
+    
+    .gym-access-btn:not(.home-btn) {
+        padding: 5px 8px !important;
+        font-size: 0.65rem !important;
+    }
+    
+    .gym-access-btn.home-btn {
+        display: none !important;
+    }
+}
         /* Mobile Grande (640px) */
         @media (max-width: 640px) {
             .page-title {
@@ -2115,8 +2268,8 @@
         }
 
      .page-title {
-    font-size: clamp(2.5rem, 8vw, 4.5rem);
-    font-weight: 750;
+    font-size: 6.5rem; /* Aumentei de 3.5rem para 4.5rem */
+    font-weight: 750; /* Aumentei o peso da fonte para 800 */
     margin-bottom: 25px;
     display: flex;
     flex-direction: column;
@@ -2286,7 +2439,7 @@
         .image-display {
             width: 100%;
             height: 100%;
-            background-image: url('top1.png');
+            background-image: url('vila1.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -2307,8 +2460,7 @@
             max-width: 600px;
         }
 
-        /* REMOVIDO: .image-title e .image-description conforme solicitado */
-        /* .image-title {
+        .image-title {
             font-size: 1.8rem;
             font-weight: 600;
             margin-bottom: 8px;
@@ -2319,7 +2471,7 @@
             font-size: 1rem;
             color: #ccc;
             opacity: 0.9;
-        } */
+        }
 
         /* Botões do slider */
         .slider-control--button {
@@ -2345,6 +2497,8 @@
         .slider-control--button:hover {
             background: #00ff88;
             color: #000;
+         
+        
         }
 
         .prev-button {
@@ -2387,7 +2541,7 @@
 
         @media (max-width: 768px) {
             .thumbnails-container {
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
@@ -2403,6 +2557,8 @@
             transition: all 0.3s ease;
         }
 
+    
+
         .thumbnail-wrapper {
             position: relative;
             width: 100%;
@@ -2415,6 +2571,7 @@
 
         .nav-button.active .thumbnail-wrapper {
             border-color: #00ff88;
+           
         }
 
         .thumbnail {
@@ -2423,6 +2580,8 @@
             object-fit: cover;
             transition: transform 0.3s ease;
         }
+
+    
 
         .thumbnail-overlay {
             position: absolute;
@@ -2447,14 +2606,68 @@
             font-size: 1.2rem;
         }
 
-        /* REMOVIDO: .thumbnail-label conforme solicitado */
-        /* .thumbnail-label {
+        .thumbnail-label {
             font-size: 0.85rem;
             color: #aaa;
             transition: color 0.3s ease;
             text-align: center;
             margin-top: 5px;
-        } */
+        }
+
+        /* ========== RESPONSIVIDADE SIMPLIFICADA ========== */
+
+/* Para tablets (768px e abaixo) */
+@media (max-width: 768px) {
+    .thumbnails-container {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+    
+    .thumbnail-wrapper {
+        height: 90px;
+    }
+    
+    .thumbnail-label {
+        font-size: 0.75rem;
+    }
+}
+
+/* Para mobile (480px e abaixo) */
+@media (max-width: 480px) {
+    .thumbnails-container {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+    
+    .thumbnail-wrapper {
+        height: 70px;
+    }
+    
+    .thumbnail-label {
+        display: none; /* Oculta labels para economizar espaço */
+    }
+    
+    .thumbnail-overlay {
+        background: rgba(0, 255, 136, 0.4); /* Mais visível */
+    }
+    
+    .nav-button.active .thumbnail-wrapper {
+        border-width: 3px;
+        box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+    }
+}
+
+/* Para mobile pequeno (360px e abaixo) */
+@media (max-width: 360px) {
+    .thumbnails-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px;
+    }
+    
+    .thumbnail-wrapper {
+        height: 80px;
+    }
+}
 
         .nav-button.active .thumbnail-label {
             color: #00ff88;
@@ -2508,6 +2721,8 @@
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
         }
+
+      
 
         .card-header {
             display: flex;
@@ -2632,6 +2847,8 @@
             transition: all 0.3s ease;
         }
 
+      
+
         .occupancy-badge {
             display: flex;
             align-items: center;
@@ -2747,6 +2964,7 @@
 
         .map-btn:hover {
             transform: translateY(-2px);
+        
         }
 
         /* CARD DE CONTATO */
@@ -2773,6 +2991,8 @@
             transition: all 0.3s ease;
             border: 1px solid transparent;
         }
+
+
 
         .contact-icon {
             width: 45px;
@@ -2874,13 +3094,13 @@
                 padding: 20px;
             }
 
-            /* .image-title {
+            .image-title {
                 font-size: 1.4rem;
             }
 
             .image-description {
                 font-size: 0.9rem;
-            } */
+            }
 
             .slider-control--button {
                 width: 50px;
@@ -2960,6 +3180,9 @@
             }
         }
 
+
+
+        
 /* ========== FOOTER - ONDAS VERDES ========== */
 .academia-footer {
     position: relative;
@@ -3027,12 +3250,12 @@
 }
 
 .academia-footer-inner .academia-top h2 {
-    font-size: clamp(1.3rem, 4vw, 2rem);
+    font-size: 2rem;
     font-weight: 600;
 }
 
 .academia-footer-inner .academia-top h3 {
-    font-size: clamp(0.9rem, 2vw, 1.25rem);
+    font-size: 1.25rem;
     font-weight: 400;
     opacity: 0.8;
 }
@@ -3078,7 +3301,7 @@
 
 .academia-nav {
     display: flex;
-    gap: clamp(1rem, 3vw, 3rem);
+    gap: 3rem;
     flex-wrap: wrap;
 }
 
@@ -3090,14 +3313,14 @@
 }
 
 .academia-nav h4 {
-    font-size: clamp(0.8rem, 2vw, 1rem);
+    font-size: 1rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
     color: #ccc;
 }
 
 .academia-nav a {
-    font-size: clamp(0.75rem, 2vw, 0.9rem);
+    font-size: 0.9rem;
     color: white;
     opacity: 0.8;
     text-decoration: none;
@@ -3105,446 +3328,263 @@
     cursor: pointer;
 }
 
-.academia-nav a:hover {
+.academia-nav  {
     opacity: 1;
     color: #00ff40;
     transform: translateX(5px);
 }
+     /* ========== RESPONSIVIDADE ESPECÍFICA DO HEADER ========== */
 
-/* ========== RESPONSIVIDADE ESPECÍFICA PARA CELULAR ========== */
-
-/* Para mobile grande (640px e abaixo) */
-@media (max-width: 640px) {
+/* Tablets (768px e abaixo) */
+@media (max-width: 768px) {
+    /* Ajustes gerais do header */
     .header-container {
         padding: 0.8rem 1rem;
+        backdrop-filter: blur(20px);
     }
-
+    
     .nav-wrapper {
         flex-wrap: nowrap;
-        gap: 8px;
+        gap: 10px;
     }
-
+    
     .logo-img {
-        height: 35px;
+        height: 45px;
+        min-height: 45px;
     }
-
+    
     .right-controls {
         gap: 0.5rem;
+        flex-shrink: 0;
     }
-
+    
+    /* Ajustes nos botões */
+    .gym-access-btn {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+        margin: 2px;
+    }
+    
+    /* Botão HOME - OCULTAR EM MOBILE */
+    .gym-access-btn.home-btn {
+        display: none !important;
+    }
+    
+    /* Barra de pesquisa */
     .search-toggle-btn {
-        width: 40px;
-        height: 40px;
+        width: 42px;
+        height: 42px;
     }
-
+    
     .search-icon {
         width: 18px;
         height: 18px;
     }
-
+    
     .expandable-search-field {
-        width: 40px;
-        height: 40px;
+        width: 42px;
+        height: 42px;
     }
-
+    
     .expandable-search-field.expanded {
-        width: 220px;
+        width: 250px;
+        z-index: 2002;
     }
-
-    .gym-access-btn {
-        padding: 8px 12px;
-        font-size: 0.8rem;
-        display: none;
+    
+    .search-input-field {
+        padding: 0 45px 0 16px;
+        font-size: 0.9rem;
     }
-
-    .gym-access-btn.home-btn {
-        display: flex;
-    }
-
-    .menu-trigger {
-        padding: 8px;
-    }
-
-    .hamburger-line {
-        width: 24px;
-        height: 3px;
-    }
-
-    .page-title {
-        font-size: 2rem;
-        margin: 20px 15px;
-    }
-
-    .slider__content {
-        height: 250px;
-    }
-
-    .slider-control--button {
-        width: 40px;
-        height: 40px;
-        font-size: 1rem;
-    }
-
-    .prev-button {
-        left: 10px;
-    }
-
-    .next-button {
-        right: 10px;
-    }
-
-    .thumbnails-container {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
-    }
-
-    .thumbnail-wrapper {
-        height: 70px;
-    }
-
-    .card {
-        padding: 20px;
-    }
-
-    .title {
-        font-size: 1.2rem;
-    }
-
-    .card-subtitle {
-        font-size: 0.8rem;
-    }
-
-    .descricao-container {
-        padding: 20px;
-        margin: 20px 10px;
-    }
-
-    .descricao-title {
-        font-size: 1.4rem;
-    }
-
-    .descricao-text {
-        font-size: 0.95rem;
-    }
-
-    .descricao-highlights {
-        grid-template-columns: 1fr;
-        gap: 10px;
-    }
-
-    .map-container {
-        height: 350px;
-    }
-
-    .separar {
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .peak-hours-card {
-        padding: 20px;
-    }
-
-    .days {
-        gap: 8px;
-        justify-content: center;
-    }
-
-    .day {
-        padding: 8px 12px;
-        font-size: 12px;
-    }
-
-    .chart {
-        height: 180px;
-    }
-
-    .container2 {
-        max-width: 100%;
-    }
-
+    
+    /* Menu deslizante */
     .slide-menu {
-        width: 100%;
-        right: -100%;
-        padding: 1.5rem;
+        width: 300px;
+        right: -300px;
+        padding: 80px 1.5rem 2rem;
     }
-
+    
+    .menu-search-btn {
+        padding: 12px 16px;
+        font-size: 0.9rem;
+    }
+    
     .nav-link {
-        padding: 0.8rem 0;
         font-size: 1rem;
+        padding: 0.9rem 0;
+        white-space: normal;
+        line-height: 1.4;
+    }
+    
+    .search-results {
+        top: calc(0.8rem * 2 + 45px + 10px);
+        max-width: 400px;
     }
 }
 
-/* Para mobile pequeno (480px e abaixo) */
+
+/* Para telas muito pequenas, ajustar o layout do header */
+@media (max-width: 640px) {
+    /* Garantir que o header não fique muito apertado */
+    .header-container {
+        padding: 0.8rem 0.8rem !important;
+        min-height: 70px;
+        display: flex;
+        align-items: center;
+    }
+    
+    /* Ajustar container do nav para mobile */
+    .nav-wrapper {
+        width: 100%;
+        gap: 5px;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+    }
+    
+    /* Logo ajustada para mobile */
+    .brand-container {
+        flex-shrink: 0;
+        min-width: 120px;
+    }
+    
+    .logo-img {
+        height: 45px !important;
+        width: auto;
+        max-width: 120px;
+    }
+    
+    /* Container dos controles à direita */
+    .right-controls {
+        display: flex !important;
+        gap: 8px !important;
+        align-items: center;
+        flex-shrink: 0;
+        flex-wrap: nowrap;
+    }
+    
+    /* Botão "Academias Agora" visível em mobile - OCULTAR O BOTÃO HOME */
+    .gym-access-btn:not(.home-btn) {
+        display: inline-flex !important;
+        padding: 8px 12px !important;
+        font-size: 0.75rem !important;
+        margin: 0 !important;
+        white-space: nowrap;
+        min-width: fit-content;
+        order: 1; /* Garante ordem correta */
+    }
+    
+    /* Esconder o botão Home em mobile */
+    .gym-access-btn.home-btn {
+        display: none !important;
+    }
+    
+    /* Botão de pesquisa ajustado */
+    .search-toggle-btn {
+        width: 38px !important;
+        height: 38px !important;
+        order: 2;
+    }
+    
+    /* Campo de pesquisa expandido em mobile */
+    .expandable-search-field.expanded {
+        width: 200px !important;
+        position: fixed;
+        top: 70px;
+        right: 10px;
+        z-index: 3000;
+    }
+    
+    /* Menu hamburguer ajustado */
+    .menu-trigger {
+        padding: 8px !important;
+        order: 3;
+    }
+    
+    .hamburger-line {
+        width: 24px !important;
+        height: 3px !important;
+    }
+}
+
+/* Ajustes para telas muito pequenas (menos de 480px) */
 @media (max-width: 480px) {
     .header-container {
-        padding: 0.6rem 0.8rem;
+        padding: 0.6rem 0.6rem !important;
     }
-
+    
+    .brand-container {
+        min-width: 100px;
+    }
+    
     .logo-img {
-        height: 30px;
+        height: 40px !important;
+        max-width: 100px;
     }
-
+    
+    .right-controls {
+        gap: 6px !important;
+    }
+    
+    /* Botão "Academias Agora" ajustado */
+    .gym-access-btn:not(.home-btn) {
+        padding: 6px 10px !important;
+        font-size: 0.7rem !important;
+    }
+    
+    /* Botão Home continua oculto */
+    .gym-access-btn.home-btn {
+        display: none !important;
+    }
+    
     .search-toggle-btn {
-        width: 36px;
-        height: 36px;
+        width: 36px !important;
+        height: 36px !important;
     }
-
+    
+    .menu-trigger {
+        padding: 6px !important;
+    }
+    
+    .hamburger-line {
+        width: 22px !important;
+        height: 2.5px !important;
+    }
+    
     .expandable-search-field.expanded {
-        width: 180px;
-    }
-
-    .page-title {
-        font-size: 1.8rem;
-    }
-
-    .slider__content {
-        height: 200px;
-    }
-
-    .slider-control--button {
-        width: 35px;
-        height: 35px;
-    }
-
-    .thumbnails-container {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 6px;
-    }
-
-    .thumbnail-wrapper {
-        height: 60px;
-    }
-
-    .image-overlay {
-        padding: 15px;
-    }
-
-    .card {
-        padding: 15px;
-    }
-
-    .title {
-        font-size: 1.1rem;
-    }
-
-    .schedule-item {
-        padding: 12px;
-    }
-
-    .day-label {
-        font-size: 0.9rem;
-    }
-
-    .day-status {
-        font-size: 0.7rem;
-        padding: 3px 6px;
-    }
-
-    .map-container {
-        height: 300px;
-    }
-
-    .map-info {
-        position: relative;
-        bottom: auto;
-        left: auto;
-        max-width: 100%;
-        margin-top: 15px;
-    }
-
-    .peak-hours-card {
-        padding: 15px;
-    }
-
-    .days {
-        gap: 4px;
-    }
-
-    .day {
-        padding: 6px 8px;
-        font-size: 11px;
-    }
-
-    .peak-info {
-        font-size: 0.85rem;
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .chart {
-        height: 150px;
-    }
-
-    .counter-value {
-        font-size: 2.5rem;
+        width: 180px !important;
+        top: 65px;
     }
 }
 
-/* Para telas muito pequenas (360px e abaixo) */
-@media (max-width: 360px) {
-    .header-container {
-        padding: 0.5rem;
-    }
-
-    .logo-img {
-        height: 25px;
-    }
-
-    .search-toggle-btn {
-        width: 32px;
-        height: 32px;
-    }
-
-    .expandable-search-field.expanded {
-        width: 150px;
-    }
-
-    .page-title {
-        font-size: 1.6rem;
-    }
-
-    .slider__content {
-        height: 180px;
-    }
-
-    .slider-control--button {
-        width: 30px;
-        height: 30px;
-        font-size: 0.9rem;
-    }
-
-    .thumbnails-container {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .thumbnail-wrapper {
-        height: 70px;
-    }
-
-    .card {
-        padding: 12px;
-    }
-
-    .card-icon {
-        width: 35px;
-        height: 35px;
-        font-size: 1rem;
-    }
-
-    .title {
-        font-size: 1rem;
-    }
-
-    .map-container {
-        height: 250px;
-    }
-
-    .days {
-        flex-wrap: wrap;
-    }
-
-    .day {
-        flex: 1;
-        min-width: 40px;
-        text-align: center;
-        padding: 5px;
-        font-size: 10px;
-    }
-
-    .chart {
-        height: 120px;
-    }
-
-    .counter-value {
-        font-size: 2rem;
-    }
-
-    .info-panel {
-        flex-direction: column;
-    }
-
-    .info-card {
-        min-width: 100%;
-    }
-}
-
-/* Para orientação paisagem em celular */
+/* Ajustes para landscape em mobile */
 @media (max-height: 500px) and (orientation: landscape) {
-    .slider__content {
-        height: 250px;
-    }
-
-    .thumbnail-wrapper {
-        height: 60px;
-    }
-
     .header-container {
-        padding: 0.5rem 1rem;
+        min-height: 60px;
+        padding: 0.5rem 0.8rem !important;
     }
-
-    .page-hero {
-        padding: 30px 15px 20px;
+    
+    .logo-img {
+        height: 35px !important;
     }
-
-    .page-title {
-        margin-top: 10px;
-        margin-bottom: 15px;
+    
+    .gym-access-btn:not(.home-btn) {
+        padding: 5px 8px !important;
+        font-size: 0.65rem !important;
     }
-
-    .card {
-        padding: 15px;
-    }
-}
-
-/* Ajustes de toque para melhor UX em mobile */
-@media (hover: none) and (pointer: coarse) {
-    .gym-access-btn,
-    .menu-trigger,
-    .search-toggle-btn,
-    .slider-control--button,
-    .nav-button,
-    .action-btn,
-    .day,
-    .contact-btn,
-    .map-btn {
-        min-height: 44px;
-        min-width: 44px;
-    }
-
-    .nav-button {
-        padding: 5px;
-    }
-
-    .thumbnail-wrapper {
-        border-width: 3px;
-    }
-
-    .bar-container {
-        min-width: 35px;
+    
+    .gym-access-btn.home-btn {
+        display: none !important;
     }
 }
+.search-result-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
 
-/* Melhorias para o carousel em mobile */
-@media (max-width: 768px) {
-    .image-overlay {
-        background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
-        padding: 15px;
-    }
-
-    .slider-navigation {
-        gap: 10px;
-    }
-
-    .slider-actions {
-        justify-content: center;
-    }
-
-    .action-btn {
-        width: 44px;
-        height: 44px;
-        font-size: 1.1rem;
-    }
+.search-result-link:hover .search-result-item {
+    background: rgba(0, 255, 136, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 255, 136, 0.2);
 }
     </style>
 </head>
