@@ -911,12 +911,12 @@ body {
     margin-top: 50px;
     transition: transform 0.3s, box-shadow 0.3s;
     position: relative;
-    width: 360px;
-    height: 500px;
+    width: 460px;
+    height: 530px;
 }
 
 .card-image {
-    height: 200px;
+    height: 250px;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -1014,7 +1014,7 @@ body {
     text-align: center;
     width: 300px;
     position: absolute;
-    left: 8%;
+    left: 17%;
     bottom: 20px;
 }
 
