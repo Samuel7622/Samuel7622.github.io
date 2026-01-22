@@ -3422,7 +3422,17 @@
         display: none !important;
     }
 }
+.search-result-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
 
+.search-result-link:hover .search-result-item {
+    background: rgba(0, 255, 136, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 255, 136, 0.2);
+}
     </style>
 </head>
 <body>
@@ -4027,47 +4037,66 @@ function obterMinhaLocalizacao() {
             }
         });
 
-        // Dados de exemplo para a pesquisa
-        const searchData = [
-            {
-                category: 'Academia',
-                title: 'Smart Strong',
-                description: 'Academia de musculação no centro',
-                link: 'smart-strong-sem-logar.html'
-            },
-            {
-                category: 'Academia',
-                title: 'Rede-Fit P2',
-                description: 'Musculação e fitness',
-                link: 'Vilafitness-sem-logar.html'
-            },
-            {
-                category: 'Academia',
-                title: 'Olympic Fit',
-                description: 'Treinos de alto desempenho',
-                link: 'olympic-sem-logar.html'
-            },
-            {
-                category: 'Página',
-                title: 'Blog & Dicas',
-                description: 'Artigos sobre saúde e fitness',
-                link: 'Blogs e dicas-sem-logar.html'
-            },
-            {
-                category: 'Página',
-                title: 'Cadastro de Academias',
-                description: 'Divulgue sua academia',
-                link: 'cadastro_academias-sem-logar.html'
-            },
-            {
-                category: 'Página',
-                title: 'Personal Trainer',
-                description: 'Cadastro de personal trainers',
-                link: 'cadastro_personal-sem-logar.html'
-            }
-        ];
-
-        // Função de pesquisa
+     
+             // Dados de exemplo para a pesquisa
+const searchData = [
+    {
+        category: 'Academia',
+        title: 'Opala fitness',
+        description: 'Academia de musculação no centro',
+        link: 'Opala-Fitness.html'
+    },
+    {
+        category: 'Academia',
+        title: 'vilafitness',
+        description: 'Musculação e fitness',
+        link: 'vilafitness.html'
+    },
+    {
+        category: 'Academia',
+        title: 'Redefitness',
+        description: 'Treinos de alto desempenho',
+        link: 'Redefitness.html'
+    },
+    {
+        category: 'Página',
+        title: 'Cadastro de Academias',
+        description: 'Divulgue sua academia',
+        link: 'academias-publicas.html'
+    },
+   
+    {
+        category: 'Página',
+        title: 'personais',
+        description: ' filtrar personais ',
+        link: 'Filtro_personal.html'
+    },
+    {
+        category: 'Página',
+        title: 'Cadastro de Personal',
+        description: 'Cadastre-se como personal trainer',
+        link: 'Cadastrar_personal.html'
+    },
+    {
+        category: 'Página',
+        title: 'Sobre nós',
+        description: 'Conheça o Gym P2',
+        link: 'Sobre_nós.html'
+    },
+    {
+        category: 'Página',
+        title: 'Configurações',
+        description: 'Configurações da conta',
+        link: 'config.html'
+    },
+  
+    {
+        category: 'Página',
+        title: 'Home',
+        description: 'Página inicial',
+        link: 'index.html'
+    }
+];     // Função de pesquisa
         searchInput.addEventListener('input', (e) => {
             const searchTerm = e.target.value.toLowerCase().trim();
             
