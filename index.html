@@ -335,7 +335,7 @@ Pedro II - PI, 64255-000</div>
             </div>
         </div>
     </footer>
-    <script type="module" src="menu.js"></script>
+    <script src="menu.js"></script>
     <!-- 1. Sistema de Notificações Globais -->
     <script src="global-notifications.js"></script>
     <!-- 2. Gerenciador de Usuários -->
@@ -445,14 +445,21 @@ function initLoginSystem() {
         }
     });
     
-   // Procure a função logout() e ajuste o nome do arquivo aqui:
-function logout() {
-    if (confirm('Tem certeza que deseja sair da sua conta?')) {
-        localStorage.clear();
-        sessionStorage.clear();
-        window.location.reload();
-    }
+   // LOGOUT GLOBAL PADRÃO
+function performLogout() {
+    console.log('🚪 Logout global iniciado');
+    
+    // Remove todos os dados de sessão
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('gymp2_current_user');
+    localStorage.removeItem('gym-theme');
+    localStorage.removeItem('gym-fontSize');
+    sessionStorage.clear();
+    
+    // Redireciona para login (sem reload)
+    window.location.href = 'login-gym.html';
 }
+
 // Dados de exemplo para a pesquisa
 const searchData = [
     {
@@ -743,40 +750,13 @@ const searchData = [
                     });
                 });
                 
-                // EVENTO DE LOGOUT CORRIGIDO
+                // EVENTO DE LOGOUT CORRIGIDO - USANDO FUNÇÃO GLOBAL
                 logoutBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
                     e.preventDefault();
                     
                     if (confirm('Deseja realmente sair da sua conta?')) {
-                        console.log('🚪 Fazendo logout do header...');
-                        
-                        // Limpar TODOS os dados de sessão
-                        localStorage.removeItem('gymp2_current_user');
-                        localStorage.removeItem('currentUser');
-                        sessionStorage.removeItem('gymp2_token');
-                        sessionStorage.removeItem('gymp2_user');
-                        
-                        // Mostrar feedback
-                        if (window.notifications) {
-                            window.notifications.success('Logout realizado com sucesso!');
-                        } else {
-                            alert('Logout realizado!');
-                        }
-                        
-                        // Remover o dropdown imediatamente
-                        const userContainer = document.getElementById('userHeaderContainer');
-                        if (userContainer) {
-                            userContainer.remove();
-                        }
-                        
-                        // Recriar o botão de login
-                        recreateLoginButton();
-                        
-                        // Recarregar a página após 1 segundo para sincronizar tudo
-                        setTimeout(() => {
-                            window.location.reload();
-                        }, 1000);
+                        performLogout();
                     }
                 });
                 
@@ -810,7 +790,6 @@ const searchData = [
             }
             
         })();
-        // NÃO ADICIONE A FUNÇÃO logout() AQUI - ELA FOI REMOVIDA
     </script>
     
     <script>
@@ -1051,17 +1030,13 @@ const searchData = [
                 navigationList.appendChild(logoutItem);
                 console.log('✅ Item Sair adicionado ao menu');
         
-                // Configurar evento de logout
+                // Configurar evento de logout - USANDO FUNÇÃO GLOBAL
                 const menuLogoutBtn = document.getElementById('menuLogoutBtn');
                 if (menuLogoutBtn) {
                     menuLogoutBtn.addEventListener('click', (e) => {
                         e.preventDefault();
                         if (confirm('Deseja realmente sair da sua conta?')) {
-                            console.log('🚪 Fazendo logout...');
-                            localStorage.removeItem('gymp2_current_user');
-                            localStorage.removeItem('currentUser');
-                            alert('Logout realizado com sucesso!');
-                            window.location.reload();
+                            performLogout();
                         }
                     });
                 }
@@ -1104,14 +1079,10 @@ const searchData = [
                 dropdownMenu.style.transform = 'translateY(-10px)';
             });
         
-            // Logout
+            // Logout - USANDO FUNÇÃO GLOBAL
             logoutBtn.addEventListener('click', () => {
                 if (confirm('Deseja realmente sair da sua conta?')) {
-                    console.log('🚪 Fazendo logout...');
-                    localStorage.removeItem('currentUser');
-                    localStorage.removeItem('gymp2_current_user');
-                    alert('Logout realizado com sucesso!');
-                    window.location.reload();
+                    performLogout();
                 }
             });
         
@@ -1298,19 +1269,7 @@ const searchData = [
                 window.location.href = 'login-gym.html';
             }
         }
-
-
-
-
-
-
-        
     </script>
     
 </body>
 </html>
-
-
-
-
-
