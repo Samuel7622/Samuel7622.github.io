@@ -1014,7 +1014,7 @@ body {
     text-align: center;
     width: 300px;
     position: absolute;
-    left: 12%;
+    left: 14%;
     bottom: 20px;
 }
 
@@ -3525,4 +3525,5 @@ body {
     color: #00ff40;
     transform: translateX(5px);
 }
+
 
