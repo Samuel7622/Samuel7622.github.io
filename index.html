@@ -445,19 +445,52 @@ function initLoginSystem() {
         }
     });
     
-   // LOGOUT GLOBAL PADRÃO
-function performLogout() {
+   // LOGOUT GLOBAL PADRÃO - FUNÇÃO CORRIGIDA
+async function performLogout() {
     console.log('🚪 Logout global iniciado');
     
-    // Remove todos os dados de sessão
+    // 1. Primeiro, chamar o logout no backend
+    try {
+        // Buscar token salvo no login
+        const token = localStorage.getItem('gymp2_token') || 
+                     localStorage.getItem('token') || 
+                     sessionStorage.getItem('gymp2_token');
+        
+        console.log('🔑 Token encontrado para logout:', token ? 'Sim' : 'Não');
+        
+        if (token) {
+            const response = await fetch('/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ token: token })
+            });
+            
+            const result = await response.json();
+            console.log('✅ Logout no servidor:', result.message);
+        }
+    } catch (error) {
+        console.log('⚠️ Não foi possível limpar sessão no servidor:', error.message);
+        // Continua mesmo com erro
+    }
+    
+    // 2. Limpar TODOS os dados locais
     localStorage.removeItem('currentUser');
     localStorage.removeItem('gymp2_current_user');
+    localStorage.removeItem('gymp2_token');
+    localStorage.removeItem('token');
     localStorage.removeItem('gym-theme');
     localStorage.removeItem('gym-fontSize');
     sessionStorage.clear();
     
-    // Redireciona para login (sem reload)
-    window.location.href = 'login-gym.html';
+    console.log('🧹 Dados locais limpos');
+    
+    // 3. Pequeno delay para garantir que tudo foi limpo
+    setTimeout(() => {
+        // 4. Redirecionar para login
+        window.location.href = 'login-gym.html';
+    }, 100);
 }
 
 // Dados de exemplo para a pesquisa
