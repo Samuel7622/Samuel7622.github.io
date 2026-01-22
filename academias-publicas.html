@@ -2216,8 +2216,6 @@ function exibirAcademias(academias) {
         grid.appendChild(card);
     });
 }
-
-// ========== CRIAR CARD INDIVIDUAL ==========
 function criarCardAcademia(academia) {
     const card = document.createElement('div');
     card.className = 'academy-card';
@@ -2226,12 +2224,30 @@ function criarCardAcademia(academia) {
     card.dataset.preco = academia.preco;
     card.dataset.cidade = academia.cidade?.toLowerCase() || '';
     
+    // 1. PRIMEIRO: Tentar usar imagem manual
+    // 2. SEGUNDO: Tentar usar imagem do banco de dados
+    // 3. TERCEIRO: Usar imagem padrão por tipo
+    
+    let imagemFinal = academia.imagemManual;
+    
+    if (!imagemFinal && academia.imagem) {
+        imagemFinal = academia.imagem;
+    }
+    
+    if (!imagemFinal && academia.foto) {
+        imagemFinal = academia.foto;
+    }
+    
+    if (!imagemFinal) {
+        imagemFinal = getImagemPorTipo(academia.tipo);
+    }
+    
     // Formatar facilidades
     const facilidades = Array.isArray(academia.facilidades) ? academia.facilidades : [];
     
     card.innerHTML = `
         <div class="price-badge">R$ ${academia.preco}/mês</div>
-        <div class="card-image" style="background-image: url('${academia.foto}')">
+        <div class="card-image" style="background-image: url('${imagemFinal}')">
             <div class="card-image-title">${academia.nome}</div>
         </div>
         <div class="card-content">
@@ -2270,9 +2286,10 @@ function criarCardAcademia(academia) {
             </div>
             ` : ''}
             
-            <button class="view-details-btn" onclick="verDetalhesAcademia('${academia.id}')">
-                <i class="fas fa-info-circle"></i> Ver Detalhes
-            </button>
+           // NOVO:
+<button class="view-details-btn" onclick="verDetalhesAcademia('${academia.id}', '${academia.nome.replace(/'/g, "\\'")}')">
+    <i class="fas fa-info-circle"></i> Ver Academia
+</button>
         </div>
     `;
     
@@ -2715,7 +2732,79 @@ function aplicarFiltros() {
     
     exibirAcademias(academiasFiltradas);
 }
+function exibirAcademias(academias) {
+    const grid = document.getElementById('academiesGrid');
+    const mensagem = document.getElementById('noAcademiesMessage');
+    
+    // Limpar grid
+    grid.innerHTML = '';
+    
+    if (academias.length === 0) {
+        grid.style.display = 'none';
+        mensagem.style.display = 'block';
+        mensagem.innerHTML = `
+            <i class="fas fa-search"></i>
+            <h3>Nenhuma academia encontrada</h3>
+            <p>Tente ajustar os filtros de busca.</p>
+        `;
+        return;
+    }
+    
+    grid.style.display = 'grid';
+    mensagem.style.display = 'none';
+    
+    // Criar cards COM IMAGENS MANUAIS
+    academias.forEach(academia => {
+        // Determinar qual imagem usar baseado no nome da academia
+        const imagem = getImagemManual(academia.nome);
+        
+        // Modificar a academia para incluir a imagem manual
+        const academiaComImagem = {
+            ...academia,
+            imagemManual: imagem
+        };
+        
+        const card = criarCardAcademia(academiaComImagem);
+        grid.appendChild(card);
+    });
+}
+// ========== BANCO DE IMAGENS MANUAIS ==========
 
+const imagensManuais = {
+    // EXEMPLOS - ADICIONE SUAS IMAGENS AQUI!
+    'smart strong': 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&h=600&fit=crop',
+    'Opala-Fitness': 'Opala-Fitness.png',
+    'Rede Fit': 'RedeFit.png',
+    'Vila Fitness': 'vilafitness_fachada.png',
+    'academia do centro': 'https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=800&h=600&fit=crop',
+    'crossfit premium': 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&h=600&fit=crop',
+    
+    // Imagens padrão por tipo (para quando não encontrar pelo nome)
+    'default_musculacao': 'https://images.unsplash.com/photo-1534367507877-0edd93bd013b?w=800&h=600&fit=crop',
+    'default_artes-marciais': 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&h=600&fit=crop',
+    'default_crossfit': 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop',
+    'default_yoga': 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&h=600&fit=crop',
+    'default_pilates': 'https://images.unsplash.com/photo-1575058752200-a8d88431e82c?w=800&h=600&fit=crop'
+};
+
+function getImagemManual(nomeAcademia) {
+    const nomeLower = nomeAcademia.toLowerCase();
+    
+    // Procurar por correspondência parcial
+    for (const [key, imagem] of Object.entries(imagensManuais)) {
+        if (nomeLower.includes(key.toLowerCase()) || key.toLowerCase().includes(nomeLower)) {
+            return imagem;
+        }
+    }
+    
+    // Se não encontrar, retorna null para usar imagem padrão mais tarde
+    return null;
+}
+
+function getImagemPorTipo(tipo) {
+    const chave = `default_${tipo}`;
+    return imagensManuais[chave] || imagensManuais['default_musculacao'];
+}
 function limparFiltros() {
     // Resetar tipo
     document.getElementById('type-all').checked = true;
@@ -2749,95 +2838,42 @@ function configurarModal() {
         if (e.target === modal) modal.style.display = 'none';
     });
 }
-
-async function verDetalhesAcademia(id) {
+async function verDetalhesAcademia(id, nome) {
     try {
-        console.log(`🔍 Buscando detalhes da academia ${id}...`);
+        console.log(`🔍 Redirecionando para academia ${nome} (ID: ${id})...`);
         
-        const response = await fetch(`${SERVER_URL}/api/academia-publica/${id}`);
-        const data = await response.json();
+        // 1. Primeiro tentar pelo nome da academia
+        let pagina = getPaginaPorNome(nome);
         
-        if (!response.ok || !data.success) {
-            throw new Error(data.message || 'Academia não encontrada');
+        // 2. Se não encontrar, buscar do banco de dados
+        if (!pagina) {
+            console.log(`Buscando detalhes da academia ${id} no banco...`);
+            const response = await fetch(`${SERVER_URL}/api/academia-publica/${id}`);
+            const data = await response.json();
+            
+            if (response.ok && data.success) {
+                pagina = getPaginaPorNome(data.academia.nome);
+            }
         }
         
-        const academia = data.academia;
-        const modal = document.getElementById('academyModal');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalBody = document.getElementById('modalBody');
-        
-        modalTitle.textContent = academia.nome;
-        
-        modalBody.innerHTML = `
-            <div style="display: flex; gap: 20px; margin-bottom: 20px; flex-wrap: wrap;">
-                <img src="${academia.foto}" 
-                     style="width: 200px; height: 150px; border-radius: 8px; object-fit: cover; flex-shrink: 0;">
-                <div style="flex: 1;">
-                    <h4 style="color: #00ff88; margin-bottom: 10px;">Informações Gerais</h4>
-                    <p><strong>Tipo:</strong> ${formatarTipo(academia.tipo)}</p>
-                    <p><strong>Preço:</strong> R$ ${parseFloat(academia.preco).toFixed(2)}/mês</p>
-                    ${academia.cnpj ? `<p><strong>CNPJ:</strong> ${academia.cnpj}</p>` : ''}
-                    <p><strong>Status:</strong> <span style="color: #28a745;">● Ativa</span></p>
-                </div>
-            </div>
+        // 3. Redirecionar para a página encontrada ou mostrar erro
+        if (pagina) {
+            console.log(`✅ Redirecionando para: ${pagina}`);
+            window.location.href = pagina;
+        } else {
+            console.warn(`⚠️ Página não encontrada para: ${nome}`);
             
-            <div style="margin-bottom: 20px;">
-                <h4 style="color: #00ff88; margin-bottom: 10px;">
-                    <i class="fas fa-map-marker-alt"></i> Localização
-                </h4>
-                <p style="font-size: 1.1rem;">${academia.endereco}</p>
-                <p>${academia.cidade} - ${academia.estado}</p>
-            </div>
+            // Opção 1: Mostrar modal com detalhes
+            // await mostrarModalAcademia(id);
             
-            <div style="margin-bottom: 20px;">
-                <h4 style="color: #00ff88; margin-bottom: 10px;">
-                    <i class="far fa-clock"></i> Horário de Funcionamento
-                </h4>
-                <p><strong>Segunda a Sexta:</strong> ${academia.abertura} às ${academia.fechamento}</p>
-                <p><strong>Sábados:</strong> ${academia.abertura} às ${academia.fechamento}</p>
-            </div>
-            
-            ${academia.telefone || academia.email ? `
-            <div style="margin-bottom: 20px;">
-                <h4 style="color: #00ff88; margin-bottom: 10px;">
-                    <i class="fas fa-phone"></i> Contato
-                </h4>
-                ${academia.telefone ? `<p><strong>Telefone:</strong> ${academia.telefone}</p>` : ''}
-                ${academia.email ? `<p><strong>E-mail:</strong> ${academia.email}</p>` : ''}
-            </div>
-            ` : ''}
-            
-            ${academia.descricao ? `
-            <div style="margin-bottom: 20px;">
-                <h4 style="color: #00ff88; margin-bottom: 10px;">
-                    <i class="fas fa-align-left"></i> Descrição
-                </h4>
-                <p style="line-height: 1.6;">${academia.descricao}</p>
-            </div>
-            ` : ''}
-            
-            ${academia.facilidades && academia.facilidades.length > 0 ? `
-            <div>
-                <h4 style="color: #00ff88; margin-bottom: 10px;">
-                    <i class="fas fa-check-circle"></i> Facilidades
-                </h4>
-                <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-                    ${academia.facilidades.map(f => `
-                        <span style="background: rgba(0, 255, 136, 0.15); color: #00ff88; padding: 8px 15px; 
-                              border-radius: 20px; font-size: 0.9rem; border: 1px solid rgba(0, 255, 136, 0.3);">
-                            ${formatarFacilidade(f)}
-                        </span>
-                    `).join('')}
-                </div>
-            </div>
-            ` : ''}
-        `;
-        
-        modal.style.display = 'block';
+            // Opção 2: Redirecionar para página genérica com ID
+            window.location.href = `academia-detalhes.html?id=${id}`;
+        }
         
     } catch (error) {
-        console.error('❌ Erro ao carregar detalhes:', error);
-        alert('Não foi possível carregar os detalhes desta academia');
+        console.error('❌ Erro ao redirecionar:', error);
+        // Fallback: página genérica com ID
+        window.location.href = `academia-detalhes.html?id=${id}`;
     }
 }
 
@@ -2869,7 +2905,71 @@ function formatarFacilidade(facilidade) {
     };
     return facilidades[facilidade] || facilidade;
 }
+// ========== MAPEAMENTO DE ACADEMIAS PARA PÁGINAS ==========
 
+const paginasAcademias = {
+    // ADICIONE AQUI O NOME DA ACADEMIA E SUA PÁGINA
+    'Opala-Fitness': 'Opala-Fitness.html',
+    'Vila Fitness': 'vilafitness.html',
+    'Rede Fit': 'Redefit.html',
+    
+    'vilafitness': 'vilafitness.html',
+    'vila fitness': 'vilafitness.html',
+    
+    'top x': 'topx.html',
+    'topx': 'topx.html',
+    
+    'smart strong': 'smart-strong.html',
+    'smartstrong': 'smart-strong.html',
+    
+    'rede fit': 'rede-fit.html',
+    'redefit': 'rede-fit.html',
+    'rede-fit': 'rede-fit.html',
+    
+    // Adicione mais conforme necessário
+    'academia do centro': 'academia-centro.html',
+    'crossfit premium': 'crossfit-premium.html',
+    'olympic fit': 'olympic-fit.html',
+    'muscle house': 'muscle-house.html',
+    'power gym': 'power-gym.html'
+};
+
+function getPaginaPorNome(nomeAcademia) {
+    if (!nomeAcademia) return null;
+    
+    const nomeLower = nomeAcademia.toLowerCase().trim();
+    
+    // 1. Tentar correspondência exata
+    if (paginasAcademias[nomeLower]) {
+        return paginasAcademias[nomeLower];
+    }
+    
+    // 2. Procurar por correspondência parcial
+    for (const [key, pagina] of Object.entries(paginasAcademias)) {
+        if (nomeLower.includes(key) || key.includes(nomeLower)) {
+            return pagina;
+        }
+    }
+    
+    // 3. Verificar por palavras-chave comuns
+    const palavrasChave = {
+        'opala': 'Opala-Fitness.html',
+        'vila': 'vilafitness.html',
+        'top': 'topx.html',
+        'smart': 'smart-strong.html',
+        'rede': 'rede-fit.html',
+        'fit': 'rede-fit.html',
+        'strong': 'smart-strong.html'
+    };
+    
+    for (const [palavra, pagina] of Object.entries(palavrasChave)) {
+        if (nomeLower.includes(palavra)) {
+            return pagina;
+        }
+    }
+    
+    return null;
+}
 function mostrarMensagemErro(mensagem) {
     const grid = document.getElementById('academiesGrid');
     const msgElement = document.getElementById('noAcademiesMessage');
