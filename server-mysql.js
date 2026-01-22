@@ -1498,37 +1498,24 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => console.log('❌ Cliente desconectado:', socket.id));
 });
 
-// ========== INICIAR SERVIDOR ==========
+// Localize o final do seu arquivo server.js
 async function startServer() {
     await initDataDir();
     
+    // ESTA É A PARTE QUE VOCÊ SUBSTITUI:
+    const PORT = process.env.PORT || 3000;
+
     server.listen(PORT, '0.0.0.0', () => {
         console.log(`
 ╔══════════════════════════════════════════════════════════════╗
-║          🏋️  GYM P2 SERVER - SUPABASE 🚀                    ║
+║          🏋️  GYM P2 SERVER - SUPABASE 🚀                      ║
 ╠══════════════════════════════════════════════════════════════╣
-║  🌐 URL: http://localhost:${PORT}                            ║
-║  ☁️  Banco: ${supabaseEnabled ? 'Supabase ✅'.padEnd(44) : 'Arquivos JSON 📁'.padEnd(44)} ║
-║  💾 Backup: Arquivos JSON (./data/)                         ║
-║  🔐 Sistema: Autenticação + CRUD completo                   ║
+║  🌐 URL: Rodando na porta ${PORT}                             ║
+║  ☁️  Banco: ${supabaseEnabled ? 'Supabase ✅' : 'Arquivos JSON 📁'} ║
 ╚══════════════════════════════════════════════════════════════╝
         `);
-        
-        console.log('✅ Sistema pronto para uso!\n');
-        console.log('👤 Admin padrão: admin@ifpi.edu.br / 123456');
-        console.log('\n📡 ROTAS PÚBLICAS (para página de academias):');
-        console.log('   GET /api/academias-publicas - Todas academias ATIVAS');
-        console.log('   GET /api/academia-publica/:id - Detalhes de uma academia');
-        console.log('\n🔐 ROTAS DE ADMINISTRAÇÃO:');
-        console.log('   POST /cadastro - Registrar usuário');
-        console.log('   POST /login - Fazer login (OTIMIZADO)');
-        console.log('   GET /api/academias - Todas academias (admin)');
-        console.log('\n🔍 ROTAS DE DEBUG:');
-        console.log('   GET /debug/usuarios - Ver todos os usuários');
-        console.log('   GET /health - Status do servidor');
-        console.log('📁 Servindo arquivos estáticos da pasta atual');
+        console.log(`🚀 Servidor pronto e acessível externamente na porta ${PORT}`);
     });
 }
 
 startServer();
-
