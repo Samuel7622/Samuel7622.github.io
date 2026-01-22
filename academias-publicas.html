@@ -122,6 +122,112 @@ body {
     }
 }
 
+/* ========== POP-UP EM DESENVOLVIMENTO ========== */
+.development-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.development-popup.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.popup-content {
+    background: linear-gradient(135deg, #1a1a1a 0%, #222 100%);
+    padding: 2.5rem;
+    border-radius: 20px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    border: 2px solid #00ff40;
+    box-shadow: 
+        0 20px 60px rgba(0, 255, 64, 0.3),
+        0 0 0 1px rgba(0, 255, 64, 0.2);
+    position: relative;
+    transform: translateY(20px);
+    transition: transform 0.4s ease;
+}
+
+.development-popup.active .popup-content {
+    transform: translateY(0);
+}
+
+.popup-icon {
+    font-size: 4rem;
+    color: #00ff40;
+    margin-bottom: 1.5rem;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.popup-title {
+    color: #00ff40;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.popup-message {
+    color: #ccc;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    margin-bottom: 2rem;
+}
+
+.popup-academy-name {
+    color: #fff;
+    background: rgba(0, 255, 64, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    display: inline-block;
+    margin: 1rem 0;
+    font-weight: 600;
+    border: 1px solid rgba(0, 255, 64, 0.3);
+}
+
+.popup-close-btn {
+    background: linear-gradient(135deg, #00ff40 0%, #00ff88 100%);
+    color: #000;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.popup-close-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 255, 64, 0.4);
+}
+
+.popup-close-btn:active {
+    transform: translateY(-1px);
+}
+
 /* ========== HEADER PRINCIPAL ========== */
 .header-container {
     padding: 1.2rem 2.5rem;
@@ -1021,6 +1127,13 @@ body {
     margin-top: 1rem;
     transition: background 0.3s;
     font-size: 1rem;
+    display: block; /* Garante que ocupe toda a largura disponível */
+    text-align: center;
+    position: static !important; /* Remove qualquer position absolute/relative */
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: none !important;
 }
 
 .view-details-btn:hover {
@@ -2123,6 +2236,28 @@ body {
         </div>
     </div>
 </footer>
+
+<!-- Pop-up de Desenvolvimento -->
+<div class="development-popup" id="developmentPopup">
+    <div class="popup-content">
+        <div class="popup-icon">
+            <i class="fas fa-tools"></i>
+        </div>
+        <h2 class="popup-title">Em Desenvolvimento</h2>
+        <div class="popup-message">
+            A academia 
+            <div class="popup-academy-name" id="popupAcademyName"></div>
+            está em fase de desenvolvimento.
+        </div>
+        <p style="color: #999; font-size: 0.9rem; margin-bottom: 1.5rem;">
+            Em breve você poderá acessar todos os detalhes desta academia.
+        </p>
+        <button class="popup-close-btn" id="closePopupBtn">
+            <i class="fas fa-check"></i> Entendi
+        </button>
+    </div>
+</div>
+
  <script src="global-notifications.js"></script>
     <!-- 2. Gerenciador de Usuários -->
     <script src="user-manager.js"></script>
@@ -2151,7 +2286,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // 3. Configurar modal
     configurarModal();
     
-    // 4. Atualizar periodicamente (a cada 30 segundos)
+    // 4. Configurar pop-up de desenvolvimento
+    configurarPopup();
+    
+    // 5. Atualizar periodicamente (a cada 30 segundos)
     setInterval(carregarAcademiasSupabase, 30000);
 });
 
@@ -2217,6 +2355,7 @@ function exibirAcademias(academias) {
         grid.appendChild(card);
     });
 }
+
 function criarCardAcademia(academia) {
     const card = document.createElement('div');
     card.className = 'academy-card';
@@ -2225,10 +2364,7 @@ function criarCardAcademia(academia) {
     card.dataset.preco = academia.preco;
     card.dataset.cidade = academia.cidade?.toLowerCase() || '';
     
-    // 1. PRIMEIRO: Tentar usar imagem manual
-    // 2. SEGUNDO: Tentar usar imagem do banco de dados
-    // 3. TERCEIRO: Usar imagem padrão por tipo
-    
+    // Determinar imagem
     let imagemFinal = academia.imagemManual;
     
     if (!imagemFinal && academia.imagem) {
@@ -2287,15 +2423,122 @@ function criarCardAcademia(academia) {
             </div>
             ` : ''}
             
-           // NOVO:
-<button class="view-details-btn" onclick="verDetalhesAcademia('${academia.id}', '${academia.nome.replace(/'/g, "\\'")}')">
-    <i class="fas fa-info-circle"></i> Ver Academia
-</button>
+            <button class="view-details-btn" onclick="verDetalhesAcademia('${academia.id}', '${academia.nome.replace(/'/g, "\\'")}')">
+                <i class="fas fa-info-circle"></i> Ver Academia
+            </button>
         </div>
     `;
     
     return card;
 }
+
+// ========== SISTEMA DE POP-UP DE DESENVOLVIMENTO ==========
+
+function configurarPopup() {
+    const popup = document.getElementById('developmentPopup');
+    const closeBtn = document.getElementById('closePopupBtn');
+    
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            popup.classList.remove('active');
+        });
+    }
+    
+    // Fechar pop-up ao clicar fora
+    popup.addEventListener('click', (e) => {
+        if (e.target === popup) {
+            popup.classList.remove('active');
+        }
+    });
+    
+    // Fechar pop-up com ESC
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && popup.classList.contains('active')) {
+            popup.classList.remove('active');
+        }
+    });
+}
+
+function mostrarPopupDesenvolvimento(academiaNome) {
+    const popup = document.getElementById('developmentPopup');
+    const nomeElement = document.getElementById('popupAcademyName');
+    
+    if (nomeElement) {
+        nomeElement.textContent = academiaNome;
+    }
+    
+    popup.classList.add('active');
+}
+
+// ========== FUNÇÃO PRINCIPAL DE REDIRECIONAMENTO ==========
+
+async function verDetalhesAcademia(id, nome) {
+    try {
+        console.log(`🔍 Verificando academia: ${nome} (ID: ${id})...`);
+        
+        // Lista de academias que estão disponíveis (com páginas prontas)
+        const academiasDisponiveis = [
+            'opala fitness',
+            'opala-fitness',
+            'vila fitness',
+            'vilafitness',
+            'redefit',
+            'rede fit',
+            'rede-fit'
+        ];
+        
+        // Verificar se a academia está disponível
+        const nomeLower = nome.toLowerCase();
+        let academiaDisponivel = false;
+        
+        for (const academia of academiasDisponiveis) {
+            if (nomeLower.includes(academia) || academia.includes(nomeLower)) {
+                academiaDisponivel = true;
+                break;
+            }
+        }
+        
+        // Se a academia NÃO está disponível, mostrar pop-up
+        if (!academiaDisponivel) {
+            console.log(`⚠️ Academia em desenvolvimento: ${nome}`);
+            mostrarPopupDesenvolvimento(nome);
+            return;
+        }
+        
+        // Se a academia está disponível, redirecionar
+        console.log(`✅ Redirecionando para academia ${nome}...`);
+        
+        // 1. Primeiro tentar pelo nome da academia
+        let pagina = getPaginaPorNome(nome);
+        
+        // 2. Se não encontrar, buscar do banco de dados
+        if (!pagina) {
+            console.log(`Buscando detalhes da academia ${id} no banco...`);
+            const response = await fetch(`${SERVER_URL}/api/academia-publica/${id}`);
+            const data = await response.json();
+            
+            if (response.ok && data.success) {
+                pagina = getPaginaPorNome(data.academia.nome);
+            }
+        }
+        
+        // 3. Redirecionar para a página encontrada
+        if (pagina) {
+            console.log(`✅ Redirecionando para: ${pagina}`);
+            window.location.href = pagina;
+        } else {
+            console.warn(`⚠️ Página não encontrada para: ${nome}`);
+            // Fallback: página genérica com ID
+            window.location.href = `academia-detalhes.html?id=${id}`;
+        }
+        
+    } catch (error) {
+        console.error('❌ Erro ao redirecionar:', error);
+        // Fallback: página genérica com ID
+        window.location.href = `academia-detalhes.html?id=${id}`;
+    }
+}
+
 // Dados de exemplo para a pesquisa
 const searchData = [
     {
@@ -2366,113 +2609,98 @@ const searchData = [
     }
 ];
 
-// Função de pesquisa
-searchInput.addEventListener('input', (e) => {
-    const searchTerm = e.target.value.toLowerCase().trim();
-    
-    if (searchTerm.length === 0) {
-        searchResults.classList.remove('active');
-        searchResults.innerHTML = '';
-        return;
-    }
-    
-    // Filtrar resultados
-    const filteredResults = searchData.filter(item => 
-        item.title.toLowerCase().includes(searchTerm) || 
-        item.description.toLowerCase().includes(searchTerm) ||
-        item.category.toLowerCase().includes(searchTerm)
-    );
-    
-    if (filteredResults.length === 0) {
-        searchResults.innerHTML = `
-            <div class="search-result-item">
-                <div class="result-title">Nenhum resultado encontrado</div>
-                <div class="result-description">Tente buscar por "academia", "personal" ou "cadastro"</div>
-            </div>
-        `;
-        searchResults.classList.add('active');
-        return;
-    }
-    
-    // Gerar HTML dos resultados
-    let resultsHTML = '';
-    filteredResults.forEach(result => {
-        resultsHTML += `
-            <a href="${result.link}" class="search-result-link">
-                <div class="search-result-item">
-                    <div class="result-category">${result.category}</div>
-                    <div class="result-title">${result.title}</div>
-                    <div class="result-description">${result.description}</div>
-                </div>
-            </a>
-        `;
-    });
-    
-    searchResults.innerHTML = resultsHTML;
-    searchResults.classList.add('active');
-});
+// ========== SISTEMA DE PESQUISA DO HEADER ==========
 
-// Fechar resultados ao clicar fora
-document.addEventListener('click', (e) => {
-    if (!searchField.contains(e.target) && !searchToggle.contains(e.target)) {
-        searchResults.classList.remove('active');
-    }
-});
-    // ========== FUNÇÕES DO HEADER (PESQUISA E MENU) ==========
-    
-    // Sistema de pesquisa
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchToggle = document.getElementById('searchToggle');
-        const searchField = document.getElementById('searchField');
-        const searchInput = document.getElementById('searchInput');
-        const searchResults = document.getElementById('searchResults');
+const searchInput = document.getElementById('searchInput');
+const searchResults = document.getElementById('searchResults');
+const searchField = document.getElementById('searchField');
+const searchToggle = document.getElementById('searchToggle');
+
+if (searchInput && searchResults) {
+    searchInput.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase().trim();
         
-        if (searchToggle && searchField && searchInput) {
-            searchToggle.addEventListener('click', function() {
-                searchField.classList.toggle('expanded');
-                if (searchField.classList.contains('expanded')) {
-                    searchInput.focus();
-                } else {
-                    searchInput.value = '';
-                    searchResults.classList.remove('active');
-                }
-            });
-            
-            searchInput.addEventListener('input', function() {
-                if (this.value.trim() !== '') {
-                    searchResults.classList.add('active');
-                    // Simular resultados
-                    searchResults.innerHTML = `
-                        <div class="search-result-item">
-                            <div class="result-category">ACADEMIA</div>
-                            <div class="result-title">Smart Strong</div>
-                            <div class="result-description">Academia de musculação e crossfit</div>
-                        </div>
-                        <div class="search-result-item">
-                            <div class="result-category">ACADEMIA</div>
-                            <div class="result-title">Rede-Fit P2</div>
-                            <div class="result-description">Rede de academias fitness</div>
-                        </div>
-                        <div class="search-result-item">
-                            <div class="result-category">ACADEMIA</div>
-                            <div class="result-title">Olympic Fit</div>
-                            <div class="result-description">Academia de alta performance</div>
-                        </div>
-                    `;
-                } else {
-                    searchResults.classList.remove('active');
-                }
-            });
-            
-            // Fechar pesquisa ao clicar fora
-            document.addEventListener('click', function(event) {
-                if (!searchField.contains(event.target) && !searchToggle.contains(event.target)) {
-                    searchField.classList.remove('expanded');
-                    searchResults.classList.remove('active');
-                }
-            });
+        if (searchTerm.length === 0) {
+            searchResults.classList.remove('active');
+            searchResults.innerHTML = '';
+            return;
         }
         
+        // Filtrar resultados
+        const filteredResults = searchData.filter(item => 
+            item.title.toLowerCase().includes(searchTerm) || 
+            item.description.toLowerCase().includes(searchTerm) ||
+            item.category.toLowerCase().includes(searchTerm)
+        );
+        
+        if (filteredResults.length === 0) {
+            searchResults.innerHTML = `
+                <div class="search-result-item">
+                    <div class="result-title">Nenhum resultado encontrado</div>
+                    <div class="result-description">Tente buscar por "academia", "personal" ou "cadastro"</div>
+                </div>
+            `;
+            searchResults.classList.add('active');
+            return;
+        }
+        
+        // Gerar HTML dos resultados
+        let resultsHTML = '';
+        filteredResults.forEach(result => {
+            resultsHTML += `
+                <a href="${result.link}" class="search-result-link">
+                    <div class="search-result-item">
+                        <div class="result-category">${result.category}</div>
+                        <div class="result-title">${result.title}</div>
+                        <div class="result-description">${result.description}</div>
+                    </div>
+                </a>
+            `;
+        });
+        
+        searchResults.innerHTML = resultsHTML;
+        searchResults.classList.add('active');
+    });
+}
+
+// Fechar resultados ao clicar fora
+if (searchField && searchToggle) {
+    document.addEventListener('click', (e) => {
+        if (!searchField.contains(e.target) && !searchToggle.contains(e.target)) {
+            searchResults.classList.remove('active');
+        }
+    });
+}
+
+// ========== FUNÇÕES DO HEADER (PESQUISA E MENU) ==========
+    
+// Sistema de pesquisa
+document.addEventListener('DOMContentLoaded', function() {
+    const searchToggle = document.getElementById('searchToggle');
+    const searchField = document.getElementById('searchField');
+    const searchInput = document.getElementById('searchInput');
+    const searchResults = document.getElementById('searchResults');
+    
+    if (searchToggle && searchField && searchInput) {
+        searchToggle.addEventListener('click', function() {
+            searchField.classList.toggle('expanded');
+            if (searchField.classList.contains('expanded')) {
+                searchInput.focus();
+            } else {
+                searchInput.value = '';
+                searchResults.classList.remove('active');
+            }
+        });
+        
+        // Fechar pesquisa ao clicar fora
+        document.addEventListener('click', function(event) {
+            if (!searchField.contains(event.target) && !searchToggle.contains(event.target)) {
+                searchField.classList.remove('expanded');
+                searchResults.classList.remove('active');
+            }
+        });
+    }
+    
 // ========== FUNCIONALIDADE DO MENU HAMBURGUER - MELHORADA ==========
 const menuTrigger = document.getElementById('menuTrigger');
 const slideMenu = document.getElementById('slideMenu');
@@ -2481,43 +2709,48 @@ const menuCloseBtn = document.getElementById('menuCloseBtn');
 const menuSearchBtn = document.getElementById('menuSearchBtn');
 
 // Adicionar efeito de clique ao botão do menu
-menuTrigger.addEventListener('mousedown', () => {
-    menuTrigger.style.transform = 'scale(0.95)';
-});
+if (menuTrigger) {
+    menuTrigger.addEventListener('mousedown', () => {
+        menuTrigger.style.transform = 'scale(0.95)';
+    });
 
-menuTrigger.addEventListener('mouseup', () => {
-    menuTrigger.style.transform = 'scale(1)';
-});
+    menuTrigger.addEventListener('mouseup', () => {
+        menuTrigger.style.transform = 'scale(1)';
+    });
 
-// Abrir/fechar menu com animação melhorada
-menuTrigger.addEventListener('click', (e) => {
-    e.stopPropagation();
-    menuTrigger.classList.toggle('active');
-    slideMenu.classList.toggle('open');
-    menuOverlay.classList.toggle('visible');
-    
-    // Adicionar efeito sonoro visual
-    if (menuTrigger.classList.contains('active')) {
-        console.log('📱 Menu aberto');
-        // Animação de entrada dos itens
-        const navItems = document.querySelectorAll('.nav-item');
-        navItems.forEach((item, index) => {
-            item.style.animationDelay = `${index * 0.1}s`;
-        });
-    } else {
-        console.log('📱 Menu fechado');
-    }
-});
+    // Abrir/fechar menu com animação melhorada
+    menuTrigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        menuTrigger.classList.toggle('active');
+        slideMenu.classList.toggle('open');
+        menuOverlay.classList.toggle('visible');
+        
+        if (menuTrigger.classList.contains('active')) {
+            console.log('📱 Menu aberto');
+            // Animação de entrada dos itens
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach((item, index) => {
+                item.style.animationDelay = `${index * 0.1}s`;
+            });
+        } else {
+            console.log('📱 Menu fechado');
+        }
+    });
+}
 
 // Fechar menu pelo botão X com animação
-menuCloseBtn.addEventListener('click', () => {
-    closeMenuWithAnimation();
-});
+if (menuCloseBtn) {
+    menuCloseBtn.addEventListener('click', () => {
+        closeMenuWithAnimation();
+    });
+}
 
 // Fechar menu ao clicar no overlay com fade out
-menuOverlay.addEventListener('click', () => {
-    closeMenuWithAnimation();
-});
+if (menuOverlay) {
+    menuOverlay.addEventListener('click', () => {
+        closeMenuWithAnimation();
+    });
+}
 
 // Fechar menu ao clicar em um link com transição suave
 document.querySelectorAll('.nav-link').forEach(link => {
@@ -2545,9 +2778,9 @@ document.querySelectorAll('.nav-link').forEach(link => {
 
 // Função para fechar menu com animação
 function closeMenuWithAnimation() {
-    menuTrigger.classList.remove('active');
-    slideMenu.classList.remove('open');
-    menuOverlay.classList.remove('visible');
+    if (menuTrigger) menuTrigger.classList.remove('active');
+    if (slideMenu) slideMenu.classList.remove('open');
+    if (menuOverlay) menuOverlay.classList.remove('visible');
     
     // Resetar animações dos itens
     const navItems = document.querySelectorAll('.nav-item');
@@ -2557,109 +2790,33 @@ function closeMenuWithAnimation() {
 }
 
 // Abrir pesquisa pelo botão do menu com animação
-menuSearchBtn.addEventListener('click', () => {
-    // Animação no botão
-    menuSearchBtn.style.transform = 'scale(0.95)';
-    setTimeout(() => {
-        menuSearchBtn.style.transform = '';
-    }, 150);
-    
-    // Fecha o menu
-    closeMenuWithAnimation();
-    
-    // Abre a pesquisa com delay
-    setTimeout(() => {
-        searchField.classList.add('expanded');
-        searchInput.focus();
-        
-        // Efeito visual na barra de pesquisa
-        searchField.style.animation = 'searchExpand 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+if (menuSearchBtn) {
+    menuSearchBtn.addEventListener('click', () => {
+        // Animação no botão
+        menuSearchBtn.style.transform = 'scale(0.95)';
         setTimeout(() => {
-            searchField.style.animation = '';
-        }, 600);
-    }, 300);
+            menuSearchBtn.style.transform = '';
+        }, 150);
+        
+        // Fecha o menu
+        closeMenuWithAnimation();
+        
+        // Abre a pesquisa com delay
+        setTimeout(() => {
+            if (searchField) {
+                searchField.classList.add('expanded');
+                if (searchInput) searchInput.focus();
+                
+                // Efeito visual na barra de pesquisa
+                searchField.style.animation = 'searchExpand 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                setTimeout(() => {
+                    searchField.style.animation = '';
+                }, 600);
+            }
+        }, 300);
+    });
+}
 });
-
-      
-            
-            // Função para obter iniciais do nome
-            function getInitials(name) {
-                return name
-                    .split(' ')
-                    .map(n => n[0])
-                    .slice(0, 2)
-                    .join('')
-                    .toUpperCase();
-            }
-            
-            // Configurar dropdown do usuário
-            function setupUserDropdown() {
-                const userContainer = document.getElementById('userHeaderContainer');
-                const dropdownMenu = document.getElementById('userDropdownMenu');
-                const logoutBtn = document.getElementById('logoutBtnHeader'); // ID ALTERADO AQUI
-                
-                if (!userContainer || !dropdownMenu || !logoutBtn) {
-                    console.log('⚠️ Elementos do dropdown não encontrados');
-                    return;
-                }
-                
-                // Toggle do dropdown
-                userContainer.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const isActive = dropdownMenu.style.opacity === '1';
-                    
-                    if (isActive) {
-                        dropdownMenu.style.opacity = '0';
-                        dropdownMenu.style.visibility = 'hidden';
-                        dropdownMenu.style.transform = 'translateY(-10px)';
-                    } else {
-                        dropdownMenu.style.opacity = '1';
-                        dropdownMenu.style.visibility = 'visible';
-                        dropdownMenu.style.transform = 'translateY(0)';
-                    }
-                });
-                
-                // Fechar dropdown ao clicar fora
-                document.addEventListener('click', (e) => {
-                    if (!userContainer.contains(e.target)) {
-                        dropdownMenu.style.opacity = '0';
-                        dropdownMenu.style.visibility = 'hidden';
-                        dropdownMenu.style.transform = 'translateY(-10px)';
-                    }
-                });
-                
-                // Prevenir fechamento ao clicar no dropdown
-                dropdownMenu.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                });
-                
-                // Hover effect no container
-                userContainer.addEventListener('mouseenter', () => {
-                    userContainer.style.background = 'rgba(0, 255, 136, 0.2)';
-                    userContainer.style.borderColor = 'rgba(0, 255, 136, 0.5)';
-                    userContainer.style.transform = 'translateY(-2px)';
-                    userContainer.style.boxShadow = '0 4px 15px rgba(0, 255, 136, 0.3)';
-                });
-                
-                userContainer.addEventListener('mouseleave', () => {
-                    userContainer.style.background = 'rgba(0, 255, 136, 0.1)';
-                    userContainer.style.borderColor = 'rgba(0, 255, 136, 0.3)';
-                    userContainer.style.transform = 'translateY(0)';
-                    userContainer.style.boxShadow = 'none';
-                });
-                
-                // Hover nos itens do menu
-                const menuItems = dropdownMenu.querySelectorAll('a, #logoutBtnHeader');
-                menuItems.forEach(item => {
-                    item.addEventListener('mouseenter', () => {
-                        item.style.background = 'rgba(0, 255, 136, 0.1)';
-                    });
-                    item.addEventListener('mouseleave', () => {
-                        item.style.background = 'transparent';
-                    });
-                });
-            }
-        });
 // ========== FILTROS ==========
 function configurarFiltros() {
     // Filtros de tipo
@@ -2733,6 +2890,7 @@ function aplicarFiltros() {
     
     exibirAcademias(academiasFiltradas);
 }
+
 function exibirAcademias(academias) {
     const grid = document.getElementById('academiesGrid');
     const mensagem = document.getElementById('noAcademiesMessage');
@@ -2769,6 +2927,7 @@ function exibirAcademias(academias) {
         grid.appendChild(card);
     });
 }
+
 // ========== BANCO DE IMAGENS MANUAIS ==========
 
 const imagensManuais = {
@@ -2806,6 +2965,7 @@ function getImagemPorTipo(tipo) {
     const chave = `default_${tipo}`;
     return imagensManuais[chave] || imagensManuais['default_musculacao'];
 }
+
 function limparFiltros() {
     // Resetar tipo
     document.getElementById('type-all').checked = true;
@@ -2829,83 +2989,19 @@ function limparFiltros() {
 // ========== MODAL DE DETALHES ==========
 function configurarModal() {
     const modal = document.getElementById('academyModal');
-    const closeBtn = modal.querySelector('.close-btn');
-    const closeModalBtn = modal.querySelector('.close-modal');
-    
-    closeBtn.addEventListener('click', () => modal.style.display = 'none');
-    closeModalBtn.addEventListener('click', () => modal.style.display = 'none');
-    
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) modal.style.display = 'none';
-    });
-}
-async function verDetalhesAcademia(id, nome) {
-    try {
-        console.log(`🔍 Redirecionando para academia ${nome} (ID: ${id})...`);
+    if (modal) {
+        const closeBtn = modal.querySelector('.close-btn');
+        const closeModalBtn = modal.querySelector('.close-modal');
         
-        // 1. Primeiro tentar pelo nome da academia
-        let pagina = getPaginaPorNome(nome);
+        if (closeBtn) closeBtn.addEventListener('click', () => modal.style.display = 'none');
+        if (closeModalBtn) closeModalBtn.addEventListener('click', () => modal.style.display = 'none');
         
-        // 2. Se não encontrar, buscar do banco de dados
-        if (!pagina) {
-            console.log(`Buscando detalhes da academia ${id} no banco...`);
-            const response = await fetch(`${SERVER_URL}/api/academia-publica/${id}`);
-            const data = await response.json();
-            
-            if (response.ok && data.success) {
-                pagina = getPaginaPorNome(data.academia.nome);
-            }
-        }
-        
-        // 3. Redirecionar para a página encontrada ou mostrar erro
-        if (pagina) {
-            console.log(`✅ Redirecionando para: ${pagina}`);
-            window.location.href = pagina;
-        } else {
-            console.warn(`⚠️ Página não encontrada para: ${nome}`);
-            
-            // Opção 1: Mostrar modal com detalhes
-            // await mostrarModalAcademia(id);
-            
-            // Opção 2: Redirecionar para página genérica com ID
-            window.location.href = `academia-detalhes.html?id=${id}`;
-        }
-        
-    } catch (error) {
-        console.error('❌ Erro ao redirecionar:', error);
-        // Fallback: página genérica com ID
-        window.location.href = `academia-detalhes.html?id=${id}`;
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) modal.style.display = 'none';
+        });
     }
 }
 
-// ========== FUNÇÕES AUXILIARES ==========
-function formatarTipo(tipo) {
-    const tipos = {
-        'musculacao': '🏋️‍♂️ Musculação',
-        'artes-marciais': '🥋 Artes Marciais',
-        'crossfit': '💪 CrossFit',
-        'yoga': '🧘 Yoga',
-        'pilates': '✨ Pilates',
-        'danca': '💃 Dança'
-    };
-    return tipos[tipo] || '🏢 Academia';
-}
-
-function formatarFacilidade(facilidade) {
-    const facilidades = {
-        'estacionamento': '🅿️ Estacionamento',
-        'ar-condicionado': '❄️ Ar Condicionado',
-        'vestiario': '🚿 Vestiário',
-        'wifi': '📶 Wi-Fi',
-        'personais': '👤 Personais',
-        'piscina': '🏊 Piscina',
-        'sauna': '🧖 Sauna',
-        'academia-kids': '👶 Academia Kids',
-        'lanchonete': '☕ Lanchonete',
-        'suplementos': '💊 Suplementos'
-    };
-    return facilidades[facilidade] || facilidade;
-}
 // ========== MAPEAMENTO DE ACADEMIAS PARA PÁGINAS ==========
 
 const paginasAcademias = {
@@ -2971,6 +3067,7 @@ function getPaginaPorNome(nomeAcademia) {
     
     return null;
 }
+
 function mostrarMensagemErro(mensagem) {
     const grid = document.getElementById('academiesGrid');
     const msgElement = document.getElementById('noAcademiesMessage');
@@ -2991,14 +3088,43 @@ function mostrarMensagemErro(mensagem) {
     msgElement.style.display = 'block';
 }
 
+// ========== FUNÇÕES AUXILIARES ==========
+function formatarTipo(tipo) {
+    const tipos = {
+        'musculacao': '🏋️‍♂️ Musculação',
+        'artes-marciais': '🥋 Artes Marciais',
+        'crossfit': '💪 CrossFit',
+        'yoga': '🧘 Yoga',
+        'pilates': '✨ Pilates',
+        'danca': '💃 Dança'
+    };
+    return tipos[tipo] || '🏢 Academia';
+}
+
+function formatarFacilidade(facilidade) {
+    const facilidades = {
+        'estacionamento': '🅿️ Estacionamento',
+        'ar-condicionado': '❄️ Ar Condicionado',
+        'vestiario': '🚿 Vestiário',
+        'wifi': '📶 Wi-Fi',
+        'personais': '👤 Personais',
+        'piscina': '🏊 Piscina',
+        'sauna': '🧖 Sauna',
+        'academia-kids': '👶 Academia Kids',
+        'lanchonete': '☕ Lanchonete',
+        'suplementos': '💊 Suplementos'
+    };
+    return facilidades[facilidade] || facilidade;
+}
+
 // ========== EXPORTAR FUNÇÕES GLOBAIS ==========
 window.carregarAcademiasSupabase = carregarAcademiasSupabase;
 window.verDetalhesAcademia = verDetalhesAcademia;
 window.aplicarFiltros = aplicarFiltros;
 window.limparFiltros = limparFiltros;
+window.mostrarPopupDesenvolvimento = mostrarPopupDesenvolvimento;
 
 console.log('✅ Sistema de Academias Públicas (Supabase) carregado!');
 </script>
 </body>
 </html>
-
