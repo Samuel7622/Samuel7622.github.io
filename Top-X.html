@@ -10,7 +10,100 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
     <title>Academia - Top-X</title>
+
     <style>
+        /* Desktop - Proporção 16:9 */
+@media (min-width: 769px) {
+    .slider__content {
+        height: 500px; /* Altura fixa desktop */
+    }
+    
+    .image-display {
+        background-size: cover;
+        background-position: center 30%; /* Ajusta posição vertical */
+    }
+}
+
+/* Tablet - Proporção 4:3 */
+@media (max-width: 768px) {
+    .slider__content {
+        height: 350px; /* Altura menor para tablet */
+    }
+    
+    .image-display {
+        background-position: center 25%;
+    }
+}
+
+/* Mobile - Proporção 1:1 (quadrado) ou 4:3 */
+@media (max-width: 480px) {
+    .slider__content {
+        height: 280px;
+        aspect-ratio: 4/3;
+    }
+    
+    .image-display {
+        background-position: center 20%;
+    }
+    
+    /* Ajustar thumbnails para paisagem também */
+    .thumbnail-wrapper {
+        aspect-ratio: 4/3;
+        height: 100px;
+    }
+}
+
+/* Garantir que imagens sejam tratadas como paisagem */
+.image-display {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Forçar todas as miniaturas para paisagem */
+.thumbnail {
+    object-fit: cover;
+    object-position: center;
+}
+
+/* ========== ESTILO PARA O BOTÃO DO INSTAGRAM ========== */
+.contact-btn.instagram .contact-icon {
+    background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D);
+    color: white;
+}
+
+.contact-btn.instagram:hover {
+    border-color: rgba(225, 48, 108, 0.3);
+    background: rgba(225, 48, 108, 0.05);
+    transform: translateY(-2px);
+}
+
+.contact-btn.instagram:hover .contact-icon {
+    box-shadow: 0 4px 15px rgba(225, 48, 108, 0.3);
+    transform: scale(1.05);
+}
+
+/* Estilo para o ícone de link externo */
+.contact-btn i.fa-external-link-alt {
+    color: #aaa;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.contact-btn:hover i.fa-external-link-alt {
+    color: #00ff88;
+    transform: translateX(3px);
+}
+
+/* Transição suave para todos os botões de contato */
+.contact-btn {
+    transition: all 0.3s ease;
+}
+
+.contact-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
                     * {
             margin: 0;
             padding: 0;
@@ -2433,7 +2526,7 @@
     cursor: pointer;
 }
 
-.academia-nav  {
+.academia-nav a:hover {
     opacity: 1;
     color: #00ff40;
     transform: translateX(5px);
@@ -2521,7 +2614,7 @@
                         Galeria da Academia
                     </h2>
                     <div class="slider-counter">
-                        <span class="current-slide">1</span> / <span class="total-slides">6</span>
+                        <span class="current-slide">1</span> / <span class="total-slides">5</span>
                     </div>
                 </div>
 
@@ -2529,7 +2622,7 @@
                     <div class="slider__content">
                         <div class="image-display-wrapper">
                             <div class="image-display"></div>
-                            <!-- REMOVIDO: image-overlay que continha frases sobre as fotos -->
+                            
                         </div>
 
                         <button type="button" class="slider-control--button prev-button" aria-label="Imagem anterior">
@@ -2558,7 +2651,7 @@
 
                             <button class="nav-button" aria-selected="false" data-index="1">
                                 <div class="thumbnail-wrapper">
-                                    <img class="thumbnail" src="topx3.jpeg" alt="Área de musculação">
+                                    <img class="thumbnail" src="topxmusculação.jpeg" alt="Área de musculação">
                                     <div class="thumbnail-overlay"></div>
                                 </div>
                                 <span class="thumbnail-label">Musculação</span>
@@ -2566,7 +2659,7 @@
 
                             <button class="nav-button" aria-selected="false" data-index="2">
                                 <div class="thumbnail-wrapper">
-                                    <img class="thumbnail" src="#" alt="Fachada da academia">
+                                    <img class="thumbnail" src="topxfachada.jpeg" alt="Fachada da academia">
                                     <div class="thumbnail-overlay"></div>
                                 </div>
                                 <span class="thumbnail-label">Fachada</span>
@@ -2574,7 +2667,7 @@
 
                             <button class="nav-button" aria-selected="false" data-index="3">
                                 <div class="thumbnail-wrapper">
-                                    <img class="thumbnail" src="topx4.jpeg" alt="Área de cardio">
+                                    <img class="thumbnail" src="topxequipamentos.jpeg" alt="Área de cardio">
                                     <div class="thumbnail-overlay"></div>
                                 </div>
                                 <span class="thumbnail-label">Equipamentos</span>
@@ -2582,11 +2675,12 @@
 
                             <button class="nav-button" aria-selected="false" data-index="4">
                                 <div class="thumbnail-wrapper">
-                                    <img class="thumbnail" src="topx2.jpeg" alt="Vestuário">
+                                    <img class="thumbnail" src="topxcardio.jpeg" alt="Vestuário">
                                     <div class="thumbnail-overlay"></div>
                                 </div>
                                 <span class="thumbnail-label">Cardio</span>
                             </button>
+                        </div>
 
                         <div class="slider-actions">
                             <button class="action-btn fullscreen-btn" aria-label="Tela cheia">
@@ -2665,7 +2759,7 @@
                     </div>
                 </div>
 
-                <!-- CARD DE CONTATO COM HORÁRIOS DE RESPOSTA 8h-22h -->
+                <!-- CARD DE CONTATO COM INSTAGRAM @topx_academia -->
                 <div class="card card-contact">
                     <div class="card-header">
                         <div class="card-icon">
@@ -2679,24 +2773,25 @@
 
                     <div class="card-content">
                         <div class="contact-methods">
-                            <a href="tel:+5586995655276" class="contact-btn phone">
+                            <a href="tel:+558695408481" class="contact-btn phone">
                                 <div class="contact-icon">
                                     <i class="fas fa-phone"></i>
                                 </div>
                                 <div class="contact-info">
                                     <span class="contact-label">Telefone</span>
-                                    <span class="contact-detail">#</span>
+                                    <span class="contact-detail">55 86 9540-8481</span>
                                 </div>
                             </a>
 
-                            <a href="mailto:opala@gmail.com" class="contact-btn email">
+                            <a href="https://www.instagram.com/topx_academia/" target="_blank" class="contact-btn instagram">
                                 <div class="contact-icon">
-                                    <i class="fas fa-envelope"></i>
+                                    <i class="fab fa-instagram"></i>
                                 </div>
                                 <div class="contact-info">
-                                    <span class="contact-label">E-mail</span>
-                                    <span class="contact-detail">#</span>
+                                    <span class="contact-label">Instagram</span>
+                                    <span class="contact-detail">@topx_academia</span>
                                 </div>
+                                <i class="fas fa-external-link-alt"></i>
                             </a>
                         </div>
 
@@ -2769,11 +2864,7 @@
     title="Mapa da Academia Top-X">
 </iframe>
             
-            <div class="map-info">
-                <h3>Top-X</h3>
-                <p>Av. José Lourenço Mourão nº 419 - Pedro II - PI</p>
-               
-            </div>
+            
         </div>
     </section>
     
@@ -3179,11 +3270,10 @@ const searchData = [
 
         const images = [
             'topxlogo.jpeg',
-            'topx3.jpeg',
-            'topxlogo.jpeg',
-            'topx4.jpeg',
-            'topx2.jpeg',
-            'topx3.jpeg'
+            'topxmusculação.jpeg',
+            'topxfachada.jpeg',
+            'topxequipamentos.jpeg',
+            'topxcardio.jpeg'
         ];
 
         // Inicializar slider
