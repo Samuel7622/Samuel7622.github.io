@@ -2542,6 +2542,89 @@
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 255, 136, 0.2);
 }
+/* ========== CORREÇÃO PARA HEADER SEM USUÁRIO LOGADO ========== */
+/* Quando não há usuário logado, ajustar o espaço dos controles */
+.header-container:not(:has(#userHeaderContainer)) .right-controls {
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+/* Ajustar o menu hamburguer para ficar visível */
+.menu-trigger {
+    position: relative;
+    z-index: 2001;
+    margin-left: auto;
+}
+
+/* Garantir que o header não quebre em telas pequenas */
+@media (max-width: 768px) {
+    .nav-wrapper {
+        flex-wrap: nowrap;
+        overflow: visible;
+    }
+    
+    .right-controls {
+        flex-shrink: 0;
+        overflow: visible;
+    }
+    
+    /* Ajustar botões para caberem melhor */
+    .gym-access-btn {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+        white-space: nowrap;
+    }
+    
+    /* Garantir que o menu hamburguer seja sempre visível */
+    .menu-trigger {
+        margin-left: 5px;
+        flex-shrink: 0;
+    }
+}
+
+@media (max-width: 640px) {
+    /* Esconder alguns botões para dar espaço */
+    .gym-access-btn:not(.home-btn) {
+        display: none;
+    }
+    
+    /* Mostrar apenas Home e menu hamburguer */
+    .right-controls {
+        min-width: 120px;
+    }
+    
+    .search-toggle-btn {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Header mais compacto */
+    .header-container {
+        padding: 0.8rem 0.5rem;
+    }
+    
+    .logo-img {
+        height: 30px;
+    }
+    
+    /* Ajustar espaçamento */
+    .right-controls {
+        gap: 0.3rem;
+    }
+    
+    /* Menu hamburguer mais acessível */
+    .menu-trigger {
+        padding: 8px;
+        margin-left: 0;
+    }
+    
+    .hamburger-line {
+        width: 24px;
+        height: 3px;
+    }
+}
     </style>
 </head>
 <body>
