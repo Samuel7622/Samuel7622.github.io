@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
-    <title>Academia - Vila-Fitness</title>
+    <title>Academia - Vila Fitness</title>
     <style>
                     * {
             margin: 0;
@@ -558,8 +558,8 @@
         }
 
         .page-title {
-    font-size: 4.5rem; /* Aumentei de 3.5rem para 4.5rem */
-    font-weight: 800; /* Aumentei o peso da fonte para 800 */
+    font-size: 4.5rem;
+    font-weight: 800;
     margin-bottom: 25px;
     display: flex;
     flex-direction: column;
@@ -1048,7 +1048,7 @@
             color: #00ff88;
         }
 
-        /* CARD DE CONTATO COM HORÁRIOS DE RESPOSTA 8h-22h */
+        /* CARD DE CONTATO */
         .card-contact .card-icon {
             background: linear-gradient(135deg, #51cf66, #40c057);
         }
@@ -1083,19 +1083,14 @@
             font-size: 1.2rem;
         }
 
-        .contact-btn.whatsapp .contact-icon {
-            background: rgba(37, 211, 102, 0.15);
-            color: #25d366;
-        }
-
         .contact-btn.phone .contact-icon {
             background: rgba(64, 192, 87, 0.15);
             color: #40c057;
         }
 
-        .contact-btn.email .contact-icon {
-            background: rgba(255, 107, 107, 0.15);
-            color: #ff6b6b;
+        .contact-btn.instagram .contact-icon {
+            background: rgba(225, 48, 108, 0.15);
+            color: #e1306c;
         }
 
         .contact-info {
@@ -1121,7 +1116,7 @@
             font-size: 0.9rem;
         }
 
-        /* HORÁRIOS DE RESPOSTA 8h às 22h */
+        /* HORÁRIOS DE RESPOSTA */
         .response-time {
             display: flex;
             align-items: center;
@@ -1563,6 +1558,30 @@
             z-index: 0;
         }
 
+        .academia-background svg path {
+            fill: #00ff40;
+            opacity: 0.3;
+        }
+
+        .academia-background svg path:nth-child(1) {
+            fill: #00cc33;
+            opacity: 0.4;
+        }
+
+        .academia-background svg path:nth-child(2) {
+            fill: #00ff40;
+            opacity: 0.3;
+        }
+
+        .academia-background svg path:nth-child(3) {
+            fill: #00ff88;
+            opacity: 0.2;
+        }
+
+        .academia-background svg {
+            filter: drop-shadow(0 0 10px rgba(0, 255, 64, 0.2));
+        }
+
         .academia-footer-inner {
             position: relative;
             z-index: 1;
@@ -1659,7 +1678,7 @@
             color: white;
             opacity: 0.8;
             text-decoration: none;
-            transition: opacity 0.3s;
+            transition: all 0.3s;
             cursor: pointer;
         }
 
@@ -1669,793 +1688,32 @@
             transform: translateX(5px);
         }
 
-        /* ========== RESPONSIVIDADE COMPLETA ========== */
-
-        /* Telas muito grandes */
-        @media (min-width: 1600px) {
-            .main-wrapper {
-                max-width: 1500px;
-            }
-            
-            .page-title {
-                font-size: 4.5rem;
-            }
+        .search-result-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
         }
 
-        /* Tablets (1024px) */
-        @media (max-width: 1024px) {
-            .header-container {
-                padding: 1rem 1.5rem;
-            }
-
-            .logo-img {
-                height: 45px;
-            }
-
-            .right-controls {
-                gap: 1rem;
-            }
-
-            .gym-access-btn {
-                padding: 10px 16px;
-                font-size: 0.9rem;
-            }
-
-            .search-toggle-btn {
-                width: 44px;
-                height: 44px;
-            }
-
-            .search-icon {
-                width: 20px;
-                height: 20px;
-            }
-
-            .expandable-search-field {
-                width: 44px;
-                height: 44px;
-            }
-
-            .expandable-search-field.expanded {
-                width: 280px;
-            }
-
-            .search-input-field {
-                padding: 0 50px 0 18px;
-                font-size: 0.95rem;
-            }
-
-            .main-wrapper {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-
-            .sidebar-cards {
-                order: 2;
-            }
-
-            .gallery-section {
-                order: 1;
-            }
-
-            .page-title {
-                font-size: 3rem;
-            }
-
-            .slider__content {
-                height: 400px;
-            }
-
-            .info-cards-container {
-                position: static;
-            }
-
-            .descricao-container {
-                width: 90%;
-                padding: 20px;
-            }
-            
-            .descricao-title {
-                font-size: 1.6rem;
-            }
-            
-            .descricao-text {
-                font-size: 1rem;
-            }
-            
-            .descricao-highlights {
-                grid-template-columns: repeat(3, 1fr);
-                padding: 15px;
-            }
-            
-            .map-container {
-                height: 400px;
-            }
+        .search-result-link:hover .search-result-item {
+            background: rgba(0, 255, 136, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 255, 136, 0.2);
         }
 
-        /* Tablets Pequenos e Mobile Grande (768px) */
-        @media (max-width: 768px) {
-            .header-container {
-                padding: 0.8rem 1rem;
-            }
-
-            .nav-wrapper {
-                flex-wrap: nowrap;
-                gap: 10px;
-            }
-
-            .logo-img {
-                height: 35px;
-            }
-
-            .right-controls {
-                gap: 0.5rem;
-                flex-shrink: 0;
-            }
-
-            .search-toggle-btn {
-                width: 42px;
-                height: 42px;
-            }
-
-            .search-icon {
-                width: 18px;
-                height: 18px;
-            }
-
-            .expandable-search-field {
-                width: 42px;
-                height: 42px;
-            }
-
-            .expandable-search-field.expanded {
-                width: 250px;
-                z-index: 2002;
-            }
-
-            .search-input-field {
-                padding: 0 45px 0 16px;
-                font-size: 0.9rem;
-            }
-
-            .gym-access-btn {
-                padding: 8px 12px;
-                font-size: 0.8rem;
-            }
-
-            .slide-menu {
-                width: 350px;
-                right: -350px;
-            }
-
-            .page-hero {
-                padding: 60px 15px 40px;
-            }
-
-            .page-title {
-                font-size: 2.2rem;
-            }
-
-            .slider__content {
-                height: 300px;
-            }
-
-            .slider-control--button {
-                width: 50px;
-                height: 50px;
-                font-size: 1.2rem;
-            }
-
-            .thumbnail-wrapper {
-                height: 80px;
-            }
-
-            .main-wrapper {
-                padding: 0 15px;
-            }
-
-            .thumbnails-container {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .descricao-container {
-                width: 95%;
-                padding: 18px;
-                margin: 20px auto;
-            }
-            
-            .descricao-title {
-                font-size: 1.5rem;
-            }
-            
-            .descricao-title i {
-                font-size: 1.4rem;
-            }
-            
-            .descricao-text {
-                padding: 0;
-                margin-bottom: 20px;
-            }
-            
-            .descricao-highlights {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
-                padding: 15px;
-            }
-            
-            .highlight-item {
-                padding: 10px 12px;
-            }
-            
-            .highlight-item i {
-                font-size: 1.1rem;
-            }
-            
-            .highlight-item span {
-                font-size: 0.9rem;
-            }
-            
-            .map-container {
-                height: 350px;
-            }
-            
-            .map-title {
-                font-size: 1.8rem;
-            }
-            
-            .titulo {
-                font-size: 1.8rem;
-                margin: 30px 15px 15px;
-            }
-
-            .separar {
-                gap: 20px;
-                padding: 15px;
-            }
-
-            .peak-hours-card {
-                padding: 24px;
-            }
-
-            .days {
-                gap: 12px;
-            }
-
-            .day {
-                padding: 10px 14px;
-                font-size: 13px;
-            }
-
-            .chart {
-                height: 180px;
-            }
-
-            .bar-container {
-                min-width: 25px;
-            }
+        /* Correção do seletor que estava incompleto */
+        .academia-nav a:hover {
+            opacity: 1;
+            color: #00ff40;
+            transform: translateX(5px);
         }
-
-        /* Mobile Grande (640px) */
-        @media (max-width: 640px) {
-            .page-title {
-                font-size: 2rem;
-                margin: 20px 10px;
-            }
-
-            .main-wrapper {
-                flex-direction: column;
-                align-items: center;
-                padding: 10px;
-                gap: 15px;
-            }
-
-            .slider__content {
-                height: 250px;
-            }
-
-            .slider-control--button {
-                width: 40px;
-                height: 40px;
-                font-size: 1rem;
-            }
-
-            .prev-button {
-                left: 10px;
-            }
-
-            .next-button {
-                right: 10px;
-            }
-
-            .thumbnails-container {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 10px;
-            }
-            
-            .thumbnail-wrapper {
-                height: 90px;
-            }
-            
-            .thumbnail-label {
-                font-size: 0.75rem;
-            }
-
-            .card {
-                padding: 20px;
-            }
-
-            .card-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-
-            .card-icon {
-                width: 40px;
-                height: 40px;
-                font-size: 1.2rem;
-            }
-
-            .title {
-                font-size: 1.2rem;
-            }
-
-            .descricao-container {
-                width: 100%;
-                margin: 15px 0;
-                border-radius: 8px;
-            }
-            
-            .descricao-title {
-                font-size: 1.4rem;
-            }
-            
-            .descricao-text {
-                font-size: 0.95rem;
-            }
-            
-            .descricao-highlights {
-                grid-template-columns: 1fr;
-            }
-            
-            .map-container {
-                height: 300px;
-            }
-            
-            .map-title {
-                font-size: 1.6rem;
-            }
-            
-            .titulo {
-                font-size: 1.6rem;
-                margin: 25px 10px 10px;
-            }
-
-            .separar {
-                flex-direction: column;
-                align-items: center;
-                gap: 15px;
-                padding: 10px;
-            }
-
-            .peak-hours-container {
-                padding: 0 10px;
-                max-width: 100%;
-            }
-
-            .peak-hours-card {
-                padding: 20px;
-            }
-
-            .days {
-                gap: 8px;
-                justify-content: center;
-            }
-
-            .day {
-                padding: 8px 12px;
-                font-size: 12px;
-            }
-
-            .peak-info {
-                font-size: 13px;
-                justify-content: center;
-                text-align: center;
-            }
-
-            .chart {
-                height: 160px;
-                gap: 6px;
-            }
-
-            .bar-container {
-                min-width: 20px;
-            }
-
-            .hour-label {
-                font-size: 9px;
-            }
-
-            .container2 {
-                max-width: 100%;
-            }
-
-            .counter-value {
-                font-size: 3rem;
-            }
-
-            .academia-footer-inner {
-                padding: 3rem 1.5rem 6rem;
-            }
-
-            .academia-footer-inner .academia-top h2 {
-                font-size: 1.6rem;
-            }
-
-            .academia-footer-inner .academia-top h3 {
-                font-size: 1.1rem;
-            }
-
-            .academia-nav {
-                gap: 2rem;
-                justify-content: space-between;
-                width: 100%;
-            }
-        }
-
-        /* Mobile Pequeno (480px) */
-        @media (max-width: 480px) {
-            .page-title {
-                font-size: 1.8rem;
-                margin: 15px 8px;
-            }
-
-            .slider__content {
-                height: 200px;
-            }
-
-            .slider-control--button {
-                width: 35px;
-                height: 35px;
-            }
-
-            .thumbnails-container {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 8px;
-            }
-            
-            .thumbnail-wrapper {
-                height: 70px;
-            }
-            
-            .thumbnail-label {
-                display: none;
-            }
-            
-            .thumbnail-overlay {
-                background: rgba(0, 255, 136, 0.4);
-            }
-            
-            .nav-button.active .thumbnail-wrapper {
-                border-width: 3px;
-                box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
-            }
-
-            .descricao-container {
-                padding: 15px;
-            }
-            
-            .descricao-title {
-                font-size: 1.3rem;
-                flex-direction: column;
-                gap: 8px;
-            }
-            
-            .descricao-title i {
-                font-size: 1.3rem;
-            }
-            
-            .descricao-text {
-                font-size: 0.9rem;
-            }
-            
-            .descricao-highlights {
-                padding: 12px;
-            }
-            
-            .highlight-item {
-                padding: 10px;
-            }
-            
-            .map-container {
-                height: 250px;
-            }
-            
-            .map-title {
-                font-size: 1.4rem;
-            }
-
-            .peak-hours-card {
-                padding: 16px;
-            }
-
-            .peak-header h2 {
-                font-size: 20px;
-            }
-
-            .days {
-                gap: 4px;
-            }
-
-            .day {
-                padding: 6px 10px;
-                font-size: 11px;
-            }
-
-            .peak-info {
-                font-size: 12px;
-            }
-
-            .chart {
-                height: 140px;
-            }
-
-            .bar-container {
-                min-width: 18px;
-            }
-
-            .hour-label {
-                font-size: 8px;
-            }
-
-            .counter-value {
-                font-size: 2.5rem;
-            }
-
-            .info-panel {
-                flex-direction: column;
-                gap: 8px;
-            }
-        }
-
-        /* Telas muito pequenas (360px) */
-        @media (max-width: 360px) {
-            .page-title {
-                font-size: 1.5rem;
-            }
-
-            .slider__content {
-                height: 180px;
-            }
-
-            .slider-control--button {
-                width: 30px;
-                height: 30px;
-            }
-
-            .thumbnails-container {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 6px;
-            }
-            
-            .thumbnail-wrapper {
-                height: 80px;
-            }
-
-            .titulo {
-                font-size: 1.2rem;
-            }
-
-            .days {
-                gap: 2px;
-            }
-
-            .day {
-                padding: 5px 8px;
-                font-size: 10px;
-            }
-
-            .chart {
-                height: 120px;
-            }
-
-            .bar-container {
-                min-width: 16px;
-            }
-
-            .counter-value {
-                font-size: 2rem;
-            }
-        }
-
-        /* Layout horizontal para thumbnails em mobile */
-        .mobile-horizontal-layout .thumbnails-container {
-            display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-            gap: 8px;
-            padding-bottom: 10px;
-        }
-
-        .mobile-horizontal-layout .nav-button {
-            flex: 0 0 auto;
-            width: 100px;
-            scroll-snap-align: start;
-        }
-
-        .mobile-horizontal-layout .thumbnail-wrapper {
-            height: 80px;
-        }
-
-        /* ========== FOOTER - ONDAS VERDES ========== */
-.academia-footer {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-    margin-top: 60px;
-    background: linear-gradient(to bottom, #000000 0%, #001a00 100%);
-}
-
-/* O SVG das ondas - APENAS ESTA PARTE FOI MODIFICADA */
-.academia-background svg {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: auto;
-    z-index: 0;
-}
-
-/* Se o SVG tem elementos path dentro, você pode estilizá-los assim: */
-.academia-background svg path {
-    fill: #00ff40; /* Cor principal das ondas */
-    opacity: 0.3; /* Transparência para efeito suave */
-}
-
-/* Para criar um efeito de gradiente nas ondas */
-.academia-background svg path:nth-child(1) {
-    fill: #00cc33; /* Tom mais escuro */
-    opacity: 0.4;
-}
-
-.academia-background svg path:nth-child(2) {
-    fill: #00ff40; /* Tom médio */
-    opacity: 0.3;
-}
-
-.academia-background svg path:nth-child(3) {
-    fill: #00ff88; /* Tom mais claro */
-    opacity: 0.2;
-}
-
-/* Se quiser adicionar um efeito sutil de brilho */
-.academia-background svg {
-    filter: drop-shadow(0 0 10px rgba(0, 255, 64, 0.2));
-}
-
-/* O resto do footer permanece EXATAMENTE como estava */
-.academia-footer-inner {
-    position: relative;
-    z-index: 1;
-    padding: 4rem 2rem 8rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 4rem;
-}
-
-.academia-footer-inner .academia-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 2rem;
-}
-
-.academia-footer-inner .academia-top h2 {
-    font-size: 2rem;
-    font-weight: 600;
-}
-
-.academia-footer-inner .academia-top h3 {
-    font-size: 1.25rem;
-    font-weight: 400;
-    opacity: 0.8;
-}
-
-.academia-footer-inner .academia-bottom {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 2rem;
-}
-
-.academia-logo-content {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-}
-
-.academia-socials {
-    display: flex;
-    gap: 1rem;
-}
-
-.academia-socials a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 45px;
-    height: 45px;
-    font-size: 1.25rem;
-    color: white;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-}
-
-.academia-socials a:hover {
-    background: rgba(0, 255, 136, 0.3);
-    transform: translateY(-3px);
-}
-
-.academia-nav {
-    display: flex;
-    gap: 3rem;
-    flex-wrap: wrap;
-}
-
-.academia-nav ul {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.academia-nav h4 {
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: #ccc;
-}
-
-.academia-nav a {
-    font-size: 0.9rem;
-    color: white;
-    opacity: 0.8;
-    text-decoration: none;
-    transition: opacity 0.3s;
-    cursor: pointer;
-}
-
-.academia-nav  {
-    opacity: 1;
-    color: #00ff40;
-    transform: translateX(5px);
-}
-.search-result-link {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-}
-
-.search-result-link:hover .search-result-item {
-    background: rgba(0, 255, 136, 0.1);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 255, 136, 0.2);
-}
     </style>
 </head>
 <body>
     <header class="header-container" id="menu">
         <div class="nav-wrapper">
             <div class="brand-container">
-                <a href="#"><img src="logo.png" alt="Logo" class="logo-img"></a>
+                <!-- CORREÇÃO 1: Removido href="#" da logo -->
+                <img src="logo.png" alt="Logo" class="logo-img">
             </div>
             <div class="right-controls">
                 <div class="search-widget" id="searchWidget">
@@ -2495,7 +1753,7 @@
         
         <ul class="navigation-list">
             <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
-            <li class="nav-item"><a href="#espaço-cliente" class="nav-link">Login</a></li>
+            <li class="nav-item"><a href="login-gym.html" class="nav-link">Login</a></li>
             <li class="nav-item"><a href="Filtro_personal.html" class="nav-link">Personais</a></li>
             <li class="nav-item"><a href="#news" class="nav-link">Sorteios</a></li>
             <li class="nav-item"><a href="config.html" class="nav-link">Configurações</a></li>
@@ -2507,7 +1765,7 @@
 
     
         <h1 class="page-title">
-            <span class="title-text">vila-Fitness</span>
+            <span class="title-text">Vila Fitness</span>
         </h1>
     
 
@@ -2529,7 +1787,6 @@
                     <div class="slider__content">
                         <div class="image-display-wrapper">
                             <div class="image-display"></div>
-                            <!-- REMOVIDO: image-overlay que continha frases sobre as fotos -->
                         </div>
 
                         <button type="button" class="slider-control--button prev-button" aria-label="Imagem anterior">
@@ -2673,7 +1930,7 @@
                     </div>
                 </div>
 
-                <!-- CARD DE CONTATO COM HORÁRIOS DE RESPOSTA 8h-22h -->
+                <!-- CARD DE CONTATO CORRIGIDO -->
                 <div class="card card-contact">
                     <div class="card-header">
                         <div class="card-icon">
@@ -2687,28 +1944,30 @@
 
                     <div class="card-content">
                         <div class="contact-methods">
-                            <a href="tel:+5586995655276" class="contact-btn phone">
+                            <!-- CORREÇÃO 2: DDD corrigido para 86 -->
+                            <a href="tel:+55869977949953" class="contact-btn phone">
                                 <div class="contact-icon">
                                     <i class="fas fa-phone"></i>
                                 </div>
                                 <div class="contact-info">
                                     <span class="contact-label">Telefone</span>
-                                    <span class="contact-detail">(11)977949953</span>
+                                    <span class="contact-detail">(86) 97794-9953</span>
                                 </div>
                             </a>
 
-                            <a href="mailto:opala@gmail.com" class="contact-btn email">
+                            <!-- CORREÇÃO 3: Instagram no lugar do email -->
+                            <a href="https://www.instagram.com/vilafitness_p2/" target="_blank" class="contact-btn instagram">
                                 <div class="contact-icon">
-                                    <i class="fas fa-envelope"></i>
+                                    <i class="fab fa-instagram"></i>
                                 </div>
                                 <div class="contact-info">
-                                    <span class="contact-label">E-mail</span>
-                                    <span class="contact-detail">#</span>
+                                    <span class="contact-label">Instagram</span>
+                                    <span class="contact-detail">@vilafitness_p2</span>
                                 </div>
+                                <i class="fas fa-external-link-alt"></i>
                             </a>
                         </div>
 
-                        <!-- HORÁRIOS DE RESPOSTA 8h-22h -->
                         <div class="response-time">
                             <i class="fas fa-clock"></i>
                             <span>Horário de resposta: <strong>8h às 22h</strong></span>
@@ -2730,10 +1989,10 @@
         
         <div class="descricao-content">
             <p class="descricao-text">
-                A <strong>vila-Fitness</strong> é uma academia premium localizada no coração de Pedro II, 
-                oferecendo infraestrutura completa para quem busca saúde, bem-estar e resultados 
-                reais. Com equipamentos de última geração, instrutores qualificados e um ambiente 
-                motivador, somos referência em excelência no fitness.
+                A <strong>Vila Fitness</strong> é uma academia completa localizada em Pedro II, 
+                oferecendo infraestrutura de qualidade para quem busca saúde, bem-estar e resultados 
+                reais. Com equipamentos modernos, instrutores qualificados e um ambiente 
+                motivador, somos a escolha certa para o seu treino.
             </p>
             
             <div class="descricao-highlights">
@@ -2761,27 +2020,28 @@
         </div>
     </div>
 
-    <!-- SEÇÃO DO MAPA -->
+    <!-- SEÇÃO DO MAPA CORRIGIDA -->
     <section class="map-section">
         <h2 class="map-title">Localização da Academia</h2>
         <div class="map-container">
+            <!-- CORREÇÃO 4: Iframe correto da Vila Fitness -->
             <iframe 
                 class="map-iframe"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3020.2020740117696!2d-41.45992339677204!3d-4.430486226672361!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x79391c1fc87de0f%3A0x3267fb7dff3537b0!2sAcademia%2C%20Opala%20fitness%20academia%20muscula%C3%A7%C3%A3o!5e0!3m2!1spt-BR!2sbr!4v1769081392814!5m2!1spt-BR!2sbr"  
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3977.8368349678203!2d-41.44984742414946!3d-4.441453747216908!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x793901922d9fbf5%3A0x363b5c4230371b5e!2sR.%20Raimundo%20Nonato%20Brand%C3%A3o%2C%20776%2C%20Pedro%20II%20-%20PI%2C%2064255-000!5e0!3m2!1spt-BR!2sbr!4v1771547186298!5m2!1spt-BR!2sbr"
                 width="100%" 
                 height="100%" 
                 style="border:0;" 
                 allowfullscreen="" 
                 loading="lazy" 
                 referrerpolicy="no-referrer-when-downgrade"
-                title="Mapa da Academia vila-Fitness">
+                title="Mapa da Academia Vila Fitness">
             </iframe>
             
+            <!-- CORREÇÃO 5: Informações atualizadas da Vila Fitness -->
             <div class="map-info">
-                <h3>vila Fitness</h3>
-                <p>Rua Raimundo nonato Brandão 776, Pedro Segundo, Piaui, Brazil
-</p>
-          
+                <h3>Vila Fitness</h3>
+                <p>R. Raimundo Nonato Brandão, 776</p>
+                <p>Pedro II - PI, 64255-000</p>
             </div>
         </div>
     </section>
@@ -2819,7 +2079,7 @@
         
         <div class="container2" id="peak">
             <header>
-                <h1>Vila-Fitness</h1>
+                <h1>Vila Fitness</h1>
                 <p class="counter-label">Pessoas na academia</p>
             </header>
             
@@ -2869,7 +2129,8 @@
                             values="-270 230;243 220;-270 230" keyTimes="0; .6; 1" keySplines="0.42, 0, 0.58, 1.0;0.42, 0, 0.58, 1.0"
                             repeatCount="indefinite" />
                     </use>
-                    <use xlink:href="#wave" opacty=".9">
+                    <!-- CORREÇÃO 6: opacty → opacity -->
+                    <use xlink:href="#wave" opacity=".9">
                         <animateTransform attributeName="transform" attributeType="XML" type="translate" dur="4s" calcMode="spline"
                             values="0 230;-140 200;0 230" keyTimes="0; .4; 1" keySplines="0.42, 0, 0.58, 1.0;0.42, 0, 0.58, 1.0"
                             repeatCount="indefinite" />
@@ -2887,7 +2148,8 @@
             <div class="academia-bottom">
                 <div class="academia-logo-content">
                     <div class="academia-socials">
-                        <a href="https://www.instagram.com/gymp2_portal/" class="instagram" title="Instagram">
+                        <!-- CORREÇÃO 7: Instagram da Vila Fitness no footer -->
+                        <a href="https://www.instagram.com/vilafitness_p2/" target="_blank" class="instagram" title="Instagram">
                             <i class="fab fa-instagram"></i>
                         </a>
                     </div>
@@ -2895,19 +2157,21 @@
                 <nav class="academia-nav">
                     <ul>
                         <li><h4>SOBRE O GYM P2</h4></li>
-                        <li><a href="#">Quem Somos</a></li>
+                        <li><a href="Sobre_nós.html">Quem Somos</a></li>
                         <li><a href="#">Nossa Missão</a></li>
                         <li><a href="#">Contatos</a></li>
                     </ul>
                     <ul>
                         <li><h4>EXPLORE</h4></li>
-                        <li><a href="#">Academias</a></li>
+                        <!-- CORREÇÃO 8: Link do Academias funcionando -->
+                        <li><a href="academias-publicas.html">Academias</a></li>
                         <li><a href="#">Artes Marciais</a></li>
                         <li><a href="#">Blog e Dicas</a></li>
                     </ul>
                     <ul>
                         <li><h4>CONECTE-SE</h4></li>
-                        <li><a href="#">Siga-nos nas Redes Sociais</a></li>
+                        <!-- CORREÇÃO 9: Link para seguir nas redes -->
+                        <li><a href="https://www.instagram.com/vilafitness_p2/" target="_blank">Siga-nos nas Redes Sociais</a></li>
                         <li><a href="#">Política de Privacidade</a></li>
                         <li><a href="#">Termos de Uso</a></li>
                     </ul>
@@ -2915,9 +2179,11 @@
             </div>
         </div>
     </footer>
-<script src="user-header.js"></script>
-<script src="user-manager.js"></script>
-<script src="global-notifications.js"></script>
+    
+    <script src="user-header.js"></script>
+    <script src="user-manager.js"></script>
+    <script src="global-notifications.js"></script>
+    
     <script>
         // ============================================
         // FUNÇÕES PARA O MENU E PESQUISA
@@ -2997,136 +2263,63 @@
             }
         });
 
-
-
-  
-            // Configurar dropdown do usuário
-            function setupUserDropdown() {
-                const userContainer = document.getElementById('userHeaderContainer');
-                const dropdownMenu = document.getElementById('userDropdownMenu');
-                const logoutBtn = document.getElementById('logoutBtnHeader'); // ID ALTERADO AQUI
-                
-                if (!userContainer || !dropdownMenu || !logoutBtn) {
-                    console.log('⚠️ Elementos do dropdown não encontrados');
-                    return;
-                }
-                
-                // Toggle do dropdown
-                userContainer.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const isActive = dropdownMenu.style.opacity === '1';
-                    
-                    if (isActive) {
-                        dropdownMenu.style.opacity = '0';
-                        dropdownMenu.style.visibility = 'hidden';
-                        dropdownMenu.style.transform = 'translateY(-10px)';
-                    } else {
-                        dropdownMenu.style.opacity = '1';
-                        dropdownMenu.style.visibility = 'visible';
-                        dropdownMenu.style.transform = 'translateY(0)';
-                    }
-                });
-                
-                // Fechar dropdown ao clicar fora
-                document.addEventListener('click', (e) => {
-                    if (!userContainer.contains(e.target)) {
-                        dropdownMenu.style.opacity = '0';
-                        dropdownMenu.style.visibility = 'hidden';
-                        dropdownMenu.style.transform = 'translateY(-10px)';
-                    }
-                });
-                
-                // Prevenir fechamento ao clicar no dropdown
-                dropdownMenu.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                });
-                
-                // Hover effect no container
-                userContainer.addEventListener('mouseenter', () => {
-                    userContainer.style.background = 'rgba(0, 255, 136, 0.2)';
-                    userContainer.style.borderColor = 'rgba(0, 255, 136, 0.5)';
-                    userContainer.style.transform = 'translateY(-2px)';
-                    userContainer.style.boxShadow = '0 4px 15px rgba(0, 255, 136, 0.3)';
-                });
-                
-                userContainer.addEventListener('mouseleave', () => {
-                    userContainer.style.background = 'rgba(0, 255, 136, 0.1)';
-                    userContainer.style.borderColor = 'rgba(0, 255, 136, 0.3)';
-                    userContainer.style.transform = 'translateY(0)';
-                    userContainer.style.boxShadow = 'none';
-                });
-                
-                // Hover nos itens do menu
-                const menuItems = dropdownMenu.querySelectorAll('a, #logoutBtnHeader');
-                menuItems.forEach(item => {
-                    item.addEventListener('mouseenter', () => {
-                        item.style.background = 'rgba(0, 255, 136, 0.1)';
-                    });
-                    item.addEventListener('mouseleave', () => {
-                        item.style.background = 'transparent';
-                    });
-                });
+        // Dados de exemplo para a pesquisa
+        const searchData = [
+            {
+                category: 'Academia',
+                title: 'Opala fitness',
+                description: 'Academia de musculação no centro',
+                link: 'Opala-Fitness.html'
+            },
+            {
+                category: 'Academia',
+                title: 'Vila Fitness',
+                description: 'Musculação e fitness',
+                link: 'vilafitness.html'
+            },
+            {
+                category: 'Academia',
+                title: 'Redefitness',
+                description: 'Treinos de alto desempenho',
+                link: 'Redefitness.html'
+            },
+            {
+                category: 'Página',
+                title: 'Cadastro de Academias',
+                description: 'Divulgue sua academia',
+                link: 'academias-publicas.html'
+            },
+            {
+                category: 'Página',
+                title: 'Personais',
+                description: 'Filtrar personais',
+                link: 'Filtro_personal.html'
+            },
+            {
+                category: 'Página',
+                title: 'Cadastro de Personal',
+                description: 'Cadastre-se como personal trainer',
+                link: 'Cadastrar_personal.html'
+            },
+            {
+                category: 'Página',
+                title: 'Sobre nós',
+                description: 'Conheça o Gym P2',
+                link: 'Sobre_nós.html'
+            },
+            {
+                category: 'Página',
+                title: 'Configurações',
+                description: 'Configurações da conta',
+                link: 'config.html'
+            },
+            {
+                category: 'Página',
+                title: 'Home',
+                description: 'Página inicial',
+                link: 'index.html'
             }
-        
-             // Dados de exemplo para a pesquisa
-const searchData = [
-    {
-        category: 'Academia',
-        title: 'Opala fitness',
-        description: 'Academia de musculação no centro',
-        link: 'Opala-Fitness.html'
-    },
-    {
-        category: 'Academia',
-        title: 'vilafitness',
-        description: 'Musculação e fitness',
-        link: 'vilafitness.html'
-    },
-    {
-        category: 'Academia',
-        title: 'Redefitness',
-        description: 'Treinos de alto desempenho',
-        link: 'Redefitness.html'
-    },
-    {
-        category: 'Página',
-        title: 'Cadastro de Academias',
-        description: 'Divulgue sua academia',
-        link: 'academias-publicas.html'
-    },
-   
-    {
-        category: 'Página',
-        title: 'personais',
-        description: ' filtrar personais ',
-        link: 'Filtro_personal.html'
-    },
-    {
-        category: 'Página',
-        title: 'Cadastro de Personal',
-        description: 'Cadastre-se como personal trainer',
-        link: 'Cadastrar_personal.html'
-    },
-    {
-        category: 'Página',
-        title: 'Sobre nós',
-        description: 'Conheça o Gym P2',
-        link: 'Sobre_nós.html'
-    },
-    {
-        category: 'Página',
-        title: 'Configurações',
-        description: 'Configurações da conta',
-        link: 'config.html'
-    },
-  
-    {
-        category: 'Página',
-        title: 'Home',
-        description: 'Página inicial',
-        link: 'index.html'
-    }
-];
+        ];
 
         // Função de pesquisa
         searchInput.addEventListener('input', (e) => {
@@ -3181,14 +2374,13 @@ const searchData = [
         const autoplayBtn = document.querySelector('.autoplay-btn');
 
         const images = [
-             'logovila.png',
-    'vila2.png',
-    'vilafitness_fachada.png',
-    'vila3.png',
-    'vila5.png',
-    'vila4.png'
-];
-        
+            'logovila.png',
+            'vila3.png',
+            'vilafitness_fachada.png',
+            'vila2.png',
+            'vila5.png',
+            'vila4.png'
+        ];
 
         // Inicializar slider
         updateSlider(currentIndex);
@@ -3332,14 +2524,14 @@ const searchData = [
         document.querySelector('.total-slides').textContent = images.length;
 
         // ============================================
-        // FUNÇÕES PARA O MAPA
+        // FUNÇÕES PARA O MAPA (CORRIGIDAS)
         // ============================================
         window.abrirMapaCompleto = function() {
-            window.open('www.google.com/maps/place/Academia,+Opala+fitness+academia+musculação/data=!4m2!3m1!1s0x0:0x3267fb7dff3537b0?sa=X&ved=1t:2428&ictx=111');
+            window.open('https://www.google.com/maps/place/R.+Raimundo+Nonato+Brand%C3%A3o,+776,+Pedro+II+-+PI', '_blank');
         };
 
         window.abrirRota = function() {
-            const endereco = encodeURIComponent("R. Corinto Andrade, 143 - Centro, Pedro II - PI");
+            const endereco = encodeURIComponent("R. Raimundo Nonato Brandão, 776, Pedro II - PI");
             window.open(`https://www.google.com/maps/dir/?api=1&destination=${endereco}`, '_blank');
         };
 
@@ -3349,7 +2541,7 @@ const searchData = [
                     function(position) {
                         const userLat = position.coords.latitude;
                         const userLng = position.coords.longitude;
-                        window.open(`https://www.google.com/maps/dir/?api=1&origin=${userLat},${userLng}&destination=-4.4414591,-41.4472725`, '_blank');
+                        window.open(`https://www.google.com/maps/dir/?api=1&origin=${userLat},${userLng}&destination=-4.4414537,-41.4476587`, '_blank');
                     },
                     function(error) {
                         alert("Não foi possível obter sua localização.");
