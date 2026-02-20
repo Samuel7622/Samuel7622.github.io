@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
     <title>Academia - Vila Fitness</title>
     <style>
-                    * {
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -558,24 +558,24 @@
         }
 
         .page-title {
-    font-size: 4.5rem;
-    font-weight: 800;
-    margin-bottom: 25px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    margin-top: 25px;
-    text-align: center;
-}
+            font-size: 4.5rem;
+            font-weight: 800;
+            margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-top: 25px;
+            text-align: center;
+        }
 
-.title-text {
-    background: linear-gradient(135deg, #00ff88 0%, #00cc66 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 4px 20px rgba(0, 255, 136, 0.3);
-}
+        .title-text {
+            background: linear-gradient(135deg, #00ff88 0%, #00cc66 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 4px 20px rgba(0, 255, 136, 0.3);
+        }
 
         /* ========== NOVO LAYOUT - GALERIA ESQUERDA, CARDS DIREITA ========== */
         .main-wrapper {
@@ -1282,21 +1282,35 @@
             font-size: 14px;
         }
 
-        /* ========== SEÇÃO DE HORÁRIOS ========== */
+        /* ========== SEÇÃO DE HORÁRIOS DE PICO MELHORADA ========== */
         .titulo {
             color: #00ff88;
             text-align: center;
-            font-size: 2rem;
-            margin: 40px 20px 20px;
+            font-size: 2.2rem;
+            margin: 50px 20px 30px;
             font-weight: 600;
-            width: 100%;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+            padding-bottom: 15px;
+        }
+
+        .titulo::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 25%;
+            width: 50%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #00ff88, transparent);
+            border-radius: 3px;
         }
 
         .separar {
             display: flex;
             justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
+            align-items: center;
             padding: 20px;
             max-width: 1400px;
             margin: 0 auto;
@@ -1305,100 +1319,117 @@
 
         .peak-hours-container {
             width: 100%;
-            max-width: 900px;
+            max-width: 2000px;
             padding: 0 20px;
-            flex: 1;
-            min-width: 300px;
         }
 
         .peak-hours-card {
-            background: #2d2d2d;
-            border-radius: 12px;
+            background: rgba(30, 30, 30, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
             padding: 32px;
-            border: 2px solid #00ff88;
-            width: 100%;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
+                        0 0 0 1px rgba(0, 255, 136, 0.1) inset,
+                        0 0 30px rgba(0, 255, 136, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .peak-hours-card:hover {
+            border-color: rgba(0, 255, 136, 0.4);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5),
+                        0 0 0 1px rgba(0, 255, 136, 0.2) inset,
+                        0 0 40px rgba(0, 255, 136, 0.15);
         }
 
         .peak-header {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: 24px;
+            margin-bottom: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .peak-header h2 {
-            font-size: 24px;
+            font-size: 1.8rem;
             font-weight: 600;
-            color: #fff;
+            background: linear-gradient(135deg, #fff 0%, #00ff88 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             margin: 0;
         }
 
         .info-icon {
-            width: 20px;
-            height: 20px;
-            background: #555;
+            width: 24px;
+            height: 24px;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
-            color: #aaa;
+            font-size: 14px;
+            color: #00ff88;
             cursor: help;
+            transition: all 0.3s ease;
+        }
+
+        .info-icon:hover {
+            background: rgba(0, 255, 136, 0.2);
+            transform: scale(1.1);
         }
 
         .days {
             display: flex;
-            gap: 16px;
-            margin-bottom: 24px;
-            border-bottom: 1px solid #444;
+            gap: 8px;
+            margin-bottom: 30px;
             flex-wrap: wrap;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 8px;
+            border-radius: 50px;
         }
 
         .day {
-            padding: 12px 16px;
+            padding: 10px 20px;
             cursor: pointer;
             color: #888;
             font-size: 14px;
-            font-weight: 500;
-            transition: all 0.3s;
-            border-bottom: 2px solid transparent;
-            flex-shrink: 0;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 40px;
+            letter-spacing: 0.5px;
         }
 
         .day.active {
-            color: #00ff88;
-            border-bottom-color: #00ff88;
+            color: #000;
+            background: linear-gradient(135deg, #00ff88, #00cc66);
+            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.4);
         }
 
-        .peak-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 30px;
-            font-size: 14px;
-            color: #ccc;
-            flex-wrap: wrap;
-        }
-
-        .peak-info svg {
-            width: 20px;
-            height: 20px;
-            fill: #00ff88;
+        .chart-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 25px 15px 15px 15px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .chart {
             position: relative;
-            height: 200px;
+            height: 220px;
             display: flex;
             align-items: flex-end;
+            justify-content: center;
             gap: 8px;
-            padding: 0 4px;
-            overflow-x: auto;
+            padding: 0 10px;
             width: 100%;
         }
 
         .bar-container {
             flex: 1;
+            max-width: 45px;
             min-width: 30px;
             display: flex;
             flex-direction: column;
@@ -1406,29 +1437,44 @@
             gap: 8px;
             cursor: pointer;
             position: relative;
-            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .bar-container:hover {
+            transform: translateY(-5px);
         }
 
         .bar {
             width: 100%;
-            background: #555;
-            border-radius: 4px 4px 0 0;
-            transition: all 0.3s;
+            background: linear-gradient(to top, #3a3a3a, #4a4a4a);
+            border-radius: 8px 8px 0 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             min-height: 8px;
+            box-shadow: 0 -2px 10px rgba(0, 255, 136, 0.2);
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: none;
         }
 
         .bar.peak {
-            background: #00ff88;
+            background: linear-gradient(to top, #00ff88, #00cc66);
+            box-shadow: 0 -5px 20px rgba(0, 255, 136, 0.6);
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
-        .bar-container:hover .bar {
-            opacity: 0.8;
+        .bar-container:hover .bar:not(.peak) {
+            background: linear-gradient(to top, #4a4a4a, #5a5a5a);
         }
 
         .hour-label {
-            font-size: 11px;
-            color: #888;
-            margin-top: 8px;
+            font-size: 12px;
+            color: #aaa;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .bar-container:hover .hour-label {
+            color: #00ff88;
         }
 
         .tooltip {
@@ -1436,108 +1482,93 @@
             bottom: 100%;
             left: 50%;
             transform: translateX(-50%);
-            background: #000;
-            color: #fff;
-            padding: 6px 12px;
-            border-radius: 6px;
+            background: rgba(0, 0, 0, 0.9);
+            color: #00ff88;
+            padding: 8px 12px;
+            border-radius: 8px;
             font-size: 12px;
+            font-weight: 600;
             white-space: nowrap;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.3s;
-            margin-bottom: 8px;
+            transition: all 0.2s ease;
+            margin-bottom: 10px;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 6px;
+            border-style: solid;
+            border-color: rgba(0, 255, 136, 0.3) transparent transparent transparent;
         }
 
         .bar-container:hover .tooltip {
             opacity: 1;
+            margin-bottom: 15px;
         }
 
-        /* CONTADOR */
-        .container2 {
-            width: 100%;
-            max-width: 280px;
-            background-color: rgba(50, 50, 50, 0.8);
-            border-radius: 12px;
-            padding: 20px;
-            color: white;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-            text-align: center;
-            border: 2px solid #00ff40;
-            flex-shrink: 0;
-        }
-
-        .container2 h1 {
-            font-size: 1.4rem;
-            margin-bottom: 8px;
-        }
-
-        .counter-display {
-            background: linear-gradient(135deg, #2c3e50, #4a6491);
-            border-radius: 10px;
-            padding: 20px;
-            margin: 15px 0;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .counter-value {
-            font-size: 3.5rem;
-            font-weight: bold;
-            margin: 10px 0;
-        }
-
-        .counter-label {
-            font-size: 1rem;
-            opacity: 0.9;
-        }
-
-        .info-panel {
+        /* PICO DESTAQUE */
+        .peak-highlight {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 204, 102, 0.05) 100%);
+            border-radius: 16px;
+            padding: 20px 25px;
+            margin-top: 20px;
             display: flex;
-            justify-content: space-between;
-            margin: 15px 0;
-            gap: 10px;
-            flex-wrap: wrap;
+            align-items: center;
+            gap: 20px;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            backdrop-filter: blur(5px);
         }
 
-        .info-card {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            padding: 10px;
-            flex: 1;
-            min-width: 80px;
-        }
-
-        .info-card h3 {
-            font-size: 1.0rem !important;
-            margin-bottom: 5px;
-            color: #fdbb2d;
-        }
-
-        .info-card p {
-            font-size: 1rem;
-            font-weight: bold;
-        }
-
-        .last-update {
-            font-size: 0.75rem;
-            opacity: 0.8;
-            margin-top: 10px;
-        }
-
-        .status {
+        .peak-highlight-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #00ff88, #00cc66);
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.8rem;
-            margin-top: 8px;
+            color: #000;
+            font-size: 1.5rem;
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
         }
 
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: #4CAF50;
-            margin-right: 5px;
-            animation: pulse 2s infinite;
+        .peak-highlight-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .peak-highlight-label {
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-bottom: 4px;
+        }
+
+        .peak-highlight-time {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #00ff88;
+            line-height: 1;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+        }
+
+        .peak-highlight-percent {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00ff88, #00cc66);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding: 8px 15px;
+            border-radius: 40px;
+            border: 1px solid rgba(0, 255, 136, 0.3);
         }
 
         /* ========== FOOTER ========== */
@@ -1700,11 +1731,62 @@
             box-shadow: 0 4px 12px rgba(0, 255, 136, 0.2);
         }
 
-        /* Correção do seletor que estava incompleto */
-        .academia-nav a:hover {
-            opacity: 1;
-            color: #00ff40;
-            transform: translateX(5px);
+        /* Responsividade para a seção de pico */
+        @media (max-width: 768px) {
+            .peak-hours-card {
+                padding: 20px;
+            }
+            
+            .peak-header h2 {
+                font-size: 1.4rem;
+            }
+            
+            .days {
+                gap: 4px;
+                padding: 5px;
+            }
+            
+            .day {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+            
+            .chart {
+                gap: 4px;
+            }
+            
+            .bar-container {
+                min-width: 25px;
+            }
+            
+            .peak-highlight {
+                flex-direction: column;
+                text-align: center;
+                padding: 15px;
+            }
+            
+            .peak-highlight-time {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .bar-container {
+                min-width: 22px;
+            }
+            
+            .hour-label {
+                font-size: 10px;
+            }
+            
+            .tooltip {
+                font-size: 10px;
+                padding: 5px 8px;
+            }
+            
+            .peak-highlight-percent {
+                font-size: 1.2rem;
+            }
         }
     </style>
 </head>
@@ -1712,7 +1794,6 @@
     <header class="header-container" id="menu">
         <div class="nav-wrapper">
             <div class="brand-container">
-                <!-- CORREÇÃO 1: Removido href="#" da logo -->
                 <img src="logo.png" alt="Logo" class="logo-img">
             </div>
             <div class="right-controls">
@@ -1763,11 +1844,9 @@
 
     <div class="menu-overlay" id="menuOverlay"></div>
 
-    
-        <h1 class="page-title">
-            <span class="title-text">Vila Fitness</span>
-        </h1>
-    
+    <h1 class="page-title">
+        <span class="title-text">Vila Fitness</span>
+    </h1>
 
     <div class="main-wrapper">
         <!-- GALERIA DE FOTOS (ESQUERDA) -->
@@ -1930,7 +2009,7 @@
                     </div>
                 </div>
 
-                <!-- CARD DE CONTATO CORRIGIDO -->
+                <!-- CARD DE CONTATO -->
                 <div class="card card-contact">
                     <div class="card-header">
                         <div class="card-icon">
@@ -1944,7 +2023,6 @@
 
                     <div class="card-content">
                         <div class="contact-methods">
-                            <!-- CORREÇÃO 2: DDD corrigido para 86 -->
                             <a href="tel:+55869977949953" class="contact-btn phone">
                                 <div class="contact-icon">
                                     <i class="fas fa-phone"></i>
@@ -1955,7 +2033,6 @@
                                 </div>
                             </a>
 
-                            <!-- CORREÇÃO 3: Instagram no lugar do email -->
                             <a href="https://www.instagram.com/vilafitness_p2/" target="_blank" class="contact-btn instagram">
                                 <div class="contact-icon">
                                     <i class="fab fa-instagram"></i>
@@ -2020,11 +2097,10 @@
         </div>
     </div>
 
-    <!-- SEÇÃO DO MAPA CORRIGIDA -->
+    <!-- SEÇÃO DO MAPA -->
     <section class="map-section">
         <h2 class="map-title">Localização da Academia</h2>
         <div class="map-container">
-            <!-- CORREÇÃO 4: Iframe correto da Vila Fitness -->
             <iframe 
                 class="map-iframe"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3977.8368349678203!2d-41.44984742414946!3d-4.441453747216908!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x793901922d9fbf5%3A0x363b5c4230371b5e!2sR.%20Raimundo%20Nonato%20Brand%C3%A3o%2C%20776%2C%20Pedro%20II%20-%20PI%2C%2064255-000!5e0!3m2!1spt-BR!2sbr!4v1771547186298!5m2!1spt-BR!2sbr"
@@ -2037,7 +2113,6 @@
                 title="Mapa da Academia Vila Fitness">
             </iframe>
             
-            <!-- CORREÇÃO 5: Informações atualizadas da Vila Fitness -->
             <div class="map-info">
                 <h3>Vila Fitness</h3>
                 <p>R. Raimundo Nonato Brandão, 776</p>
@@ -2046,66 +2121,42 @@
         </div>
     </section>
     
-    <div class="titulo"><h2>Horários por ocupação</h2></div>
+    <!-- ========== SEÇÃO DE HORÁRIOS DE PICO ========== -->
+    <div class="titulo"><h2>Horários de Movimento</h2></div>
 
     <div class="separar">
         <div class="peak-hours-container">
             <div class="peak-hours-card">
                 <div class="peak-header">
                     <h2>Horários de pico</h2>
-                    <div class="info-icon">?</div>
+                    <div class="info-icon" title="Baseado no histórico de movimento">?</div>
                 </div>
 
                 <div class="days">
-                    <div class="day active">SEG.</div>
-                    <div class="day">TER.</div>
-                    <div class="day">QUA.</div>
-                    <div class="day">QUI.</div>
-                    <div class="day">SEX.</div>
-                    <div class="day">SÁB.</div>
-                    <div class="day">DOM.</div>
+                    <div class="day active">SEG</div>
+                    <div class="day">TER</div>
+                    <div class="day">QUA</div>
+                    <div class="day">QUI</div>
+                    <div class="day">SEX</div>
+                    <div class="day">SÁB</div>
+                    <div class="day">DOM</div>
                 </div>
 
-                <div class="peak-info">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                    </svg>
-                    <span><strong>17:00:</strong> Geralmente é o horário mais movimentado</span>
+                <div class="chart-container">
+                    <div class="chart" id="chart"></div>
                 </div>
 
-                <div class="chart" id="chart"></div>
-            </div>
-        </div>
-        
-        <div class="container2" id="peak">
-            <header>
-                <h1>Vila Fitness</h1>
-                <p class="counter-label">Pessoas na academia</p>
-            </header>
-            
-            <div class="counter-display">
-                <div class="counter-value" id="peopleCount">42</div>
-            </div>
-            
-            <div class="info-panel">
-                <div class="info-card">
-                    <h3>Capacidade</h3>
-                    <p>80</p>
+                <!-- PICO DESTAQUE -->
+                <div class="peak-highlight">
+                    <div class="peak-highlight-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="peak-highlight-content">
+                        <span class="peak-highlight-label">Horário de maior movimento</span>
+                        <span class="peak-highlight-time" id="peakHourDisplay">17:00</span>
+                    </div>
+                    <div class="peak-highlight-percent" id="peakPercentDisplay">100%</div>
                 </div>
-                <div class="info-card">
-                    <h3>Ocupação</h3>
-                    <p id="occupancyRate">52.5%</p>
-                </div>
-            </div>
-            
-            <div class="status">
-                <div class="status-dot"></div>
-                <span>Sistema ativo</span>
-            </div>
-            
-            <div class="last-update">
-                <p>Atualiza a cada 15 min</p>
-                <p>Última: <span id="lastUpdate">15:30</span></p>
             </div>
         </div>
     </div>
@@ -2129,7 +2180,6 @@
                             values="-270 230;243 220;-270 230" keyTimes="0; .6; 1" keySplines="0.42, 0, 0.58, 1.0;0.42, 0, 0.58, 1.0"
                             repeatCount="indefinite" />
                     </use>
-                    <!-- CORREÇÃO 6: opacty → opacity -->
                     <use xlink:href="#wave" opacity=".9">
                         <animateTransform attributeName="transform" attributeType="XML" type="translate" dur="4s" calcMode="spline"
                             values="0 230;-140 200;0 230" keyTimes="0; .4; 1" keySplines="0.42, 0, 0.58, 1.0;0.42, 0, 0.58, 1.0"
@@ -2148,7 +2198,6 @@
             <div class="academia-bottom">
                 <div class="academia-logo-content">
                     <div class="academia-socials">
-                        <!-- CORREÇÃO 7: Instagram da Vila Fitness no footer -->
                         <a href="https://www.instagram.com/vilafitness_p2/" target="_blank" class="instagram" title="Instagram">
                             <i class="fab fa-instagram"></i>
                         </a>
@@ -2163,14 +2212,12 @@
                     </ul>
                     <ul>
                         <li><h4>EXPLORE</h4></li>
-                        <!-- CORREÇÃO 8: Link do Academias funcionando -->
                         <li><a href="academias-publicas.html">Academias</a></li>
                         <li><a href="#">Artes Marciais</a></li>
                         <li><a href="#">Blog e Dicas</a></li>
                     </ul>
                     <ul>
                         <li><h4>CONECTE-SE</h4></li>
-                        <!-- CORREÇÃO 9: Link para seguir nas redes -->
                         <li><a href="https://www.instagram.com/vilafitness_p2/" target="_blank">Siga-nos nas Redes Sociais</a></li>
                         <li><a href="#">Política de Privacidade</a></li>
                         <li><a href="#">Termos de Uso</a></li>
@@ -2524,7 +2571,7 @@
         document.querySelector('.total-slides').textContent = images.length;
 
         // ============================================
-        // FUNÇÕES PARA O MAPA (CORRIGIDAS)
+        // FUNÇÕES PARA O MAPA
         // ============================================
         window.abrirMapaCompleto = function() {
             window.open('https://www.google.com/maps/place/R.+Raimundo+Nonato+Brand%C3%A3o,+776,+Pedro+II+-+PI', '_blank');
@@ -2578,32 +2625,46 @@
         const maxValue = Math.max(...hours.map(h => h.value));
         const peakHour = hours.reduce((max, h) => h.value > max.value ? h : max, hours[0]);
 
-        hours.forEach(hour => {
-            const container = document.createElement('div');
-            container.className = 'bar-container';
-
-            const bar = document.createElement('div');
-            bar.className = 'bar';
-            if (hour.time === peakHour.time) {
-                bar.classList.add('peak');
-            }
+        // Limpar chart antes de adicionar (caso já exista)
+        if (chart) {
+            chart.innerHTML = '';
             
-            const height = (hour.value / maxValue) * 140;
-            bar.style.height = height + 'px';
+            hours.forEach(hour => {
+                const container = document.createElement('div');
+                container.className = 'bar-container';
 
-            const tooltip = document.createElement('div');
-            tooltip.className = 'tooltip';
-            tooltip.textContent = `${hour.time}:00 - ${hour.value}% ocupação`;
+                const bar = document.createElement('div');
+                bar.className = 'bar';
+                if (hour.time === peakHour.time) {
+                    bar.classList.add('peak');
+                }
+                
+                const height = (hour.value / maxValue) * 140;
+                bar.style.height = height + 'px';
 
-            const label = document.createElement('div');
-            label.className = 'hour-label';
-            label.textContent = hour.time;
+                const tooltip = document.createElement('div');
+                tooltip.className = 'tooltip';
+                tooltip.textContent = `${hour.time}:00 - ${hour.value}% ocupação`;
 
-            container.appendChild(tooltip);
-            container.appendChild(bar);
-            container.appendChild(label);
-            chart.appendChild(container);
-        });
+                const label = document.createElement('div');
+                label.className = 'hour-label';
+                label.textContent = hour.time;
+
+                container.appendChild(tooltip);
+                container.appendChild(bar);
+                container.appendChild(label);
+                chart.appendChild(container);
+            });
+        }
+
+        // Atualizar display do horário de pico
+        const peakHourDisplay = document.getElementById('peakHourDisplay');
+        const peakPercentDisplay = document.getElementById('peakPercentDisplay');
+
+        if (peakHourDisplay && peakPercentDisplay) {
+            peakHourDisplay.textContent = peakHour.time + ':00';
+            peakPercentDisplay.textContent = peakHour.value + '%';
+        }
 
         // Dias da semana
         const days = document.querySelectorAll('.day');
@@ -2623,43 +2684,6 @@
                 });
             });
         });
-
-        // Contador de pessoas
-        const peopleCountElement = document.getElementById('peopleCount');
-        const occupancyRateElement = document.getElementById('occupancyRate');
-        const lastUpdateElement = document.getElementById('lastUpdate');
-        
-        let peopleCount = 42;
-        const maxCapacity = 80;
-        
-        function updateDisplay() {
-            peopleCountElement.textContent = peopleCount;
-            
-            const occupancyRate = (peopleCount / maxCapacity * 100).toFixed(1);
-            occupancyRateElement.textContent = `${occupancyRate}%`;
-            
-            const now = new Date();
-            const timeString = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-            lastUpdateElement.textContent = timeString;
-        }
-        
-        function simulateVariation() {
-            const variation = Math.floor(Math.random() * 11) - 5;
-            const newCount = peopleCount + variation;
-            
-            if (newCount >= 0 && newCount <= maxCapacity) {
-                peopleCount = newCount;
-            } else if (newCount < 0) {
-                peopleCount = 0;
-            } else {
-                peopleCount = maxCapacity;
-            }
-            
-            updateDisplay();
-        }
-        
-        updateDisplay();
-        setInterval(simulateVariation, 900000);
 
         // ============================================
         // RESPONSIVIDADE PARA MOBILE
@@ -2719,19 +2743,21 @@
 
         // Efeito de digitação no título
         const titleText = document.querySelector('.title-text');
-        const originalText = titleText.textContent;
-        titleText.textContent = '';
+        if (titleText) {
+            const originalText = titleText.textContent;
+            titleText.textContent = '';
 
-        let i = 0;
-        const typeWriter = () => {
-            if (i < originalText.length) {
-                titleText.textContent += originalText.charAt(i);
-                i++;
-                setTimeout(typeWriter, 100);
-            }
-        };
+            let i = 0;
+            const typeWriter = () => {
+                if (i < originalText.length) {
+                    titleText.textContent += originalText.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 100);
+                }
+            };
 
-        setTimeout(typeWriter, 500);
+            setTimeout(typeWriter, 500);
+        }
     </script>
 </body>
 </html>
