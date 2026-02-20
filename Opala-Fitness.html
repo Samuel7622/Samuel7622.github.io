@@ -1093,9 +1093,10 @@
             color: #40c057;
         }
 
-        .contact-btn.email .contact-icon {
-            background: rgba(255, 107, 107, 0.15);
-            color: #ff6b6b;
+        /* NOVO: Instagram no lugar do email */
+        .contact-btn.instagram .contact-icon {
+            background: rgba(225, 48, 108, 0.15);
+            color: #e1306c;
         }
 
         .contact-info {
@@ -1669,793 +1670,49 @@
             transform: translateX(5px);
         }
 
-        /* ========== RESPONSIVIDADE COMPLETA ========== */
-
-        /* Telas muito grandes */
-        @media (min-width: 1600px) {
-            .main-wrapper {
-                max-width: 1500px;
-            }
-            
-            .page-title {
-                font-size: 4.5rem;
-            }
+        /* Correção do erro de digitação no CSS do footer */
+        .academia-background svg path {
+            fill: #00ff40;
+            opacity: 0.3;
         }
 
-        /* Tablets (1024px) */
-        @media (max-width: 1024px) {
-            .header-container {
-                padding: 1rem 1.5rem;
-            }
-
-            .logo-img {
-                height: 45px;
-            }
-
-            .right-controls {
-                gap: 1rem;
-            }
-
-            .gym-access-btn {
-                padding: 10px 16px;
-                font-size: 0.9rem;
-            }
-
-            .search-toggle-btn {
-                width: 44px;
-                height: 44px;
-            }
-
-            .search-icon {
-                width: 20px;
-                height: 20px;
-            }
-
-            .expandable-search-field {
-                width: 44px;
-                height: 44px;
-            }
-
-            .expandable-search-field.expanded {
-                width: 280px;
-            }
-
-            .search-input-field {
-                padding: 0 50px 0 18px;
-                font-size: 0.95rem;
-            }
-
-            .main-wrapper {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-
-            .sidebar-cards {
-                order: 2;
-            }
-
-            .gallery-section {
-                order: 1;
-            }
-
-            .page-title {
-                font-size: 3rem;
-            }
-
-            .slider__content {
-                height: 400px;
-            }
-
-            .info-cards-container {
-                position: static;
-            }
-
-            .descricao-container {
-                width: 90%;
-                padding: 20px;
-            }
-            
-            .descricao-title {
-                font-size: 1.6rem;
-            }
-            
-            .descricao-text {
-                font-size: 1rem;
-            }
-            
-            .descricao-highlights {
-                grid-template-columns: repeat(3, 1fr);
-                padding: 15px;
-            }
-            
-            .map-container {
-                height: 400px;
-            }
+        .academia-background svg path:nth-child(1) {
+            fill: #00cc33;
+            opacity: 0.4;
         }
 
-        /* Tablets Pequenos e Mobile Grande (768px) */
-        @media (max-width: 768px) {
-            .header-container {
-                padding: 0.8rem 1rem;
-            }
-
-            .nav-wrapper {
-                flex-wrap: nowrap;
-                gap: 10px;
-            }
-
-            .logo-img {
-                height: 35px;
-            }
-
-            .right-controls {
-                gap: 0.5rem;
-                flex-shrink: 0;
-            }
-
-            .search-toggle-btn {
-                width: 42px;
-                height: 42px;
-            }
-
-            .search-icon {
-                width: 18px;
-                height: 18px;
-            }
-
-            .expandable-search-field {
-                width: 42px;
-                height: 42px;
-            }
-
-            .expandable-search-field.expanded {
-                width: 250px;
-                z-index: 2002;
-            }
-
-            .search-input-field {
-                padding: 0 45px 0 16px;
-                font-size: 0.9rem;
-            }
-
-            .gym-access-btn {
-                padding: 8px 12px;
-                font-size: 0.8rem;
-            }
-
-            .slide-menu {
-                width: 350px;
-                right: -350px;
-            }
-
-            .page-hero {
-                padding: 60px 15px 40px;
-            }
-
-            .page-title {
-                font-size: 2.2rem;
-            }
-
-            .slider__content {
-                height: 300px;
-            }
-
-            .slider-control--button {
-                width: 50px;
-                height: 50px;
-                font-size: 1.2rem;
-            }
-
-            .thumbnail-wrapper {
-                height: 80px;
-            }
-
-            .main-wrapper {
-                padding: 0 15px;
-            }
-
-            .thumbnails-container {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .descricao-container {
-                width: 95%;
-                padding: 18px;
-                margin: 20px auto;
-            }
-            
-            .descricao-title {
-                font-size: 1.5rem;
-            }
-            
-            .descricao-title i {
-                font-size: 1.4rem;
-            }
-            
-            .descricao-text {
-                padding: 0;
-                margin-bottom: 20px;
-            }
-            
-            .descricao-highlights {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
-                padding: 15px;
-            }
-            
-            .highlight-item {
-                padding: 10px 12px;
-            }
-            
-            .highlight-item i {
-                font-size: 1.1rem;
-            }
-            
-            .highlight-item span {
-                font-size: 0.9rem;
-            }
-            
-            .map-container {
-                height: 350px;
-            }
-            
-            .map-title {
-                font-size: 1.8rem;
-            }
-            
-            .titulo {
-                font-size: 1.8rem;
-                margin: 30px 15px 15px;
-            }
-
-            .separar {
-                gap: 20px;
-                padding: 15px;
-            }
-
-            .peak-hours-card {
-                padding: 24px;
-            }
-
-            .days {
-                gap: 12px;
-            }
-
-            .day {
-                padding: 10px 14px;
-                font-size: 13px;
-            }
-
-            .chart {
-                height: 180px;
-            }
-
-            .bar-container {
-                min-width: 25px;
-            }
+        .academia-background svg path:nth-child(2) {
+            fill: #00ff40;
+            opacity: 0.3;
         }
 
-        /* Mobile Grande (640px) */
-        @media (max-width: 640px) {
-            .page-title {
-                font-size: 2rem;
-                margin: 20px 10px;
-            }
-
-            .main-wrapper {
-                flex-direction: column;
-                align-items: center;
-                padding: 10px;
-                gap: 15px;
-            }
-
-            .slider__content {
-                height: 250px;
-            }
-
-            .slider-control--button {
-                width: 40px;
-                height: 40px;
-                font-size: 1rem;
-            }
-
-            .prev-button {
-                left: 10px;
-            }
-
-            .next-button {
-                right: 10px;
-            }
-
-            .thumbnails-container {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 10px;
-            }
-            
-            .thumbnail-wrapper {
-                height: 90px;
-            }
-            
-            .thumbnail-label {
-                font-size: 0.75rem;
-            }
-
-            .card {
-                padding: 20px;
-            }
-
-            .card-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-
-            .card-icon {
-                width: 40px;
-                height: 40px;
-                font-size: 1.2rem;
-            }
-
-            .title {
-                font-size: 1.2rem;
-            }
-
-            .descricao-container {
-                width: 100%;
-                margin: 15px 0;
-                border-radius: 8px;
-            }
-            
-            .descricao-title {
-                font-size: 1.4rem;
-            }
-            
-            .descricao-text {
-                font-size: 0.95rem;
-            }
-            
-            .descricao-highlights {
-                grid-template-columns: 1fr;
-            }
-            
-            .map-container {
-                height: 300px;
-            }
-            
-            .map-title {
-                font-size: 1.6rem;
-            }
-            
-            .titulo {
-                font-size: 1.6rem;
-                margin: 25px 10px 10px;
-            }
-
-            .separar {
-                flex-direction: column;
-                align-items: center;
-                gap: 15px;
-                padding: 10px;
-            }
-
-            .peak-hours-container {
-                padding: 0 10px;
-                max-width: 100%;
-            }
-
-            .peak-hours-card {
-                padding: 20px;
-            }
-
-            .days {
-                gap: 8px;
-                justify-content: center;
-            }
-
-            .day {
-                padding: 8px 12px;
-                font-size: 12px;
-            }
-
-            .peak-info {
-                font-size: 13px;
-                justify-content: center;
-                text-align: center;
-            }
-
-            .chart {
-                height: 160px;
-                gap: 6px;
-            }
-
-            .bar-container {
-                min-width: 20px;
-            }
-
-            .hour-label {
-                font-size: 9px;
-            }
-
-            .container2 {
-                max-width: 100%;
-            }
-
-            .counter-value {
-                font-size: 3rem;
-            }
-
-            .academia-footer-inner {
-                padding: 3rem 1.5rem 6rem;
-            }
-
-            .academia-footer-inner .academia-top h2 {
-                font-size: 1.6rem;
-            }
-
-            .academia-footer-inner .academia-top h3 {
-                font-size: 1.1rem;
-            }
-
-            .academia-nav {
-                gap: 2rem;
-                justify-content: space-between;
-                width: 100%;
-            }
+        .academia-background svg path:nth-child(3) {
+            fill: #00ff88;
+            opacity: 0.2;
         }
 
-        /* Mobile Pequeno (480px) */
-        @media (max-width: 480px) {
-            .page-title {
-                font-size: 1.8rem;
-                margin: 15px 8px;
-            }
-
-            .slider__content {
-                height: 200px;
-            }
-
-            .slider-control--button {
-                width: 35px;
-                height: 35px;
-            }
-
-            .thumbnails-container {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 8px;
-            }
-            
-            .thumbnail-wrapper {
-                height: 70px;
-            }
-            
-            .thumbnail-label {
-                display: none;
-            }
-            
-            .thumbnail-overlay {
-                background: rgba(0, 255, 136, 0.4);
-            }
-            
-            .nav-button.active .thumbnail-wrapper {
-                border-width: 3px;
-                box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
-            }
-
-            .descricao-container {
-                padding: 15px;
-            }
-            
-            .descricao-title {
-                font-size: 1.3rem;
-                flex-direction: column;
-                gap: 8px;
-            }
-            
-            .descricao-title i {
-                font-size: 1.3rem;
-            }
-            
-            .descricao-text {
-                font-size: 0.9rem;
-            }
-            
-            .descricao-highlights {
-                padding: 12px;
-            }
-            
-            .highlight-item {
-                padding: 10px;
-            }
-            
-            .map-container {
-                height: 250px;
-            }
-            
-            .map-title {
-                font-size: 1.4rem;
-            }
-
-            .peak-hours-card {
-                padding: 16px;
-            }
-
-            .peak-header h2 {
-                font-size: 20px;
-            }
-
-            .days {
-                gap: 4px;
-            }
-
-            .day {
-                padding: 6px 10px;
-                font-size: 11px;
-            }
-
-            .peak-info {
-                font-size: 12px;
-            }
-
-            .chart {
-                height: 140px;
-            }
-
-            .bar-container {
-                min-width: 18px;
-            }
-
-            .hour-label {
-                font-size: 8px;
-            }
-
-            .counter-value {
-                font-size: 2.5rem;
-            }
-
-            .info-panel {
-                flex-direction: column;
-                gap: 8px;
-            }
+        .academia-background svg {
+            filter: drop-shadow(0 0 10px rgba(0, 255, 64, 0.2));
         }
 
-        /* Telas muito pequenas (360px) */
-        @media (max-width: 360px) {
-            .page-title {
-                font-size: 1.5rem;
-            }
-
-            .slider__content {
-                height: 180px;
-            }
-
-            .slider-control--button {
-                width: 30px;
-                height: 30px;
-            }
-
-            .thumbnails-container {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 6px;
-            }
-            
-            .thumbnail-wrapper {
-                height: 80px;
-            }
-
-            .titulo {
-                font-size: 1.2rem;
-            }
-
-            .days {
-                gap: 2px;
-            }
-
-            .day {
-                padding: 5px 8px;
-                font-size: 10px;
-            }
-
-            .chart {
-                height: 120px;
-            }
-
-            .bar-container {
-                min-width: 16px;
-            }
-
-            .counter-value {
-                font-size: 2rem;
-            }
+        .search-result-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
         }
 
-        /* Layout horizontal para thumbnails em mobile */
-        .mobile-horizontal-layout .thumbnails-container {
-            display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-            gap: 8px;
-            padding-bottom: 10px;
+        .search-result-link:hover .search-result-item {
+            background: rgba(0, 255, 136, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 255, 136, 0.2);
         }
-
-        .mobile-horizontal-layout .nav-button {
-            flex: 0 0 auto;
-            width: 100px;
-            scroll-snap-align: start;
-        }
-
-        .mobile-horizontal-layout .thumbnail-wrapper {
-            height: 80px;
-        }
-
-        /* ========== FOOTER - ONDAS VERDES ========== */
-.academia-footer {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-    margin-top: 60px;
-    background: linear-gradient(to bottom, #000000 0%, #001a00 100%);
-}
-
-/* O SVG das ondas - APENAS ESTA PARTE FOI MODIFICADA */
-.academia-background svg {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: auto;
-    z-index: 0;
-}
-
-/* Se o SVG tem elementos path dentro, você pode estilizá-los assim: */
-.academia-background svg path {
-    fill: #00ff40; /* Cor principal das ondas */
-    opacity: 0.3; /* Transparência para efeito suave */
-}
-
-/* Para criar um efeito de gradiente nas ondas */
-.academia-background svg path:nth-child(1) {
-    fill: #00cc33; /* Tom mais escuro */
-    opacity: 0.4;
-}
-
-.academia-background svg path:nth-child(2) {
-    fill: #00ff40; /* Tom médio */
-    opacity: 0.3;
-}
-
-.academia-background svg path:nth-child(3) {
-    fill: #00ff88; /* Tom mais claro */
-    opacity: 0.2;
-}
-
-/* Se quiser adicionar um efeito sutil de brilho */
-.academia-background svg {
-    filter: drop-shadow(0 0 10px rgba(0, 255, 64, 0.2));
-}
-
-/* O resto do footer permanece EXATAMENTE como estava */
-.academia-footer-inner {
-    position: relative;
-    z-index: 1;
-    padding: 4rem 2rem 8rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 4rem;
-}
-
-.academia-footer-inner .academia-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 2rem;
-}
-
-.academia-footer-inner .academia-top h2 {
-    font-size: 2rem;
-    font-weight: 600;
-}
-
-.academia-footer-inner .academia-top h3 {
-    font-size: 1.25rem;
-    font-weight: 400;
-    opacity: 0.8;
-}
-
-.academia-footer-inner .academia-bottom {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 2rem;
-}
-
-.academia-logo-content {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-}
-
-.academia-socials {
-    display: flex;
-    gap: 1rem;
-}
-
-.academia-socials a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 45px;
-    height: 45px;
-    font-size: 1.25rem;
-    color: white;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-}
-
-.academia-socials a:hover {
-    background: rgba(0, 255, 136, 0.3);
-    transform: translateY(-3px);
-}
-
-.academia-nav {
-    display: flex;
-    gap: 3rem;
-    flex-wrap: wrap;
-}
-
-.academia-nav ul {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.academia-nav h4 {
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: #ccc;
-}
-
-.academia-nav a {
-    font-size: 0.9rem;
-    color: white;
-    opacity: 0.8;
-    text-decoration: none;
-    transition: opacity 0.3s;
-    cursor: pointer;
-}
-
-.academia-nav  {
-    opacity: 1;
-    color: #00ff40;
-    transform: translateX(5px);
-}
-.search-result-link {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-}
-
-.search-result-link:hover .search-result-item {
-    background: rgba(0, 255, 136, 0.1);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 255, 136, 0.2);
-}
     </style>
 </head>
 <body>
     <header class="header-container" id="menu">
         <div class="nav-wrapper">
             <div class="brand-container">
-                <a href="#"><img src="logo.png" alt="Logo" class="logo-img"></a>
+                <img src="logo.png" alt="Logo" class="logo-img">
             </div>
             <div class="right-controls">
                 <div class="search-widget" id="searchWidget">
@@ -2495,7 +1752,7 @@
         
         <ul class="navigation-list">
             <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
-            <li class="nav-item"><a href="#espaço-cliente" class="nav-link">Login</a></li>
+            <li class="nav-item"><a href="login-gym.html" class="nav-link">Login</a></li>
             <li class="nav-item"><a href="Filtro_personal.html" class="nav-link">Personais</a></li>
             <li class="nav-item"><a href="#news" class="nav-link">Sorteios</a></li>
             <li class="nav-item"><a href="config.html" class="nav-link">Configurações</a></li>
@@ -2673,7 +1930,7 @@
                     </div>
                 </div>
 
-                <!-- CARD DE CONTATO COM HORÁRIOS DE RESPOSTA 8h-22h -->
+                <!-- CARD DE CONTATO COM INSTAGRAM NO LUGAR DO EMAIL -->
                 <div class="card card-contact">
                     <div class="card-header">
                         <div class="card-icon">
@@ -2697,14 +1954,16 @@
                                 </div>
                             </a>
 
-                            <a href="mailto:opala@gmail.com" class="contact-btn email">
+                            <!-- NOVO: Instagram no lugar do email -->
+                            <a href="https://www.instagram.com/opalafitnessacademia_p2?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="contact-btn instagram">
                                 <div class="contact-icon">
-                                    <i class="fas fa-envelope"></i>
+                                    <i class="fab fa-instagram"></i>
                                 </div>
                                 <div class="contact-info">
-                                    <span class="contact-label">E-mail</span>
-                                    <span class="contact-detail">opala@gmail.com</span>
+                                    <span class="contact-label">Instagram</span>
+                                    <span class="contact-detail">@opalafitnessacademia_p2</span>
                                 </div>
+                                <i class="fas fa-external-link-alt"></i>
                             </a>
                         </div>
 
@@ -2868,7 +2127,7 @@
                             values="-270 230;243 220;-270 230" keyTimes="0; .6; 1" keySplines="0.42, 0, 0.58, 1.0;0.42, 0, 0.58, 1.0"
                             repeatCount="indefinite" />
                     </use>
-                    <use xlink:href="#wave" opacty=".9">
+                    <use xlink:href="#wave" opacity=".9">
                         <animateTransform attributeName="transform" attributeType="XML" type="translate" dur="4s" calcMode="spline"
                             values="0 230;-140 200;0 230" keyTimes="0; .4; 1" keySplines="0.42, 0, 0.58, 1.0;0.42, 0, 0.58, 1.0"
                             repeatCount="indefinite" />
@@ -2886,7 +2145,7 @@
             <div class="academia-bottom">
                 <div class="academia-logo-content">
                     <div class="academia-socials">
-                        <a href="https://www.instagram.com/gymp2_portal/" class="instagram" title="Instagram">
+                        <a href="https://www.instagram.com/opalafitnessacademia_p2?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="instagram" title="Instagram">
                             <i class="fab fa-instagram"></i>
                         </a>
                     </div>
@@ -2900,7 +2159,7 @@
                     </ul>
                     <ul>
                         <li><h4>EXPLORE</h4></li>
-                        <li><a href="#">Academias</a></li>
+                        <li><a href="academias-publicas.html">Academias</a></li>
                         <li><a href="#">Artes Marciais</a></li>
                         <li><a href="#">Blog e Dicas</a></li>
                     </ul>
